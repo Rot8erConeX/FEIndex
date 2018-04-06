@@ -12,9 +12,9 @@ require 'net/http'
 
 # The bot's token is basically their password, so is censored for obvious reasons
 if shardizard==4
-  bot = Discordrb::Commands::CommandBot.new token: 'NDMxODk1NTYxMTkzMzkwMDkw.DalZoA.QQ6Ar8x852aErhYZqBFBx91n4UQ', client_id: 431895561193390090, prefix: @prefix
+  bot = Discordrb::Commands::CommandBot.new token: '>Debug Token<', client_id: >Debug ID<, prefix: @prefix
 else
-  bot = Discordrb::Commands::CommandBot.new token: 'MzA0NjUyNDgzMjk5Mzc3MTgy.C9pzTw.C4b9Sc4ew_LwUJV0S9zmieHuWVk', client_id: 304652483299377182, prefix: @prefix
+  bot = Discordrb::Commands::CommandBot.new token: '>Main Token<', client_id: 304652483299377182, prefix: @prefix
 end
 bot.gateway.check_heartbeat_acks = false
 bot.should_parse_self = false
