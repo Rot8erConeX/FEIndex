@@ -4134,6 +4134,14 @@ bot.command(:faq) do |event, inp|
 end
 
 bot.ready do |event|
+  if shardizard==4
+    for i in 0...bot.servers.values.length
+      if bot.servers.values[i].id != 285663217261477889
+        bot.servers.values[i].general_channel.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/Hf9RNj>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/f1wSGd>") rescue nil
+        bot.servers.values[i].leave
+      end
+    end
+  end
   bot.game="booting, please wait..."
   if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt')
     download = open('http://pastebin.com/raw/0uU5MKEC')
@@ -4417,14 +4425,25 @@ bot.command(:leaveserver, from: 167657750971547648) do |event, server_id| # forc
 end
 
 bot.server_create do |event|
-  bot.user(167657750971547648).pm("Joined server **#{event.server.name}** (#{event.server.id})\nOwner: #{event.server.owner.distinct} (#{event.server.owner.id})")
-  @server_data.push([event.server.id,false,false])
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex-large-server.sav', 'w') { |f|
-    f << @server_data.to_s
-  }
   chn=event.server.general_channel
-  chn=event.server.channels[0] if chn.nil?
-  chn.send_message("Grr, where have I been woken up this time?")
+  if chn.nil?
+    chnn=[]
+    for i in 0...event.server.channels.length
+      chnn.push(event.server.channels[i]) if bot.user(bot.profile.id).on(event.server.id).permission?(:send_messages,event.server.channels[i])
+    end
+    chn=chnn[0] if chnn.length>0
+  end
+  if event.server.id != 285663217261477889 && shardizard==4
+    (chn.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/Hf9RNj>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/f1wSGd>") rescue nil)
+    event.server.leave
+  else
+    bot.user(167657750971547648).pm("Joined server **#{event.server.name}** (#{event.server.id})\nOwner: #{event.server.owner.distinct} (#{event.server.owner.id})")
+    @server_data.push([event.server.id,false,false])
+    open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex-large-server.sav', 'w') { |f|
+      f << @server_data.to_s
+    }
+    chn.send_message("Grr, where have I been woken up this time?") rescue nil
+  end
 end
 
 bot.server_delete do |event|
