@@ -19,8 +19,6 @@ end
 bot.gateway.check_heartbeat_acks = false
 bot.should_parse_self = false
 
-@version="4.1.2"
-
 @shigure_class_kids=["Shigure","Elentil","DizJr","Portia"]
 @names=[["Ana", "Anna"],["Harold", "Arthur"],["Gurei", "Asugi"],["Asama", "Azama"],["Aqua", "Azura"],["Bajirio", "Basilio"],["Benoit", "Benny"],
         ["Berka", "Beruka"],["Bredy", "Brady"],["Buredi", "Brady"],["Matoi", "Caeldori"],["Riceload", "Caeldori"],["Serge", "Cherche"],["Seruju", "Cherche"],
@@ -3682,7 +3680,7 @@ end
 
 bot.command(:invite) do |event, user|
   usr=event.user
-  txt="You can invite me to your server with this link: <https://goo.gl/f1wSGd>\nIf you suggested me to server mods and they ask what I do, show them this image: https://orig00.deviantart.net/a1d7/f/2017/288/d/6/marketing___robin_by_rot8erconex-dbqoba5.png"
+  txt="You can invite me to your server with this link: <https://goo.gl/f1wSGd>\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nIf you suggested me to server mods and they ask what I do, show them this image: https://orig00.deviantart.net/a1d7/f/2017/288/d/6/marketing___robin_by_rot8erconex-dbqoba5.png"
   user_to_name="you"
   unless user.nil?
     if /<@!?(?:\d+)>/ =~ user
