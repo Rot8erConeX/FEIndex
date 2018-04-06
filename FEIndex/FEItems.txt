@@ -1,0 +1,442 @@
+Brass Katana\nKatana\nE\n4\n100\n0\n0\n1\n500\nCritical Evade +10, cannot trigger critical hits or special skills\nFates
+Iron Katana\nKatana\nD\n6\n90\n0\n0\n1\n1000\n-\nFates
+Steel Katana\nKatana\nC\n9\n90\n0\n-5\n1\n2000\nAbility to double attack -3\nFates
+Silver Katana\nKatana\nB\n12\n90\n0\n0\n1\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Venge Katana\nKatana\nA\n9\n90\n0\n-20\n1\n8000\nMight is doubled when enemy initiates the battle\nFates
+Iron Katti\nKatana\nD\n6\n90\n0\n0\n1~2\n-\nEnemy only\nFates
+Steel Katti\nKatana\nC\n9\n85\n0\n-5\n1~2\n-\nEnemy only. Ability to double attack -3\nFates
+Silver Katti\nKatana\nB\n12\n90\n0\n0\n1~2\n-\nEnemy only. Critical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Kodachi\nKatana\nD\n5\n85\n0\n0\n1~2\n1800\nCannot double attack, enemy's ability to double attack +5, cannot trigger critical hits or special skills\nFates
+Wakizashi\nKatana\nB\n10\n75\n0\n-10\n2\n4500\nCannot double attack. Enemy's ability to double attack +5\nFates
+Axe Splitter\nKatana\nD\n7\n75\n0\n-10\n1\n3400\nEffective against Axes, ineffective otherwise\nFates
+Dual Katana\nKatana\nC\n8\n75\n0\n0\n1\n4000\nReverses the weapon triangle and doubles weapon triangle effects\nFates
+Practice Katana\nKatana\nC\n6\n80\n0\n0\n1\n2700\nSpeed +5, Defense/Resistance -1\nFates
+Spirit Katana\nKatana\nC\n5\n80\n0\n0\n1\n2200\nEffective against monster units, recover HP each turn, Speed +1, Defense/Resistance -4\nFates
+Hagakure Blade\nKatana\nS\n18\n95\n0\n20\n1\n-\nAfter the battle, Strength is halved for the next attack\nFates
+Yato\nKatana\nE\n9\n85\n0\n0\n1\n-\nAvatar only\nFates
+Noble Yato\nKatana\nE\n11\n85\n5\n10\n1\n-\nAvatar only. Strength/Speed +2\nFates
+Blazing Yato\nKatana\nE\n16\n85\n10\n10\n1\n-\nAvatar only. Critical Evade +10, partially negates Dragonskin, Strength/Speed +4\nFates
+Grim Yato\nKatana\nE\n11\n85\n5\n10\n1\n-\nAvatar only. Defense/Resistance +2\nFates
+Shadow Yato\nKatana\nE\n16\n85\n10\n10\n1\n-\nAvatar only. Critical Evade +10, partially negates Dragonskin, Defense/Resistance +4\nFates
+Alpha Yato\nKatana\nE\n11\n85\n5\n10\n1\n-\nAvatar only. Strength/Speed/Defense/Resistance +2\nFates
+Omega Yato\nKatana\nE\n16\n85\n10\n10\n1\n-\nAvatar only. Critical Evade +10, partially negates Dragonskin, Strength/Speed/Defense/Resistance +4\nFates
+Raijinto\nKatana\nE\n11\n80\n5\n10\n1~2\n-\nRyoma only. Strength +4\nFates
+Daikon Radish\nKatana\nE\n1\n110\n0\n10\n1\n0\nCritical Evade +10. Not the best weapon, but delicious when pickled.\nFates
+Parasol\nKatana\nD\n1\n85\n0\n0\n1~2\n0\nCannot double attack, enemy's ability to double attack +5\nFates
+Raider Katana\nKatana\nE\n5\n85\n0\n0\n1\n0\nStrips enemy when user has weapon triangle advantage, ability to double attack +3\nFates
+Sunrise Katana\nKatana\nD\n3\n85\n0\n20\n1\n0\nDual Wield as a Swordmaster\nFates
+Takumi's Shinai\nKatana\nC\n2\n85\n0\n-10\n1\n0\nFatal attacks leave the enemy with 1 HP, cannot double attack, Speed +1, Defense/Resistance -3\nFates
+Hana's Katana\nKatana\nC\n6\n90\n0\n-10\n1\n0\nMight is doubled when enemy initiates the battle, cannot double attack\nFates
+Hinata's Katana\nKatana\nB\n9\n85\n0\n0\n1\n0\nMight is doubled when user initiates the battle, cannot double attack, Defense/Resistance -3; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Brass Naginata\nNaginata\nE\n4\n90\n0\n0\n1\n500\nCritical Evade +10, cannot trigger critical hits or special skills\nFates
+Iron Naginata\nNaginata\nD\n6\n80\n0\n0\n1\n1000\n-\nFates
+Steel Naginata\nNaginata\nC\n9\n75\n0\n-5\n1\n2000\nAbility to double attack -3\nFates
+Silver Naginata\nNaginata\nB\n13\n80\n0\n0\n1\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Venge Naginata\nNaginata\nA\n9\n90\n0\n-20\n1\n8000\nMight is doubled when enemy initiates the battle\nFates
+Iron Nageyari\nNaginata\nD\n6\n80\n0\n0\n1~2\n-\nEnemy only\nFates
+Steel Nageyari\nNaginata\nC\n9\n85\n0\n-5\n1~2\n-\nEnemy only. Ability to double attack -3\nFates
+Silver Nageyari\nNaginata\nB\n13\n80\n0\n0\n1~2\n-\nEnemy only. Critical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Swordcatcher\nNaginata\nD\n7\n65\n0\n-10\n1\n3400\nEffective against Swords, ineffective otherwise\nFates
+Dual Naginata\nNaginata\nC\n8\n65\n5\n0\n1\n4000\nReverses the weapon triangle and doubles weapon triangle effects\nFates
+Guard Naginata\nNaginata\nC\n5\n75\n0\n-10\n1\n2700\nDefense/Resistance +5\nFates
+Bolt Naginata\nNaginata\nC\n11\n70\n0\n-20\n1~2\n3300\nMagic weapon. Cannot trigger critical hits or special skills\nFates
+Waterwheel\nNaginata\nS\n19\n85\n0\n0\n1\n2700\nCritical Evade +20; after the battle, Strength is halved for the next attack\nFates
+Bamboo Pole\nNaginata\nE\n1\n100\n0\n10\n1\n0\nCritical Evade +10. Nature's finest blacksmithing on display.\nFates
+Pine Branch\nNaginata\nD\n11\n55\n10\n-10\n1\n0\nAbility to double attack -3\nFates
+Raider Naginata\nNaginata\nE\n5\n75\n0\n0\n1\n0\nStrips enemy when user has weapon triangle advantage, ability to double attack +3\nFates
+Bold Naginata\nNaginata\nC\n15\n100\n10\n0\n1\n0\nCannot double attack, enemy's ability to double attack +5, Defense/Resistance -5\nFates
+Hinoka's Spear\nNaginata\nC\n8\n75\n0\n10\n1\n0\nDefense/Resistance -1\nFates
+Subaki's Pike\nNaginata\nD\n4\n85\n0\n0\n1\n0\nMight is doubled when user's Skill is higher than the enemy's\nFates
+Oboro's Spear\nNaginata\nB\n14\n75\n10\n-5\n1\n0\nAbility to double attack -3; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Brass Club\nClub\nE\n5\n85\n0\n0\n1\n500\nCritical Evade +10, cannot trigger critical hits\nFates
+Iron Club\nClub\nD\n6\n75\n5\n0\n1\n1000\n-\nFates
+Steel Club\nClub\nC\n10\n70\n5\n-5\n1\n2000\nAbility to double attack -3\nFates
+Silver Club\nClub\nB\n14\n75\n5\n0\n1\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Venge Club\nClub\nA\n10\n75\n5\n-20\n1\n8000\nMight is doubled when enemy initiates the battle\nFates
+Iron Mace\nClub\nD\n6\n75\n5\n0\n1~2\n-\nEnemy only\nFates
+Steel Mace\nClub\nC\n10\n70\n5\n-5\n1~2\n-\nEnemy only. Ability to double attack -3\nFates
+Silver Mace\nClub\nB\n14\n75\n5\n0\n1~2\n-\nEnemy only. Critical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Throwing Club\nClub\nD\n6\n70\n0\n0\n1~2\n1800\nCannot double attack, enemy's ability to double attack +5, cannot inflict critical hits\nFates
+Battering Club\nClub\nB\n12\n60\n5\n0\n2\n4500\nCannot double attack, enemy's ability to double attack +5\nFates
+Pike-Ruin Club\nClub\nD\n10\n60\n5\n-10\n1\n3400\nEffective against Lances, ineffective otherwise\nFates
+Dual Club\nClub\nC\n9\n60\n10\n0\n1\n4000\nReverses the weapon triangle and doubles weapon triangle effects\nFates
+Great Club\nClub\nC\n6\n45\n55\n-5\n1\n1900\nCritical Evade -5, Critical hits deal 4x damage instead of 3x\nFates
+Carp Streamer\nClub\nE\n1\n95\n5\n10\n1\n0\nCritical Evade +10. Not great in a fight, but very festive.\nFates
+Hoe\nClub\nD\n5\n70\n5\n0\n1\n0\nIgnores user and enemy's terrain effects\nFates
+Adamant Club\nClub\nC\n3\n80\n5\n0\n1\n0\nDefense +4. An enduring weapon.\nFates
+Rinkah's Club\nClub\nC\n8\n75\n15\n0\n1\n0\nCritical Evade -5, ability to double attack -3\nFates
+Ryoma's Club\nClub\nD\n16\n55\n15\n-10\n1\n0\nSpeed -5. An awkward, but powerful weapon.\nFates
+Fuga's Club\nClub\nB\n13\n80\n5\n0\n1\n0\nSpeed +3, Defense/Resistance -3; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Brass Yumi\nYumi\nE\n7\n80\n0\n0\n2\n500\nCritical Evade +10, cannot trigger critical hits or special skills\nFates
+Iron Yumi\nYumi\nD\n9\n70\n0\n0\n2\n1000\n-\nFates
+Steel Yumi\nYumi\nC\n12\n65\n0\n-5\n2\n2000\nAbility to double attack -3\nFates
+Silver Yumi\nYumi\nB\n16\n70\n0\n0\n2\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Spy's Yumi\nYumi\nA\n5\n55\n0\n-20\n3\n8000\nCannot double attack\nFates
+Iron Hankyu\nYumi\nD\n9\n70\n0\n0\n1~2\n0\nEnemy only\nFates
+Steel Hankyu\nYumi\nC\n12\n65\n0\n-5\n1~2\n0\nEnemy only. Ability to double attack -3\nFates
+Silver Hankyu\nYumi\nB\n16\n70\n0\n0\n1~2\n0\nEnemy only. Critical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Dual Yumi\nYumi\nC\n11\n55\n5\n0\n2\n4000\nReverses the weapon triangle and doubles weapon triangle effects\nFates
+Illusory Yumi\nYumi\nC\n8\n65\n0\n-10\n2\n2700\nResistance +10. A bow strung with magic.\nFates
+Surefire Yumi\nYumi\nB\n10\n120\n0\n-30\n2\n4300\nDefense -4 and Resistance -2. An accurate bow you have to stand still to use well.\nFates
+Pursuer\nYumi\nS\n22\n80\n10\n-10\n2\n-\nDefense -5 and Resistance -3; ability to double attack +5, enemy’s ability to double attack +5\nFates
+Fujin Yumi\nYumi\nE\n14\n70\n5\n10\n2\n-\nTakumi only; wielder's terrain costs are reduced to 1 while in possession\nFates
+Fujin Yumi (Bronze)\nYumi\nE\n7\n80\n0\n0\n2\n0\nCritical Evade +10, cannot trigger critical hits or special skills, wielder's terrain costs are reduced to 1 while in possession\nFates
+Skadi\nYumi\nS\n15\n95\n-10\n0\n1~4\n0\nEnemy only. Critical Evade +20. A magic bow from the Outrealm. Projects a simulacrum of the wielder.\nFates
+Bamboo Yumi\nYumi\nE\n4\n90\n0\n10\n2\n0\nCritical Evade +10. \nFates
+Harp Yumi\nYumi\nD\n6\n65\n0\n0\n2\n0\nAfter a battle initiated by the user, Resistance +4 to allies within a 2 tile radius\nFates
+Raider Yumi\nYumi\nE\n6\n65\n0\n0\n2\n0\nStrips enemy when user has weapon triangle advantage, ability to double attack +3\nFates
+Spellbane Yumi\nYumi\nC\n5\n60\n0\n-10\n2\n0\nEffective against Tomes, Might and Hit rate reduced otherwise, Defense -4\nFates
+Sidelong Yumi\nYumi\nC\n3\n65\n0\n-10\n1~2\n0\nCannot double attack, enemy's ability to double attack +5\nFates
+Mikoto's Yumi\nYumi\nB\n13\n65\n0\n0\n2\n0\nDefense -2, recover HP each turn; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Setsuna's Yumi\nYumi\nD\n7\n55\n0\n0\n2\n0\nUpon a successful hit, enemy's Skill/Speed/Defense -4 (stats recover by 1 each turn)\nFates
+Brass Shuriken\nShuriken\nE\n2\n95\n0\n0\n1~2\n500\nCritical Evade +10, cannot inflict critical hits [Skill/Speed -1, Defense/Resistance -2 to enemy after battle]\nFates
+Iron Shuriken\nShuriken\nD\n4\n85\n0\n0\n1~2\n1000\n[Magic -2, Defense/Resistance -3 to enemy after battle]\nFates
+Steel Shuriken\nShuriken\nC\n7\n80\n0\n-5\n1~2\n2000\nAbility to double attack -3 [Strength -3, Defense/Resistance -4 to enemy after battle]\nFates
+Silver Shuriken\nShuriken\nB\n10\n85\n0\n0\n1~2\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn) [Speed/Defense/Resistance -4 to enemy after battle]\nFates
+Spy's Shuriken\nShuriken\nA\n1\n70\n0\n-20\n3\n8000\nCannot double attack [Strength/Magic/Skill/Speed/Luck -2, Defense/Resistance -5 to enemy after battle]\nFates
+Dual Shuriken\nShuriken\nC\n6\n70\n5\n0\n1~2\n4000\nReverses the weapon triangle and doubles weapon triangle effects [Strength/Magic -2, Defense/Resistance -4 to enemy after battle]\nFates
+Sting Shuriken\nShuriken\nD\n7\n90\n0\n0\n1~2\n2500\nEffective against armored units, ineffective otherwise [Skill/Defense/Resistance -3 to enemy after battle]\nFates
+Barb Shuriken\nShuriken\nC\n4\n80\n25\n-10\n1~2\n3000\nCritical hits deal 4x more damage instead of 3x [Luck/Defense/Resistance -4 to enemy after battle]\nFates
+Flame Shuriken\nShuriken\nC\n9\n75\n0\n-20\n1~2\n3300\nMagic weapon, cannot inflict critical hits [Magic/Defense/Resistance -4 to enemy after battle]\nFates
+Chakram\nShuriken\nS\n11\n95\n10\n-10\n1~2\n0\nDefense/Resistance -5, ability to double attack +5, enemy's ability to double attack +5 [Strength/Magic/Defense/Resistance -6 to enemy after battle]\nFates
+Chopstick\nShuriken\nE\n1\n105\n0\n10\n1~2\n0\nCritical Evade +10. Better on the table than the battlefield. [Defense/Resistance -1 to enemy after battle]\nFates
+Hair Pin\nShuriken\nD\n5\n80\n0\n0\n1~2\n0\nFemales only [Strength -2, Defense/Resistance -3 to enemy after battle]\nFates
+Caltrop\nShuriken\nB\n5\n95\n5\n0\n1\n0\nAfter battle, Strength/Skill -2 (stats recover by 1 each turn) [Speed/Defense/Resistance -8 to enemy after battle]\nFates
+Kaze's Needle\nShuriken\nC\n3\n90\n0\n0\n1~2\n0\nAfter a battle initiated by the user, Speed +4 to allies within a 2 tile radius [Speed/Defense/Resistance -4 to enemy after battle]\nFates
+Saizo's Star\nShuriken\nC\n3\n90\n0\n0\n1~2\n0\nAfter a battle initiated by the user, Strength +4 to allies within a 2 tile radius [Strength/Defense/Resistance -4 to enemy after battle]\nFates
+Kagero's Dart\nShuriken\nD\n1\n80\n0\n20\n1~2\n0\nA blinding weapon. [Skill -5, Defense/Resistance -3 to enemy after battle]\nFates
+Rat Spirit\nScroll\nE\n3\n85\n0\n0\n1~2\n500\nCritical Evade +10, cannot inflict critical hits, Skill +1\nFates
+Ox Spirit\nScroll\nD\n5\n75\n0\n0\n1~2\n1000\nDefense +1\nFates
+Tiger Spirit\nScroll\nC\n8\n70\n0\n-5\n1~2\n2000\nAbility to double attack -3, Speed +1\nFates
+Rabbit Spirit\nScroll\nB\n11\n75\n0\n0\n1~2\n4000\nCritical Evade -5, Resistance +1; after battle, Magic/Skill -2 (stats recover by 1 each turn)\nFates
+Dragon Spirit\nScroll\nA\n11\n85\n10\n0\n1~2\n8000\nEffective against dragon units, Skill/Defense +1; after the battle, Magic is halved for the next attack\nFates
+Calamity Gate\nScroll\nC\n7\n70\n5\n0\n1~2\n4000\nReverses the weapon triangle and doubles weapon triangle effects, Speed/Defense +1\nFates
+Snake Spirit\nScroll\nA\n5\n60\n0\n0\n1~2\n8000\n2 consecutive attacks when user initiates battle, Speed/Resistance +1; after the battle, Magic is halved for the next attack\nFates
+Horse Spirit\nScroll\nD\n4\n70\n0\n0\n1~2\n2100\nSkill/Speed/Defense/Resistance +3. An Enduring Spirit.\nFates
+Sheep Spirit\nScroll\nD\n5\n70\n0\n0\n1~2\n1800\nDefense/Resistance +1; use to recover 10 HP\nFates
+Paper\nScroll\nE\n1\n95\n0\n10\n1~2\n0\nCritical Evade +10. Speed +1. Supposedly beats rock. Not much else.\nFates
+Malevolent Text\nScroll\nD\n10\n50\n10\n-10\n1~2\n0\nAbility to double attack -3, Skill +1\nFates
+Monkey Spirit\nScroll\nD\n4\n80\n0\n0\n1~2\n0\nSkill/Speed +1, Luck -4, and Resistance +2 A star-crossed spirit.\nFates
+Bird Spirit\nScroll\nC\n5\n75\n0\n15\n1~2\n0\nSpeed/Luck +1 and Defense -4. A lighthearted spirit.\nFates
+Ink Painting\nScroll\nB\n9\n90\n0\n-20\n1~2\n0\nMight is doubled when enemy initiates the battle, cannot double attack, Skill/Luck +1; after battle, Magic/Skill -2 (stats recover by 1 each turn)\nFates
+Izana's Scroll\nScroll\nC\n5\n85\n0\n0\n1~2\n0\nMight is doubled when user initiates the battle, cannot double attack, Skill +1, Defense -2, Resistance -1\nFates
+Bloom Festal\nRod\nE\n20\n-\n-\n25\n1~2\n500\nRestores (7 + Magic/3) HP to an ally\nFates
+Sun Festal\nRod\nD\n15\n-\n-\n30\n1~2\n1000\nRestores (14 + Magic/3) HP to an ally\nFates
+Wane Festal\nRod\nC\n5\n-\n-\n35\n1~10\n3000\nRestores (2 + Magic/3) HP to an ally\nFates
+Moon Festal\nRod\nB\n5\n-\n-\n40\n1~2\n3000\nRestores (25 + Magic/3) HP to an ally\nFates
+Great Festal\nRod\nA\n2\n-\n-\n70\n1~10\n5000\nRestores (2 + Magic/3) HP to all allies in range\nFates
+Rescue\nRod\nD\n2\n-\n-\n35\n1~10\n3800\nMoves an ally next to the user\nFates
+Silence\nRod\nC\n4\n70\n-\n40\n1~10\n2400\nPrevents an enemy from using Tomes or Staves until the next turn\nFates
+Hexing Rod\nRod\nB\n3\n50\n-\n50\n1~10\n3000\nHalves the enemy's Maximum HP until the mission's end\nFates
+Lantern\nRod\nE\n5\n-\n-\n20\n1~3\n0\nRestores 7 HP to an ally\nFates
+Dumpling Rod\nRod\nD\n3\n-\n-\n25\n1~2\n0\nRestores 10 HP to an ally; use to recover 10 HP\nFates
+Bamboo Branch\nRod\nC\n3\n-\n-\n30\n1~2\n0\nRestores 15 HP to an ally; Luck +8 to all allies within a 2 tile radius for one turn\nFates
+Sakura's Rod\nRod\nE\n10\n-\n-\n20\n1~2\n0\nRestores 7 HP to an ally\nFates
+Purification Rod\nRod\nB\n1\n-\n-\n35\n1~2\n0\nRestores 30 HP to an ally\nFates
+Bronze Sword\nSword\nE\n4\n100\n0\n0\n1\n500\nCritical Evade +10, cannot trigger critical hits or special skills\nFates
+Iron Sword\nSword\nD\n6\n90\n0\n0\n1\n1000\n-\nFates
+Steel Sword\nSword\nC\n9\n85\n0\n-5\n1\n2000\nAbility to double attack -3\nFates
+Silver Sword\nSword\nB\n12\n90\n0\n0\n1\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Brave Sword\nSword\nA\n6\n75\n0\n0\n1\n8000\n2 consecutive attacks when user initiates battle; Defense/Resistance -4\nFates
+Iron Kukri\nSword\nD\n6\n90\n0\n0\n1~2\n0\nEnemy only\nFates
+Steel Kukri\nSword\nC\n9\n85\n0\n-5\n1~2\n0\nEnemy only. Ability to double attack -3\nFates
+Silver Kukri\nSword\nB\n12\n90\n0\n0\n1~2\n0\nEnemy only. Critical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Armorslayer\nSword\nD\n9\n95\n0\n0\n1\n2500\nEffective against armored units, ineffective otherwise\nFates
+Wyrmslayer\nSword\nD\n9\n95\n0\n0\n1\n2500\nEffective against dragon units, ineffective otherwise\nFates
+Killing Edge\nSword\nC\n6\n85\n25\n-10\n1\n3000\nCritical hits deal 4x more damage instead of 3x\nFates
+Levin Sword\nSword\nC\n11\n80\n0\n-20\n1~2\n3300\nMagic weapon, cannot trigger critical hits or special skills\nFates
+Ganglari\nSword\nE\n7\n85\n5\n0\n1\n0\nLocked to Avatar, Critical Evade +5\nFates
+Siegfried\nSword\nE\n11\n80\n5\n0\n1~2\n0\nXander only. Ddg +10; Defense +4 while in possession\nFates
+Bottle\nSword\nE\n1\n110\n0\n10\n1\n0\nCritical Evade +10. Best suited for thirsty warriors.\nFates
+Umbrella\nSword\nD\n1\n85\n10\n0\n1~2\n0\nCannot double attack, enemy's ability to double attack +5\nFates
+Nohrian Blade\nSword\nD\n5\n85\n0\n-10\n1\n0\nDefense +3\nFates
+Leo's Iceblade\nSword\nB\n14\n85\n0\n-20\n1\n0\nMagic weapon; after battle, Magic/Skill -2 (stats recover by 1 each turn)\nFates
+Selena's Blade\nSword\nC\n7\n90\n10\n0\n1\n0\nCritical Evade -5, ability to double attack -3\nFates
+Laslow's Blade\nSword\nC\n8\n80\n0\n0\n1\n0\nSpeed +3, Defense/Resistance -3. A nimble weapon.\nFates
+Demonic Ganglari\nSword\nB\n16\n90\n5\n0\n1\n0\nCritical Evade -5; after battle, user's HP is reduced by 20%\nFates
+Falchion\nSword\nE\n13\n85\n10\n0\n1\n0\nLocked to Marth amiibo. Critical Evade +10, effective against dragon units, use to restore 10 HP\nFates
+Ragnell\nSword\nE\n13\n75\n0\n-5\n1~2\n0\nLocked to Ike amiibo. Defense +3, ability to double attack -3\nFates
+Parallel Falchion\nSword\nE\n11\n85\n5\n10\n1\n0\nLocked to Lucina amiibo. Effective against dragon units, ability to double attack +3, use to restore 10 HP\nFates
+Marth's Spatha\nSword\nC\n9\n75\n0\n0\n1\n3000\nCritical Evade +10\nFates
+Ike's Backup\nSword\nC\n10\n70\n0\n-10\n1\n3000\nDefense +3, ability to double attack -3\nFates
+Lucina's Estoc\nSword\nC\n7\n75\n0\n0\n1\n3000\nAbility to double attack +3\nFates
+Awakening Falchion\nSword\nE\n6\n80\n0\n0\n1\n0\nLocked to Chrom. Effective against dragon units\nFates
+Bronze Lance\nLance\nE\n5\n90\n0\n0\n1\n500\nCritical Evade +10, cannot trigger critical hits or special skills\nFates
+Iron Lance\nLance\nD\n7\n80\n0\n0\n1\n1000\n-\nFates
+Steel Lance\nLance\nC\n10\n75\n0\n-5\n1\n2000\nAbility to double attack -3\nFates
+Silver Lance\nLance\nB\n14\n80\n0\n0\n1\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Brave Lance\nLance\nA\n7\n65\n0\n0\n1\n8000\n2 consecutive attacks when user initiates battle; Defense/Resistance -4\nFates
+Iron Javelin\nLance\nD\n7\n80\n0\n0\n1~2\n0\nEnemy only\nFates
+Steel Javelin\nLance\nC\n10\n75\n0\n-5\n1~2\n0\nEnemy only. Ability to double attack -3\nFates
+Silver Javelin\nLance\nB\n14\n80\n0\n0\n1~2\n0\nEnemy only. Critical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Javelin\nLance\nD\n6\n75\n0\n0\n1~2\n1800\nCannot double attack, enemy's ability to double attack +5, cannot trigger critical hits or special skills\nFates
+Spear\nLance\nB\n12\n65\n0\n-10\n2\n4500\nCannot double attack, enemy's ability to double attack +5\nFates
+Beast Killer\nLance\nD\n10\n85\n0\n0\n1\n2500\nEffective against horse/beast units, ineffective otherwise\nFates
+Killer Lance\nLance\nC\n7\n75\n25\n-10\n1\n3000\nCritical hits deal 4x more damage instead of 3x\nFates
+Blessed Lance\nLance\nC\n6\n70\n0\n0\n1\n2200\nEffective against monster units, recover HP each turn, Defense/Resistance -3\nFates
+Broom\nLance\nE\n2\n100\n0\n10\n1\n0\nCritical Evade +10. Don't think of it as a broom. It's a spear with a thousand tiny points.\nFates
+Stick\nLance\nD\n5\n85\n0\n0\n1\n0\nSkill +3. Suitable for practice.\nFates
+Hexlock Spear\nLance\nC\n1\n80\n0\n0\n1\n0\nResistance +8. A spear destined to pierce a mage's heart.\nFates
+Xander's Lance\nLance\nB\n12\n90\n0\n0\n1\n0\nCannot trigger critical hits or special skills, Skill/Resistance +2; after battle, Strength/Skill -2 (stats recover by 1 each turn) and Strength +4 for all enemies within a 2 tile radius\nFates
+Effie's Lance\nLance\nC\n16\n65\n0\n0\n1\n0\nAbility to double attack -5, enemy's ability to double attack +5\nFates
+Peri's Lance\nLance\nD\n2\n75\n10\n0\n1~2\n0\nCannot double attack, enemy's ability to double attack +5\nFates
+Bronze Axe\nAxe\nE\n6\n80\n0\n0\n1\n500\nCritical Evade +10, cannot inflict critical hits\nFates
+Iron Axe\nAxe\nD\n8\n70\n0\n0\n1\n1000\n-\nFates
+Steel Axe\nAxe\nC\n12\n65\n0\n-5\n1\n2000\nAbility to double attack -3\nFates
+Silver Axe\nAxe\nB\n16\n70\n0\n0\n1\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Brave Axe\nAxe\nA\n8\n55\n0\n0\n1\n8000\n2 consecutive attacks when user initiates battle; Defense/Resistance -4\nFates
+Iron Star Axe\nAxe\nD\n8\n70\n0\n0\n1~2\n0\nEnemy only\nFates
+Steel Star Axe\nAxe\nC\n12\n65\n0\n-5\n1~2\n0\nEnemy only. Ability to double attack -3\nFates
+Silver Star Axe\nAxe\nB\n16\n70\n0\n0\n1~2\n0\nEnemy only. Critical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn)\nFates
+Hand Axe\nAxe\nD\n7\n65\n0\n0\n1~2\n1800\nCannot double attack, enemy's ability to double attack +5, cannot inflict critical hits\nFates
+Tomahawk\nAxe\nB\n14\n55\n0\n-10\n2\n4500\nCannot double attack, enemy's ability to double attack +5\nFates
+Hammer\nAxe\nD\n12\n75\n0\n0\n1\n2500\nEffective against armored units, ineffective otherwise\nFates
+Bolt Axe\nAxe\nC\n14\n65\n0\n-20\n1~2\n3300\nMagic weapon, cannot inflict critical hits\nFates
+Killer Axe\nAxe\nC\n8\n65\n25\n-10\n1\n3000\nCritical hits deal 4x more damage instead of 3x\nFates
+Aurgelmir\nAxe\nS\n22\n75\n15\n0\n1\n0\nAfter the battle, Strength is halved for the next attack\nFates
+Bolverk\nAxe\nS\n21\n90\n10\n0\n1~3\n0\nGaron only. Ddg +20\nFates
+Frying Pan\nAxe\nE\n3\n90\n0\n10\n1\n0\nCritical Evade +10. Heavy and hard to wield, but cast iron, so you don't really need to clean it.\nFates
+Bone Axe\nAxe\nD\n9\n60\n0\n0\n1\n0\nResistance +3. Sometimes the old ways are best.\nFates
+Raider Axe\nAxe\nE\n7\n65\n0\n0\n1\n0\nStrips enemy when user has weapon triangle advantage, ability to double attack +3.\nFates
+Berserker's Axe\nAxe\nC\n17\n90\n0\n0\n1\n0\nAfter battle, user's HP is reduced by 30%.\nFates
+Camilla's Axe\nAxe\nB\n12\n80\n0\n0\n1\n0\nFemale only. Resistance +2; after battle, Strength/Skill -2 (stats recover by 1 each turn).\nFates
+Arthur's Axe\nAxe\nD\n10\n65\n0\n0\n1\n0\nMale only. Defense +2. An Axe for smiting evildoers.\nFates
+Beruka's Axe\nAxe\nC\n13\n60\n30\n0\n1\n0\nCritical Evade -20, Critical hits deal more damage, enemy's ability to double attack +5.\nFates
+Bronze Bow\nBow\nE\n6\n90\n0\n0\n2\n500\nCritical Evade +10, cannot inflict critical hits.\nFates
+Iron Bow\nBow\nD\n8\n80\n0\n0\n2\n1000\n-\nFates
+Steel Bow\nBow\nC\n11\n75\n0\n-5\n2\n2000\nAbility to double attack -3.\nFates
+Silver Bow\nBow\nB\n15\n80\n0\n0\n2\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn).\nFates
+Crescent Bow\nBow\nA\n8\n65\n0\n0\n2\n8000\n2 consecutive attacks when user initiates battle; Strength is halved for the next attack.\nFates
+Iron Shortbow\nBow\nD\n8\n80\n0\n0\n1~2\n0\nEnemy only.\nFates
+Steel Shortbow\nBow\nC\n11\n75\n0\n-5\n1~2\n0\nEnemy only. Ability to double attack -3.\nFates
+Silver Shortbow\nBow\nB\n15\n80\n0\n0\n1~2\n0\nEnemy only. Critical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn).\nFates
+Mini Bow\nBow\nD\n7\n75\n0\n-10\n1\n2400\nA powerful bow with a short range.\nFates
+Killer Bow\nBow\nC\n7\n75\n25\n-10\n2\n3000\nCritical hits deal 4x damage.\nFates
+Blessed Bow\nBow\nC\n7\n70\n0\n0\n2\n2200\nEffective against monster units, recover HP each turn, Defense/Resistance -3.\nFates
+Shining Bow\nBow\nC\n13\n70\n0\n-20\n1~2\n3300\nMagic weapon, cannot inflict critical hits.\nFates
+Rubber Bow\nBow\nE\n3\n100\n0\n10\n2\n0\nCritical Evade +10. Someone's idea of a battlefield prank?\nFates
+Violin Bow\nBow\nD\n6\n75\n0\n0\n2\n0\nAfter a battle initiated by the user, Skill +4 to allies within a 2 tile radius.\nFates
+Cupid Bow\nBow\nE\n1\n100\n0\n0\n2\n0\nAfter battle, enemy recovers 20% HP.\nFates
+Hunter's Bow\nBow\nC\n6\n85\n0\n-10\n2\n0\nEffective against horse/beast units, ineffective otherwise.\nFates
+Anna's Bow\nBow\nB\n8\n120\n0\n0\n2\n0\nLuck +5; after battle, Strength/Skill -2 (stats recover by 1 each turn). Fortune favors the bowed.\nFates
+Niles's Bow\nBow\nC\n4\n75\n0\n-10\n2\n0\nFatal hits leave the enemy with 1 HP, cannot double attack, Defense/Resistance -2.\nFates
+Bronze Dagger\nDagger\nE\n2\n100\n0\n0\n1~2\n500\nCritical Evade +10, cannot trigger critical hits or special skills [Skill/Speed -1, Defense/Resistance -2 to enemy after battle].\nFates
+Iron Dagger\nDagger\nD\n4\n90\n0\n0\n1~2\n1000\n[Magic -2, Defense/Resistance -3 to enemy after battle].\nFates
+Steel Dagger\nDagger\nC\n7\n85\n0\n-5\n1~2\n2000\nAbility to double attack -3 [Strength -3, Defense/Resistance -4 to enemy after battle].\nFates
+Silver Dagger\nDagger\nB\n10\n90\n0\n0\n1~2\n4000\nCritical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn) [Speed/Defense/Resistance -4 to enemy after battle].\nFates
+Soldier's Knife\nDagger\nA\n4\n75\n0\n0\n1~2\n8000\n2 consecutive attacks when user initiates battle; Strength is halved for the next attack [Strength/Magic/Skill/Speed/Luck -2, Defense/Resistance -5 to enemy after battle].\nFates
+Fruit Knife\nDagger\nD\n4\n85\n0\n0\n1~2\n1800\nUse to recover 10 HP [Skill -2, Defense/Resistance -3 to enemy after battle].\nFates
+Hunter's Knife\nDagger\nD\n7\n95\n0\n0\n1~2\n2500\nEffective against beast units, Might and Hit rate reduced otherwise [Luck -2, Defense/Resistance -3 to enemy after battle].\nFates
+Kris Knife\nDagger\nC\n3\n80\n0\n0\n1~2\n2200\nEffective against monster units, recover HP each turn, Defense/Resistance -3 [Magic -3, Defense/Resistance -4 to enemy after battle].\nFates
+Quill Pen\nDagger\nE\n1\n110\n0\n10\n1~2\n0\nCritical Evade +10. Not actually mightier than the sword. [Defense/Resistance -1 to enemy after battle].\nFates
+Stale Bread\nDagger\nD\n3\n80\n0\n0\n1~2\n0\nAfter a battle initiated by the user, user recovers 20% HP [Defense/Resistance -3 to enemy after battle].\nFates
+Raider Knife\nDagger\nE\n3\n85\n0\n0\n1~2\n0\nStrips enemy when user has weapon triangle advantage, ability to double attack +3 [Luck -2, Defense/Resistance -2 to enemy after battle].\nFates
+Votive Candle\nDagger\nD\n5\n70\n0\n0\n1~2\n0\nWhen equipped, survive lethal attacks is HP > 1. Trigger % = (Luck stat) [Strength/Magic -1, Defense/Resistance -3 to enemy after battle].\nFates
+Sacrificial Knife\nDagger\nC\n11\n110\n0\n0\n1~2\n0\nAfter battle, user’s HP is reduced by 30% [Luck -8, Defense/Resistance -5 to enemy after battle].\nFates
+Felicia's Plate\nDagger\nC\n4\n85\n0\n-10\n1~2\n0\nMagic weapon. Best served chilled. [Strength -3, Defense/Resistance -4 to enemy after battle].\nFates
+Jakob's Tray\nDagger\nB\n8\n100\n5\n-5\n1~2\n0\nAfter battle, Strength/Skill -2 (stats recover by 1 each turn) [Skill/Luck/Defense/Resistance -4 to enemy after battle].\nFates
+Pebble\nDagger\nE\n1\n80\n0\n0\n1~2\n0\nCannot double attack, trigger critical hits or special skills [Strength/Speed/Defense/Resistance -4 to enemy after battle].\nFates
+Fire\nTome\nE\n3\n90\n0\n0\n1~2\n500\nCritical Evade +10, cannot inflict critical hits.\nFates
+Thunder\nTome\nD\n5\n80\n0\n0\n1~2\n1000\n-\nFates
+Fimbulvetr\nTome\nC\n8\n75\n0\n-5\n1~2\n2000\nAbility to double attack -3.\nFates
+Ragnarok\nTome\nB\n11\n80\n0\n0\n1~2\n4000\nCritical Evade -5; after battle, Magic/Skill -2 (stats recover by 1 each turn).\nFates
+Ginnungagap\nTome\nA\n15\n65\n0\n0\n1~2\n8000\nAfter the battle, Magic is halved for the next attack.\nFates
+Lightning\nTome\nC\n1\n75\n0\n0\n1~2\n3400\n2 consecutive attacks when user initiates battle; after battle, Magic/Skill -2 (stats recover by 1 each turn).\nFates
+Mjolnir\nTome\nC\n5\n75\n25\n-10\n1~2\n3000\nCritical hits deal 4x more damage instead of 3x.\nFates
+Nosferatu\nDark Tome\nD\n7\n70\n0\n-20\n1~2\n4000\nDrains HP from enemy; cannot double attack or inflict critical hits.\nFates
+Excalibur\nTome\nS\n12\n90\n25\n-10\n1~2\n0\nEffective against flying units, Defense/Resistance -5; ability to double attack +5, enemy's ability to double attack +5.\nFates
+Brynhildr\nTome\nE\n10\n80\n5\n0\n1~2\n0\nLeo only. Critical Avoid +10; Skill% chance of halving the enemy's Magic.\nFates
+Ember\nTome\nE\n1\n100\n0\n10\n1~2\n0\nCritical Evade +10. A cantrip learned by beginning mages.\nFates
+Missiletainn\nTome\nE\n9\n70\n10\n0\n1~2\n0\nOphelia only. Skill/Resistance +1. Not a sword.\nFates
+Disrobing Gale\nTome\nE\n4\n75\n0\n0\n1~2\n0\nStrips enemy when user has weapon triangle advantage, ability to double attack +3.\nFates
+Speed Thunder\nTome\nC\n9\n70\n5\n0\n1~2\n0\nAfter battle, Speed +4 to enemies within a 2 tile radius.\nFates
+Moonlight\nTome\nD\n4\n70\n0\n0\n1~2\n0\nAfter a battle initiated by the user, user recovers 20% HP.\nFates
+Iago's Tome\nTome\nB\n7\n85\n0\n0\n1~2\n0\nAfter battle, Magic/Skill -2 (stats recover by 1 each turn); enemy's Defense/Resistance -4 until next turn.\nFates
+Odin's Grimoire\nTome\nC\n9\n65\n20\n0\n1~2\n0\nCritical Evade -20, critical hits deal more damage, cannot double attack.\nFates
+Thoron\nTome\nE\n12\n70\n10\n0\n1~2\n0\nLocked to Robin amiibo. Critical Evade +5, Resistance +3.\nFates
+Robin's Primer\nTome\nC\n7\n65\n5\n-10\n1~2\n3000\nResistance +3.\nFates
+Heal\nStaff\nE\n20\n-\n-\n25\n1\n500\nRestores (10 + Magic/3) HP to an ally.\nFates
+Mend\nStaff\nD\n15\n-\n-\n30\n1\n1000\nRestores (20 + Magic/3) HP to an ally.\nFates
+Physic\nStaff\nC\n5\n-\n-\n35\n1~7\n3000\nRestores (7 + Magic/3) HP to an ally.\nFates
+Recover\nStaff\nB\n5\n-\n-\n40\n1\n3000\nRestores (35 + Magic/3) HP to an ally.\nFates
+Fortify\nStaff\nA\n2\n-\n-\n70\n1~7\n5000\nRestores (7 + Magic/3) HP to all allies in range.\nFates
+Freeze\nStaff\nD\n4\n80\n-\n35\n1~7\n1800\nReduces an enemy's Movement to 0 and their Avoid by 20 for one turn.\nFates
+Enfeeble\nStaff\nC\n4\n80\n-\n40\n1~7\n2500\nReduces all stats of an enemy by 4 (stats recover by 1 each turn).\nFates
+Entrap\nStaff\nB\n2\n60\n-\n50\n1~7\n4200\nMoves an enemy next to the user.\nFates
+Evil Entrap\nStaff\nB\n1\n200\n-\n50\nInfinite\n0\nEnemy only. Moves an enemy next to the user.\nFates
+Bifröst\nStaff\nS\n1\n-\n-\n130\n-\n0\nResurrects the last character who died in the current map.\nFates
+Candy Cane\nStaff\nE\n5\n-\n-\n20\n1\n0\nRestores 10 HP to an ally and 5 HP for the user.\nFates
+Mushroom Staff\nStaff\nE\n5\n-\n-\n20\n1\n0\nRestores 15 HP to an ally; increases user's Resistance by 2 until the mission's end.\nFates
+Bouquet Staff\nStaff\nD\n3\n-\n-\n25\n1\n0\nRestores 20 HP to an ally and increases their Luck by 4 until the mission's end.\nFates
+Elise's Staff\nStaff\nC\n1\n-\n-\n30\n1~5\n0\nRestores 10 HP to an ally.\nFates
+Lilith's Staff\nStaff\nB\n1\n-\n-\n35\n1~5\n0\nRestores 7 HP to all allies in range.\nFates
+Astral Blessing\nStaff\nE\n-\n-\n-\n0\n1~5\n0\nLocked to Lilith. Restores (7 + Magic/3) HP to an ally.\nFates
+Dragonstone\nDragonstone\nE\n14\n85\n0\n-10\n1\n2000\nCritical Evade +10, Magic weapon, cannot double attack, Skill -3, Speed -2, Defense +4, and Resistance +3.\nFates
+Dragonstone+\nDragonstone\nC\n25\n75\n0\n-10\n1\n0\nCritical Evade +10, Magic weapon, cannot double attack, Skill -5, Speed -4, Defense +9, and Resistance +7; after battle, Magic/Skill -2 (stats recover by 1 each turn).\nFates
+Beaststone\nBeaststone\nE\n6\n90\n5\n10\n1\n2000\nCritical Evade +10, Skill +5, Speed +3, Defense -2.\nFates
+Beastrune\nBeaststone\nC\n9\n80\n0\n0\n1\n0\nCritical Evade +10, Skill -2, Speed -1, Defense +4 and Resistance +5.\nFates
+Beaststone+\nBeaststone\nB\n12\n90\n5\n10\n1\n0\nCritical Evade +10, Skill +8, Speed +6, Defense -5, Resistance -3; after battle, Strength/Skill -2 (stats recover by 1 each turn).\nFates
+Shackled Fist\nFist\nE\n8\n80\n0\n0\n1\n-\nFaceless only. The only weapon the Faceless need.\nFates
+Gauntlet\nFist\nB\n13\n90\n0\n0\n1\n-\nFaceless only. Critical Evade -5; after battle, Strength/Skill -2 (stats recover by 1 each turn).\nFates
+Rock\nRock\nE\n9\n80\n0\n0\n1~5\n-\nStoneborn only. Cannot double attack, cannot inflict critical hits or special skills.\nFates
+Massive Rock\nRock\nB\n15\n75\n0\n0\n1~5\n-\nStoneborn only. Cannot double attack, cannot inflict critical hits or special skills.\nFates
+Dark Breath\nBreath\nS\n30\n100\n0\n10\n1~2\n-\nBlight Dragon only. Critical Evade +10, cannot double attack.\nFates
+Dragon Breath\nBreath\nA\n30\n100\n0\n10\n1~3, 1~5\n-\nAnankos only. Critical Evade +10, cannot double attack.\nFates
+Saw\nSaw\nE\n7\n90\n0\n10\n1\n-\nAutomatons only. Upon a successful hit, enemy's Strength/Magic -4 until next turn.\nFates
+Big Saw\nSaw\nB\n12\n85\n0\n10\n1\n-\nAutomatons only. Critical Evade -5; upon a successful hit, enemy's Strength/Magic -6 until next turn; after battle, Strength/Skill -2 (stats recover by 1 each turn).\nFates
+Draconic Rage\nBreath\nE\n15\n75\n0\n-10\n1\n-\nLocked to Chapter 5 Avatar/Paralogue 2 Kana. Critical Evade +10, Magic weapon, cannot double attack.\nFates
+Astral Breath\nBreath\nE\n10\n85\n0\n0\n1~5\n-\nLocked to Lilith. Magic weapon, cannot double attack.\nFates
+Bronze Sword\nSword\nE\n3\n100\n0\n50\n1\n350\n-\nAwakening
+Iron Sword\nSword\nD\n5\n95\n0\n40\n1\n520\n-\nAwakening
+Steel Sword\nSword\nC\n8\n90\n0\n35\n1\n840\n-\nAwakening
+Silver Sword\nSword\nB\n11\n85\n0\n30\n1\n1410\n-\nAwakening
+Brave Sword\nSword\nA\n9\n80\n0\n30\n1\n2100\nAllows user to strike twice in one attack.\nAwakening
+Armorslayer\nSword\nD\n8\n80\n0\n25\n1\n1450\nEffective vs. Armored units.\nAwakening
+Wyrmslayer\nSword\nD\n8\n80\n0\n25\n1\n1500\nEffective vs. Dragon units.\nAwakening
+Killing Edge\nSword\nC\n9\n90\n30\n30\n1\n1470\n-\nAwakening
+Levin Sword\nSword\nC\n10\n80\n0\n25\n1~2\n1600\nInflicts magic-based damage.\nAwakening
+Rapier\nSword\nE\n5\n90\n10\n35\n1\n1600\nLord/Great Lord/Lodestar only. Effective vs. Armored/Horseback units.\nAwakening
+Noble Rapier\nSword\nC\n8\n85\n10\n25\n1\n2100\nLord/Great Lord/Lodestar only. Effective vs. Armored/Horseback units.\nAwakening
+Missiletainn\nSword\nC\n8\n85\n10\n35\n1\n1050\nOwain only. Skill +1.\nAwakening
+Sol\nSword\nB\n12\n85\n5\n30\n1\n0\nGrants Sol skill while equipped.\nAwakening
+Amatsu\nSword\nA\n12\n60\n5\n30\n1~2\n0\nMyrmidon/Swordmaster only.\nAwakening
+Falchion\nSword\nE\n5\n80\n0\n-\n1\n0\nChrom only. Effective vs. Dragon units.\nAwakening
+Exalted Falchion\nSword\nE\n15\n80\n10\n-\n1\n-\nChrom only. Effective vs. Dragon/Fell Dragon units. When used as an item, restores 20 HP.\nAwakening
+Parallel Falchion\nSword\nE\n12\n80\n5\n-\n1\n-\nLucina only. Effective vs. Dragon/Fell Dragon units. When used as an item, restores 20 HP.\nAwakening
+Mercurius\nSword\nA\n17\n95\n5\n25\n1\n0\n-\nAwakening
+Tyrfing\nSword\nA\n15\n85\n10\n25\n1\n0\nResistance +5.\nAwakening
+Balmung\nSword\nA\n13\n90\n10\n25\n1\n0\nSpeed +5.\nAwakening
+Mystletainn\nSword\nA\n14\n85\n15\n25\n1\n0\nSkill +5.\nAwakening
+Sol Katti\nSword\nA\n8\n100\n50\n25\n1\n0\nMyrmidon/Swordmaster only. Resistance +5.\nAwakening
+Ragnell\nSword\nA\n15\n70\n0\n25\n1~2\n0\nDefense +5.\nAwakening
+Tree Branch\nSword\nE\n1\n100\n0\n20\n1\n100\n-\nAwakening\n-
+Glass Sword\nSword\nE\n11\n85\n0\n3\n1\n600\n-\nAwakening\n-
+Soothing Sword\nSword\nD\n8\n85\n0\n10\n1\n920\nRestores 10 HP each turn.\nAwakening\n-
+Superior Edge\nSword\nB\n11\n80\n0\n10\n1\n1950\nGrants Swordbreaker skill vs. a sword wielder while equipped.\nAwakening\n-
+Leif's Blade\nSword\nD\n4\n95\n30\n20\n1\n820\nGrants Despoil skill while equipped.\nAwakening\n-
+Roy's Blade\nSword\nC\n8\n95\n5\n25\n1\n900\n-\nAwakening\n-
+Eliwood's Blade\nSword\nC\n10\n85\n5\n20\n1\n960\n-\nAwakening\n-
+Eirika's Blade\nSword\nC\n6\n95\n10\n20\n1\n1200\nAllows user to strike twice in one attack.\nAwakening\n-
+Seliph's Blade\nSword\nB\n12\n90\n15\n15\n1\n1530\nSpeed +2, Resistance +2.\nAwakening\n-
+Alm's Blade\nSword\nB\n15\n75\n10\n10\n1\n1630\n-\nAwakening\n-
+Bronze Lance\nLance\nE\n3\n90\n0\n50\n1\n350\n-\nAwakening
+Iron Lance\nLance\nD\n6\n85\n0\n40\n1\n560\n-\nAwakening
+Steel Lance\nLance\nC\n9\n80\n0\n35\n1\n910\n-\nAwakening
+Silver Lance\nLance\nB\n13\n75\n0\n30\n1\n1560\n-\nAwakening
+Brave Lance\nLance\nA\n10\n70\n0\n30\n1\n2220\nAllows user to strike twice in one attack.\nAwakening
+Javelin\nLance\nD\n2\n80\n0\n25\n1~2\n700\n-\nAwakening
+Short Spear\nLance\nC\n5\n75\n0\n25\n1~2\n1600\n-\nAwakening
+Spear\nLance\nB\n8\n70\n0\n25\n1~2\n2400\n-\nAwakening
+Beast Killer\nLance\nD\n9\n70\n0\n25\n1\n1650\nEffective vs. Beast units.\nAwakening
+Blessed Lance\nLance\nC\n11\n70\n0\n35\n1\n1540\nEffective vs. Revenant units. Restores 10 HP to user each turn.\nAwakening
+Killer Lance\nLance\nC\n10\n80\n30\n30\n1\n1680\n-\nAwakening
+Luna\nLance\nB\n14\n80\n5\n30\n1\n0\nGrants Luna skill while equipped.\nAwakening
+Gradivus\nLance\nA\n19\n85\n5\n25\n1~2\n0\nWhen used as an item, restores all HP.\nAwakening
+Gáe Bolg\nLance\nA\n15\n75\n10\n25\n1\n0\nDefense +5.\nAwakening
+Gungnir\nLance\nA\n16\n70\n10\n25\n1\n0\nStrength +5.\nAwakening
+Log\nLance\nE\n1\n90\n0\n20\n1\n100\n-\nAwakening\n-
+Glass Lance\nLance\nE\n13\n75\n0\n3\n1\n600\n-\nAwakening\n-
+Miniature Lance\nLance\nD\n1\n55\n35\n10\n1~2\n650\n-\nAwakening\n-
+Shockstick\nLance\nC\n11\n85\n10\n20\n1\n1200\nDeals magic-based damage.\nAwakening\n-
+Superior Lance\nLance\nB\n13\n70\n0\n10\n1\n2100\nGrants Lancebreaker skill vs. a lance wielder while equipped.\nAwakening\n-
+Finn's Lance\nLance\nD\n8\n85\n10\n25\n1\n950\nDefense +2, Luck +2.\nAwakening\n-
+Ephraim's Lance\nLance\nC\n11\n80\n10\n20\n1\n1220\nStrength +2, Speed +2.\nAwakening\n-
+Sigurd's Lance\nLance\nB\n14\n85\n15\n15\n1\n1920\n-\nAwakening\n-
+Bronze Axe\nAxe\nE\n4\n80\n0\n50\n1\n400\n-\nAwakening
+Iron Axe\nAxe\nD\n7\n75\n0\n40\n1\n600\n-\nAwakening
+Steel Axe\nAxe\nC\n11\n70\n0\n35\n1\n980\n-\nAwakening
+Silver Axe\nAxe\nB\n15\n65\n0\n30\n1\n1740\n-\nAwakening
+Brave Axe\nAxe\nA\n12\n60\n0\n30\n1\n2400\nAllows user to strike twice in one attack.\nAwakening
+Hand Axe\nAxe\nD\n3\n70\n0\n35\n1~2\n750\n-\nAwakening
+Short Axe\nAxe\nC\n7\n65\n0\n25\n1~2\n1750\n-\nAwakening
+Tomahawk\nAxe\nB\n10\n60\n0\n25\n1~2\n2550\n-\nAwakening
+Hammer\nAxe\nD\n10\n60\n0\n25\n1\n1850\nEffective vs. Armored units.\nAwakening
+Bolt Axe\nAxe\nB\n14\n70\n5\n30\n1~2\n1920\nDeals magic-based damage.\nAwakening
+Killer Axe\nAxe\nC\n12\n70\n30\n30\n1\n1860\n-\nAwakening
+Vengeance\nAxe\nB\n16\n75\n5\n30\n1\n0\nGrants Vengeance skill while equipped.\nAwakening
+Wolf Berg\nAxe\nA\n18\n75\n5\n35\n1~2\n0\nWalhart only.\nAwakening
+Hauteclere\nAxe\nA\n21\n70\n5\n25\n1\n0\nWhen used as an item, restores all HP.\nAwakening
+Helswath\nAxe\nA\n18\n60\n10\n25\n1~2\n0\nDefense +5.\nAwakening
+Armads\nAxe\nA\n17\n80\n10\n25\n1\n0\nDefense +5.\nAwakening
+Ladle\nAxe\nE\n1\n80\n0\n20\n1\n100\n-\nAwakening\n-
+Glass Axe\nAxe\nE\n15\n65\n0\n3\n1\n600\n-\nAwakening\n-
+Imposing Axe\nAxe\nD\n14\n35\n10\n10\n1\n830\n-\nAwakening\n-
+Volant Axe\nAxe\nC\n8\n55\n0\n10\n1~2\n1510\nEffective vs. flying units.\nAwakening\n-
+Superior Axe\nAxe\nB\n15\n60\n10\n10\n1\n2150\nGrants Axebreaker skill vs. an axe wielder while equipped.\nAwakening\n-
+Orsin's Hatchet\nAxe\nD\n4\n85\n5\n20\n1~2\n960\n-\nAwakening\n-
+Titania's Axe\nAxe\nC\n12\n80\n10\n20\n1\n1320\nGrants Patience skill while equipped.\nAwakening\n-
+Hector's Axe\nAxe\nB\n15\n75\n15\n15\n1\n2010\nStrength +2, Defense +2.\nAwakening\n-
+Bronze Bow\nBow\nE\n3\n90\n0\n50\n2\n350\n-\nAwakening
+Iron Bow\nBow\nD\n6\n85\n0\n40\n2\n560\n-\nAwakening
+Steel Bow\nBow\nC\n9\n80\n0\n35\n2\n910\n-\nAwakening
+Silver Bow\nBow\nB\n13\n75\n0\n30\n2\n1560\n-\nAwakening
+Brave Bow\nBow\nA\n10\n70\n0\n30\n2\n2220\nAllows user to strike twice in one attack.\nAwakening
+Blessed Bow\nBow\nC\n11\n70\n0\n35\n2\n1540\nEffective vs. Revenants. Restores 10 HP each turn.\nAwakening
+Killer Bow\nBow\nC\n10\n80\n30\n30\n2\n1680\n-\nAwakening
+Longbow\nBow\nC\n9\n70\n0\n25\n2~3\n2150\nArcher/Sniper only.\nAwakening
+Astra\nBow\nB\n14\n75\n5\n30\n2\n0\nGrants Astra skill while equipped.\nAwakening
+Parthia\nBow\nA\n19\n95\n5\n25\n2\n0\nWhen used as an item, increases Resistance by 5. Bonus decreases by 1 each turn.\nAwakening
+Yewfelle\nBow\nA\n15\n85\n10\n25\n2\n0\nSpeed +5.\nAwakening
+Nidhogg\nBow\nA\n16\n75\n10\n25\n2\n0\nLuck +10.\nAwakening
+Double Bow\nBow\nA\n13\n70\n10\n25\n2~3\n0\nArcher/Sniper only. Strength +5.\nAwakening
+Slack Bow\nBow\nE\n1\n90\n0\n20\n2\n100\n-\nAwakening\n-
+Glass Bow\nBow\nE\n13\n75\n0\n3\n2\n600\n-\nAwakening\n-
+Towering Bow\nBow\nD\n3\n80\n0\n10\n2~3\n810\nArcher/Sniper only.\nAwakening\n-
+Underdog Bow\nBow\nD\n9\n75\n5\n15\n2\n950\nGrants Underdog skill while equipped.\nAwakening\n-
+Superior Bow\nBow\nB\n13\n70\n0\n10\n2\n2160\nGrants Bowbreaker skill vs a bow wielder while equipped.\nAwakening\n-
+Wolt's Bow\nBow\nC\n10\n85\n5\n25\n2\n950\nWhen used as an item, restores 20 HP.\nAwakening\n-
+Innes' Bow\nBow\nB\n13\n115\n10\n15\n2\n1710\n-\nAwakening\n-
+Fire\nTome\nE\n2\n90\n0\n45\n1~2\n540\n-\nAwakening
+Elfire\nTome\nD\n5\n85\n0\n35\n1~2\n980\n-\nAwakening
+Arcfire\nTome\nC\n8\n80\n0\n30\n1~2\n1440\n-\nAwakening
+Bolganone\nTome\nB\n12\n75\n0\n25\n1~2\n2000\n-\nAwakening
+Valflame\nTome\nA\n16\n80\n10\n25\n1~2\n0\nMagic +5.\nAwakening
+Thunder\nTome\nE\n3\n80\n5\n45\n1~2\n630\n-\nAwakening
+Elthunder\nTome\nD\n6\n75\n5\n35\n1~2\n1050\n-\nAwakening
+Arcthunder\nTome\nC\n10\n70\n10\n30\n1~2\n1620\n-\nAwakening
+Thoron\nTome\nB\n14\n65\n10\n25\n1~2\n2200\n-\nAwakening
+Mjölnir\nTome\nA\n18\n70\n20\n25\n1~2\n0\nSkill +5.\nAwakening
+Wind\nTome\nE\n1\n100\n0\n45\n1~2\n450\nEffective vs. flying units.\nAwakening
+Elwind\nTome\nD\n4\n95\n0\n35\n1~2\n910\nEffective vs. flying units.\nAwakening
+Arcwind\nTome\nC\n6\n90\n0\n30\n1~2\n1320\nEffective vs. flying units.\nAwakening
+Rexcalibur\nTome\nB\n10\n85\n0\n25\n1~2\n1900\nEffective vs. flying units.\nAwakening
+Excalibur\nTome\nA\n13\n100\n30\n25\n1~2\n0\nEffective vs. flying units.\nAwakening
+Forseti\nTome\nA\n14\n90\n10\n25\n1~2\n0\nEffective vs. flying units. Speed +5.\nAwakening
+Book of Naga\nTome\nA\n15\n80\n15\n25\n1~2\n0\nEffective vs. Dragon units. Defense +5, Resistance +5.\nAwakening
+Flux\nDark Tome\nE\n5\n70\n0\n45\n1~2\n540\n-\nAwakening
+Nosferatu\nDark Tome\nD\n7\n65\n0\n20\n1~2\n980\nRestores HP to user equal to half the damage dealt.\nAwakening
+Ruin\nDark Tome\nC\n4\n60\n50\n20\n1~2\n1380\n-\nAwakening
+Waste\nDark Tome\nB\n10\n45\n0\n30\n1~2\n2160\nAllows user to strike twice in one attack.\nAwakening
+Goetia\nDark Tome\nA\n19\n75\n10\n25\n1~2\n0\n-\nAwakening
+Mire\nDark Tome\nC\n10\n65\n0\n10\n3~10\n2000\nCannot double attack (except in Double Duels). Negates user's offensive trigger Skills (such as Astra) and support unit's Dual Strikes.\nAwakening
+Grima's Truth\nDark Tome\nB\n12\n80\n0\n-\n1~2\n-\n-\nAwakening
+Dying Blaze\nTome\nE\n10\n75\n0\n3\n1~2\n600\n-\nAwakening
+Micaiah's Pyre\nTome\nB\n13\n85\n15\n15\n1~2\n2130\nDefense +2, Resistance +2.\nAwakening
+Superior Jolt\nTome\nB\n14\n60\n15\n10\n1~2\n2320\nGrants Tomebreaker skill while equipped.\nAwakening
+Katarina's Bolt\nTome\nC\n11\n75\n30\n20\n1~2\n1920\n-\nAwakening
+Wilderwind\nTome\nD\n2\n70\n35\n5\n1~2\n760\nEffective vs. flying units.\nAwakening
+Celica's Gale\nTome\nC\n4\n80\n5\n20\n1~2\n1720\nAllows user to strike twice in one attack.\nAwakening
+Aversa's Night\nDark Tome\nB\n15\n75\n0\n10\n1~2\n2340\nRestores HP to user equal to half the damage dealt.\nAwakening
+Beaststone\nBeaststone\nE\n6\n80\n0\n50\n1\n2000\nTaguel only. Strength +3, Skill +5, Speed +5, Luck +4, Defense +1.\nAwakening
+Beaststone+\nBeaststone\nE\n10\n70\n0\n35\n1\n3220\nTaguel only. Strength +5, Skill +8, Speed +8, Luck +6, Defense +4, Resistance +2.\nAwakening
+Dragonstone\nDragonstone\nE\n8\n80\n0\n50\n1~2\n2300\nManakete only. Strength +8, Magic +5, Skill +3, Speed +2, Defense +10, Resistance +7.\nAwakening
+Dragonstone+\nDragonstone\nE\n12\n70\n0\n35\n1~2\n3780\nManakete only. Strength +11, Magic +6, Skill +5, Speed +4, Defense +13, Resistance +9.\nAwakening
+Blighted Claws\nFist\nE\n12\n75\n0\n-\n1\n-\nRevenant/Entombed only.\nAwakening
+Blighted Talons\nFist\nE\n16\n65\n0\n-\n1\n-\nRevenant/Entombed only.\nAwakening
+Expiration\nBreath\nE\n20\n80\n0\n-\n1~5\n-\nGrima only.\nAwakening
+Heal\nStaff\nE\n30\n-\n-\n17\n1\n600\nRestores a small amount of HP to an adjacent ally.\nAwakening
+Mend\nStaff\nD\n20\n-\n-\n22\n1\n1000\nRestores a medium amount of HP to an adjacent ally.\nAwakening
+Physic\nStaff\nC\n10\n-\n-\n30\n1~`User's Magic`/2\n1800\nRestores a small amount of HP to an ally.\nAwakening
+Recover\nStaff\nB\n15\n-\n-\n40\n1\n1950\nRestores all HP to an adjacent ally.\nAwakening
+Fortify\nStaff\nA\n5\n-\n-\n60\n1~`User's Magic`/2\n2500\nRestores a small amount of HP to all allies in range.\nAwakening
+Goddess Staff\nStaff\nA\n1\n-\n-\n100\n1~`User's Magic`/2\n0\nRestores all HP to allies in range.\nAwakening
+Rescue\nStaff\nE\n5\n-\n-\n40\n1~`User's Magic`/2\n2100\nTeleports an ally to an adjacent space to user.\nAwakening
+Ward\nStaff\nC\n5\n-\n-\n30\n1~`User's Magic`/2\n2100\nIncreases an adjacent ally's Resistance by 5. Bonus decreases by 1 each turn.\nAwakening
+Hammerne\nStaff\nB\n1\n-\n-\n50\n1\n2000\nFully repairs an adjacent ally's weapon to full durability.\nAwakening
+Kneader\nStaff\nE\n20\n-\n-\n12\n1\n100\nRestores a tiny amount of HP to an adjacent ally.\nAwakening
+Balmwood Staff\nStaff\nD\n15\n-\n-\n22\n1\n1200\nRestores HP to an adjacent ally or the user.\nAwakening
+Catharsis\nStaff\nB\n5\n-\n-\n35\n1~`User's Magic`/2\n2100\nRestores a medium amount of HP to an ally.\nAwakening
+Fuschiana\nBow\nE\n4\n75\n10\n5\n2\n-\nBluezie only.  Inflicts magic-based damage.  If this unit is supporting in attack stance, +2 damage dealt\nGates
+Liliputia\nStaff\nE\n-\n-\n-\n30\n1~`User's Magic/5+2` if held by Mathoo, 1~2 otherwise\n-\nShrinks the target.  Increases Avo by 20, but cuts Strength and Defense each in half.\nGates
+Grimea\nDark Tome\nE\n10\n90\n5\n-5\n1~2\n-\nGSO only. After battle that this unit initiates, allies within a 2 tile radius receive +4 Magic for one turn.\nGates
+Bluezie's Bow\nBow\nB\n8\n65\n15\n0\n2\n0\nInflicts magic-based damage. Wielder receives double support points while this weapon is equipped.\nGates
