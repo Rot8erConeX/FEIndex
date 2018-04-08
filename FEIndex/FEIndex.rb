@@ -3207,7 +3207,7 @@ def skill_parse(event,bot,args)
     xcolor=0xC5EEF2 if bob4[5]=="Fates"
     xcolor=0xFFEA8B if bob4[5]=="Gates"
   end
-  create_embed(event,fullname,text,xcolor)
+  create_embed(event,fullname,text,xcolor,nil,"https://inheritance-planner.herokuapp.com/images/skills/#{bob4[0].downcase.gsub(' ','').gsub('+','')}.png")
   return nil
 end
 
