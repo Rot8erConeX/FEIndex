@@ -41,7 +41,7 @@ Paladin\n10\n60\n15\n31\n0\n26\n10\n30\n10\n30\n15\n32\n10\n32\n10\n32\n**Promot
 Great Knight\n20\n65\n20\n35\n0\n25\n10\n29\n5\n27\n5\n28\n20\n37\n0\n28\n**Promotes from:** Cavalier, Knight\nLuna, Armored Blow\nFates\n21\n10\n0\n6\n6\n3\n10\n2\nNohr 
 Knight\n20\n45\n20\n24\n0\n15\n15\n22\n5\n17\n10\n22\n20\n26\n0\n18\n**Promotes to:** Great Knight, General\nDefense +2, Natural Cover\nFates\n19\n8\n0\n5\n3\n3\n8\n1\nNohr 
 General\n25\n70\n20\n38\n0\n25\n15\n32\n0\n25\n10\n32\n20\n40\n5\n30\n**Promotes from:** Knight, Soldier\nWary Fighter, Pavise\nFates\n22\n11\n0\n7\n3\n4\n12\n3\nNohr 
-Fighter\n20\n45\n20\n25\n0\n15\n10\n23\n5\n22\n15\n21\n10\n19\n5\n18\n**Promotes to:** Berserker, Hero\nHP +5, Gamble\nFates\n19\n7\n0\n6\n6\n2\n4\n1\nNohr 
+Fighter\n20\n45\n20\n25\n0\n15\n15\n23\n15\n22\n5\n21\n5\n19\n0\n18\n**Promotes to:** Berserker, Hero\nHP +5, Gamble\nFates\n19\n7\n0\n6\n6\n2\n4\n1\nNohr 
 Berserker\n30\n70\n25\n40\n0\n25\n15\n32\n15\n33\n0\n25\n0\n27\n0\n25\n**Promotes from:** Fighter\nRally Strengh, Axefaire\nFates\n24\n12\n0\n8\n9\n0\n5\n0\nNohr 
 Mercenary\n10\n40\n15\n22\n0\n15\n20\n24\n15\n22\n5\n20\n10\n21\n5\n19\n**Promotes to:** Hero, Bow Knight\nGood Fortune, Strong Risposte\nFates\n17\n5\n0\n7\n6\n2\n5\n2\nNohr 
 Hero\n20\n60\n15\n32\n0\n25\n20\n35\n15\n32\n5\n31\n10\n30\n0\n27\n**Promotes from:** Fighter, Mercenary\nSol, Axebreaker\nFates\n20\n8\n0\n10\n8\n3\n7\n2\nNohr 
