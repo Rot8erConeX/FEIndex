@@ -4385,6 +4385,11 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   end
   k=0
   k=event.server.id unless event.server.nil?
+  b=[]
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb').each_line do |line|
+    l=line.gsub(' ','').gsub("\n",'')
+    b.push(l) unless l.length<=0
+  end
   unless event.user.id==167657750971547648 && !f.nil?
     bot.servers.values(&:members)
     event << "I am in #{longFormattedNumber(@server_data2[0].inject(0){|sum,x| sum + x })} servers, reaching #{longFormattedNumber(@server_data2[1].inject(0){|sum,x| sum + x })} unique members."
@@ -4398,6 +4403,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     event << "I keep track of #{@names.length} aliases."
     event << ''
     event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long."
+    event << "Of those, #{longFormattedNumber(b.length)} are SLOC (non-empty)."
     return nil
   end
   if f.to_i.to_s==f
@@ -4422,6 +4428,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   event << "I keep track of #{@names.length} aliases."
   event << ''
   event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long."
+  event << "Of those, #{longFormattedNumber(b.length)} are SLOC (non-empty)."
   return nil
 end
 
