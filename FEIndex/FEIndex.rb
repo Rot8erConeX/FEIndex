@@ -62,9 +62,9 @@ def all_commands(include_nil=false)
 end
 
 def nicknames_load()
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames.txt')
+  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt')
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames.txt').each_line do |line|
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt').each_line do |line|
       b.push(eval line)
     end
   else
@@ -80,9 +80,9 @@ def nicknames_load()
 end
 
 def metadata_load()
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESave.txt')
+  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FESave.txt')
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESave.txt').each_line do |line|
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FESave.txt').each_line do |line|
       b.push(eval line)
     end
   else
@@ -98,7 +98,7 @@ end
 
 def metadata_save()
   x=[@embedless.map{|q| q}, @ignored.map{|q| q}, @server_data2.map{|q| q}]
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESave.txt', 'w') { |f|
+  open('C:/Users/Mini-Matt/Desktop/devkit/FESave.txt', 'w') { |f|
     f.puts x[0].to_s
     f.puts x[1].to_s
     f.puts x[2].to_s
@@ -108,7 +108,7 @@ end
 
 bot.command(:reboot, from: 167657750971547648) do |event|
   return nil unless event.user.id==167657750971547648
-  exec "cd C:/Users/Mini-Matt/Desktop/devkit/FEIndex && feindex.rb #{shardizard}"
+  exec "cd C:/Users/Mini-Matt/Desktop/devkit && feindex.rb #{shardizard}"
 end
 
 bot.command(:help) do |event, command|
@@ -325,7 +325,7 @@ def embed_color(path)
   if path[0,"*Fates*: Capturable boss in ".length]=="*Fates*: Capturable boss in "
     kid=path["*Fates*: Capturable boss in ".length,path.length-"*Fates*: Capturable boss in 's paralogue".length]
     @bob2=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt').each_line do |line|
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
       if line[0,kid.length].downcase==kid.downcase
         line.each_line('\n') {|s| @bob2.push(s[0,s.length-2])}
       end
@@ -658,7 +658,7 @@ def gender_adjust(clss,gender,singleclass=false,game="Fates")
 end
 
 def get_path(kid)
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
     bob4=[]
     line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
     return bob4[1] if bob4[0].downcase==kid.downcase
@@ -694,7 +694,7 @@ end
 
 def find_twitter_icon(name)
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FETwitter.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt').each_line do |line|
     bob4.push(line[0,line.length-1])
   end
   for i in 0...bob4.length
@@ -929,7 +929,7 @@ def x_find_class(name,event,game="")
   return nil if name.length<4
   # Match the class from the game first...
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEClasses.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
     bob4=[]
     if line.gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase
       line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
@@ -938,7 +938,7 @@ def x_find_class(name,event,game="")
   end
   # ...only if that fails try the class from another game
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEClasses.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
     bob4=[]
     if line.gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase
       line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
@@ -975,7 +975,7 @@ def find_overlap(route1, route2, parentname=nil)
   elsif route1[0,"Capturable boss in ".length]=="Capturable boss in "
     kid=route1["Capturable boss in ".length,route1.length-"Capturable boss in 's paralogue".length]
     @bob2=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt').each_line do |line|
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
       if line[0,kid.length].downcase==kid.downcase
         line.each_line('\n') {|s| @bob2.push(s[0,s.length-2])}
       end
@@ -991,7 +991,7 @@ def find_overlap(route1, route2, parentname=nil)
   elsif route2[0,"Capturable boss in ".length]=="Capturable boss in "
     kid=route2["Capturable boss in ".length,route2.length-"Capturable boss in 's paralogue".length]
     @bob2=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt').each_line do |line|
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
       if line[0,kid.length].downcase==kid.downcase
         line.each_line('\n') {|s| @bob2.push(s[0,s.length-2])}
       end
@@ -1111,7 +1111,7 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
       @mom=["Robin","*Awakening*",g[0],g[1],m[1],g[2],m[2],g[3],m[3],g[4],m[4],g[5],m[5],g[6],m[6],g[7],m[7],"","**Heart Seal:** #{c}","1c","",c,""]
     end
   end
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
     if line[0,kidname.length].downcase==kidname.downcase
       line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
     end
@@ -2067,7 +2067,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   end
   # first tries full names of in-game characters
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
     bob4=[]
     line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
     bob4[0]="n" if bob4[0]=="Lucina" && bob4[1]=="Amiibo Character" && xgame=="Awakening"
@@ -2141,7 +2141,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   return find_unit("Fates","Selena",event) if "severa"[0,name.length]==name.downcase && xgame=="Fates"
   return find_unit("Fates","Odin",event) if "owain"[0,name.length]==name.downcase && xgame=="Fates"
   return find_unit("Fates","Laslow",event) if "inigo"[0,name.length]==name.downcase && xgame=="Fates"
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
     bob4=[]
     if line[0,name.length].downcase==name.downcase
       line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
@@ -2518,119 +2518,140 @@ def class_parse(event,bot,args)
   return nil
 end
 
-def x_find_skill(game,name,event)
+def x_find_skill(game,name,event,fullname=false)
   if !name.nil? && name.downcase.gsub(' ','').gsub('_','')[0,2]=="<:"
-    name=name.split(':')[1] unless x_find_skill(game,name.split(':')[1],event).nil?
+    name=name.split(':')[1] unless x_find_skill(game,name.split(':')[1],event,fullname).nil?
   end
   name=normalize(name) unless name.nil?
-  if name.length>=5
-    return x_find_skill(game,"Armored Blow",event) if "armouredblow"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
-  end
-  if name.length>=6
-    return x_find_skill(game,"Defensetaker",event) if "defencetaker"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
+  if fullname
+    if name.length>=5
+      return x_find_skill(game,"Armored Blow",event,fullname) if "armouredblow"==name.gsub(' ','').downcase
+    end
+    if name.length>=6
+      return x_find_skill(game,"Defensetaker",event,fullname) if "defencetaker"==name.gsub(' ','').downcase
+    end
+  else
+    if name.length>=5
+      return x_find_skill(game,"Armored Blow",event,fullname) if "armouredblow"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
+    end
+    if name.length>=6
+      return x_find_skill(game,"Defensetaker",event,fullname) if "defencetaker"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
+    end
   end
   # try skill from the specific game
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESkills.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
     bob4=[]
     line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
     return bob4 if bob4[0].gsub(' ','').downcase==name.gsub(' ','').downcase && bob4[5]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
   end
-  bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESkills.txt').each_line do |line|
+  unless fullname
     bob4=[]
-    line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-    return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && bob4[5]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
+      bob4=[]
+      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
+      return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && bob4[5]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
+    end
   end
   # then try generic skill
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESkills.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
     bob4=[]
     line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
     return bob4 if bob4[0].gsub(' ','').downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
   end
-  bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESkills.txt').each_line do |line|
+  unless fullname
     bob4=[]
-    line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-    return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
+      bob4=[]
+      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
+      return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
+    end
   end
   return nil
 end
 
-def find_skill(game,name,event)
-  return x_find_skill(game,name,event) unless x_find_skill(game,name,event).nil?
-  if x_find_skill(game,name,event).nil?
+def find_skill(game,name,event,fullname=false)
+  return x_find_skill(game,name,event,fullname) unless x_find_skill(game,name,event,fullname).nil?
+  if x_find_skill(game,name,event,fullname).nil?
     args=name.split(' ')
     for i in 0...args.length
-      return x_find_skill(game,args[0,args.length-i].join(' '),event) unless x_find_skill(game,args[0,args.length-i].join(' '),event).nil?
+      return x_find_skill(game,args[0,args.length-i].join(' '),event,fullname) unless x_find_skill(game,args[0,args.length-i].join(' '),event,fullname).nil?
     end
     for i in 0...args.length
-      return x_find_skill(game,args[i,args.length-i].join(' '),event) unless x_find_skill(game,args[i,args.length-i].join(' '),event).nil?
+      return x_find_skill(game,args[i,args.length-i].join(' '),event,fullname) unless x_find_skill(game,args[i,args.length-i].join(' '),event,fullname).nil?
       for j in 0...args.length-i
-        return x_find_skill(game,args[i,args.length-i-j].join(' '),event) unless x_find_skill(game,args[i,args.length-i-j].join(' '),event).nil?
+        return x_find_skill(game,args[i,args.length-i-j].join(' '),event,fullname) unless x_find_skill(game,args[i,args.length-i-j].join(' '),event,fullname).nil?
       end
     end
   end
   return nil
 end
 
-def x_find_item(game,name,event)
+def x_find_item(game,name,event,fullname=false)
   if !name.nil? && name.downcase.gsub(' ','').gsub('_','')[0,2]=="<:"
-    name=name.split(':')[1] unless x_find_item(game,name.split(':')[1],event).nil?
+    name=name.split(':')[1] unless x_find_item(game,name.split(':')[1],event,fullname).nil?
   end
   name=normalize(name) unless name.nil?
-  if name.length>=5
-    return x_find_item(game,"Armorslayer",event) if "armourslayer"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
+  if fullname
+    if name.length>=5
+      return x_find_item(game,"Armorslayer",event,fullname) if "armourslayer"==name.gsub(' ','').downcase
+    end
+  elsif name.length>=5
+    return x_find_item(game,"Armorslayer",event,fullname) if "armourslayer"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
   end
   # try item from the specific game
   name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEItems.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
     bob4=[]
     "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
     return bob4 if bob4[0].gsub(' ','').downcase==name.gsub(' ','').downcase && bob4[10]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
   end
-  if bob4[0][0,name.length].downcase != name.downcase
-    bob4=[]
-    name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"[0,name.gsub(' ','').length] && name.gsub(' ','').length>3
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEItems.txt').each_line do |line|
+  unless fullname
+    if bob4[0][0,name.length].downcase != name.downcase
       bob4=[]
-      "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-      return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && bob4[10]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
+      name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"[0,name.gsub(' ','').length] && name.gsub(' ','').length>3
+      File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
+        bob4=[]
+        "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
+        return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && bob4[10]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
+      end
     end
   end
   # then try generic item
   name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEItems.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
     bob4=[]
     "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
     return bob4 if bob4[0].gsub(' ','').downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
   end
-  if bob4[0][0,name.length].downcase != name.downcase
-    bob4=[]
-    name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"[0,name.gsub(' ','').length] && name.gsub(' ','').length>3
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEItems.txt').each_line do |line|
+  unless fullname
+    if bob4[0][0,name.length].downcase != name.downcase
       bob4=[]
-      "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-      return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
+      name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"[0,name.gsub(' ','').length] && name.gsub(' ','').length>3
+      File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
+        bob4=[]
+        "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
+        return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
+      end
     end
   end
   return ["kvsnokfdn"]
 end
 
-def find_item(game,name,event)
-  return x_find_item(game,name,event) unless x_find_item(game,name,event).nil?
-  if x_find_item(game,name,event).nil?
+def find_item(game,name,event,fullname=false)
+  return x_find_item(game,name,event,fullname) unless x_find_item(game,name,event,fullname)==["kvsnokfdn"]
+  if x_find_item(game,name,event,fullname)==["kvsnokfdn"]
     args=name.split(' ')
     for i in 0...args.length
-      return x_find_item(game,args[0,args.length-i].join(' '),event) unless x_find_item(game,args[0,args.length-i].join(' '),event).nil?
+      return x_find_item(game,args[0,args.length-i].join(' '),event,fullname) unless x_find_item(game,args[0,args.length-i].join(' '),event,fullname)==["kvsnokfdn"]
     end
     for i in 0...args.length
-      return x_find_item(game,args[i,args.length-i].join(' '),event) unless x_find_item(game,args[i,args.length-i].join(' '),event).nil?
+      return x_find_item(game,args[i,args.length-i].join(' '),event,fullname) unless x_find_item(game,args[i,args.length-i].join(' '),event,fullname)==["kvsnokfdn"]
       for j in 0...args.length-i
-        return x_find_item(game,args[i,args.length-i-j].join(' '),event) unless x_find_item(game,args[i,args.length-i-j].join(' '),event).nil?
+        return x_find_item(game,args[i,args.length-i-j].join(' '),event,fullname) unless x_find_item(game,args[i,args.length-i-j].join(' '),event,fullname)==["kvsnokfdn"]
       end
     end
   end
@@ -3329,6 +3350,24 @@ def item_parse(event,bot,args,mde=0)
   create_embed(event,fullname,text,xcolor)
 end
 
+def remove_format(s,format)
+  if format.length==1
+    s=s.gsub("#{'\\'[0,1]}#{format}",'')
+  else
+    s=s.gsub("#{'\\'[0,1]}#{format}",format[1,format.length-1])
+  end
+  for i in 0...[s.length,25].min
+    f=s.index(format)
+    unless f.nil?
+      f2=s.index(format,f+format.length)
+      unless f2.nil?
+        s="#{s[0,f]}|#{s[f2+format.length,s.length-f2-format.length+1]}"
+      end
+    end
+  end
+  return s
+end
+
 bot.command([:embeds,:embed]) do |event|
   metadata_load()
   if @embedless.include?(event.user.id)
@@ -3356,7 +3395,7 @@ bot.command([:gay,:homosexuality,:homo]) do |event, m|
     @server_data[j][1]=true if ['on','yes','true'].include?(m.downcase)
     @server_data[j][1]=false if ['off','no','false'].include?(m.downcase)
   end
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex-large-server.sav', 'w') { |f|
+  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
     f << @server_data.to_s
   }
   event << "The homosexuality filter for this server has been #{"raised" unless @server_data[j][1]}#{"lowered" if @server_data[j][1]}."
@@ -3378,7 +3417,7 @@ bot.command([:sibling,:incest,:wincest]) do |event, m|
     @server_data[j][2]=true if ['on','yes','true'].include?(m.downcase)
     @server_data[j][2]=false if ['off','no','false'].include?(m.downcase)
   end
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex-large-server.sav', 'w') { |f|
+  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
     f << @server_data.to_s
   }
   event << "The incest filter for this server has been #{"raised" unless @server_data[j][2]}#{"lowered" if @server_data[j][2]}."
@@ -3523,7 +3562,7 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
   end
   @names.uniq!
   nzzz=@names.map{|a| a}
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames.txt', 'w') { |f|
+  open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
     for i in 0...nzzz.length
       f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
     end
@@ -3532,7 +3571,7 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
   nzzz=@names.map{|a| a}
   if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][1]>="Xander"
     bot.channel(logchn).send_message("Alias list saved.")
-    open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames2.txt', 'w') { |f|
+    open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt', 'w') { |f|
       for i in 0...nzzz.length
         f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
       end
@@ -3670,7 +3709,7 @@ bot.command([:deletealias,:removealias]) do |event, name|
   end
   @names.uniq!
   @names.compact!
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames.txt', 'w') { |f|
+  open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
     for i in 0...@names.length
       f.puts "#{@names[i].to_s}#{"\n" if i<@names.length-1}"
     end
@@ -4143,40 +4182,40 @@ bot.ready do |event|
     end
   end
   bot.game="booting, please wait..."
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt')
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt')
     download = open('http://pastebin.com/raw/0uU5MKEC')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt')
+    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt')
   end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEClasses.txt')
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
     download = open('http://pastebin.com/raw/pv0s1TDW')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEClasses.txt')
+    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
   else
     clsses=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEClasses.txt').each_line do |line|
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
       bob4=[]
       line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
       clsses.push(bob4)
     end
     if clsses[0].length<=28
       download = open('http://pastebin.com/raw/pv0s1TDW')
-      IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEClasses.txt')
+      IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
     end
   end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FETwitter.txt')
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
     download = open('http://pastebin.com/raw/43UKARGi')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FETwitter.txt')
+    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
   end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESkills.txt')
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
     download = open('http://pastebin.com/raw/SwjaqjWu')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESkills.txt')
+    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
   end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEItems.txt')
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt')
     download = open('http://pastebin.com/raw/xZc4C7Tp')
-    IO.copy_stream(download, 'FC:/Users/Mini-Matt/Desktop/devkit/FEIndex/EItems.txt')
+    IO.copy_stream(download, 'FC:/Users/Mini-Matt/Desktop/devkit/EItems.txt')
   end
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex-large-server.sav')
+  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav')
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex-large-server.sav').each_line do |line|
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav').each_line do |line|
       b.push(eval line)
     end
     @server_data=b[0]
@@ -4186,7 +4225,7 @@ bot.ready do |event|
       @server_data.push([bot.servers.values[i].id, false, false])
     end
   end
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex-large-server.sav', 'w') { |f|
+  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
     f << @server_data.to_s
   }
   metadata_load()
@@ -4221,15 +4260,21 @@ bot.message do |event|
     str=str[5,str.length-5] if ['fe13!','fe14!'].include?(str[0,5])
     str=str[3,str.length-3] if ['fe!'].include?(str[0,3])
     args=str.split(' ')
+    puts event.message.text
     unless all_commands().include?(args[0])
-      m=parse_job(event,args,bot,1)
+      game=""
+      game="Awakening" if event.message.text[0,4].downcase=="fea!"
+      game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+      game="Fates" if event.message.text[0,4].downcase=="fef!"
+      game="Fates" if event.message.text[0,5].downcase=="fe14!"
+      m=-1
+      m=parse_job(event,args,bot,1) unless !find_skill(game,args.join(' '),event,true).nil? || !find_item(game,args.join(' '),event,true).nil?
       if m<0
-        game=""
-        game="Awakening" if event.message.text[0,4].downcase=="fea!"
-        game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-        game="Fates" if event.message.text[0,4].downcase=="fef!"
-        game="Fates" if event.message.text[0,5].downcase=="fe14!"
-        if !find_skill(game,args.join(' '),event).nil?
+        if !find_skill(game,args.join(' '),event,true).nil?
+          skill_parse(event,bot,args)
+        elsif !find_item(game,args.join(' '),event,true).nil?
+          item_parse(event,bot,args,1)
+        elsif !find_skill(game,args.join(' '),event).nil?
           skill_parse(event,bot,args)
         elsif !find_item(game,args.join(' '),event).nil?
           item_parse(event,bot,args,1)
@@ -4259,7 +4304,7 @@ bot.command(:backup) do |event|
     return nil
   end
   nzzzzz=@names.map{|a| a}
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames2.txt', 'w') { |f|
+  open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt', 'w') { |f|
     for i in 0...nzzzzz.length
       f.puts "#{nzzzzz[i].to_s}#{"\n" if i<nzzzzz.length-1}"
     end
@@ -4271,9 +4316,9 @@ end
 bot.command(:restore) do |event|
   return nil unless [167657750971547648,bot.profile.id].include?(event.user.id) || event.channel.id==386658080257212417
   bot.gateway.check_heartbeat_acks = false
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames2.txt')
+  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt')
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames2.txt').each_line do |line|
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt').each_line do |line|
       b.push(eval line)
     end
   else
@@ -4282,9 +4327,9 @@ bot.command(:restore) do |event|
   nzzzzz=b.uniq
   if nzzzzz[nzzzzz.length-1][1]<"Zephiel"
     event << "Last backup of the alias list has been corrupted.  Restoring from manually-created backup."
-    if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames3.txt')
+    if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FENames3.txt')
       b=[]
-      File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames3.txt').each_line do |line|
+      File.open('C:/Users/Mini-Matt/Desktop/devkit/FENames3.txt').each_line do |line|
         b.push(eval line)
       end
     else
@@ -4294,7 +4339,7 @@ bot.command(:restore) do |event|
   else
     event << "Last backup of the alias list being used."
   end
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames.txt', 'w') { |f|
+  open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
     for i in 0...nzzzzz.length
       f.puts "#{nzzzzz[i].to_s}#{"\n" if i<nzzzzz.length-1}"
     end
@@ -4306,7 +4351,7 @@ bot.command(:sort) do |event|
   nicknames_load()
   @names.uniq!
   @names.sort! {|a,b| (a[1].downcase <=> b[1].downcase) == 0 ? (a[0].downcase <=> b[0].downcase) : (a[1].downcase <=> b[1].downcase)}
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FENames.txt', 'w') { |f|
+  open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
     for i in 0...@names.length
       f.puts "#{@names[i].to_s}#{"\n" if i<@names.length-1}"
     end
@@ -4322,19 +4367,19 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   @server_data2[1][shardizard]=bot.users.size
   metadata_save()
   numbers=[0,0,0,0,0,0,0,0]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEChars.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
     numbers[0]+=1
     numbers[1]+=1 unless line.include?("Exclusive to *Gates*")
   end
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEClasses.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
     numbers[2]+=1
     numbers[3]+=1 unless line.include?("Penumbra")
   end
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FESkills.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
     numbers[4]+=1
     numbers[5]+=1 unless line.include?("Gates")
   end
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEItems.txt').each_line do |line|
+  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
     numbers[6]+=1
     numbers[7]+=1 unless line.include?("Gates")
   end
@@ -4352,7 +4397,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     event << ''
     event << "I keep track of #{@names.length} aliases."
     event << ''
-    event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long."
+    event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long."
     return nil
   end
   if f.to_i.to_s==f
@@ -4376,7 +4421,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   event << ''
   event << "I keep track of #{@names.length} aliases."
   event << ''
-  event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long."
+  event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long."
   return nil
 end
 
@@ -4439,7 +4484,7 @@ bot.server_create do |event|
   else
     bot.user(167657750971547648).pm("Joined server **#{event.server.name}** (#{event.server.id})\nOwner: #{event.server.owner.distinct} (#{event.server.owner.id})")
     @server_data.push([event.server.id,false,false])
-    open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex/FEIndex-large-server.sav', 'w') { |f|
+    open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
       f << @server_data.to_s
     }
     chn.send_message("Grr, where have I been woken up this time?") rescue nil
