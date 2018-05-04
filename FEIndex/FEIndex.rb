@@ -1,5 +1,6 @@
-shardizard = ARGV.first.to_i             # taking a single variable from the command prompt to get the shard value
-system("title loading #{'Golden' if shardizard==4} FEIndex")
+@shardizard = ARGV.first.to_i             # taking a single variable from the command prompt to get the shard value
+system("color 0#{"BCD0E"[@shardizard,1]}") # command prompt color and title determined by the shard
+system("title loading #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} FEIndex")
 
 require 'discordrb' # Download link: https://github.com/meew0/discordrb
 require 'open-uri' # pre-installed with Ruby in Windows
@@ -11,10 +12,10 @@ require 'net/http'
            'FE13!','fe13!','Fe13!','fE13!','FEA!','FEa!','FeA!','Fea!','fEA!','fEa!','feA!','fea!']
 
 # The bot's token is basically their password, so is censored for obvious reasons
-if shardizard==4
+if @shardizard==4
   bot = Discordrb::Commands::CommandBot.new token: '>Debug Token<', client_id: >Debug ID<, prefix: @prefix
 else
-  bot = Discordrb::Commands::CommandBot.new token: '>Main Token<', client_id: 304652483299377182, prefix: @prefix
+  bot = Discordrb::Commands::CommandBot.new token: '>Main Token<', shard_id: @shardizard, num_shards: 3, client_id: 304652483299377182, prefix: @prefix
 end
 bot.gateway.check_heartbeat_acks = false
 bot.should_parse_self = false
@@ -56,7 +57,7 @@ bot.should_parse_self = false
 @server_data=[]
 
 def all_commands(include_nil=false)
-  k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character','class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats','reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backup','restore','sort','deletealias','checkaliases','aliases','embeds']
+  k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character','class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats','reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backup','restore','sort','deletealias','checkaliases','aliases','embeds','snagchannels','shard','alliance']
   k[0]=nil if include_nil
   return k
 end
@@ -108,7 +109,7 @@ end
 
 bot.command(:reboot, from: 167657750971547648) do |event|
   return nil unless event.user.id==167657750971547648
-  exec "cd C:/Users/Mini-Matt/Desktop/devkit && feindex.rb #{shardizard}"
+  exec "cd C:/Users/Mini-Matt/Desktop/devkit && feindex.rb #{@shardizard}"
 end
 
 bot.command(:help) do |event, command|
@@ -147,6 +148,8 @@ bot.command(:help) do |event, command|
     create_embed(event,'**invite**',"PMs the invoker with a link to invite me to their server.",0x40C0F0)
   elsif command.downcase=="unit"
     create_embed(event,"**unit** __name1__ __name2__ __name3__","parses the names listed to create a unit, whose stats are then displayed\nIf one unit is listed, displays that unit's default stats\nIf two units are listed, uses the first-gen to create a specialized kid\nIf three units are listed, uses the first-gen to create a specialized second-gen which is used to create a super-specialized Kana/Morgan\n\nUnits can be listed in any order.  The command will arrange them correctly.\nIf multiple units from the same generation are listed, the command will use the first listed and ignore all others\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x31CC24)
+  elsif ["shard","alliance"].include?(command.downcase)
+    create_embed(event,'**shard**',"Returns the shard that this server is served by, labeled as if it was an alliance between a country in *Awakening* with a country in *Fates*.",0x31CC24)
   elsif command.downcase=="class"
     create_embed(event,"**class** __name__","displays the stats of the named class\n\nThis command informs you if you do not list a class.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x31CC24)
   elsif ["data","job","stats"].include?(command.downcase)
@@ -175,7 +178,7 @@ bot.command(:help) do |event, command|
     create_embed(event,"**proc** __stat__ __list of skills__","Shows the likelihood of each of the listed skills proc'ing, given a unit's Skill stat is `stat`.\nIncluding the skills 'Hoshidan Unity' and/or 'Quixotic' will increases chances accordingly.\nIncluding the skill 'Nohrian Trust' allows you to have more than five skills listed.\n\nIf no Skill stat is listed, shows a random number between 1 and 64.\nIf no proc skills are listed, shows the list as if you have all possible proc skills.\n\nUsing a negative number as the Skill stat, crossing out one or more skill names, or including the word 'not' in your message will change the command to Reverse Mode.\nIn Reverse Mode, the listed skills will be *excluded* from the list of all proc skills, and the result will be the list of skills you have.",0x31CC24)
   else
     event.respond("#{command.downcase} is not a command.") if command != ""
-    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__",0x31CC24)
+    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x31CC24)
     create_embed(event,"__**Server Admin Commands**__","__**Unit Aliases**__\n`addalias` __new alias__ __unit__ - Adds a new server-specific alias\n~~`aliases` __unit__ (*also `checkaliases` or `seealiases`*)~~\n`deletealias` __alias__ (*also `removealias`*) - deletes a server-specific alias",0xC31C19) if is_mod?(event.user,event.server,event.channel)
     create_embed(event,"__**Bot Developer Commands**__","`ignoreuser` __user id number__ - makes me ignore a user\n`leaveserver` __server id number__ - makes me leave a server\n\n`sendpm` __user id number__ __\\*message__ - sends a PM to a user\n`sendmessage` __channel id__ __\\*message__ - sends a message to a specific channel\n\n`snagstats` - snags server stats for multiple servers\n\n`reboot` - reboots this shard\n\n`backup` - backs up the alias list\n`restore` - restores the alias list from last backup\n`sort` - sorts the alias list alphabetically by unit",0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
     event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FE13!`\n*Fates* mechanics: `FEF!` `FE14!`\nDetermine mechanics contextually: `FE!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command"
@@ -3440,7 +3443,7 @@ bot.command([:bugreport, :suggestion, :feedback]) do |event, *args|
   if event.server.nil?
     s="**#{s3} sent by PM**"
   else
-    s="**Server:** #{event.server.name} (#{event.server.id}) - #{['Transparent','Scarlet','Azure','Verdant'][(event.server.id >> 22) % 4]} Shard\n**Channel:** #{event.channel.name} (#{event.channel.id})"
+    s="**Server:** #{event.server.name} (#{event.server.id}) - #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(event.server.id >> 22) % 3]} Alliance\n**Channel:** #{event.channel.name} (#{event.channel.id})"
   end
   bot.user(167657750971547648).pm("#{s}\n**User:** #{event.user.distinct} (#{event.user.id})\n**#{s3}:** #{args.join(' ')}#{s2}")
   s3="Bug" if s3=="Bug Report"
@@ -3484,7 +3487,7 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
   end
   newname=newname.gsub('!','').gsub('(','').gsub(')','').gsub('_','')
   logchn=386658080257212417
-  logchn=431862993194582036 if shardizard==4
+  logchn=431862993194582036 if @shardizard==4
   srv=0
   srv=event.server.id unless event.server.nil?
   srv=modifier.to_i if event.user.id==167657750971547648 && modifier.to_i.to_s==modifier
@@ -3709,17 +3712,35 @@ bot.command([:deletealias,:removealias]) do |event, name|
   end
   @names.uniq!
   @names.compact!
+  logchn=386658080257212417
+  logchn=431862993194582036 if @shardizard==4
+  srv=0
+  srv=event.server.id unless event.server.nil?
+  srvname="PM with dev"
+  srvname=bot.server(srv).name unless event.server.nil? && srv==0
+  bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n~~**Alias:** #{name} for #{j[0]}~~ **DELETED**.")
   open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
     for i in 0...@names.length
       f.puts "#{@names[i].to_s}#{"\n" if i<@names.length-1}"
     end
   }
-  event.respond "#{name} has been removed from #{j[0]}'s aliases."
+  nicknames_load()
+  event.respond "#{name} has been removed from #{j[0]}'s names."
+  nzzz=@names.map{|a| a}
+  if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][1]>="Zephiel"
+    bot.channel(logchn).send_message("Alias list saved.")
+    open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt', 'w') { |f|
+      for i in 0...nzzz.length
+        f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
+      end
+    }
+    bot.channel(logchn).send_message("Alias list has been backed up.")
+  end
 end
 
 bot.command(:invite) do |event, user|
   usr=event.user
-  txt="You can invite me to your server with this link: <https://goo.gl/f1wSGd>\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nIf you suggested me to server mods and they ask what I do, show them this image: https://orig00.deviantart.net/a1d7/f/2017/288/d/6/marketing___robin_by_rot8erconex-dbqoba5.png"
+  txt="You can invite me to your server with this link: <https://goo.gl/v3ADBG>\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nIf you suggested me to server mods and they ask what I do, show them this image: https://orig00.deviantart.net/a1d7/f/2017/288/d/6/marketing___robin_by_rot8erconex-dbqoba5.png"
   user_to_name="you"
   unless user.nil?
     if /<@!?(?:\d+)>/ =~ user
@@ -4001,6 +4022,9 @@ bot.command(:marry) do |event, name1, name2|
   elsif !get_child(name2,bob1[19][1,1],event).nil?
     event << "#{name1}!#{get_child(name2,bob1[19][1,1],event)} is born"
   end
+  if [name1,name2].include?('Takumi') && [name1,name2].include?('Azura')
+    event << "My developer becomes happy that someone else ships best *Fates* ship."
+  end
 end
 
 bot.command([:item,:weapon]) do |event, *args|
@@ -4172,126 +4196,6 @@ bot.command(:faq) do |event, inp|
   end
 end
 
-bot.ready do |event|
-  if shardizard==4
-    for i in 0...bot.servers.values.length
-      if bot.servers.values[i].id != 285663217261477889
-        bot.servers.values[i].general_channel.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/Hf9RNj>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/f1wSGd>") rescue nil
-        bot.servers.values[i].leave
-      end
-    end
-  end
-  bot.game="booting, please wait..."
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt')
-    download = open('http://pastebin.com/raw/0uU5MKEC')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt')
-  end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
-    download = open('http://pastebin.com/raw/pv0s1TDW')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
-  else
-    clsses=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
-      bob4=[]
-      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-      clsses.push(bob4)
-    end
-    if clsses[0].length<=28
-      download = open('http://pastebin.com/raw/pv0s1TDW')
-      IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
-    end
-  end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
-    download = open('http://pastebin.com/raw/43UKARGi')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
-  end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
-    download = open('http://pastebin.com/raw/SwjaqjWu')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
-  end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt')
-    download = open('http://pastebin.com/raw/xZc4C7Tp')
-    IO.copy_stream(download, 'FC:/Users/Mini-Matt/Desktop/devkit/EItems.txt')
-  end
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav')
-    b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav').each_line do |line|
-      b.push(eval line)
-    end
-    @server_data=b[0]
-  else
-    @server_data=[[285663217261477889, false, false]]
-    for i in 0...bot.servers.values.length
-      @server_data.push([bot.servers.values[i].id, false, false])
-    end
-  end
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
-    f << @server_data.to_s
-  }
-  metadata_load()
-  if @ignored.length>0
-    for i in 0...@ignored.length
-      bot.ignore_user(@ignored[i].to_i)
-    end
-  end
-  metadata_save()
-  bot.game="Fire Emblem Awakening / Fates" if [0,4].include?(shardizard)
-  bot.user(bot.profile.id).on(285663217261477889).nickname="FEIndex (RobinDebug)" if shardizard==4
-  bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/DebugRobin.png','r')) if shardizard==4
-  system("color 1b")
-  system("title #{'Golden' if shardizard==4} FEIndex")
-end
-
-bot.message do |event|
-  str=event.message.text.downcase
-  if (['feh!','feh?'].include?(str[0,4]) || ['f?','e?','h?'].include?(str[0,2])) && shardizard==4
-    s=event.message.text.downcase
-    s=s[2,s.length-2] if ['f?','e?','h?'].include?(event.message.text.downcase[0,2])
-    s=s[4,s.length-4] if ['feh!','feh?'].include?(event.message.text.downcase[0,4])
-    a=s.split(' ')
-    if a[0].downcase=='reboot'
-      event.respond "Becoming Elise.  Please wait approximately ten seconds..."
-      exec "cd C:/Users/Mini-Matt/Desktop/devkit && PriscillaBot.rb 4"
-    else
-      event.respond "I am not Elise right now.  Please use `FEH!reboot` to turn me into Elise."
-    end
-  elsif ['fea!','fef!'].include?(str[0,4]) || ['fe13!','fe14!'].include?(str[0,5]) || ['fe!'].include?(str[0,3])
-    str=str[4,str.length-4] if ['fea!','fef!'].include?(str[0,4])
-    str=str[5,str.length-5] if ['fe13!','fe14!'].include?(str[0,5])
-    str=str[3,str.length-3] if ['fe!'].include?(str[0,3])
-    args=str.split(' ')
-    puts event.message.text
-    unless all_commands().include?(args[0])
-      game=""
-      game="Awakening" if event.message.text[0,4].downcase=="fea!"
-      game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-      game="Fates" if event.message.text[0,4].downcase=="fef!"
-      game="Fates" if event.message.text[0,5].downcase=="fe14!"
-      m=-1
-      m=parse_job(event,args,bot,1) unless !find_skill(game,args.join(' '),event,true).nil? || !find_item(game,args.join(' '),event,true).nil?
-      if m<0
-        if !find_skill(game,args.join(' '),event,true).nil?
-          skill_parse(event,bot,args)
-        elsif !find_item(game,args.join(' '),event,true).nil?
-          item_parse(event,bot,args,1)
-        elsif !find_skill(game,args.join(' '),event).nil?
-          skill_parse(event,bot,args)
-        elsif !find_item(game,args.join(' '),event).nil?
-          item_parse(event,bot,args,1)
-        end
-      end
-    end
-  elsif event.message.text.include?('0x4') && !event.user.bot_account?
-    s=event.message.text
-    s=remove_format(s,'```')              # remove large code blocks
-    s=remove_format(s,'`')                # remove small code blocks
-    s=remove_format(s,'~~')               # remove crossed-out text
-    if s=='0x4' || s[0,4]=='0x4 ' || s[s.length-4,4]==' 0x4' || s.include?(' 0x4 ')
-      event.respond "#{"#{event.user.mention} " unless event.server.nil?}I am not Elise right now, but I have responded in case you're checking my response time."
-    end
-  end
-end
-
 bot.command(:backup) do |event|
   return nil unless event.user.id==167657750971547648
   nicknames_load()
@@ -4363,8 +4267,8 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   nicknames_load()
   metadata_load()
   bot.servers.values(&:members)
-  @server_data2[0][shardizard]=bot.servers.length
-  @server_data2[1][shardizard]=bot.users.size
+  @server_data2[0][@shardizard]=bot.servers.length
+  @server_data2[1][@shardizard]=bot.users.size
   metadata_save()
   numbers=[0,0,0,0,0,0,0,0]
   File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
@@ -4393,7 +4297,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   unless event.user.id==167657750971547648 && !f.nil?
     bot.servers.values(&:members)
     event << "I am in #{longFormattedNumber(@server_data2[0].inject(0){|sum,x| sum + x })} servers, reaching #{longFormattedNumber(@server_data2[1].inject(0){|sum,x| sum + x })} unique members."
-    event << "This shard is in #{longFormattedNumber(@server_data2[0][shardizard])} servers, reaching #{longFormattedNumber(@server_data2[1][shardizard])} unique members."
+    event << "This shard is in #{longFormattedNumber(@server_data2[0][@shardizard])} servers, reaching #{longFormattedNumber(@server_data2[1][@shardizard])} unique members."
     event << ''
     event << "There are #{numbers[1]} units#{", or #{numbers[0]} with Penumbrans included" if k==256291408598663168}."
     event << "There are #{numbers[3]} classes#{", or #{numbers[2]} with Penumbra-exclusives included" if k==256291408598663168}."
@@ -4418,7 +4322,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   end
   bot.servers.values(&:members)
   event << "I am in #{longFormattedNumber(@server_data2[0].inject(0){|sum,x| sum + x })} servers, reaching #{longFormattedNumber(@server_data2[1].inject(0){|sum,x| sum + x })} unique members."
-  event << "This shard is in #{longFormattedNumber(@server_data2[0][shardizard])} servers, reaching #{longFormattedNumber(@server_data2[1][shardizard])} unique members."
+  event << "This shard is in #{longFormattedNumber(@server_data2[0][@shardizard])} servers, reaching #{longFormattedNumber(@server_data2[1][@shardizard])} unique members."
   event << ''
   event << "There are #{numbers[1]} units#{", or #{numbers[0]} with Penumbrans included" if k==256291408598663168}."
   event << "There are #{numbers[3]} classes#{", or #{numbers[2]} with Penumbra-exclusives included" if k==256291408598663168}."
@@ -4430,6 +4334,21 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long."
   event << "Of those, #{longFormattedNumber(b.length)} are SLOC (non-empty)."
   return nil
+end
+
+bot.command([:shard,:alliance]) do |event, i|
+  if i.to_i.to_s==i && i.to_i.is_a?(Bignum) && @shardizard != 4
+    srv=(bot.server(i.to_i) rescue nil)
+    if srv.nil? || bot.user(312451658908958721).on(srv.id).nil?
+      event.respond "I am not in that server, but it would be in the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(i.to_i >> 22) % 3]} Alliance."
+    else
+      event.respond "#{srv.name} is in the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(i.to_i >> 22) % 3]} Alliance."
+    end
+    return nil
+  end
+  event.respond "This is the debug mode, which uses Golden Shards." if @shardizard==4
+  event.respond "PMs always are a part of the Plegian/Vallite Alliance." if event.server.nil?
+  event.respond "This server is in the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(event.server.id >> 22) % 3]} Alliance." unless event.server.nil? || @shardizard==4
 end
 
 bot.command(:sendpm, from: 167657750971547648) do |event, user_id, *args| # sends a PM to a specific user
@@ -4476,6 +4395,32 @@ bot.command(:leaveserver, from: 167657750971547648) do |event, server_id| # forc
   return nil
 end
 
+bot.command(:snagchannels, from: 167657750971547648) do |event, server_id|
+  return nil unless event.user.id==167657750971547648
+  if server_id.to_i==285663217261477889 && @shardizard != 4
+    event.respond "That is the testing server.  Please run this command in the testing server for this information."
+    return nil
+  elsif server_id.to_i != 285663217261477889 && @shardizard == 4
+    event.respond "The debug version of the bot can only see the debug server.  Please run this command in another server for the desired information.\nThat server ID (#{server_id}) is in the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(server_id.to_i >> 22) % 3]} Alliance, that is likely your best bet."
+    return nil
+  elsif @shardizard == 4
+  elsif (bot.server(server_id.to_i) rescue nil).nil? || bot.user(bot.profile.id).on(server_id.to_i).nil?
+    event.respond "I am not in that server."
+    return nil
+  elsif @shardizard != (server_id.to_i >> 22) % 3
+    event.respond "This shard is unable to read the channel set of that server.  Perhaps it would be best to use the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(server_id.to_i >> 22) % 3]} Alliance."
+    return nil
+  end
+  msg="__**#{bot.server(server_id.to_i).name}**__\n\n__*Text Channels*__"
+  srv=bot.server(server_id.to_i)
+  for i in 0...srv.channels.length
+    chn=srv.channels[i]
+    puts bot.user(bot.profile.id).on(srv.id).permission?(:send_messages,chn).to_s
+    msg=extend_message(msg,"*#{chn.name}* (#{chn.id})#{" - can post" if bot.user(bot.profile.id).on(srv.id).permission?(:send_messages,chn)}",event) if chn.type==0
+  end
+  event.respond msg
+end
+
 bot.server_create do |event|
   chn=event.server.general_channel
   if chn.nil?
@@ -4485,12 +4430,13 @@ bot.server_create do |event|
     end
     chn=chnn[0] if chnn.length>0
   end
-  if event.server.id != 285663217261477889 && shardizard==4
-    (chn.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/Hf9RNj>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/f1wSGd>") rescue nil)
+  if event.server.id != 285663217261477889 && @shardizard==4
+    (chn.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/2WZ4yn>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/v3ADBG>") rescue nil)
     event.server.leave
   else
-    bot.user(167657750971547648).pm("Joined server **#{event.server.name}** (#{event.server.id})\nOwner: #{event.server.owner.distinct} (#{event.server.owner.id})")
+    bot.user(167657750971547648).pm("Joined server **#{event.server.name}** (#{event.server.id})\nOwner: #{event.server.owner.distinct} (#{event.server.owner.id})\nAssigned to the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(event.server.id >> 22) % 3]} Alliance")
     @server_data.push([event.server.id,false,false])
+    @server_data2[0][(event.server.id >> 22) % 3]+=1
     open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
       f << @server_data.to_s
     }
@@ -4501,8 +4447,129 @@ end
 bot.server_delete do |event|
   bot.user(167657750971547648).pm("Left server **#{event.server.name}**")
   metadata_load()
-  @server_data[0][((event.server.id >> 22) % 4)] -= 1
+  @server_data2[0][((event.server.id >> 22) % 3)] -= 1
   metadata_save()
+end
+
+bot.message do |event|
+  str=event.message.text.downcase
+  if (['feh!','feh?'].include?(str[0,4]) || ['f?','e?','h?'].include?(str[0,2])) && @shardizard==4
+    s=event.message.text.downcase
+    s=s[2,s.length-2] if ['f?','e?','h?'].include?(event.message.text.downcase[0,2])
+    s=s[4,s.length-4] if ['feh!','feh?'].include?(event.message.text.downcase[0,4])
+    a=s.split(' ')
+    if a[0].downcase=='reboot'
+      event.respond "Becoming Elise.  Please wait approximately ten seconds..."
+      exec "cd C:/Users/Mini-Matt/Desktop/devkit && PriscillaBot.rb 4"
+    else
+      event.respond "I am not Elise right now.  Please use `FEH!reboot` to turn me into Elise."
+    end
+  elsif ['fea!','fef!'].include?(str[0,4]) || ['fe13!','fe14!'].include?(str[0,5]) || ['fe!'].include?(str[0,3])
+    str=str[4,str.length-4] if ['fea!','fef!'].include?(str[0,4])
+    str=str[5,str.length-5] if ['fe13!','fe14!'].include?(str[0,5])
+    str=str[3,str.length-3] if ['fe!'].include?(str[0,3])
+    args=str.split(' ')
+    puts event.message.text
+    unless all_commands().include?(args[0])
+      game=""
+      game="Awakening" if event.message.text[0,4].downcase=="fea!"
+      game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+      game="Fates" if event.message.text[0,4].downcase=="fef!"
+      game="Fates" if event.message.text[0,5].downcase=="fe14!"
+      m=-1
+      m=parse_job(event,args,bot,1) unless !find_skill(game,args.join(' '),event,true).nil? || !find_item(game,args.join(' '),event,true).nil?
+      if m<0
+        if !find_skill(game,args.join(' '),event,true).nil?
+          skill_parse(event,bot,args)
+        elsif !find_item(game,args.join(' '),event,true).nil?
+          item_parse(event,bot,args,1)
+        elsif !find_skill(game,args.join(' '),event).nil?
+          skill_parse(event,bot,args)
+        elsif !find_item(game,args.join(' '),event).nil?
+          item_parse(event,bot,args,1)
+        end
+      end
+    end
+  elsif event.message.text.include?('0x4') && !event.user.bot_account? && @shardizard==4
+    s=event.message.text
+    s=remove_format(s,'```')              # remove large code blocks
+    s=remove_format(s,'`')                # remove small code blocks
+    s=remove_format(s,'~~')               # remove crossed-out text
+    if s=='0x4' || s[0,4]=='0x4 ' || s[s.length-4,4]==' 0x4' || s.include?(' 0x4 ')
+      event.respond "#{"#{event.user.mention} " unless event.server.nil?}I am not Elise right now, but I have responded in case you're checking my response time."
+    end
+  end
+end
+
+bot.ready do |event|
+  if @shardizard==4
+    for i in 0...bot.servers.values.length
+      if bot.servers.values[i].id != 285663217261477889
+        bot.servers.values[i].general_channel.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/Hf9RNj>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/f1wSGd>") rescue nil
+        bot.servers.values[i].leave
+      end
+    end
+  end
+  system("color B#{"14506"[@shardizard,1]}")
+  bot.game="booting, please wait..." if [0,4].include?(@shardizard)
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt')
+    download = open('http://pastebin.com/raw/0uU5MKEC')
+    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt')
+  end
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
+    download = open('http://pastebin.com/raw/pv0s1TDW')
+    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
+  else
+    clsses=[]
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
+      bob4=[]
+      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
+      clsses.push(bob4)
+    end
+    if clsses[0].length<=28
+      download = open('http://pastebin.com/raw/pv0s1TDW')
+      IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
+    end
+  end
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
+    download = open('http://pastebin.com/raw/43UKARGi')
+    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
+  end
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
+    download = open('http://pastebin.com/raw/SwjaqjWu')
+    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
+  end
+  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt')
+    download = open('http://pastebin.com/raw/xZc4C7Tp')
+    IO.copy_stream(download, 'FC:/Users/Mini-Matt/Desktop/devkit/EItems.txt')
+  end
+  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav')
+    b=[]
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav').each_line do |line|
+      b.push(eval line)
+    end
+    @server_data=b[0]
+  else
+    @server_data=[[285663217261477889, false, false]]
+    for i in 0...bot.servers.values.length
+      @server_data.push([bot.servers.values[i].id, false, false])
+    end
+  end
+  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
+    f << @server_data.to_s
+  }
+  metadata_load()
+  if @ignored.length>0
+    for i in 0...@ignored.length
+      bot.ignore_user(@ignored[i].to_i)
+    end
+  end
+  metadata_save()
+  system("color 1#{"BCD0E"[@shardizard,1]}")
+  bot.game="Fire Emblem Awakening / Fates" if [0,4].include?(@shardizard)
+  bot.user(bot.profile.id).on(285663217261477889).nickname="FEIndex (RobinDebug)" if @shardizard==4
+  bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/DebugRobin.png','r')) if @shardizard==4
+  system("title #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} FEIndex")
 end
 
 bot.run
