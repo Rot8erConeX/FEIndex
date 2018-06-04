@@ -2325,7 +2325,7 @@ def unit_parse(event,bot,args)
     for i in 2...17
       @bob[i]=@bob[i].to_i
     end
-    fullname="__#{@bob[0]}__"
+    fullname="__#{@bob[0]}#{" (with *Aptitude*)" if apt>0}__"
     path=@bob[1]
     text=''
     unless path.nil?
@@ -2383,6 +2383,7 @@ def unit_parse(event,bot,args)
 end
 
 def class_parse(event,bot,args)
+  args=event.message.text.downcase.split(' ')
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   event.message.delete if event.user.id==bot.profile.id
   bot.should_parse_self = false
@@ -2424,7 +2425,7 @@ def class_parse(event,bot,args)
   flds=nil
   if event.message.text[0,3].downcase=="fe!" && find_class(args.join(' ').downcase,event,"Fates")!=find_class(args.join(' ').downcase,event,"Awakening")
     if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
-      fullname="__**#{clss[0].gsub(' (C)','')}**__"
+      fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       clss=find_class(args.join(' ').downcase,event,"Fates")
       clss2=find_class(args.join(' ').downcase,event,"Awakening")
       text="__*Awakening*__"
@@ -2447,7 +2448,7 @@ def class_parse(event,bot,args)
       clss2=find_class(args.join(' ').downcase,event,"Fates")
       clss=find_class(args.join(' ').downcase,event,"Awakening")
       flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
-      fullname="__**#{clss[0].gsub(' (C)','')}**__"
+      fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       text=''
       for i in 0...8
         flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss[1+2*i].to_i+apt}%"
@@ -2495,7 +2496,7 @@ def class_parse(event,bot,args)
     end
   else
     flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
-    fullname="__**#{clss[0].gsub(' (C)','')}**__"
+    fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
     text=''
     for i in 0...8
       flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss[1+2*i].to_i+apt}%"
@@ -3049,9 +3050,9 @@ def parse_job(event,args,bot,mde=0)
     unit_parse(event,bot,step1.compact)
     return 0
   else # both defined
-    disp="__**#{gender_adjust(clss[0],unit[19][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
+    disp="__**#{gender_adjust(clss[0],unit[19][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}#{" (with *Aptitude*)" if apt>0}__"
     if apt>0 && event.message.text[0,3].downcase=="fe!"
-      f=find_unit(game,kidname,event)
+      f=find_unit(game,unit[0].gsub('**','').gsub('__','').split('!')[-1],event)
       apt=10
       apt=20 if ["Awakening","*Awakening*"].include?(f[1])
     end
@@ -4430,8 +4431,8 @@ bot.server_create do |event|
     end
     chn=chnn[0] if chnn.length>0
   end
-  if event.server.id != 285663217261477889 && @shardizard==4
-    (chn.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/2WZ4yn>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/v3ADBG>") rescue nil)
+  if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840].include?(event.server.id) && @shardizard==4
+    (chn.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/HEuQK2>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/v3ADBG>") rescue nil)
     event.server.leave
   else
     bot.user(167657750971547648).pm("Joined server **#{event.server.name}** (#{event.server.id})\nOwner: #{event.server.owner.distinct} (#{event.server.owner.id})\nAssigned to the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(event.server.id >> 22) % 3]} Alliance")
@@ -4504,7 +4505,7 @@ end
 bot.ready do |event|
   if @shardizard==4
     for i in 0...bot.servers.values.length
-      if bot.servers.values[i].id != 285663217261477889
+      if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,449988713330769920].include?(bot.servers.values[i].id)
         bot.servers.values[i].general_channel.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/Hf9RNj>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/f1wSGd>") rescue nil
         bot.servers.values[i].leave
       end
