@@ -916,7 +916,7 @@ def x_get_picture(kid,parent=nil,grandparent=nil,gender="",event=nil,ignore=fals
   return "https://inheritance-planner.herokuapp.com/images/characters/#{pic}"
 end
 
-def x_find_class(name,event,game="")
+def x_find_class(name,event,game="",ignore=false)
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
   game="Fates" if event.message.text[0,4].downcase=="fef!"
@@ -934,18 +934,38 @@ def x_find_class(name,event,game="")
   bob4=[]
   File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
     bob4=[]
-    if line.gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase
+    if line.gsub(' ','').downcase==name.gsub(' ','').downcase
       line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
       return bob4 if bob4[19]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[28]!="Penumbra")
+    end
+  end
+  unless ignore
+    bob4=[]
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
+      bob4=[]
+      if line.gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase
+        line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
+        return bob4 if bob4[19]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[28]!="Penumbra")
+      end
     end
   end
   # ...only if that fails try the class from another game
   bob4=[]
   File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
     bob4=[]
-    if line.gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase
+    if line.gsub(' ','').downcase==name.gsub(' ','').downcase
       line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
       return bob4 if ((!event.server.nil? && event.server.id==256291408598663168) || bob4[28]!="Penumbra")
+    end
+  end
+  unless ignore
+    bob4=[]
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
+      bob4=[]
+      if line.gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase
+        line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
+        return bob4 if ((!event.server.nil? && event.server.id==256291408598663168) || bob4[28]!="Penumbra")
+      end
     end
   end
   for i in @japanese_names
@@ -954,12 +974,12 @@ def x_find_class(name,event,game="")
   return nil
 end
 
-def find_class(name,event,game="")
-  return x_find_class(name,event,game) unless x_find_class(name,event,game).nil?
-  if x_find_class(name,event,game).nil?
+def find_class(name,event,game="",ignore=false)
+  return x_find_class(name,event,game,ignore) unless x_find_class(name,event,game,ignore).nil?
+  if x_find_class(name,event,game,ignore).nil?
     args=name.split(' ')
     for i in 0...args.length
-      return x_find_class(args[i,args.length-i].join(' '),event,game) unless x_find_class(args[i,args.length-i].join(' '),event,game).nil?
+      return x_find_class(args[i,args.length-i].join(' '),event,game,ignore) unless x_find_class(args[i,args.length-i].join(' '),event,game,ignore).nil?
     end
   end
   return nil
@@ -1074,14 +1094,14 @@ end
 
 def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
   # defaults to Fates mechanics, as they're easier to handle
-  game="Fates"
+  game=""
   # Forces mechanics to specific games based on the command prefix used
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
   game="Fates" if event.message.text[0,4].downcase=="fef!"
   game="Fates" if event.message.text[0,5].downcase=="fe14!"
   # If using the generic command prefixes, forces mechanics to be Awakening style if the kid is from Awakening, regardless of which game the parent is from
-  if event.message.text[0,3].downcase=="fe!"
+  if game==""
     f=find_unit(game,kidname,event)
     game="Awakening" if ["Awakening","*Awakening*"].include?(f[1]) || kidname.downcase=="lucina"[kidname.length]
   end
@@ -1335,12 +1355,14 @@ end
 def splice(event,str=nil)
   if str.nil?
     str=event.message.text.downcase.split(' ')
-    str[0]=str[0].split('!')
-    str[0][0]=nil
-    str[0].compact!
-    str[0]=str[0].join(' ')
-    str[0]=nil if all_commands().include?(str[0])
-    str.compact!
+    unless str[0]=~/<@!?(?:\d+)>/
+      str[0]=str[0].split('!')
+      str[0][0]=nil
+      str[0].compact!
+      str[0]=str[0].join(' ')
+      str[0]=nil if all_commands().include?(str[0])
+      str.compact!
+    end
     str=str.join(' ')
   end
   str=normalize(str)
@@ -1418,15 +1440,17 @@ def forge(weapon,upgrade,game="Fates")
 end
 
 def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
-  game="Fates"
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+  game="Fates" if event.message.text[0,4].downcase=="fef!"
+  game="Fates" if event.message.text[0,5].downcase=="fe14!"
   name1=bob1[0] if bob1
   name2=bob2[0] if bob2
   name3=bob3[0] if bob3
   name4=bob4[0] if bob4
   # Context clues for Lucina
-  if event.message.text[0,3].downcase=="fe!"
+  if game==""
     if name1=="Lucina"
       bob5=[[],[],[],[]]
       bob5[bob2[19][0,1].to_i].push(name2) if bob2
@@ -1678,7 +1702,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
     end
   end
   f=find_unit(game,kidname,event)
-  if event.message.text[0,3].downcase=="fe!"
+  if game==""
     game="Awakening" if ["Awakening","*Awakening*"].include?(f[1])
   end
   f2=find_unit(game,mother,event)
@@ -1875,9 +1899,11 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
 end
 
 def unit_creation(units,bob1=nil,bob2=nil,bob3=nil,bob4=nil,event)
-  game="Fates"
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+  game="Fates" if event.message.text[0,4].downcase=="fef!"
+  game="Fates" if event.message.text[0,5].downcase=="fe14!"
   unitsx=[]
   for i in 0...units.length+1
     unless units[i].nil?
@@ -1897,7 +1923,7 @@ def unit_creation(units,bob1=nil,bob2=nil,bob3=nil,bob4=nil,event)
         unitsx[i]=find_unit(game,units[i],event)
       end
       unless units[i+1].nil?
-        unitsx[i]=find_unit("Awakening","Lucina",event) if units[i]=="Lucina" && event.message.text[0,3].downcase=="fe!"
+        unitsx[i]=find_unit("Awakening","Lucina",event) if units[i]=="Lucina" && game==""
       end
     end
   end
@@ -2002,6 +2028,7 @@ def mentions_avatar_kid(event,game)
 end
 
 def x_find_unit(xgame,name,event,disp=true,f3=false)
+  xgame=""
   xgame="Awakening" if event.message.text[0,4].downcase=="fea!"
   xgame="Awakening" if event.message.text[0,5].downcase=="fe13!"
   xgame="Fates" if event.message.text[0,4].downcase=="fef!"
@@ -2013,11 +2040,11 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   return find_unit("Awakening","Anna",event) if "awakening!anna"==name.downcase
   return find_unit("Fates","Anna",event) if "fates!anna"==name.downcase
   return "Lilith" if "lilith"==name.downcase
-  xgame="Awakening" if event.message.text[0,3].downcase=="fe!" && name.downcase != "lucina" && name.downcase != "anna"
+  xgame="Awakening" if xgame=="" && name.downcase != "lucina" && name.downcase != "anna"
   return find_unit("Fates","Selena",event) if "severa"==name.downcase && xgame.downcase=="fates"
   return find_unit("Fates","Odin",event) if "owain"==name.downcase && xgame.downcase=="fates"
   return find_unit("Fates","Laslow",event) if "inigo"==name.downcase && xgame.downcase=="fates"
-  xgame="Fates" if event.message.text[0,3].downcase=="fe!" && name.downcase != "lucina" && name.downcase != "anna" && name.downcase != "robin"
+  xgame="Fates" if xgame=="" && name.downcase != "lucina" && name.downcase != "anna" && name.downcase != "robin"
   xstats=find_stats_in_string(event)
   xxgame=""
   xxgame="Awakening" if event.message.text[0,4].downcase=="fea!"
@@ -2229,7 +2256,7 @@ end
 def unit_parse(event,bot,args)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   event.message.delete if event.user.id==bot.profile.id
-  game="Fates"
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
   game="Fates" if event.message.text[0,4].downcase=="fef!"
@@ -2331,7 +2358,7 @@ def unit_parse(event,bot,args)
       path="*Fates*: #{path}" if !path.include?("Awakening") && !path.include?("Cross-game")
       text=path
     end
-    if apt>0 && event.message.text[0,3].downcase=="fe!"
+    if apt>0 && game==""
       f=find_unit(game,kidname,event)
       apt=10
       apt=20 if ["Awakening","*Awakening*"].include?(f[1])
@@ -2385,6 +2412,7 @@ def class_parse(event,bot,args)
   args=event.message.text.downcase.split(' ')
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   event.message.delete if event.user.id==bot.profile.id
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
   game="Fates" if event.message.text[0,4].downcase=="fef!"
@@ -2421,7 +2449,7 @@ def class_parse(event,bot,args)
   apt=10 if clss[19]=="Fates" && apt>0
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
   flds=nil
-  if event.message.text[0,3].downcase=="fe!" && find_class(args.join(' ').downcase,event,"Fates")!=find_class(args.join(' ').downcase,event,"Awakening")
+  if game=="" && find_class(args.join(' ').downcase,event,"Fates")!=find_class(args.join(' ').downcase,event,"Awakening")
     if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
       fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       clss=find_class(args.join(' ').downcase,event,"Fates")
@@ -3006,9 +3034,11 @@ end
 def parse_job(event,args,bot,mde=0)
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game="Fates"
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+  game="Fates" if event.message.text[0,4].downcase=="fef!"
+  game="Fates" if event.message.text[0,5].downcase=="fe14!"
   if args.nil?
     event.respond("Please include a class name and/or a unit name.") if mde==0
     return -1
@@ -3049,7 +3079,7 @@ def parse_job(event,args,bot,mde=0)
     return 0
   else # both defined
     disp="__**#{gender_adjust(clss[0],unit[19][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}#{" (with *Aptitude*)" if apt>0}__"
-    if apt>0 && event.message.text[0,3].downcase=="fe!"
+    if apt>0 && game==""
       f=find_unit(game,unit[0].gsub('**','').gsub('__','').split('!')[-1],event)
       apt=10
       apt=20 if ["Awakening","*Awakening*"].include?(f[1])
@@ -3110,6 +3140,7 @@ end
 
 def skill_parse(event,bot,args)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
   game="Fates" if event.message.text[0,4].downcase=="fef!"
@@ -3127,7 +3158,7 @@ def skill_parse(event,bot,args)
     event.respond "Please include a skill name"
     return nil
   end
-  if event.message.text[0,3].downcase=="fe!" && find_skill("Fates",name,event)!=find_skill("Awakening",name,event)
+  if game=="" && find_skill("Fates",name,event)!=find_skill("Awakening",name,event)
     fullname="__**#{bob4[0]}**__"
     skillA=find_skill("Awakening",name,event)
     skillF=find_skill("Fates",name,event)
@@ -3237,7 +3268,7 @@ end
 def item_parse(event,bot,args,mde=0)
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game="Fates"
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
   game="Fates" if event.message.text[0,4].downcase=="fef!"
@@ -3266,7 +3297,7 @@ def item_parse(event,bot,args,mde=0)
     return nil
   end
   text=''
-  if event.message.text[0,3].downcase=="fe!" && find_item("Awakening",bob4[0],event)!=find_item("Fates",bob4[0],event)
+  if game=="" && find_item("Awakening",bob4[0],event)!=find_item("Fates",bob4[0],event)
     itemA=find_item("Awakening",bob4[0],event)
     itemF=find_item("Fates",bob4[0],event)
     xcolor=0x010101
@@ -4038,9 +4069,11 @@ end
 bot.command(:levelup) do |event, *args|
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game="Fates"
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+  game="Fates" if event.message.text[0,4].downcase=="fef!"
+  game="Fates" if event.message.text[0,5].downcase=="fe14!"
   if args.nil?
     event.respond("Please include a class name and/or a unit name.")
     return nil
@@ -4063,7 +4096,7 @@ bot.command(:levelup) do |event, *args|
   else
     fullname=disp
   end
-  if apt>0 && event.message.text[0,3].downcase=="fe!"
+  if apt>0 && game==""
     f=find_unit(game,kidname,event)
     apt=10
     apt=20 if ["Awakening","*Awakening*"].include?(f[1])
@@ -4107,9 +4140,11 @@ end
 bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game="Fates"
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+  game="Fates" if event.message.text[0,4].downcase=="fef!"
+  game="Fates" if event.message.text[0,5].downcase=="fe14!"
   if args.nil?
     event.respond("Please include a class name and/or a unit name.")
     return nil
@@ -4156,7 +4191,7 @@ bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
   end
   clss=["default",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,nil,nil,"",0,0,0,0,0,0,0,0] if clss.nil? # no class defined
   disp="__**#{gender_adjust(clss[0],unit[19][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
-  if apt>0 && event.message.text[0,3].downcase=="fe!"
+  if apt>0 && game==""
     f=find_unit(game,kidname,event)
     apt=10
     apt=20 if ["Awakening","*Awakening*"].include?(f[1])
@@ -4498,6 +4533,30 @@ bot.message do |event|
     if s=='0x4' || s[0,4]=='0x4 ' || s[s.length-4,4]==' 0x4' || s.include?(' 0x4 ')
       event.respond "#{"#{event.user.mention} " unless event.server.nil?}I am not Elise right now, but I have responded in case you're checking my response time."
     end
+  end
+end
+
+bot.mention do |event|
+  if @shardizard==4
+  str=event.message.text.downcase
+  args=str.split(' ')
+  puts event.message.text
+  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
+  game=""
+  m=-1
+  a=args.reject{|q| !find_unit(game,q,event,true).nil? || !find_class(q,event,game,true).nil?}
+  m=parse_job(event,args,bot,1) unless (!find_skill(game,args.join(' '),event,true).nil? && (find_skill(game,args.join(' '),event,true)[0]!='Aptitude' || a.length==args.length)) || !find_item(game,args.join(' '),event,true).nil?
+  if m<0
+    if !find_skill(game,args.join(' '),event,true).nil?
+      skill_parse(event,bot,args)
+    elsif !find_item(game,args.join(' '),event,true).nil?
+      item_parse(event,bot,args,1)
+    elsif !find_skill(game,args.join(' '),event).nil?
+      skill_parse(event,bot,args)
+    elsif !find_item(game,args.join(' '),event).nil?
+      item_parse(event,bot,args,1)
+    end
+  end
   end
 end
 
