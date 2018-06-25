@@ -180,7 +180,7 @@ bot.command(:help) do |event, command|
     create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x31CC24)
     create_embed(event,"__**Server Admin Commands**__","__**Unit Aliases**__\n`addalias` __new alias__ __unit__ - Adds a new server-specific alias\n~~`aliases` __unit__ (*also `checkaliases` or `seealiases`*)~~\n`deletealias` __alias__ (*also `removealias`*) - deletes a server-specific alias",0xC31C19) if is_mod?(event.user,event.server,event.channel)
     create_embed(event,"__**Bot Developer Commands**__","`ignoreuser` __user id number__ - makes me ignore a user\n`leaveserver` __server id number__ - makes me leave a server\n\n`sendpm` __user id number__ __\\*message__ - sends a PM to a user\n`sendmessage` __channel id__ __\\*message__ - sends a message to a specific channel\n\n`snagstats` - snags server stats for multiple servers\n\n`reboot` - reboots this shard\n\n`backup` - backs up the alias list\n`restore` - restores the alias list from last backup\n`sort` - sorts the alias list alphabetically by unit",0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
-    event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FE13!`\n*Fates* mechanics: `FEF!` `FE14!`\nDetermine mechanics contextually: `FE!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command"
+    event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FE13!`\n*Fates* mechanics: `FEF!` `FE14!`\nDetermine mechanics contextually: `FE!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
   end
 end
 
@@ -2409,14 +2409,18 @@ def unit_parse(event,bot,args)
 end
 
 def class_parse(event,bot,args)
-  args=event.message.text.downcase.split(' ')
-  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   event.message.delete if event.user.id==bot.profile.id
   game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
   game="Fates" if event.message.text[0,4].downcase=="fef!"
   game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  s=event.message.text.downcase
+  s=s[3,s.length-3] if ['fe!'].include?(s[0,3])
+  s=s[4,s.length-4] if ['fea!','fef!'].include?(s[0,4])
+  s=s[5,s.length-5] if ['fe13!','fe14!'].include?(s[0,5])
+  args=s.split(' ')
+  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   if args.nil?
     event.respond("Please include a class name.")
     return nil
@@ -2432,6 +2436,7 @@ def class_parse(event,bot,args)
       args[i]=nil
     end
   end
+  puts args.to_s
   args.compact!
   clss=find_class(args.join(' ').downcase,event)
   if clss.nil?
@@ -4537,7 +4542,6 @@ bot.message do |event|
 end
 
 bot.mention do |event|
-  if @shardizard==4
   str=event.message.text.downcase
   args=str.split(' ')
   puts event.message.text
@@ -4556,7 +4560,6 @@ bot.mention do |event|
     elsif !find_item(game,args.join(' '),event).nil?
       item_parse(event,bot,args,1)
     end
-  end
   end
 end
 
