@@ -2446,7 +2446,6 @@ def class_parse(event,bot,args)
       args[i]=nil
     end
   end
-  puts args.to_s
   args.compact!
   clss=find_class(args.join(' ').downcase,event)
   if clss.nil?
