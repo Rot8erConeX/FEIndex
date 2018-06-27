@@ -68,13 +68,23 @@ def nicknames_load()
       b.push(eval line)
     end
   else
-    b=[["Aqua","Azura"],["Joker","Jakob"],["Gunther","Gunter"],["Kazahana","Hana"],["Tsubaki","Subaki"],["Suzukaze","Kaze"],["Tsukuyomi","Hayato"],
-       ["Saizou","Saizo"],["Yuugiri","Reina"],["Kagerou","Kagero"],["Luna","Selena"],["Berka","Beruka"],["Nishiki","Kaden"],["Flannel","Keaton"],
-       ["Harold","Arthur"],["Elfie","Effie"],["Benoit","Benny"],["Asyura","Shura"],["Ryouma","Ryoma"],["Asama","Azama"],["Crimson","Scarlet"],
-       ["Marx","Xander"],["Leon","Leo"],["Lazward","Laslow"],["Pieri","Peri"],["Zero","Niles"],["Mozume","Mozu"],["Fuuga","Fuga"],["Kanna","Kana"],
-       ["Deere","Dwyer"],["Midoriko","Midori"],["Shinonome","Shiro"],["Kisaragi","Kiragi"],["Gurei","Asugi"],["Kinu","Selkie"],["Matoi","Caeldori"],
-       ["Syalla","Rhajat"],["Foleo","Forrest"],["Ignis","Ignatius"],["Lutz","Percy"],["Eponine","Nina"],["Kamui", "Corrin"],["Rinka", "Rinkah"],
-       ["Velour", "Velouria"]]
+    b=[["Ana","Anna"],["Harold","Arthur"],["Gurei","Asugi"],["Asama","Azama"],["Aqua","Azura"],["Bajirio","Basilio"],["Benoit","Benny"],["Berka","Beruka"],["Bredy","Brady"],
+       ["Buredi","Brady"],["Matoi","Caeldori"],["Riceload","Caeldori"],["Serge","Cherche"],["Seruju","Cherche"],["Zelcher","Cherche"],["Krom","Chrom"],["Kuromu","Chrom"],
+       ["Tiamo","Cordelia"],["Kamui","Corrin"],["Shinshia","Cynthia"],["Denis","Donnel"],["Doni","Donnel"],["Donny","Donnel"],["Deere","Dwyer"],["Elfie","Effie"],
+       ["CinnamonRoll","Elise"],["Emelina","Emmeryn"],["Emerina","Emmeryn"],["Furavia","Flavia"],["Foleo","Forrest"],["Frederik","Frederick"],["Furederiku","Frederick"],
+       ["Fuuga","Fuga"],["Gaia","Gaius"],["Guire","Gaius"],["Jerome","Gerome"],["Jeromu","Gerome"],["Grego","Gregor"],["Gurego","Gregor"],["Gunther","Gunter"],["Kazahana","Hana"],
+       ["Tsukuyomi","Hayato"],["Henri","Henry"],["Ignis","Ignatius"],["Azur","Inigo"],["Azure","Inigo"],["Azuru","Inigo"],["Joker","Jakob"],["Nishiki","Kaden"],["Kagerou","Kagero"],
+       ["Kanna","Kana"],["Suzukaze","Kaze"],["Flannel","Keaton"],["Callum","Kellam"],["Karamu","Kellam"],["Kisaragi","Kiragi"],["Degel","Kjelle"],["Dejeru","Kjelle"],
+       ["Lazward","Laslow"],["Loran","Laurent"],["Roran","Laurent"],["Leon","Leo"],["Libera","Libra"],["Ribera","Libra"],["Riviera","Libra"],["Liz","Lissa"],["Rizu","Lissa"],
+       ["Lon'zu","Lon'qu"],["Lonqu","Lon'qu"],["Lonzu","Lon'qu"],["Ronku","Lon'qu"],["Ronkuu","Lon'qu"],["Rukina","Lucina"],["Mariabel","Maribelle"],["Mariabell","Maribelle"],
+       ["Mariaberu","Maribelle"],["Midoriko","Midori"],["Mirieru","Miriel"],["Linfan","Morgan"],["Maku","Morgan"],["Marc","Morgan"],["Mark","Morgan"],["Mozume","Mozu"],["n_n","Nah"],
+       ["Nn","Nah"],["Zero","Niles"],["Eponine","Nina"],["Noir","Noire"],["Nowaru","Noire"],["Nono","Nowi"],["Olivie","Olivia"],["Orivie","Olivia"],["Eudes","Owain"],["Udo","Owain"],
+       ["Wood","Owain"],["Berubetto","Panne"],["Palne","Panne"],["Velvet","Panne"],["Lutz","Percy"],["Pieri","Peri"],["Paris","Priam"],["Parisu","Priam"],["Yuugiri","Reina"],
+       ["Syalla","Rhajat"],["Licht","Ricken"],["Richt","Ricken"],["Rihito","Ricken"],["Rinka","Rinkah"],["Daraen","Robin"],["Reflet","Robin"],["Rufure","Robin"],["Lobster","Ryoma"],
+       ["Ryouma","Ryoma"],["Saizou","Saizo"],["Sairi","Say'ri"],["Sayri","Say'ri"],["Crimson","Scarlet"],["Luna","Selena"],["Kinu","Selkie"],["Selena","Severa"],["Serena","Severa"],
+       ["Shinonome","Shiro"],["Asyura","Shura"],["Sort","Stahl"],["Soru","Stahl"],["Tsubaki","Subaki"],["Soiree","Sully"],["Soware","Sully"],["Smia","Sumia"],["Betrayal","Takumi"],
+       ["Pineapple","Takumi"],["Tacomeme","Takumi"],["Sallya","Tharja"],["Sariya","Tharja"],["Sarya","Tharja"],["Chiki","Tiki"],["Vake","Vaike"],["Veiku","Vaike"],["Wyck","Vaike"],
+       ["Velour","Velouria"],["Viaur","Virion"],["Viole","Virion"],["Vioru","Virion"],["Marx","Xander"],["Chambray","Yarne"],["Shanbure","Yarne"]]
   end
   @names=b.uniq
 end
@@ -3762,7 +3772,7 @@ bot.command([:deletealias,:removealias]) do |event, name|
   nicknames_load()
   event.respond "#{name} has been removed from #{j[0]}'s names."
   nzzz=@names.map{|a| a}
-  if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][1]>="Zephiel"
+  if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][1]>="Yarne"
     bot.channel(logchn).send_message("Alias list saved.")
     open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt', 'w') { |f|
       for i in 0...nzzz.length
@@ -4268,7 +4278,7 @@ bot.command(:restore) do |event|
     b=[]
   end
   nzzzzz=b.uniq
-  if nzzzzz[nzzzzz.length-1][1]<"Zephiel"
+  if nzzzzz[nzzzzz.length-1][1]<"Yarne"
     event << "Last backup of the alias list has been corrupted.  Restoring from manually-created backup."
     if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FENames3.txt')
       b=[]
