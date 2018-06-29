@@ -2273,15 +2273,15 @@ def unit_parse(event,bot,args)
     flds=[["**Growth Rates**",[]],["**Modifiers**",['-']],["**Classes**","*Default class:* #{@bob[5][0]}\n*#{'Heart Seal' if @bob[1][2]=='F'}#{'Second Seal' if @bob[1][2]=='A'}:* #{@bob[5][1,@bob[5].length-1].join(', ')}#{"\n*Partner Seal:* Spear Master, Basara" if @bob[0]=='Mathoo'}",false]]
     f=[0,0]
     for i in 0...8
-      flds[0][1].push("*#{m[i]}:* #{@bob[3][i]+apt}%")
-      flds[1][1].push("*#{m[i]}:* #{'+' if @bob[4][i]>0}#{@bob[4][i]}") unless i==0
+      flds[0][1].push("*#{m[i]}:*	#{@bob[3][i]+apt}%")
+      flds[1][1].push("*#{m[i]}:*	#{'+' if @bob[4][i]>0}#{@bob[4][i]}") unless i==0
       f[0]+=@bob[3][i]+apt
       f[1]+=@bob[4][i]
     end
     flds[0][1].push('')
     flds[1][1].push('')
-    flds[0][1].push("*Total:* #{f[0]}%")
-    flds[1][1].push("*Total:* #{'+' if f[1]>0}#{f[1]}")
+    flds[0][1].push("*Total:*	#{f[0]}%")
+    flds[1][1].push("*Total:*	#{'+' if f[1]>0}#{f[1]}")
     flds[0][1]=flds[0][1].join("\n")
     flds[1][1]=flds[1][1].join("\n")
     xstats=find_stats_in_string(event)
@@ -2996,16 +2996,26 @@ def parse_job(event,args,bot,mde=0)
     end
     text=""
     flds=[]
-    if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
-      text="**HP:** *Growth:* #{unit[2]+clss[1]+apt}% *Maximum:* #{clss[2]}\n**Strength:** *Growth:* #{unit[3]+clss[3]+apt}% *Maximum:* #{unit[4]+clss[4]}\n**Magic:** *Growth:* #{unit[5]+clss[5]+apt}% *Maximum:* #{unit[6]+clss[6]}\n**Skill:** *Growth:* #{unit[7]+clss[7]+apt}% *Maximum:* #{unit[8]+clss[8]}\n**Speed:** *Growth:* #{unit[9]+clss[9]+apt}% *Maximum:* #{unit[10]+clss[10]}\n**Luck:** *Growth:* #{unit[11]+clss[11]+apt}% *Maximum:* #{unit[12]+clss[12]}\n**Defense:** *Growth:* #{unit[13]+clss[13]+apt}% *Maximum:* #{unit[14]+clss[14]}\n**Resistance:** *Growth:* #{unit[15]+clss[15]+apt}% *Maximum:* #{unit[16]+clss[16]}"
-    else
-      flds=[["**Growth Rates**","*HP:*	#{unit[2]+clss[1]+apt}%\n*Strength:*	#{unit[3]+clss[3]+apt}%\n*Magic:*	#{unit[5]+clss[5]+apt}%\n*Skill:*	#{unit[7]+clss[7]+apt}%\n*Speed:*	#{unit[9]+clss[9]+apt}%\n*Luck:*	#{unit[11]+clss[11]+apt}%\n*Defense:*	#{unit[13]+clss[13]+apt}%\n*Resistance:*	#{unit[15]+clss[15]+apt}%\n\n*Total:*	#{unit[2]+clss[1]+unit[3]+clss[3]+unit[7]+clss[7]+unit[9]+clss[9]+unit[11]+clss[11]+unit[5]+clss[5]+unit[15]+clss[15]+unit[13]+clss[13]+(8*apt)}%"],["**Maximum Stats**","*HP:*	#{clss[2]}\n*Strength:*	#{unit[4]+clss[4]}\n*Magic:*	#{unit[6]+clss[6]}\n*Skill:*	#{unit[8]+clss[8]}\n*Speed:*	#{unit[10]+clss[10]}\n*Luck:*	#{unit[12]+clss[12]}\n*Defense:*	#{unit[14]+clss[14]}\n*Resistance:*	#{unit[16]+clss[16]}\n\n*Total:*	#{clss[2]+unit[4]+clss[4]+unit[6]+clss[6]+unit[8]+clss[8]+unit[10]+clss[10]+unit[12]+clss[12]+unit[14]+clss[14]+unit[16]+clss[16]}"]]
+    m=['HP','Strength','Magic','Skill','Speed','Luck','Defense','Resistance']
+    f=[0,0]
+    flds=[["**Growth Rates**",[]],["**Maximum Stats**",[]]]
+    for i in 0...8
+      flds[0][1].push("*#{m[i]}:*	#{unit[3][i]+clss[2*i+1]+apt}%")
+      flds[1][1].push("*#{m[i]}:*	#{unit[4][i]+clss[2*i+2]}")
+      f[0]+=unit[3][i]+clss[2*i+1]+apt
+      f[1]+=unit[4][i]+clss[2*i+2]
     end
+    flds[0][1].push('')
+    flds[1][1].push('')
+    flds[0][1].push("*Total:*	#{f[0]}%")
+    flds[1][1].push("*Total:*	#{f[1]}")
+    flds[0][1]=flds[0][1].join("\n")
+    flds[1][1]=flds[1][1].join("\n")
     text="#{text}\n~~Please note that stat maximums do not account for statue bonuses~~" unless g=="Awakening"
-    xcolor=embed_color_x(unit[1],clss)
+    xcolor=embed_color_x(unit[2],clss)
     unless unit[1]=="Cross-game child"
-      xcolor=0x010101 if clss[19]=="Awakening" && !unit[1].include?("Awakening")
-      xcolor=0x010101 if clss[19]!="Awakening" && unit[1].include?("Awakening")
+      xcolor=0x010101 if clss[19]=="Awakening" && !unit[2].include?("Awakening")
+      xcolor=0x010101 if clss[19]!="Awakening" && unit[2].include?("Awakening")
     end
     xstats=find_stats_in_string(event)
     game=""
