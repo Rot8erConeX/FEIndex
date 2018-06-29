@@ -52,13 +52,36 @@ bot.gateway.check_heartbeat_acks = false
                  ["Dark Blood","Nohr Noble"],["Light Blood","Hoshido Noble"],["Dragon Knight","Wyvern Rider"],["Dragon Master","Wyvern Lord"],
                  ["Revanant Knight","Malig Knight"],["Rod Knight","Troubadour"],["Singer","Songstress"],["Golem","Stoneborn"],["Dark Lord","Nohrian King"],
                  ["Dark Dragon","Blight Dragon"],["Invisible Dragon","Silent Dragon"],["Familiar","Empty Vessel"]]
-
+@units=[]
+@skills=[]
+@items=[]
+@classes=[]
 @server_data=[]
 
 def all_commands(include_nil=false)
   k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character','class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats','reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backup','restore','sort','deletealias','checkaliases','aliases','embeds','snagchannels','shard','alliance']
   k[0]=nil if include_nil
   return k
+end
+
+def data_load()
+  # UNIT DATA
+  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEUnits.txt')
+    b=[]
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEUnits.txt').each_line do |line|
+      b.push(line)
+    end
+  else
+    b=[]
+  end
+  for i in 0...b.length
+    b[i]=b[i].split('\\'[0]).reject{|q| q=="\n"}
+    b[i][3]=b[i][3].split(', ').map{|q| q.to_i}
+    b[i][4]=b[i][4].split(', ').map{|q| q.to_i}
+    b[i][5]=b[i][5].split(', ')
+    b[i][6]=b[i][6].split(', ')
+  end
+  @units=b.map{|q| q}
 end
 
 def nicknames_load()
@@ -335,15 +358,10 @@ def get_talent(clss)
 end
 
 def embed_color(path)
+  data_load()
   if path[0,"*Fates*: Capturable boss in ".length]=="*Fates*: Capturable boss in "
     kid=path["*Fates*: Capturable boss in ".length,path.length-"*Fates*: Capturable boss in 's paralogue".length]
-    @bob2=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
-      if line[0,kid.length].downcase==kid.downcase
-        line.each_line('\n') {|s| @bob2.push(s[0,s.length-2])}
-      end
-    end
-    path=@bob2[1]
+    path=@units[@units.find_index{|q| q[0]==kid}][2]
   end
   return 0x061069 if path.downcase.include?('awakening')
   return 0xC5EEF2 if path.downcase.include?('available in all') || path.downcase.include?('dlc') || path.downcase.include?('amiibo') || path.downcase.include?('not obtainable')
@@ -609,11 +627,11 @@ def gender_adjust(clss,gender,singleclass=false,game="Fates")
   end
   if clss[0,4]=="Nohr"
     if gender=="m"
-      return "Nohr Prince (Hoshido Noble, Nohr Noble)"
+      return "Nohr Prince"
     elsif gender=="f"
-      return "Nohr Princess (Hoshido Noble, Nohr Noble)"
+      return "Nohr Princess"
     else
-      return "Nohr Royal (Hoshido Noble, Nohr Noble)"
+      return "Nohr Royal"
     end
   elsif clss[0,6]=="Taguel"
     return "Taguel (#{gender.upcase})"
@@ -671,11 +689,11 @@ def gender_adjust(clss,gender,singleclass=false,game="Fates")
 end
 
 def get_path(kid)
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
-    bob4=[]
-    line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-    return bob4[1] if bob4[0].downcase==kid.downcase
-  end
+  data_load()
+  k=kid.split('!')
+  u=@units.find_index{|q| q[0]==k[k.length-1].gsub('*','')}
+  u=@units.find_index{|q| q[0]==k[k.length-1].gsub('*','')[0,k[k.length-1].gsub('*','').length-1]} if u.nil?
+  return @units[u][2]
 end
 
 def namecheck(name,event)
@@ -996,6 +1014,7 @@ def find_class(name,event,game="",ignore=false)
 end
 
 def find_overlap(route1, route2, parentname=nil)
+  data_load()
   return "Cross-game child" if ["Awakening","*Awakening*"].include?(route1) && !["Awakening","*Awakening*"].include?(route2)
   return "Cross-game child" if ["Awakening","*Awakening*"].include?(route2) && !["Awakening","*Awakening*"].include?(route1)
   route2="Exclusive to *Conquest*" if parentname.downcase=="gunter"
@@ -1007,13 +1026,7 @@ def find_overlap(route1, route2, parentname=nil)
     route1="Exclusive to *Conquest*"
   elsif route1[0,"Capturable boss in ".length]=="Capturable boss in "
     kid=route1["Capturable boss in ".length,route1.length-"Capturable boss in 's paralogue".length]
-    @bob2=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
-      if line[0,kid.length].downcase==kid.downcase
-        line.each_line('\n') {|s| @bob2.push(s[0,s.length-2])}
-      end
-    end
-    route1=@bob2[1]
+    route1=@units[@units.find_index{|q| q[0]==kid}][2]
   end
   if ["DLC Character","Amiibo Character"].include?(route2)
     route2="Available in all routes"
@@ -1023,13 +1036,7 @@ def find_overlap(route1, route2, parentname=nil)
     route2="Exclusive to *Conquest*"
   elsif route2[0,"Capturable boss in ".length]=="Capturable boss in "
     kid=route2["Capturable boss in ".length,route2.length-"Capturable boss in 's paralogue".length]
-    @bob2=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
-      if line[0,kid.length].downcase==kid.downcase
-        line.each_line('\n') {|s| @bob2.push(s[0,s.length-2])}
-      end
-    end
-    route2=@bob2[1]
+    route2=@units[@units.find_index{|q| q[0]==kid}][2]
   end
   if route1=="Available in all routes"
     return route2
@@ -1103,6 +1110,7 @@ def find_overlap(route1, route2, parentname=nil)
 end
 
 def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
+  data_load()
   # defaults to Fates mechanics, as they're easier to handle
   game=""
   # Forces mechanics to specific games based on the command prefix used
@@ -1133,7 +1141,7 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
       c=momstuff[2]
       c=">talent<" if c.nil?
       c=">talent<" if c.length<2
-      @mom=["Corrin","Available in all routes",g[0],g[1],m[1],g[2],m[2],g[3],m[3],g[4],m[4],g[5],m[5],g[6],m[6],g[7],m[7],"","**Heart Seal:** #{c}","1c","",c,""]
+      @mom=["Corrin","1cF","Available in all routes",g,m,c,"",c,""]
     elsif parent.downcase=="robin" && (xgame=="Awakening" || (xgame != "Fates" && (xstats[0].length>0 || xstats[1].length>0) && !mentions_avatar_kid(event,"Fates")))
       momstuff=get_robin(event,false)
       g=momstuff[0]
@@ -1141,14 +1149,10 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
       c=momstuff[2]
       c=">talent<" if c.nil?
       c=">talent<" if c.length<2
-      @mom=["Robin","*Awakening*",g[0],g[1],m[1],g[2],m[2],g[3],m[3],g[4],m[4],g[5],m[5],g[6],m[6],g[7],m[7],"","**Heart Seal:** #{c}","1c","",c,""]
+      @mom=["Robin","1cA","*Awakening*",g,m,c,"",c,""]
     end
   end
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
-    if line[0,kidname.length].downcase==kidname.downcase
-      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-    end
-  end
+  bob4=@units[@units.find_index{|q| q[0][0,kidname.length].downcase==kidname.downcase}]
   if kidname.downcase=="lucina"[0,kidname.length]
     bob4=find_unit("Awakening","Lucina",event)
   end
@@ -1170,14 +1174,9 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
     c=momstuff[2]
     c=">talent<" if c.nil?
     c=">talent<" if c.length<2
-    @dad=["Robin","Available in all routes",g[0],g[1],m[1],g[2],m[2],g[3],m[3],g[4],m[4],g[5],m[5],g[6],m[6],g[7],m[7],"","**Heart Seal:** #{c}","1c","",c,""]
+    @dad=["Robin","1cA","Available in all routes",g,m,c,"",c,""]
   else
     @dad=find_unit(game,@dad,event)
-  end
-  for i in 2...17
-    bob4[i]=bob4[i].to_i
-    @mom[i]=@mom[i].to_i
-    @dad[i]=@dad[i].to_i
   end
   if kidname.downcase=="kana"
     momstuff=get_corrin(event,false)
@@ -1185,180 +1184,142 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
     c=momstuff[2]
     c=">talent<" if c.nil?
     c=">talent<" if c.length<2
-    c=gender_adjust(c,@mom[19][1,1])
-    bob4[18]="**Heart Seal:** #{c}"
-    bob4[21]=c
-    for i in 1...8
-      bob4[2+i*2]=m[i]+kanaboost
+    c=gender_adjust(c,@mom[1][1,1])
+    bob4[5][1]=c
+    bob4[6][1]=c
+    for i in 1...7
+      bob4[4][i]=m[i]+kanaboost
     end
-    bob4[19]="3#{@mom[19][1,1]}F"
+    bob4[1]="3#{@mom[1][1,1]}F"
   elsif kidname.downcase=="morgan"
     momstuff=get_robin(event,false)
     m=momstuff[1]
-    bob4[17]=@mom[17]
-    bob4[18]="**Second Seal:** Tactician (Grandmaster)"
-    bob4[20]=@mom[20]
-    bob4[21]="Tactician (Grandmaster)"
-    for i in 1...8
-      bob4[2+i*2]=m[i]+kanaboost
+    for i in 1...7
+      bob4[4][i]=m[i]+kanaboost
     end
-    bob4[19]="3#{@mom[19][1,1]}A"
-    if bob4[19][1,1]!="f" && bob4[19][1,1]!="m"
-      bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Healer (War Healer, Sage)",
-            "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)"]
-    elsif bob4[19][1,1]=="m"
-      bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Barbarian (Berserker, Warrior)",
-            "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)",
-            "Priest (War Monk, Sage)","Fighter (Warrior, Hero)"]
+    bob4[1]="3#{@mom[1][1,1]}A"
+    if bob4[1][1,1]!="f" && bob4[1][1,1]!="m"
+      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"].uniq
+    elsif bob4[1][1,1]=="m"
+      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Barbarian","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Priest","Fighter"].uniq
     else
-      bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Troubadour (War Cleric, Valkyre)",
-            "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)",
-            "Cleric (War Cleric, Sage)","Pegasus Knight (Falcon Knight, Dark Flyer)"]
+      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Troubadour","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Cleric","Pegasus Knight"].uniq
     end
-    for i in 0...bob5.length
-      bob4[18]="#{bob4[18]}, #{bob5[i]}" if game=="Awakening"
-    end
+    bob4[5]=bob5.map{|q| q}
     special=["chrom","azura","olivia"]
-    special.push("lucina") if @mom[1].include?("Awakening")
+    special.push("lucina") if @mom[2].include?("Awakening")
     if special.include?(@mom[0].downcase)
-      bob4[17]="**Default Class:** Tactician (Grandmaster)"
-      bob4[18]=bob4[18].gsub('Tactician (Grandmaster), ','')
+      bob4[5].unshift('Tactician')
+      bob4[5].uniq!
     end
-  elsif bob4[19][0,1].to_i<=@mom[19][0,1].to_i && !(bob4[0].include?("Portia") && @mom[0].include?("Oregano"))
+  elsif bob4[1][0,1].to_i<=@mom[1][0,1].to_i && !(bob4[0].include?("Portia") && @mom[0].include?("Oregano"))
     event.respond "#{@mom[0]} cannot be #{bob4[0]}'s parent.  Showing default #{bob4[0]}." if display
     return bob4
   elsif bob4[0]=="Portia"
-  elsif bob4[19][0,1].to_i<=@mom[19][0,1].to_i
+  elsif bob4[1][0,1].to_i<=@mom[1][0,1].to_i
     event.respond "#{@mom[0]} cannot be #{bob4[0]}'s parent.  Showing default #{bob4[0]}." if display
     return bob4
-  elsif ["Lucina"].include?(bob4[0]) && @mom[19][1,1]=="m" && !homosexuality_filter?(event) && ["Awakening","*Awakening*"].include?(bob4[1])
+  elsif ["Lucina"].include?(bob4[0]) && @mom[1][1,1]=="m" && !homosexuality_filter?(event) && ["Awakening","*Awakening*"].include?(bob4[2])
     event.respond "#{@mom[0]} cannot be #{bob4[0]}'s mother, as they already have one.  Showing default #{bob4[0]}." if display
     return bob4
-  elsif !["Lucina"].include?(bob4[0]) && @mom[19][1,1]=="f" && !homosexuality_filter?(event) && ["Awakening","*Awakening*"].include?(bob4[1])
+  elsif !["Lucina"].include?(bob4[0]) && @mom[1][1,1]=="f" && !homosexuality_filter?(event) && ["Awakening","*Awakening*"].include?(bob4[2])
     event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as they already have one.  Showing default #{bob4[0]}." if display
     return bob4
-  elsif @shigure_class_kids.include?(bob4[0]) && @mom[19][1,1]=="f" && !homosexuality_filter?(event) && !["Awakening","*Awakening*"].include?(bob4[1])
+  elsif @shigure_class_kids.include?(bob4[0]) && @mom[1][1,1]=="f" && !homosexuality_filter?(event) && !["Awakening","*Awakening*"].include?(bob4[2])
     event.respond "#{@mom[0]} cannot be #{bob4[0]}'s mother, as they already have one.  Showing default #{bob4[0]}." if display
     return bob4
-  elsif !@shigure_class_kids.include?(bob4[0]) && @mom[19][1,1]=="m" && !homosexuality_filter?(event) && !["Awakening","*Awakening*"].include?(bob4[1])
+  elsif !@shigure_class_kids.include?(bob4[0]) && @mom[1][1,1]=="m" && !homosexuality_filter?(event) && !["Awakening","*Awakening*"].include?(bob4[2])
     event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as they already have one.  Showing default #{bob4[0]}." if display
     return bob4
   end
-  if (@mom[0].downcase=="Corrin" && game=="Fates") || @mom[20]=="Nohr Royal (Hoshido Noble, Nohr Noble)"
+  if (@mom[0].downcase=="Corrin" && game=="Fates") || @mom[6][0]=="Nohr Royal"
     if kidname.downcase=="kana"
-      clss=bob4[18]
+      clss=bob4[5][1]
       clss=">talent<" if clss.nil?
       clss=">talent<" if clss.length<2
-      clss2=gender_adjust(@mom[21],@mom[19][1,1])
+      clss2=gender_adjust(@mom[6][0],@mom[1][1,1])
       clss2=">talent<" if clss2.nil?
       clss2=">talent<" if clss2.length<2
       if clss=="**Heart Seal:** #{clss2}"
-        clss2=gender_adjust(@mom[22],@mom[19][1,1])
+        clss2=gender_adjust(@mom[6][1],@mom[1][1,1])
         clss2=">parallel talent<" if clss2.nil?
         clss2=">parallel talent<" if clss2.length<2
       end
-      bob4[18]="#{clss}, #{clss2}"
+      bob4[5]=[clss, clss2]
     elsif kidname.downcase=="morgan"
     else
-      bob4[18]="#{bob4[18]}, #{gender_adjust("Nohr Royal (Hoshido Noble, Nohr Noble)",bob4[19][1,1])}"
+      bob4[5].push("Nohr Royal")
     end
-  elsif game=="Awakening" && (bob4[0]=="Morgan" || @mom[20]=="Tactician (Grandmaster)")
-    if @mom[19][1,1]!="f" && @mom[19][1,1]!="m"
-      bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Healer (War Healer, Sage)",
-            "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)"]
-    elsif @mom[19][1,1]=="m"
-      bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Barbarian (Berserker, Warrior)",
-            "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)",
-            "Priest (War Monk, Sage)","Fighter (Warrior, Hero)"]
+  elsif game=="Awakening" && (bob4[0]=="Morgan" || @mom[6][0]=="Tactician")
+    if @mom[1][1,1]!="f" && @mom[1][1,1]!="m"
+      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"].uniq
+    elsif @mom[1][1,1]=="m"
+      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Barbarian","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Priest","Fighter"].uniq
     else
-      bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Troubadour (War Cleric, Valkyre)",
-            "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)",
-            "Cleric (War Cleric, Sage)","Pegasus Knight (Falcon Knight, Dark Flyer)"]
+      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Troubadour","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Cleric","Pegasus Knight"].uniq
     end
-    bob5.push("Tactician (Grandmaster)")
-    for i in 0...bob5.length
-      bob4[18]="#{bob4[18]}, #{bob5[i]}" if bob4[20]!=bob5[i] && !bob4[18].include?(bob5[i])
-    end
+    bob4[5]=bob5.map{|q| q}
   elsif game=="Awakening"
-    for i in 20...23
-      clss=@mom[i]
-      if @mom[0]=="Vaike" && bob4[19][1,1]=="f"
-        clss="Knight (Great Knight, General)" if clss=="Fighter (Warrior, Hero)"
-        clss="Mercenary (Hero, Bow Knight)" if clss=="Barbarian (Berserker, Warrior)"
-      elsif @mom[0]=="Donnel" && bob4[19][1,1]=="f"
-        clss="Pegasus Knight (Falcon Knight, Dark Flyer)" if clss=="Villager"
-        clss="Troubadour (War Cleric, Valkyre)" if clss=="Fighter (Warrior, Hero)"
-      elsif @mom[0]=="Gaius" && bob4[19][1,1]=="f"
-        clss="Pegasus Knight (Falcon Knight, Dark Flyer)" if clss=="Fighter (Warrior, Hero)"
-      elsif ["Gregor","Henry"].include?(@mom[0]) && bob4[19][1,1]=="f"
-        clss="Troubadour (War Cleric, Valkyre)" if clss=="Barbarian (Berserker, Warrior)"
-      elsif @mom[0]=="Lissa" && bob4[19][1,1]=="m"
-        clss="Myrmidon (Swordmaster, Assassin)" if clss=="Pegasus Knight (Falcon Knight, Dark Flyer)"
-        clss="Barbarian (Berserker, Warrior)" if clss=="Mercenary (Hero, Bow Knight)"
-      elsif @mom[0]=="Miriel" && bob4[19][1,1]=="m"
-        clss="Barbarian (Berserker, Warrior)" if clss=="Troubadour (War Cleric, Valkyre)"
-      elsif @mom[0]=="Maribelle" && bob4[19][1,1]=="m"
-        clss="Cavalier (Paladin, Great Knight)" if clss=="Pegasus Knight (Falcon Knight, Dark Flyer)"
-        clss="Priest (War Monk, Sage)" if clss=="Troubadour (War Cleric, Valkyre)"
-      elsif @mom[0]=="Olivia" && bob4[19][1,1]=="m"
-        clss="Barbarian (Berserker, Warrior)" if clss=="Troubadour (War Cleric, Valkyre)"
-      elsif @mom[0]=="Cherche" && bob4[19][1,1]=="m"
-        clss="Fighter (Warrior, Hero)" if clss=="Troubadour (War Cleric, Valkyre)"
-      elsif @mom[0]=="Panne" && bob4[19][1,1]=="m"
-        clss="Barbarian (Berserker, Warrior)" if clss=="Wyvern Rider (Wyvern Lord, Griffon Rider)"
+    for i in @mom[6].length
+      clss=@mom[6][i]
+      if @mom[0]=="Vaike" && bob4[1][1,1]=="f"
+        clss="Knight" if clss=="Fighter"
+        clss="Mercenary" if clss=="Barbarian"
+      elsif @mom[0]=="Donnel" && bob4[1][1,1]=="f"
+        clss="Pegasus Knight" if clss=="Villager"
+        clss="Troubadour" if clss=="Fighter"
+      elsif @mom[0]=="Gaius" && bob4[1][1,1]=="f"
+        clss="Pegasus Knight" if clss=="Fighter"
+      elsif ["Gregor","Henry"].include?(@mom[0]) && bob4[1][1,1]=="f"
+        clss="Troubadour" if clss=="Barbarian"
+      elsif @mom[0]=="Lissa" && bob4[1][1,1]=="m"
+        clss="Myrmidon" if clss=="Pegasus Knight"
+        clss="Barbarian" if clss=="Mercenary"
+      elsif @mom[0]=="Miriel" && bob4[1][1,1]=="m"
+        clss="Barbarian" if clss=="Troubadour"
+      elsif @mom[0]=="Maribelle" && bob4[1][1,1]=="m"
+        clss="Cavalier" if clss=="Pegasus Knight"
+        clss="Priest" if clss=="Troubadour"
+      elsif @mom[0]=="Olivia" && bob4[1][1,1]=="m"
+        clss="Barbarian" if clss=="Troubadour"
+      elsif @mom[0]=="Cherche" && bob4[1][1,1]=="m"
+        clss="Fighter" if clss=="Troubadour"
+      elsif @mom[0]=="Panne" && bob4[1][1,1]=="m"
+        clss="Barbarian" if clss=="Wyvern Rider"
       end
-      clss=gender_adjust(clss,bob4[19][1,1])
-      clss=nil if !["Awakening","*Awakening*"].include?(@mom[1]) && @mom[19][0,1]=="1" && !["Anna","Gunter","Reina","Scarlet","Shura","Izana","Yukimura","Fuga"].include?(@mom[0]) && i==22
-      bob4[18]="#{bob4[18]}, #{clss}" unless [bob4[20],bob4[21],bob4[22],bob4[23],"Dancer","Songstress"].include?(clss) || clss.nil?
+      clss=gender_adjust(clss,bob4[1][1,1])
+      clss=nil if !["Awakening","*Awakening*"].include?(@mom[2]) && @mom[1][0,1]=="1" && !["Anna","Gunter","Reina","Scarlet","Shura","Izana","Yukimura","Fuga"].include?(@mom[0]) && i==2
+      bob4[5].push(clss) unless [bob4[6][0],bob4[6][1],bob4[6][2],"Dancer","Songstress"].include?(clss) || clss.nil?
     end
   else
-    clss=gender_adjust(@mom[20],bob4[19][1,1])
+    clss=gender_adjust(@mom[6][0],bob4[1][1,1])
     if bob4[0]=="Shigure" && @mom[0]=="Jakob"
-      clss="Wyvern Rider (Wyvern Lord, Malig Knight)"
-    elsif [bob4[20],bob4[21]].include?(clss)
-      clss=gender_adjust(@mom[21],bob4[19][1,1])
-      clss=gender_adjust(@mom[22],bob4[19][1,1]) if [bob4[20],bob4[21]].include?(clss)
+      clss="Wyvern Rider"
+    elsif [bob4[6][0],bob4[6][1]].include?(clss)
+      clss=gender_adjust(@mom[6][1],bob4[1][1,1])
+      clss=gender_adjust(@mom[6][2],bob4[1][1,1]) if [bob4[6][0],bob4[6][1]].include?(clss)
     end
-    bob4[18]="#{bob4[18]}, #{clss}"
-    bob4[22]=clss
+    bob4[5].push(clss)
+    bob4[6].push(clss)
   end
   if bold
     bob4[0]="#{@mom[0]}!**#{bob4[0]}**"
   else
     bob4[0]="#{@mom[0]}!#{bob4[0]}"
   end
-  bob4[1]=find_overlap(bob4[1],@mom[1],@mom[0])
-  if game=="Awakening"
-    bob4[2]=((bob4[2]+@mom[2]+@dad[2])/3.0).round
-    bob4[3]=((bob4[3]+@mom[3]+@dad[3])/3.0).round
-    bob4[5]=((bob4[5]+@mom[5]+@dad[5])/3.0).round
-    bob4[7]=((bob4[7]+@mom[7]+@dad[7])/3.0).round
-    bob4[9]=((bob4[9]+@mom[9]+@dad[9])/3.0).round
-    bob4[11]=((bob4[11]+@mom[11]+@dad[11])/3.0).round
-    bob4[13]=((bob4[13]+@mom[13]+@dad[13])/3.0).round
-    bob4[15]=((bob4[15]+@mom[15]+@dad[15])/3.0).round
-  else
-    bob4[2]=((bob4[2]+@mom[2])/2.0).round
-    bob4[3]=((bob4[3]+@mom[3])/2.0).round
-    bob4[5]=((bob4[5]+@mom[5])/2.0).round
-    bob4[7]=((bob4[7]+@mom[7])/2.0).round
-    bob4[9]=((bob4[9]+@mom[9])/2.0).round
-    bob4[11]=((bob4[11]+@mom[11])/2.0).round
-    bob4[13]=((bob4[13]+@mom[13])/2.0).round
-    bob4[15]=((bob4[15]+@mom[15])/2.0).round
+  bob4[2]=find_overlap(bob4[2],@mom[2],@mom[0])
+  for i in 0...8
+    if game=="Awakening"
+      bob4[3][i]=((bob4[3][i]+@mom[3][i]+@dad[3][i])/3.0).round
+    else
+      bob4[3][i]=((bob4[3][i]+@mom[3][i])/2.0).round
+    end
+    bob4[4][i]=bob4[4][i]+@mom[4][i] unless i==0
   end
-  bob4[4]=bob4[4]+@mom[4]
-  bob4[6]=bob4[6]+@mom[6]
-  bob4[8]=bob4[8]+@mom[8]
-  bob4[10]=bob4[10]+@mom[10]
-  bob4[12]=bob4[12]+@mom[12]
-  bob4[14]=bob4[14]+@mom[14]
-  bob4[16]=bob4[16]+@mom[16]
   if kidname.downcase=="kana"
-    bob4[17]="**Default Class:** #{gender_adjust(bob4[17]["**Default Class:** ".length,bob4[17].length-"**Default Class:** ".length],bob4[19][1,1])}"
+    bob4[5][0]=gender_adjust(bob4[5][0],bob4[1][1,1])
   end
-  bob4[18]=bob4[18].gsub('Heart Seal','Second Seal') if game=="Awakening"
-  bob4[18]=bob4[18].gsub('Second Seal','Heart Seal') if game=="Fates" && event.message.text.downcase[0,3]!="fe!"
+  bob4[5].uniq!
   return bob4
 end
 
@@ -1463,30 +1424,30 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
   if game==""
     if name1=="Lucina"
       bob5=[[],[],[],[]]
-      bob5[bob2[19][0,1].to_i].push(name2) if bob2
-      bob5[bob3[19][0,1].to_i].push(name3) if bob3
-      bob5[bob4[19][0,1].to_i].push(name4) if bob4
+      bob5[bob2[1][0,1].to_i].push(name2) if bob2
+      bob5[bob3[1][0,1].to_i].push(name3) if bob3
+      bob5[bob4[1][0,1].to_i].push(name4) if bob4
       bob1=find_unit("Awakening","Lucina",event) if bob5[2].length==0 && bob5[1].length>0
     end
     if name2=="Lucina"
       bob5=[[],[],[],[]]
-      bob5[bob1[19][0,1].to_i].push(name1) if bob1
-      bob5[bob3[19][0,1].to_i].push(name3) if bob3
-      bob5[bob4[19][0,1].to_i].push(name4) if bob4
+      bob5[bob1[1][0,1].to_i].push(name1) if bob1
+      bob5[bob3[1][0,1].to_i].push(name3) if bob3
+      bob5[bob4[1][0,1].to_i].push(name4) if bob4
       bob2=find_unit("Awakening","Lucina",event) if bob5[2].length==0 && bob5[1].length>0
     end
     if name3=="Lucina"
       bob5=[[],[],[],[]]
-      bob5[bob2[19][0,1].to_i].push(name2) if bob2
-      bob5[bob1[19][0,1].to_i].push(name1) if bob1
-      bob5[bob4[19][0,1].to_i].push(name4) if bob4
+      bob5[bob2[1][0,1].to_i].push(name2) if bob2
+      bob5[bob1[1][0,1].to_i].push(name1) if bob1
+      bob5[bob4[1][0,1].to_i].push(name4) if bob4
       bob3=find_unit("Awakening","Lucina",event) if bob5[2].length==0 && bob5[1].length>0
     end
     if name4=="Lucina"
       bob5=[[],[],[],[]]
-      bob5[bob2[19][0,1].to_i].push(name2) if bob2
-      bob5[bob3[19][0,1].to_i].push(name3) if bob3
-      bob5[bob1[19][0,1].to_i].push(name1) if bob1
+      bob5[bob2[1][0,1].to_i].push(name2) if bob2
+      bob5[bob3[1][0,1].to_i].push(name3) if bob3
+      bob5[bob1[1][0,1].to_i].push(name1) if bob1
       bob4=find_unit("Awakening","Lucina",event) if bob5[2].length==0 && bob5[1].length>0
     end
   end
@@ -1517,11 +1478,11 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       grandmother = nil
     else
       # name2 and name3 both defined but not name1
-      if bob2[19][0,1].to_i>bob3[19][0,1].to_i
+      if bob2[1][0,1].to_i>bob3[1][0,1].to_i
         kidname = name2
         mother = name3
         grandmother = nil
-      elsif bob2[19][0,1].to_i<bob3[19][0,1].to_i
+      elsif bob2[1][0,1].to_i<bob3[1][0,1].to_i
         kidname = name3
         mother = name2
         grandmother = nil
@@ -1544,11 +1505,11 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       grandmother = nil
     else
       # name1 and name3 both defined but not name2
-      if bob1[19][0,1].to_i>bob3[19][0,1].to_i
+      if bob1[1][0,1].to_i>bob3[1][0,1].to_i
         kidname = name1
         mother = name3
         grandmother = nil
-      elsif bob1[19][0,1].to_i<bob3[19][0,1].to_i
+      elsif bob1[1][0,1].to_i<bob3[1][0,1].to_i
         kidname = name3
         mother = name1
         grandmother = nil
@@ -1564,11 +1525,11 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       end
     end
   elsif bob3.nil?
-    if bob2[19][0,1].to_i>bob1[19][0,1].to_i
+    if bob2[1][0,1].to_i>bob1[1][0,1].to_i
       kidname = name2
       mother = name1
       grandmother = nil
-    elsif bob2[19][0,1].to_i<bob1[19][0,1].to_i
+    elsif bob2[1][0,1].to_i<bob1[1][0,1].to_i
       kidname = name1
       mother = name2
       grandmother = nil
@@ -1585,9 +1546,9 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
   else
     # all three variables defined
     bob4=[[],[],[],[]]
-    bob4[bob1[19][0,1].to_i].push(name1)
-    bob4[bob2[19][0,1].to_i].push(name2)
-    bob4[bob3[19][0,1].to_i].push(name3)
+    bob4[bob1[1][0,1].to_i].push(name1)
+    bob4[bob2[1][0,1].to_i].push(name2)
+    bob4[bob3[1][0,1].to_i].push(name3)
     if bob4[1].length>1
       if bob4[1].length>2
         # three first-gen units listed
@@ -1686,8 +1647,8 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
         if grandmother==@predetermined_parents[i][0] && mother==@predetermined_parents[i][1]
           bob2=find_unit(game,grandmother,event)
           g="them"
-          g="him" if bob2[19][1,1]=="m"
-          g="her" if bob2[19][1,1]=="f"
+          g="him" if bob2[1][1,1]=="m"
+          g="her" if bob2[1][1,1]=="f"
           if grandmother=="Megan"
             event.respond "If she goes unmarried, Megan will create Portia anyway; no need to specify Megan as the grandmother.  Showing default Portia as the mother." if permerror
           else
@@ -1699,8 +1660,8 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
         if mother==@predetermined_parents[i][0] && kidname==@predetermined_parents[i][1]
           bob2=find_unit(game,mother,event)
           g="them"
-          g="him" if bob2[19][1,1]=="m"
-          g="her" if bob2[19][1,1]=="f"
+          g="him" if bob2[1][1,1]=="m"
+          g="her" if bob2[1][1,1]=="f"
           if mother=="Megan"
             event.respond "If she goes unmarried, Megan will create Portia anyway; no need to specify Megan as the mother.  Showing default Portia." if permerror
           else
@@ -1726,22 +1687,22 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       elsif ["Lucina"].include?(mother)
         # Lucina as the parent.  Grandparent must be female.
         bob1=find_unit(game,grandmother,event)
-        if bob1[19][1,1]=="m"
+        if bob1[1][1,1]=="m"
           bob2=find_unit(game,mother,event)
           g="they already have"
-          g="he already has" if bob2[19][1,1]=="m"
-          g="she already has" if bob2[19][1,1]=="f"
+          g="he already has" if bob2[1][1,1]=="m"
+          g="she already has" if bob2[1][1,1]=="f"
           event.respond("#{grandmother} cannot be #{mother}'s father, as #{g} one.  Showing default #{mother}!Morgan")
           grandmother = nil
         end
       else
         # Another kid as parent.  Grandparent must be male.
         bob1=find_unit(game,grandmother,event)
-        if bob1[19][1,1]=="f"
+        if bob1[1][1,1]=="f"
           bob2=find_unit(game,mother,event)
           g="they already have"
-          g="he already has" if bob2[19][1,1]=="m"
-          g="she already has" if bob2[19][1,1]=="f"
+          g="he already has" if bob2[1][1,1]=="m"
+          g="she already has" if bob2[1][1,1]=="f"
           event.respond("#{grandmother} cannot be #{mother}'s mother, as #{g} one.  Showing default #{mother}!Morgan")
           grandmother = nil
         end
@@ -1751,22 +1712,22 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       elsif ["Lucina"].include?(kidname)
         # Lucina as the child.  Parent must be female.
         bob1=find_unit(game,mother,event)
-        if bob1[19][1,1]=="m"
+        if bob1[1][1,1]=="m"
           bob2=find_unit(game,kidname,event)
           g="they already have"
-          g="he already has" if bob2[19][1,1]=="m"
-          g="she already has" if bob2[19][1,1]=="f"
+          g="he already has" if bob2[1][1,1]=="m"
+          g="she already has" if bob2[1][1,1]=="f"
           event.respond("#{mother} cannot be #{kidname}'s father, as #{g} one.  Showing default #{kidname}")
           mother = nil
         end
       else
         # Another kid as child.  Parent must be male.
         bob1=find_unit(game,mother,event)
-        if bob1[19][1,1]=="f"
+        if bob1[1][1,1]=="f"
           bob2=find_unit(game,kidname,event)
           g="they already have"
-          g="he already has" if bob2[19][1,1]=="m"
-          g="she already has" if bob2[19][1,1]=="f"
+          g="he already has" if bob2[1][1,1]=="m"
+          g="she already has" if bob2[1][1,1]=="f"
           event.respond("#{mother} cannot be #{kidname}'s mother, as #{g} one.  Showing default #{kidname}")
           mother = nil
         end
@@ -1780,22 +1741,22 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       elsif @shigure_class_kids.include?(mother)
         # Shigure as the parent.  Grandparent must be male.
         bob1=find_unit(game,grandmother,event)
-        if bob1[19][1,1]=="f"
+        if bob1[1][1,1]=="f"
           bob2=find_unit(game,mother,event)
           g="they already have"
-          g="he already has" if bob2[19][1,1]=="m"
-          g="she already has" if bob2[19][1,1]=="f"
+          g="he already has" if bob2[1][1,1]=="m"
+          g="she already has" if bob2[1][1,1]=="f"
           event.respond("#{grandmother} cannot be #{mother}'s mother, as #{g} one.  Showing default #{mother}!Kana")
           grandmother = nil
         end
       else
         # Another kid as parent.  Grandparent must be female.
         bob1=find_unit(game,grandmother,event)
-        if bob1[19][1,1]=="m"
+        if bob1[1][1,1]=="m"
           bob2=find_unit(game,mother,event)
           g="they already have"
-          g="he already has" if bob2[19][1,1]=="m"
-          g="she already has" if bob2[19][1,1]=="f"
+          g="he already has" if bob2[1][1,1]=="m"
+          g="she already has" if bob2[1][1,1]=="f"
           event.respond("#{grandmother} cannot be #{mother}'s father, as #{g} one.  Showing default #{mother}!Kana")
           grandmother = nil
         end
@@ -1805,22 +1766,22 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       elsif @shigure_class_kids.include?(kidname)
         # Shigure as the parent.  Parent must be male.
         bob1=find_unit(game,mother,event)
-        if bob1[19][1,1]=="f"
+        if bob1[1][1,1]=="f"
           bob2=find_unit(game,kidname,event)
           g="they already have"
-          g="he already has" if bob2[19][1,1]=="m"
-          g="she already has" if bob2[19][1,1]=="f"
+          g="he already has" if bob2[1][1,1]=="m"
+          g="she already has" if bob2[1][1,1]=="f"
           event.respond("#{mother} cannot be #{kidname}'s mother, as #{g} one.  Showing default #{kidname}")
           mother = nil
         end
       else
         # Another kid as parent.  Parent must be female.
         bob1=find_unit(game,mother,event)
-        if bob1[19][1,1]=="m"
+        if bob1[1][1,1]=="m"
           bob2=find_unit(game,kidname,event)
           g="they already have"
-          g="he already has" if bob2[19][1,1]=="m"
-          g="she already has" if bob2[19][1,1]=="f"
+          g="he already has" if bob2[1][1,1]=="m"
+          g="she already has" if bob2[1][1,1]=="f"
           event.respond("#{mother} cannot be #{kidname}'s father, as #{g} one.  Showing default #{kidname}")
           mother = nil
         end
@@ -2000,16 +1961,9 @@ def find_unit(game,name,event,disp=true,f3=false)
   end
   x=x_find_unit(game,name,event,disp,f3)
   unless x.nil?
-    unless x[18].nil?
-      if xgame=="Awakening"
-        x[18]=x[18].gsub("Heart Seal","Second Seal")
-      elsif xgame=="Fates"
-        x[18]=x[18].gsub("Second Seal","Heart Seal")
-      end
-    end
     unless x[1].nil?
-      x[0]="Awakening!Anna" if x[0]=="Anna" && x[1]=="*Awakening*"
-      x[0]="Fates!Anna" if x[0]=="Anna" && x[1]!="*Awakening*"
+      x[0]="Awakening!Anna" if x[0]=="Anna" && x[2]=="*Awakening*"
+      x[0]="Fates!Anna" if x[0]=="Anna" && x[2]!="*Awakening*"
     end
   end
   return x
@@ -2071,7 +2025,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
     d2=momstuff[5]
     c=">talent<" if c.nil?
     c=">talent<" if c.length<2
-    mom=["Corrin","Available in all routes",g[0],g[1],m[1],g[2],m[2],g[3],m[3],g[4],m[4],g[5],m[5],g[6],m[6],g[7],m[7],"**Default Class:** Nohr Royal (Hoshido Noble, Nohr Noble)","**Heart Seal:** #{c}","1#{n}","Nohr Royal (Hoshido Noble, Nohr Noble)",c,d,d2]
+    mom=["Corrin",'1cF',"Available in all routes",g,m,['Nohr Royal', c],['Nohr Royal', c]]
     return mom
   elsif name.downcase=="robin" && (xxgame=="Awakening" || (xxgame != "Fates" && (xstats[0].length>0 || xstats[1].length>0) && !mentions_avatar_kid(event,"Fates")))
     momstuff=get_robin(event,false)
@@ -2083,7 +2037,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
     d2=momstuff[5]
     c=">talent<" if c.nil?
     c=">talent<" if c.length<2
-    mom=["Robin","*Awakening*",g[0],g[1],m[1],g[2],m[2],g[3],m[3],g[4],m[4],g[5],m[5],g[6],m[6],g[7],m[7],"**Default Class:** Tactician (Grandmaster)","**Second Seal:** Everything","1#{n}A","Tactician (Grandmaster)",c,d,d2]
+    mom=["Robin",'1cA',"*Awakening*",g,m,['Tactician', 'Everything'],['Tactician']]
     return mom
   end
   if name.length>5
@@ -2107,13 +2061,14 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   end
   # first tries full names of in-game characters
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
-    bob4=[]
-    line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-    bob4[0]="n" if bob4[0]=="Lucina" && bob4[1]=="Amiibo Character" && xgame=="Awakening"
-    bob4[0]="n" if bob4[0]=="Anna" && bob4[1]!="*Awakening*" && xgame=="Awakening"
-    return bob4 if bob4[0].downcase==name.downcase && name.downcase != "kana" && name.downcase != "morgan" && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[1]!="Exclusive to *Gates*")
-    break if bob4[0].downcase==name.downcase
+  data_load()
+  u=@units.map{|q| q}
+  for i in 0...u.length
+    u[i][0]="n" if u[i][0]=="Lucina" && u[i][2]=="Amiibo Character" && xgame=="Awakening"
+    u[i][0]="n" if u[i][0]=="Anna" && u[i][2]!="*Awakening*" && xgame=="Awakening"
+    return u[i] if u[i][0].downcase==name.downcase && name.downcase != "kana" && name.downcase != "morgan" && ((!event.server.nil? && event.server.id==256291408598663168) || u[i][1][3,1]!="g")
+    return u[i] if u[i][0].downcase==name.downcase && name.downcase=='Mathoo' && @shardizard==4
+    bob4=u[i] if u[i][0].downcase==name.downcase
   end
   if name.downcase=="kana"
     momstuff=get_corrin(event,false)
@@ -2121,52 +2076,22 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
     c=momstuff[2]
     c=">talent<" if c.nil?
     c=">talent<" if c.length<2
-    bob4[18]="**Heart Seal:** #{c}"
-    bob4[21]=c
-    for i in 1...8
-      bob4[2+i*2]=m[i]+1
+    bob4[5]=['Nohr Royal',c]
+    bob4[6]=['Nohr Royal',c]
+    for i in 1...7
+      bob4[4][i]=m[i]+1
     end
-    if momstuff[3]=="m"
-      bob4[19]="3fF"
-      bob4[17]=gender_adjust(bob4[17],"f")
-      bob4[18]=gender_adjust(bob4[18],"f")
-    elsif momstuff[3]=="f"
-      bob4[19]="3mF"
-      bob4[17]=gender_adjust(bob4[17],"m")
-      bob4[18]=gender_adjust(bob4[18],"m")
-    end
+    bob4[1]="3cF"
     return bob4
   elsif name.downcase=="morgan"
     momstuff=get_robin(event,false)
     m=momstuff[1]
-    bob4[18]="**Second Seal:** Tactician (Grandmaster)"
-    for i in 1...8
-      bob4[2+i*2]=m[i]+1
+    for i in 1...7
+      bob4[4][i]=m[i]+1
     end
-    if momstuff[3]=="m"
-      bob4[19]="3fA"
-    elsif momstuff[3]=="f"
-      bob4[19]="3mA"
-    else
-      bob4[19]="3cA"
-    end
-    if xgame=="Awakening"
-      if bob4[19][1,1]!="f" && bob4[19][1,1]!="m"
-        bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Healer (War Healer, Sage)",
-              "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)"]
-      elsif bob4[19][1,1]=="m"
-        bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Barbarian (Berserker, Warrior)",
-              "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)",
-              "Priest (War Monk, Sage)","Fighter (Warrior, Hero)"]
-      else
-        bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Troubadour (War Cleric, Valkyre)",
-              "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)",
-              "Cleric (War Cleric, Sage)","Pegasus Knight (Falcon Knight, Dark Flyer)"]
-      end
-      for i in 0...bob5.length
-        bob4[18]="#{bob4[18]}, #{bob5[i]}"
-      end
-    end
+    bob4[1]="3cA"
+    bob4[5]=['*same as variable parent*',"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"]
+    bob4[6]=['*same as variable parent*',"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"]
     return bob4
   end
   # then the Japanese counterpart names
@@ -2181,14 +2106,12 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   return find_unit("Fates","Selena",event) if "severa"[0,name.length]==name.downcase && xgame=="Fates"
   return find_unit("Fates","Odin",event) if "owain"[0,name.length]==name.downcase && xgame=="Fates"
   return find_unit("Fates","Laslow",event) if "inigo"[0,name.length]==name.downcase && xgame=="Fates"
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
-    bob4=[]
-    if line[0,name.length].downcase==name.downcase
-      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-      bob4[0]="n" if bob4[0]=="Lucina" && bob4[1]=="Amiibo Character" && xgame=="Awakening"
-      bob4[0]="n" if bob4[0]=="Anna" && bob4[1]!="*Awakening*" && xgame=="Awakening"
-      return bob4 if name.downcase != "kana"[0,name.length] && name.downcase != "morgan"[0,name.length] && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[1]!="Exclusive to *Gates*")
-    end
+  for i in 0...u.length
+    u[i][0]="n" if u[i][0]=="Lucina" && u[i][2]=="Amiibo Character" && xgame=="Awakening"
+    u[i][0]="n" if u[i][0]=="Anna" && u[i][2]!="*Awakening*" && xgame=="Awakening"
+    return u[i] if u[i][0][0,name.length].downcase==name.downcase && name.downcase != "kana"[0,name.length] && name.downcase != "morgan"[0,name.length] && ((!event.server.nil? && event.server.id==256291408598663168) || u[i][1][3,1]!="g")
+    return u[i] if u[i][0][0,name.length].downcase==name.downcase && name.downcase=='Mathoo'[0,name.length] && @shardizard==4
+    bob4=u[i] if u[i][0][0,name.length].downcase==name.downcase
   end
   if name.downcase=="kana"[0,name.length]
     momstuff=get_corrin(event,false)
@@ -2196,50 +2119,22 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
     c=momstuff[2]
     c=">talent<" if c.nil?
     c=">talent<" if c.length<2
-    bob4[18]="**Heart Seal:** #{c}"
-    bob4[21]=c
-    for i in 1...8
-      bob4[2+i*2]=m[i]+1
+    bob4[5].push(c)
+    bob4[6].push(c)
+    for i in 1...7
+      bob4[4][i]=m[i]+1
     end
-    if momstuff[3]=="m"
-      bob4[19]="3fF"
-      bob4[17]=gender_adjust(bob4[17],"f")
-      bob4[18]=gender_adjust(bob4[18],"f")
-    elsif momstuff[3]=="f"
-      bob4[19]="3mF"
-      bob4[17]=gender_adjust(bob4[17],"m")
-      bob4[18]=gender_adjust(bob4[18],"m")
-    end
+    bob4[1]="3cF"
     return bob4
   elsif name.downcase=="morgan"[0,name.length]
     momstuff=get_robin(event,false)
     m=momstuff[1]
-    bob4[18]="**Second Seal:** Tactician (Grandmaster)"
-    for i in 1...8
-      bob4[2+i*2]=m[i]+1
+    for i in 1...7
+      bob4[4][i]=m[i]+1
     end
-    if momstuff[3]=="m"
-      bob4[19]="3fA"
-    elsif momstuff[3]=="f"
-      bob4[19]="3mA"
-    else
-      bob4[19]="3cA"
-    end
-    if bob4[19][1,1]!="f" && bob4[19][1,1]!="m"
-      bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Healer (War Healer, Sage)",
-            "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)"]
-    elsif bob4[19][1,1]=="m"
-      bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Barbarian (Berserker, Warrior)",
-            "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)",
-            "Priest (War Monk, Sage)","Fighter (Warrior, Hero)"]
-    else
-      bob5=["Cavalier (Paladin, Great Knight)","Knight (Great Knight, General)","Myrmidon (Swordmaster, Assassin)","Mercenary (Hero, Bow Knight)","Troubadour (War Cleric, Valkyre)",
-            "Archer (Sniper, Bow Knight)","Thief (Assassin, Trickster)","Wyvern Rider (Wyvern Lord, Griffon Rider)","Mage (Sage, Dark Knight)","Dark Mage (Sorcerer, Dark Knight)",
-            "Cleric (War Cleric, Sage)","Pegasus Knight (Falcon Knight, Dark Flyer)"]
-    end
-    for i in 0...bob5.length
-      bob4[18]="#{bob4[18]}, #{bob5[i]}"
-    end
+    bob4[1]="3cA"
+    bob4[5]=['>same as variable parent<',"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"]
+    bob4[6]=['>same as variable parent<',"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"]
     return bob4
   end
   # then the Japanese counterpart names
@@ -2341,28 +2236,24 @@ def unit_parse(event,bot,args)
       # three generations
       parent=create_kid(event,mother,step2[2],1,false)
       @bob=create_kid(event,kidname,parent,0)
-      picture=get_picture(kidname,mother,grandmother,@bob[19][1,1],event)
+      picture=get_picture(kidname,mother,grandmother,@bob[1][1,1],event)
     elsif !mother.nil?
       # two generations
       @bob=create_kid(event,kidname,step2[1])
-      picture=get_picture(kidname,mother,nil,@bob[19][1,1],event)
+      picture=get_picture(kidname,mother,nil,@bob[1][1,1],event)
     else
       # one generation
       @bob=step2[0]
       if kidname=="Portia"
-        @bob[18]="#{@bob[18]}, Dark Mage (Sorcerer, Dark Knight)"
-      elsif kidname=="Mathoo"
-        @bob[18]="#{@bob[18]}\n**Partner Seal:** Spear Master, Basara"
+        @bob[5].push('Dark Mage')
+        @bob[6][2]='Dark Mage'
       end
       @bob[0]="Anna" if ["awakening!anna","fates!anna","anna"].include?(kidname.downcase)
       @bob[0]="**#{@bob[0]}**"
-      picture=get_picture(kidname,nil,nil,@bob[19][1,1],event)
-    end
-    for i in 2...17
-      @bob[i]=@bob[i].to_i
+      picture=get_picture(kidname,nil,nil,@bob[1][1,1],event)
     end
     fullname="__#{@bob[0]}#{" (with *Aptitude*)" if apt>0}__"
-    path=@bob[1]
+    path=@bob[2]
     text=''
     unless path.nil?
       path="*Fates*: #{path}" if !path.include?("Awakening") && !path.include?("Cross-game")
@@ -2376,13 +2267,23 @@ def unit_parse(event,bot,args)
     unless picture.nil?
       picture=nil if picture[0,1]=='>'
     end
-    text="#{text}\n**Personal Skill:** #{@bob[23]}" unless @bob[23].nil? || game=="Awakening" || @bob[19][2,1]=="A"
+    text="#{text}\n**Personal Skill:** *#{@bob[7]}*" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A"
     flds=nil
-    if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
-      text="#{text}\n**HP:** *Growth:* #{@bob[2]+apt}%\n**Strength:** *Growth:* #{@bob[3]+apt}% *Modifier:* #{"+" if @bob[4]>0}#{@bob[4]}\n**Magic:** *Growth:* #{@bob[5]+apt}% *Modifier:* #{"+" if @bob[6]>0}#{@bob[6]}\n**Skill:** *Growth:* #{@bob[7]+apt}% *Modifier:* #{"+" if @bob[8]>0}#{@bob[8]}\n**Speed:** *Growth:* #{@bob[9]+apt}% *Modifier:* #{"+" if @bob[10]>0}#{@bob[10]}\n**Luck:** *Growth:* #{@bob[11]+apt}% *Modifier:* #{"+" if @bob[12]>0}#{@bob[12]}\n**Defense:** *Growth:* #{@bob[13]+apt}% *Modifier:* #{"+" if @bob[14]>0}#{@bob[14]}\n**Resistance:** *Growth:* #{@bob[15]+apt}% *Modifier:* #{"+" if @bob[16]>0}#{@bob[16]}\n#{@bob[17]}\n#{@bob[18]}"
-    else
-      flds=[["**Growth Rates**","*HP:*	#{@bob[2]+apt}%\n*Strength:*	#{@bob[3]+apt}%\n*Magic:*	#{@bob[5]+apt}%\n*Skill:*	#{@bob[7]+apt}%\n*Speed:*	#{@bob[9]+apt}%\n*Luck:*	#{@bob[11]+apt}%\n*Defense:*	#{@bob[13]+apt}%\n*Resistance:*	#{@bob[15]+apt}%\n\n*Total:*	#{@bob[2]+@bob[3]+@bob[5]+@bob[7]+@bob[9]+@bob[11]+@bob[13]+@bob[15]+(8*apt)}%"],["**Modifiers**","-\n*Strength:*	#{"+" if @bob[4]>0}#{@bob[4]}\n*Magic:*	#{"+" if @bob[6]>0}#{@bob[6]}\n*Skill:*	#{"+" if @bob[8]>0}#{@bob[8]}\n*Speed:*	#{"+" if @bob[10]>0}#{@bob[10]}\n*Luck:*	#{"+" if @bob[12]>0}#{@bob[12]}\n*Defense:*	#{"+" if @bob[14]>0}#{@bob[14]}\n*Resistance:*	#{"+" if @bob[16]>0}#{@bob[16]}\n\n*Total:*	#{@bob[4]+@bob[6]+@bob[8]+@bob[10]+@bob[12]+@bob[14]+@bob[16]}"],["**Classes**","#{@bob[17].gsub('**','*')}\n#{@bob[18].gsub('**','*')}",false]]
+    m=['HP','Strength','Magic','Skill','Speed','Luck','Defense','Resistance']
+    flds=[["**Growth Rates**",[]],["**Modifiers**",['-']],["**Classes**","*Default class:* #{@bob[5][0]}\n*#{'Heart Seal' if @bob[1][2]=='F'}#{'Second Seal' if @bob[1][2]=='A'}:* #{@bob[5][1,@bob[5].length-1].join(', ')}#{"\n*Partner Seal:* Spear Master, Basara" if @bob[0]=='Mathoo'}",false]]
+    f=[0,0]
+    for i in 0...8
+      flds[0][1].push("*#{m[i]}:* #{@bob[3][i]+apt}%")
+      flds[1][1].push("*#{m[i]}:* #{'+' if @bob[4][i]>0}#{@bob[4][i]}") unless i==0
+      f[0]+=@bob[3][i]+apt
+      f[1]+=@bob[4][i]
     end
+    flds[0][1].push('')
+    flds[1][1].push('')
+    flds[0][1].push("*Total:* #{f[0]}%")
+    flds[1][1].push("*Total:* #{'+' if f[1]>0}#{f[1]}")
+    flds[0][1]=flds[0][1].join("\n")
+    flds[1][1]=flds[1][1].join("\n")
     xstats=find_stats_in_string(event)
     game=""
     game="Awakening" if event.message.text[0,4].downcase=="fea!"
@@ -2874,38 +2775,33 @@ def parse_args(event,game,args,lil=true,mde=0)
       # three generations
       parent=create_kid(event,mother,step2[2],1,false)
       unit=create_kid(event,kidname,parent,0)
-      picture=get_picture(kidname,mother,grandmother,unit[19][1,1],event)
+      picture=get_picture(kidname,mother,grandmother,unit[1][1,1],event)
     elsif !mother.nil?
       # two generations
       unit=create_kid(event,kidname,step2[1])
-      picture=get_picture(kidname,mother,nil,unit[19][1,1],event)
+      picture=get_picture(kidname,mother,nil,unit[1][1,1],event)
     else
       # one generation
       unit=step2[0]
-      if unit[17].nil? || unit[17]==""
-        unit[20]=gender_adjust("Nohr Royal (Hoshido Noble, Nohr Noble)",unit[19][1,1])
-        unit[17]="**Default Class:** #{unit[20]}"
+      if unit[5].nil? || unit[5][0].nil? || unit[5][0]==''
+        unit[5]=[] if unit[5].nil?
+        unit[5][0]=gender_adjust("Nohr Royal",unit[1][1,1])
       end
       if kidname=="Portia"
-        unit[18]="#{unit[18]}, Dark Mage (Sorcerer, Dark Knight)"
-      elsif kidname=="Mathoo"
-        unit[18]="#{unit[18]}\n**Partner Seal:** Spear Master, Basara"
+        unit[5].push('Dark Mage')
       end
       unit[0]="**#{unit[0]}**"
-      picture=get_picture(kidname,nil,nil,unit[19][1,1],event)
-    end
-    for i in 2...17
-      unit[i]=unit[i].to_i
+      picture=get_picture(kidname,nil,nil,unit[1][1,1],event)
     end
   end
   ### generating class ###
   unless clss.nil?
     if clss[0][0,6]=="Taguel"
       clss=find_class("Taguel (C)",event) if !event.message.text.downcase.include?('(f)') && !event.message.text.downcase.include?('(m)')
-      clss=find_class("Taguel (#{unit[19][1,1].upcase})",event) unless unit.nil?
-    elsif clss[0][0,10]=="Great Lord" && clss[19]=="Awakening"
+      clss=find_class("Taguel (#{unit[1][1,1].upcase})",event) unless unit.nil?
+    elsif clss[0][0,10]=="Great Lord" && clss[1]=="Awakening"
       clss=find_class("Great Lord (C)",event) if !event.message.text.downcase.include?('(f)') && !event.message.text.downcase.include?('(m)')
-      clss=find_class("Great Lord (#{unit[19][1,1].upcase})",event) unless unit.nil?
+      clss=find_class("Great Lord (#{unit[1][1,1].upcase})",event) unless unit.nil?
     end
     for i in 1...17
       clss[i]=clss[i].to_i
@@ -3092,7 +2988,7 @@ def parse_job(event,args,bot,mde=0)
     unit_parse(event,bot,step1.compact)
     return 0
   else # both defined
-    disp="__**#{gender_adjust(clss[0],unit[19][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}#{" (with *Aptitude*)" if apt>0}__"
+    disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}#{" (with *Aptitude*)" if apt>0}__"
     if apt>0 && game==""
       f=find_unit(game,unit[0].gsub('**','').gsub('__','').split('!')[-1],event)
       apt=10
@@ -3953,7 +3849,7 @@ bot.command(:marry) do |event, name1, name2|
     if [name1,name2].include?("Corrin")
       event.respond "You cannot marry Kana as they are your child"
       return nil
-    elsif [bob1[19][0,1],bob2[19][0,1]].include?("1")
+    elsif [bob1[1][0,1],bob2[1][0,1]].include?("1")
       event.respond "#{name1} and #{name2} cannot marry as they are of different generations"
       return nil
     end
@@ -3961,7 +3857,7 @@ bot.command(:marry) do |event, name1, name2|
     if [name1,name2].include?("Robin")
       event.respond "You cannot marry Morgan as they are your child"
       return nil
-    elsif [bob1[19][0,1],bob2[19][0,1]].include?("1")
+    elsif [bob1[1][0,1],bob2[1][0,1]].include?("1")
       event.respond "#{name1} and #{name2} cannot marry as they are of different generations"
       return nil
     end
@@ -3969,10 +3865,10 @@ bot.command(:marry) do |event, name1, name2|
     event.respond "#{name1} cannot marry themself"
     return nil
   elsif [name1,name2].include?("Corrin") || [name1,name2].include?("Robin")
-  elsif bob1[19][0,1]!=bob2[19][0,1]
+  elsif bob1[1][0,1]!=bob2[1][0,1]
     event.respond "#{name1} and #{name2} cannot marry as they are of different generations"
     return nil
-  elsif bob1[19][1,1]==bob2[19][1,1] && !homosexuality_filter?(event)
+  elsif bob1[1][1,1]==bob2[1][1,1] && !homosexuality_filter?(event)
     event.respond "#{name1} and #{name2} cannot marry as they are the same gender"
     return nil
   elsif !incest_filter?(event)
@@ -4003,68 +3899,68 @@ bot.command(:marry) do |event, name1, name2|
     end
   end
   if bob1[0]=="GSO" && name2=="Corrin"
-    f=gender_adjust(bob2[21],bob1[19][1,1])
-    f=gender_adjust(bob2[22],bob1[19][1,1]) if f==bob1[20]
+    f=gender_adjust(bob2[21],bob1[1][1,1])
+    f=gender_adjust(bob2[22],bob1[1][1,1]) if f==bob1[20]
     event << "GSO's Partner Seal option becomes: #{f}"
     event << "Kamui's Partner Seal option becomes: #{bob1[20]}"
     event << "Kamui!Ocarina and the GSO!Kana twins are born"
     return nil
   elsif bob2[0]=="GSO" && name1=="Corrin"
-    f=gender_adjust(bob1[21],bob2[19][1,1])
-    f=gender_adjust(bob1[22],bob2[19][1,1]) if f==bob2[20]
+    f=gender_adjust(bob1[21],bob2[1][1,1])
+    f=gender_adjust(bob1[22],bob2[1][1,1]) if f==bob2[20]
     event << "Kamui's Partner Seal option becomes: #{bob2[20]}"
     event << "GSO's Partner Seal option becomes: #{f}"
     event << "The GSO!Kana twins and Kamui!Ocarina are born"
     return nil
   end
-  p1=20
-  p2=20
-  if ["Villager (Master of Arms, Merchant)",gender_adjust("Nohr Royal (Hoshido Noble, Nohr Noble)",bob1[19][1,1]),"Kitsune (Nine-Tails)","Kitty Laguz (Simba Laguz, Tiger Laguz)","Wolfskin (Wolfssegner)","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord (Great Lord)","Villager"].include?(gender_adjust(bob2[p1],bob1[19][1,1]))
-    p1=21
+  p1=0
+  p2=0
+  if ["Villager",gender_adjust("Nohr Royal",bob1[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob2[6][p1],bob1[1][1,1]))
+    p1=1
   end
-  if gender_adjust(bob2[p1],bob1[19][1,1])==bob1[20]
+  if gender_adjust(bob2[6][p1],bob1[1][1,1])==bob1[6][0]
     p1+=1
   end
-  if ["Villager (Master of Arms, Merchant)",gender_adjust("Nohr Royal (Hoshido Noble, Nohr Noble)",bob2[19][1,1]),"Kitsune (Nine-Tails)","Kitty Laguz (Simba Laguz, Tiger Laguz)","Wolfskin (Wolfssegner)","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord (Great Lord)","Villager"].include?(gender_adjust(bob1[p2],bob2[19][1,1]))
-    p2=21
+  if ["Villager",gender_adjust("Nohr Royal",bob2[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob1[6][p1],bob2[1][1,1]))
+    p2=1
   end
-  if gender_adjust(bob1[p2],bob2[19][1,1])==bob2[20]
+  if gender_adjust(bob1[6][p2],bob2[1][1,1])==bob2[6][0]
     p2+=1
   end
-  ps1=gender_adjust(bob2[p1],bob1[19][1,1])
-  ps2=gender_adjust(bob1[p2],bob2[19][1,1])
-  if bob1[19][2,1]=="A"
+  ps1=gender_adjust(bob2[6][p1],bob1[1][1,1])
+  ps2=gender_adjust(bob1[6][p2],bob2[1][1,1])
+  if bob1[1][2,1]=="A"
     event << "#{name1} cannot get a Partner Seal option."
   elsif ps1.nil? || ps1=="" || ps1==" "
     event << "#{name1} is cheated out of a Partner Seal option."
   else
     event << "#{name1}'s Partner Seal option becomes: #{ps1}"
   end
-  if bob2[19][2,1]=="A"
+  if bob2[1][2,1]=="A"
     event << "#{name2} cannot get a Partner Seal option."
   elsif ps2.nil? || ps2=="" || ps2==" "
     event << "#{name2} is cheated out of a Partner Seal option."
   else
     event << "#{name2}'s Partner Seal option becomes: #{ps2}"
   end
-  if !get_child(name1,bob2[19][1,1],event).nil? && !get_child(name2,bob1[19][1,1],event).nil?
-    if get_child(name1,bob2[19][1,1],event)=="Portia"
-      event << "#{name2}!#{get_child(name1,bob2[19][1,1],event)} is built"
-      event << "#{name1}!#{get_child(name2,bob1[19][1,1],event)} is born"
-    elsif get_child(name2,bob1[19][1,1],event)=="Portia"
-      event << "#{name2}!#{get_child(name1,bob2[19][1,1],event)} is born"
-      event << "#{name1}!#{get_child(name2,bob1[19][1,1],event)} is built"
+  if !get_child(name1,bob2[1][1,1],event).nil? && !get_child(name2,bob1[1][1,1],event).nil?
+    if get_child(name1,bob2[1][1,1],event)=="Portia"
+      event << "#{name2}!#{get_child(name1,bob2[1][1,1],event)} is built"
+      event << "#{name1}!#{get_child(name2,bob1[1][1,1],event)} is born"
+    elsif get_child(name2,bob1[1][1,1],event)=="Portia"
+      event << "#{name2}!#{get_child(name1,bob2[1][1,1],event)} is born"
+      event << "#{name1}!#{get_child(name2,bob1[1][1,1],event)} is built"
     else
-      event << "#{name2}!#{get_child(name1,bob2[19][1,1],event)} and #{name1}!#{get_child(name2,bob1[19][1,1],event)} are born"
+      event << "#{name2}!#{get_child(name1,bob2[1][1,1],event)} and #{name1}!#{get_child(name2,bob1[1][1,1],event)} are born"
     end
-  elsif get_child(name1,bob2[19][1,1],event)=="Portia"
-    event << "#{name2}!#{get_child(name1,bob2[19][1,1],event)} is built"
-  elsif get_child(name2,bob1[19][1,1],event)=="Portia"
-    event << "#{name1}!#{get_child(name2,bob1[19][1,1],event)} is built"
-  elsif !get_child(name1,bob2[19][1,1],event).nil?
-    event << "#{name2}!#{get_child(name1,bob2[19][1,1],event)} is born"
-  elsif !get_child(name2,bob1[19][1,1],event).nil?
-    event << "#{name1}!#{get_child(name2,bob1[19][1,1],event)} is born"
+  elsif get_child(name1,bob2[1][1,1],event)=="Portia"
+    event << "#{name2}!#{get_child(name1,bob2[1][1,1],event)} is built"
+  elsif get_child(name2,bob1[1][1,1],event)=="Portia"
+    event << "#{name1}!#{get_child(name2,bob1[1][1,1],event)} is built"
+  elsif !get_child(name1,bob2[1][1,1],event).nil?
+    event << "#{name2}!#{get_child(name1,bob2[1][1,1],event)} is born"
+  elsif !get_child(name2,bob1[1][1,1],event).nil?
+    event << "#{name1}!#{get_child(name2,bob1[1][1,1],event)} is born"
   end
   if [name1,name2].include?('Takumi') && [name1,name2].include?('Azura')
     event << "My developer becomes happy that someone else ships best *Fates* ship."
@@ -4102,9 +3998,9 @@ bot.command(:levelup) do |event, *args|
   mem=f[3]
   g=f[4]
   ### displaying data ###
-  unit=["default","",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"","","1cX"] if unit.nil? # no unit defined
+  unit=["default","1cX","",[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],"",""] if unit.nil? # no unit defined
   clss=["default",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] if clss.nil? # no class defined
-  disp="__**#{gender_adjust(clss[0],unit[19][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
+  disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
   if disp=="__**Maid**!**Micro Mermaid Megankarp**__" && rand(3).zero?
     fullname="__**Micro Meido Magikarp Mermaid Megan**__"
   else
@@ -4119,8 +4015,7 @@ bot.command(:levelup) do |event, *args|
   text=""
   f=0
   for i in 0...8
-    x=unit[1+2*i].to_i+clss[1+2*i].to_i+apt
-    x=unit[2+2*i].to_i+clss[1+2*i].to_i+apt if i==0
+    x=unit[3][i].to_i+clss[1+2*i].to_i+apt
     y=x/100
     x=x%100
     r=rand(100)
@@ -4132,21 +4027,15 @@ bot.command(:levelup) do |event, *args|
     text='No stats increased'
   end
   foot=['bad level-up','okay level-up','decent level-up','amazing level-up']
-  kidname=unit[0]
-  foot=["Oh dear! I-I'll do better from now on!","That wasn't so bad... I can do this!","Oh, yay! I think I improved a little...","Now they'll all see how t-tough I am!"] if kidname.downcase=="sakura"
-  foot=["At this rate, I'll never improve","I guess I improved a *tiny* bit?","Good things come in *small* packages, it seems.","It is a good day to die...for the enemy!"] if kidname.downcase=="mathoo"
-  foot=["No wait! Lemme try that again...","Maybe if I get someone to help me train...","To get to my friends, you'll need to get though me!","I'd suggest you get good if you want to be on my level!"] if kidname.downcase=="bluezie"
-  foot=["Heh...seriously? Haha, why even bother?","Sheesh, that's it? Legendary failure, here we go.","Time to kill some mages with this swell stuff.","Blood, sweat, and tears. Oh ho ho, that's yours? Your loss, my gain!"] if kidname.downcase=="rudyard"
-  foot=["What a way to rain on my own parade...","What a light shower...","Couldn't pawsibly get much better than this!","Nothing less than purrfect!"] if kidname.downcase=="draco"
   if f>5
     f=foot[3]
   else
     f=foot[f/2]
   end
-  xcolor=embed_color(unit[1])
-  unless unit[1]=="Cross-game child"
-    xcolor=0x010101 if clss[19]=="Awakening" && !unit[1].include?("Awakening")
-    xcolor=0x010101 if clss[19]!="Awakening" && unit[1].include?("Awakening")
+  xcolor=embed_color(unit[2])
+  unless unit[2]=="Cross-game child"
+    xcolor=0x010101 if clss[19]=="Awakening" && !unit[2].include?("Awakening")
+    xcolor=0x010101 if clss[19]!="Awakening" && unit[2].include?("Awakening")
   end
   create_embed(event,fullname,text,xcolor,f)
 end
@@ -4198,27 +4087,24 @@ bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
     event.respond "#{level} is being interpreted as the level being promoted to."
   end
   ### displaying data ###
-  unit=["default","",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"","","1cX"] if unit.nil? # no unit defined
-  if unit[19][0,1].to_i==1
+  unit=["default","1cX","",[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],"",""] if unit.nil? # no unit defined
+  if unit[1][0,1].to_i==1
     event.respond "#{unit[0].gsub('*','')}, as a first-gen unit, cannot use an Offspring Seal."
     return nil
   end
   clss=["default",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,nil,nil,"",0,0,0,0,0,0,0,0] if clss.nil? # no class defined
-  disp="__**#{gender_adjust(clss[0],unit[19][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
+  disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
   if apt>0 && game==""
     f=find_unit(game,kidname,event)
     apt=10
     apt=20 if ["Awakening","*Awakening*"].include?(f[1])
   end
-  base_clss=[]
-  unit[17].gsub('**Default Class:** ','').each_line(' (') {|s| base_clss.push(s)}
-  base_clss=find_class(base_clss[0][0,base_clss[0].length-2],event)
+  base_clss=find_class(unit[6][0],event)
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
   text=""
   f=0
   for i in 0...8
-    x=unit[1+2*i].to_i+clss[1+2*i].to_i+apt
-    x=unit[2+2*i].to_i+clss[1+2*i].to_i+apt if i==0
+    x=unit[3][i].to_i+clss[1+2*i].to_i+apt
     y=x*level/100+clss[20+i].to_i-base_clss[20+i].to_i
     text="#{text}\n#{b[i]} went up by #{y}" if y>0
     f+=1 if y>0
@@ -4226,10 +4112,10 @@ bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
   if text.length==0
     text='No stats increased'
   end
-  xcolor=embed_color(unit[1])
-  unless unit[1]=="Cross-game child"
-    xcolor=0x010101 if clss[19]=="Awakening" && !unit[1].include?("Awakening")
-    xcolor=0x010101 if clss[19]!="Awakening" && unit[1].include?("Awakening")
+  xcolor=embed_color(unit[2])
+  unless unit[2]=="Cross-game child"
+    xcolor=0x010101 if clss[19]=="Awakening" && !unit[2].include?("Awakening")
+    xcolor=0x010101 if clss[19]!="Awakening" && unit[2].include?("Awakening")
   end
   create_embed(event,disp,text,xcolor)
 end
@@ -4316,12 +4202,14 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   metadata_load()
   bot.servers.values(&:members)
   @server_data2[0][@shardizard]=bot.servers.length
+  @server_data2[0][@shardizard]-=4 if @shardizard==4
   @server_data2[1][@shardizard]=bot.users.size
   metadata_save()
   numbers=[0,0,0,0,0,0,0,0]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt').each_line do |line|
+  data_load()
+  for i in 0...@units.length
     numbers[0]+=1
-    numbers[1]+=1 unless line.include?("Exclusive to *Gates*")
+    numbers[1]+=1 unless @units[i][1][3]=='g'
   end
   File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
     numbers[2]+=1
@@ -4583,36 +4471,9 @@ bot.ready do |event|
   end
   system("color B#{"14506"[@shardizard,1]}")
   bot.game="booting, please wait..." if [0,4].include?(@shardizard)
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt')
-    download = open('http://pastebin.com/raw/0uU5MKEC')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEChars.txt')
-  end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
-    download = open('http://pastebin.com/raw/pv0s1TDW')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
-  else
-    clsses=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
-      bob4=[]
-      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-      clsses.push(bob4)
-    end
-    if clsses[0].length<=28
-      download = open('http://pastebin.com/raw/pv0s1TDW')
-      IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
-    end
-  end
   if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
     download = open('http://pastebin.com/raw/43UKARGi')
     IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
-  end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
-    download = open('http://pastebin.com/raw/SwjaqjWu')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
-  end
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt')
-    download = open('http://pastebin.com/raw/xZc4C7Tp')
-    IO.copy_stream(download, 'FC:/Users/Mini-Matt/Desktop/devkit/EItems.txt')
   end
   if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav')
     b=[]
@@ -4636,6 +4497,7 @@ bot.ready do |event|
     end
   end
   metadata_save()
+  data_load()
   system("color 1#{"BCD0E"[@shardizard,1]}")
   bot.game="Fire Emblem Awakening / Fates" if [0,4].include?(@shardizard)
   bot.user(bot.profile.id).on(285663217261477889).nickname="FEIndex (RobinDebug)" if @shardizard==4
