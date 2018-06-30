@@ -82,6 +82,25 @@ def data_load()
     b[i][6]=b[i][6].split(', ')
   end
   @units=b.map{|q| q}
+  # CLASS DATA
+  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
+    b=[]
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
+      b.push(line)
+    end
+  else
+    b=[]
+  end
+  for i in 0...b.length
+    b[i]=b[i].split('\\'[0]).reject{|q| q=="\n"}
+    b[i][3]=b[i][3].split(', ').map{|q| q.to_i}
+    b[i][4]=b[i][4].split(', ').map{|q| q.to_i}
+    b[i][5]=b[i][5].split(', ').map{|q| q.to_i}
+    b[i][7]=b[i][7].split(', ')
+    b[i][8]=b[i][8].split(', ') unless b[i][8].nil?
+    b[i][9]=b[i][9].split('; ').map{|q| q.split(', ').map{|q2| q2.gsub("\n",'')}} unless b[i][9].nil?
+  end
+  @classes=b.map{|q| q}
 end
 
 def nicknames_load()
@@ -958,42 +977,23 @@ def x_find_class(name,event,game="",ignore=false)
   return x_find_class("Oni Savage",event,game) if "oni"==name.gsub(' ','').downcase
   return x_find_class("Nohrian Royal",event,game) if "nohrroyal"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
   return nil if name.length<4
+  data_load()
   # Match the class from the game first...
-  bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
-    bob4=[]
-    if line.gsub(' ','').downcase==name.gsub(' ','').downcase
-      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-      return bob4 if bob4[19]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[28]!="Penumbra")
-    end
+  for i in 0...@classes.length
+    return @classes[i] if @classes[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && @classes[i][1]==game && ((!event.server.nil? && event.server.id==256291408598663168) || @classes[i][2]!="Penumbra")
   end
   unless ignore
-    bob4=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
-      bob4=[]
-      if line.gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase
-        line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-        return bob4 if bob4[19]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[28]!="Penumbra")
-      end
+    for i in 0...@classes.length
+      return @classes[i] if @classes[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && @classes[i][1]==game && ((!event.server.nil? && event.server.id==256291408598663168) || @classes[i][2]!="Penumbra")
     end
   end
   # ...only if that fails try the class from another game
-  bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
-    bob4=[]
-    if line.gsub(' ','').downcase==name.gsub(' ','').downcase
-      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-      return bob4 if ((!event.server.nil? && event.server.id==256291408598663168) || bob4[28]!="Penumbra")
-    end
+  for i in 0...@classes.length
+    return @classes[i] if @classes[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || @classes[i][2]!="Penumbra")
   end
   unless ignore
-    bob4=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
-      bob4=[]
-      if line.gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase
-        line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-        return bob4 if ((!event.server.nil? && event.server.id==256291408598663168) || bob4[28]!="Penumbra")
-      end
+    for i in 0...@classes.length
+      return @classes[i] if @classes[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || @classes[i][2]!="Penumbra")
     end
   end
   for i in @japanese_names
@@ -1013,7 +1013,7 @@ def find_class(name,event,game="",ignore=false)
   return nil
 end
 
-def find_overlap(route1, route2, parentname=nil)
+def find_overlap(route1,route2,parentname=nil)
   data_load()
   return "Cross-game child" if ["Awakening","*Awakening*"].include?(route1) && !["Awakening","*Awakening*"].include?(route2)
   return "Cross-game child" if ["Awakening","*Awakening*"].include?(route2) && !["Awakening","*Awakening*"].include?(route1)
@@ -1109,7 +1109,7 @@ def find_overlap(route1, route2, parentname=nil)
   end
 end
 
-def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
+def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
   data_load()
   # defaults to Fates mechanics, as they're easier to handle
   game=""
@@ -1121,7 +1121,7 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
   # If using the generic command prefixes, forces mechanics to be Awakening style if the kid is from Awakening, regardless of which game the parent is from
   if game==""
     f=find_unit(game,kidname,event)
-    game="Awakening" if ["Awakening","*Awakening*"].include?(f[1]) || kidname.downcase=="lucina"[kidname.length]
+    game="Awakening" if f[1][2,1]=='A' || kidname.downcase=="lucina"[kidname.length]
   end
   bob4=[]
   if parent.is_a?(Array)
@@ -1199,11 +1199,16 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
     end
     bob4[1]="3#{@mom[1][1,1]}A"
     if bob4[1][1,1]!="f" && bob4[1][1,1]!="m"
-      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"].uniq
+      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"].uniq
     elsif bob4[1][1,1]=="m"
-      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Barbarian","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Priest","Fighter"].uniq
+      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Barbarian","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Priest","Fighter"].uniq
     else
-      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Troubadour","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Cleric","Pegasus Knight"].uniq
+      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Troubadour","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Cleric","Pegasus Knight"].uniq
+    end
+    data_load()
+    for i in 0...bob5.length
+      m=@classes.find_index{|q| q[0]==bob5[i] && q[1]=='Awakening'}
+      bob5[i]="#{bob5[i]} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
     end
     bob4[5]=bob5.map{|q| q}
     special=["chrom","azura","olivia"]
@@ -1232,6 +1237,26 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
     event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as they already have one.  Showing default #{bob4[0]}." if display
     return bob4
   end
+  data_load()
+  for i in 0...bob4[5].length
+    clss=bob4[5][i]
+    clss=gender_adjust(clss,bob4[1][1,1])
+    if clss[0,10]=='Troubadour'
+      if game=='Awakening'
+        bob4[5][i]='Troubadour (War Cleric, Valkyrie)'
+      elsif bob4[1][1,1]=='m'
+        bob4[5][i]='Troubadour (Butler, Strategist)'
+      elsif bob4[1][1,1]=='f'
+        bob4[5][i]='Troubadour (Maid, Strategist)'
+      else
+        bob4[5][i]='Troubadour (Servant, Strategist)'
+      end
+    else
+      bob4[5][i]=clss
+      m=@classes.find_index{|q| q[0]==clss && q[1][0,1]==bob4[1][2,1]}
+      bob4[5][i]="#{clss} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
+    end
+  end
   if (@mom[0].downcase=="Corrin" && game=="Fates") || @mom[6][0]=="Nohr Royal"
     if kidname.downcase=="kana"
       clss=bob4[5][1]
@@ -1240,7 +1265,7 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
       clss2=gender_adjust(@mom[6][0],@mom[1][1,1])
       clss2=">talent<" if clss2.nil?
       clss2=">talent<" if clss2.length<2
-      if clss=="**Heart Seal:** #{clss2}"
+      if clss==clss2
         clss2=gender_adjust(@mom[6][1],@mom[1][1,1])
         clss2=">parallel talent<" if clss2.nil?
         clss2=">parallel talent<" if clss2.length<2
@@ -1248,19 +1273,31 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
       bob4[5]=[clss, clss2]
     elsif kidname.downcase=="morgan"
     else
-      bob4[5].push("Nohr Royal")
+      bob4[5].push("#{gender_adjust("Nohr Royal",bob4[1][1,1])} (Hoshido Noble, Nohr Noble)")
     end
   elsif game=="Awakening" && (bob4[0]=="Morgan" || @mom[6][0]=="Tactician")
     if @mom[1][1,1]!="f" && @mom[1][1,1]!="m"
-      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"].uniq
+      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"].uniq
     elsif @mom[1][1,1]=="m"
-      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Barbarian","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Priest","Fighter"].uniq
+      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Barbarian","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Priest","Fighter"].uniq
     else
-      bob5=[@mom[6][0],"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Troubadour","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Cleric","Pegasus Knight"].uniq
+      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Troubadour","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Cleric","Pegasus Knight"].uniq
+    end
+    unless bob4[0]=='Morgan'
+      bob5.unshift(bob4[6][3]) unless bob4[6][3].nil?
+      bob5.unshift(bob4[6][2]) unless bob4[6][2].nil?
+      bob5.unshift(bob4[6][1]) unless bob4[6][1].nil?
+      bob5.unshift(bob4[6][0]) unless bob4[6][0].nil?
+    end
+    data_load()
+    for i in 0...bob5.length
+      m=@classes.find_index{|q| q[0]==bob5[i] && q[1]=='Awakening'}
+      bob5[i]="#{bob5[i]} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
     end
     bob4[5]=bob5.map{|q| q}
   elsif game=="Awakening"
-    for i in @mom[6].length
+    data_load()
+    for i in 0...@mom[6].length
       clss=@mom[6][i]
       if @mom[0]=="Vaike" && bob4[1][1,1]=="f"
         clss="Knight" if clss=="Fighter"
@@ -1288,6 +1325,8 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
         clss="Barbarian" if clss=="Wyvern Rider"
       end
       clss=gender_adjust(clss,bob4[1][1,1])
+      m=@classes.find_index{|q| q[0]==clss && q[1]=='Awakening'}
+      clss="#{clss} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
       clss=nil if !["Awakening","*Awakening*"].include?(@mom[2]) && @mom[1][0,1]=="1" && !["Anna","Gunter","Reina","Scarlet","Shura","Izana","Yukimura","Fuga"].include?(@mom[0]) && i==2
       bob4[5].push(clss) unless [bob4[6][0],bob4[6][1],bob4[6][2],"Dancer","Songstress"].include?(clss) || clss.nil?
     end
@@ -1299,6 +1338,8 @@ def create_kid(event, kidname, parent, kanaboost=1, bold=true, display=true)
       clss=gender_adjust(@mom[6][1],bob4[1][1,1])
       clss=gender_adjust(@mom[6][2],bob4[1][1,1]) if [bob4[6][0],bob4[6][1]].include?(clss)
     end
+    m=@classes.find_index{|q| q[0]==clss && q[1][0,1]==@mom[1][2,1]}
+    clss="#{clss} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
     bob4[5].push(clss)
     bob4[6].push(clss)
   end
@@ -1674,11 +1715,11 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
   end
   f=find_unit(game,kidname,event)
   if game==""
-    game="Awakening" if ["Awakening","*Awakening*"].include?(f[1])
+    game="Awakening" if ["Awakening","*Awakening*"].include?(f[2])
   end
   f2=find_unit(game,mother,event)
   if !homosexuality_filter?(event)
-    if !grandmother.nil? && ["Awakening","*Awakening*"].include?(f2[1])
+    if !grandmother.nil? && ["Awakening","*Awakening*"].include?(f2[2])
       if grandmother == "Robin" && kidname.downcase != "portia"
         # Robin as grandparent
         event.respond("#{grandmother} cannot be both Morgan's grandparent and parent.  Showing default #{mother}!#{kidname}")
@@ -1707,7 +1748,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
           grandmother = nil
         end
       end
-    elsif !mother.nil? && ["Awakening","*Awakening*"].include?(f[1])
+    elsif !mother.nil? && ["Awakening","*Awakening*"].include?(f[2])
       if ["Morgan","Portia"].include?(kidname)
       elsif ["Lucina"].include?(kidname)
         # Lucina as the child.  Parent must be female.
@@ -1732,7 +1773,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
           mother = nil
         end
       end
-    elsif !grandmother.nil? && !["Awakening","*Awakening*"].include?(f2[1])
+    elsif !grandmother.nil? && !["Awakening","*Awakening*"].include?(f2[2])
       if grandmother == "Corrin" && kidname.downcase != "portia"
         # Corrin as grandparent
         event.respond("#{grandmother} cannot be both Kana's grandparent and parent.  Showing default #{mother}!#{kidname}")
@@ -1761,7 +1802,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
           grandmother = nil
         end
       end
-    elsif !mother.nil? && !["Awakening","*Awakening*"].include?(f[1])
+    elsif !mother.nil? && !["Awakening","*Awakening*"].include?(f[2])
       if ["Kana","Portia"].include?(kidname)
       elsif @shigure_class_kids.include?(kidname)
         # Shigure as the parent.  Parent must be male.
@@ -1961,6 +2002,9 @@ def find_unit(game,name,event,disp=true,f3=false)
   end
   x=x_find_unit(game,name,event,disp,f3)
   unless x.nil?
+    if game=='Awakening' && x[0]=='Lucina'
+      x=@units[@units.find_index{|q| q[0]=='Lucina' && q[1][2,1]=='A'}]
+    end
     unless x[1].nil?
       x[0]="Awakening!Anna" if x[0]=="Anna" && x[2]=="*Awakening*"
       x[0]="Fates!Anna" if x[0]=="Anna" && x[2]!="*Awakening*"
@@ -2248,6 +2292,26 @@ def unit_parse(event,bot,args)
         @bob[5].push('Dark Mage')
         @bob[6][2]='Dark Mage'
       end
+      data_load()
+      for i in 0...@bob[5].length
+        clss=@bob[5][i]
+        clss=gender_adjust(clss,@bob[1][1,1])
+        if clss[0,10]=='Troubadour'
+          if @bob[1][2,1]=='A'
+            @bob[5][i]='Troubadour (War Cleric, Valkyrie)'
+          elsif @bob[1][1,1]=='m'
+            @bob[5][i]='Troubadour (Butler, Strategist)'
+          elsif @bob[1][1,1]=='f'
+            @bob[5][i]='Troubadour (Maid, Strategist)'
+          else
+            @bob[5][i]='Troubadour (Servant, Strategist)'
+          end
+        else
+          @bob[5][i]=clss
+          m=@classes.find_index{|q| q[0]==clss && q[1][0,1]==@bob[1][2,1]}
+          @bob[5][i]="#{clss} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
+        end
+      end
       @bob[0]="Anna" if ["awakening!anna","fates!anna","anna"].include?(kidname.downcase)
       @bob[0]="**#{@bob[0]}**"
       picture=get_picture(kidname,nil,nil,@bob[1][1,1],event)
@@ -2360,103 +2424,229 @@ def class_parse(event,bot,args)
     event.respond("That is not the name of a class")
     return nil
   end
-  apt=20 if clss[19]=="Awakening" && apt>0
-  apt=10 if clss[19]=="Fates" && apt>0
+  apt=20 if clss[1]=="Awakening" && apt>0
+  apt=10 if clss[1]=="Fates" && apt>0
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
   flds=nil
+  clzz=@classes.map{|q| q}
   if game=="" && find_class(args.join(' ').downcase,event,"Fates")!=find_class(args.join(' ').downcase,event,"Awakening")
     if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
       fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       clss=find_class(args.join(' ').downcase,event,"Fates")
       clss2=find_class(args.join(' ').downcase,event,"Awakening")
-      text="__*Awakening*__"
+      text="#{fullname}\n\n__*Awakening*__"
       apt=20 if apt>0
+      f=[0,0,0]
       for i in 0...8
-        text="#{text}\n**#{b[i]}:**	*Growth:* #{clss2[1+2*i].to_i+apt}%	*Base:* #{clss2[20+i]}	*Maximum:* #{clss2[2+2*i]}"
+        text="#{text}\n**#{b[i]}:**	*Growth:* #{clss2[3][i].to_i+apt}%	*Base:* #{clss2[5][i]}	*Maximum:* #{clss2[4][i]}"
+        f[0]+=clss2[3][i].to_i+apt
+        f[1]+=clss2[5][i].to_i
+        f[2]+=clss2[4][i].to_i
       end
-      text="#{text}\n#{clss2[17]}"
-      text="#{text}\n**Class skills:**	#{clss2[18]}" unless clss2[18].nil? || clss2[18]==""
+      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| q[0]}
+      text="#{text}\n**Total:**	*Growth:* #{f[0]}%	*Base:* #{f[1]}	*Maximum:* #{f[2]}"
+      if clss2[6].nil? || clss2[6]==''
+        text="#{text}\n**Promotes into:** #{clss2[7].join(', ')}" unless clss2[7].nil? || clss2[7].length<=0
+        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
+        text="#{text}\n**Skills learned:** #{clss2[8].join(', ')}" unless clss2[8].nil? || clss2[8].length<=0
+        text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0
+      else
+        if clss2[6].include?('**')
+          text="#{text}\n#{clss2[6].gsub('/n',"\n")}"
+        else
+          text="#{text}\n**#{clss2[6]} Class**"
+        end
+        text="#{text}\n**Promotes into:** #{clss2[7].join(', ')}" unless clss2[7].nil? || clss2[7]=='' || clss2[6].include?('Promotes into')
+        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss2[6].include?('Promotes from')
+        text="#{text}\n**Skills learned:** #{clss2[8].join(', ')}" unless clss2[8].nil? || clss2[8]=='' || clss2[6].include?('Skills learned')
+        text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
+      end
       text="#{text}\n\n__*Fates*__"
       apt=10 if apt>0
+      f=[0,0,0]
       for i in 0...8
-        text="#{text}\n**#{b[i]}:**	*Growth:* #{clss[1+2*i].to_i+apt}%	*Base:* #{clss[20+i]}	*Maximum:* #{clss[2+2*i]}"
+        text="#{text}\n**#{b[i]}:**	*Growth:* #{clss[3][i].to_i+apt}%	*Base:* #{clss[5][i]}	*Maximum:* #{clss[4][i]}"
+        f[0]+=clss[3][i].to_i+apt
+        f[1]+=clss[5][i].to_i
+        f[2]+=clss[4][i].to_i
       end
-      text="#{text}\n#{clss[17]}"
-      text="#{text}\n**Class skills:**	#{clss[18]}" unless clss[18].nil? || clss[18]==""
-      xcolor=0x010101
-      create_embed(event,fullname,text,xcolor,nil,nil,flds)
+      text="#{text}\n**Total:**	*Growth:* #{f[0]}%	*Base:* #{f[1]}	*Maximum:* #{f[2]}"
+      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| q[0]}
+      if clss[6].nil? || clss[6]==''
+        text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[8].nil? || clss[7].length<=0
+        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
+        text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8].length<=0
+        text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
+      else
+        if clss[6].include?('**')
+          text="#{text}\n#{clss[6].gsub('/n',"\n")}"
+        else
+          text="#{text}\n**#{clss[6]} Class**"
+        end
+        text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[7].nil? || clss[7]=='' || clss[6].include?('Promotes into')
+        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss[6].include?('Promotes from')
+        text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+        text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
+      end
+      event.respond text
     else
       clss2=find_class(args.join(' ').downcase,event,"Fates")
       clss=find_class(args.join(' ').downcase,event,"Awakening")
       flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
       fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       text=''
+      f=[0,0,0]
       for i in 0...8
-        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss[1+2*i].to_i+apt}%"
-        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*	#{clss[20+i].to_i}"
-        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*	#{clss[2+2*i].to_i}"
+        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss[3][i].to_i+apt}%"
+        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*	#{clss[5][i].to_i}"
+        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*	#{clss[4][i].to_i}"
+        f[0]+=clss[3][i].to_i+apt
+        f[1]+=clss[5][i].to_i
+        f[2]+=clss[4][i].to_i
       end
-      flds[0][1]="#{flds[0][1]}\n\n*Total*: #{clss[1].to_i+clss[3].to_i+clss[5].to_i+clss[7].to_i+clss[9].to_i+clss[11].to_i+clss[13].to_i+clss[15].to_i}%"
-      flds[1][1]="#{flds[1][1]}\n\n*Total*: #{clss[20].to_i+clss[21].to_i+clss[22].to_i+clss[23].to_i+clss[24].to_i+clss[25].to_i+clss[26].to_i+clss[27].to_i}"
-      flds[2][1]="#{flds[2][1]}\n\n*Total*: #{clss[2].to_i+clss[4].to_i+clss[6].to_i+clss[8].to_i+clss[10].to_i+clss[12].to_i+clss[14].to_i+clss[16].to_i}"
+      flds[0][1]="#{flds[0][1]}\n\n*Total:*	#{f[0]}%"
+      flds[1][1]="#{flds[1][1]}\n\n*Total:*	#{f[1]}"
+      flds[2][1]="#{flds[2][1]}\n\n*Total:*	#{f[2]}"
       text="#{text}\n**Promotes from:** Discord bot" if clss[0]=="Automaton"
-      text="#{text}\n#{clss[17]}"
-      text="#{text}\n**Class skills:** #{clss[18]}" unless clss[18].nil? || clss[18]==""
-      xcolor=0x061069 if clss[19]=="Awakening"
-      if clss[19]=="Fates"
+      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| q[0]}
+      if clss[6].nil? || clss[6]==''
+        text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[8].nil? || clss[7].length<=0
+        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
+        text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8].length<=0
+        text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
+      else
+        if clss[6].include?('**')
+          text="#{text}\n#{clss[6].gsub('/n',"\n")}"
+        else
+          text="#{text}\n**#{clss[6]} Class**"
+        end
+        text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[7].nil? || clss[7]=='' || clss[6].include?('Promotes into')
+        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss[6].include?('Promotes from')
+        text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+        text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
+      end
+      xcolor=0x061069 if clss[1]=="Awakening"
+      if clss[1]=="Fates"
         xcolor=0xC5EEF2
-        xcolor=0xCF000D if clss[28]=="Hoshido"
-        xcolor=0xAA7FCD if clss[28]=="Nohr"
-        xcolor=0x2DA5AF if clss[28]=="Valla"
-        xcolor=0xFFEA8B if clss[28]=="Penumbra"
+        xcolor=0xCF000D if clss[2]=="Hoshido"
+        xcolor=0xAA7FCD if clss[2]=="Nohr"
+        xcolor=0x2DA5AF if clss[2]=="Valla"
+        xcolor=0xFFEA8B if clss[2]=="Penumbra"
       end
       create_embed(event,fullname,text,xcolor,nil,nil,flds)
       flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
       fullname="__**#{clss[0].gsub(' (C)','')}**__"
       text=''
+      f=[0,0,0]
       for i in 0...8
-        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss2[1+2*i].to_i+apt}%"
-        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*	#{clss2[20+i].to_i}"
-        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*	#{clss2[2+2*i].to_i}"
+        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss2[3][i].to_i+apt}%"
+        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*	#{clss2[5][i].to_i}"
+        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*	#{clss2[4][i].to_i}"
+        f[0]+=clss2[3][i].to_i+apt
+        f[1]+=clss2[5][i].to_i
+        f[2]+=clss2[4][i].to_i
       end
-      flds[0][1]="#{flds[0][1]}\n\n*Total*: #{clss2[1].to_i+clss2[3].to_i+clss2[5].to_i+clss2[7].to_i+clss2[9].to_i+clss2[11].to_i+clss2[13].to_i+clss2[15].to_i}%"
-      flds[1][1]="#{flds[1][1]}\n\n*Total*: #{clss2[20].to_i+clss2[21].to_i+clss2[22].to_i+clss2[23].to_i+clss2[24].to_i+clss2[25].to_i+clss2[26].to_i+clss2[27].to_i}"
-      flds[2][1]="#{flds[2][1]}\n\n*Total*: #{clss2[2].to_i+clss2[4].to_i+clss2[6].to_i+clss2[8].to_i+clss2[10].to_i+clss2[12].to_i+clss2[14].to_i+clss2[16].to_i}"
+      flds[0][1]="#{flds[0][1]}\n\n*Total:*	#{f[0]}%"
+      flds[1][1]="#{flds[1][1]}\n\n*Total:*	#{f[1]}"
+      flds[2][1]="#{flds[2][1]}\n\n*Total:*	#{f[2]}"
       text="#{text}\n**Promotes from:** Discord bot" if clss2[0]=="Automaton"
-      text="#{text}\n#{clss2[17]}"
-      text="#{text}\n**Class skills:** #{clss2[18]}" unless clss2[18].nil? || clss2[18]==""
-      xcolor=0x061069 if clss2[19]=="Awakening"
-      if clss2[19]=="Fates"
+      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| q[0]}
+      if clss2[6].nil? || clss2[6]==''
+        text="#{text}\n**Promotes into:** #{clss2[7].join(', ')}" unless clss2[8].nil? || clss2[7].length<=0
+        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
+        text="#{text}\n**Skills learned:** #{clss2[8].join(', ')}" unless clss2[8].nil? || clss2[8].length<=0
+        text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0
+      else
+        if clss2[6].include?('**')
+          text="#{text}\n#{clss2[6].gsub('/n',"\n")}"
+        else
+          text="#{text}\n**#{clss2[6]} Class**"
+        end
+        text="#{text}\n**Promotes into:** #{clss2[7].join(', ')}" unless clss2[7].nil? || clss2[7]=='' || clss2[6].include?('Promotes into')
+        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss2[6].include?('Promotes from')
+        text="#{text}\n**Skills learned:** #{clss2[8].join(', ')}" unless clss2[8].nil? || clss2[8]=='' || clss2[6].include?('Skills learned')
+        text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
+      end
+      xcolor=0x061069 if clss2[1]=="Awakening"
+      if clss2[1]=="Fates"
         xcolor=0xC5EEF2
-        xcolor=0xCF000D if clss2[28]=="Hoshido"
-        xcolor=0xAA7FCD if clss2[28]=="Nohr"
-        xcolor=0x2DA5AF if clss2[28]=="Valla"
-        xcolor=0xFFEA8B if clss2[28]=="Penumbra"
+        xcolor=0xCF000D if clss2[2]=="Hoshido"
+        xcolor=0xAA7FCD if clss2[2]=="Nohr"
+        xcolor=0x2DA5AF if clss2[2]=="Valla"
+        xcolor=0xFFEA8B if clss2[2]=="Penumbra"
       end
       create_embed(event,fullname,text,xcolor,nil,nil,flds)
     end
+  elsif @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
+    fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
+    text="#{fullname}"
+    f=[0,0,0]
+    for i in 0...8
+      text="#{text}\n**#{b[i]}:**	*Growth:* #{clss[3][i].to_i+apt}%	*Base:* #{clss[5][i]}	*Maximum:* #{clss[4][i]}"
+      f[0]+=clss[3][i].to_i+apt
+      f[1]+=clss[5][i].to_i
+      f[2]+=clss[4][i].to_i
+    end
+    text="#{text}\n**Total:**	*Growth:* #{f[0]}%	*Base:* #{f[1]}	*Maximum:* #{f[2]}"
+    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| q[0]}
+    if clss[6].nil? || clss[6]==''
+      text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[8].nil? || clss[7].length<=0
+      text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
+      text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8].length<=0
+      text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
+    else
+      if clss[6].include?('**')
+        text="#{text}\n#{clss[6].gsub('/n',"\n")}"
+      else
+        text="#{text}\n**#{clss[6]} Class**"
+      end
+      text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[7].nil? || clss[7]=='' || clss[6].include?('Promotes into')
+      text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss[6].include?('Promotes from')
+      text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+      text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
+    end
+    event.respond text
   else
     flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
     fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
     text=''
+    f=[0,0,0]
     for i in 0...8
-      flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss[1+2*i].to_i+apt}%"
-      flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*	#{clss[20+i].to_i}"
-      flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*	#{clss[2+2*i].to_i}"
+      flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss[3][i].to_i+apt}%"
+      flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*	#{clss[5][i].to_i}"
+      flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*	#{clss[4][i].to_i}"
+      f[0]+=clss[3][i].to_i+apt
+      f[1]+=clss[5][i].to_i
+      f[2]+=clss[4][i].to_i
     end
-    flds[0][1]="#{flds[0][1]}\n\n*Total*: #{clss[1].to_i+clss[3].to_i+clss[5].to_i+clss[7].to_i+clss[9].to_i+clss[11].to_i+clss[13].to_i+clss[15].to_i}%"
-    flds[1][1]="#{flds[1][1]}\n\n*Total*: #{clss[20].to_i+clss[21].to_i+clss[22].to_i+clss[23].to_i+clss[24].to_i+clss[25].to_i+clss[26].to_i+clss[27].to_i}"
-    flds[2][1]="#{flds[2][1]}\n\n*Total*: #{clss[2].to_i+clss[4].to_i+clss[6].to_i+clss[8].to_i+clss[10].to_i+clss[12].to_i+clss[14].to_i+clss[16].to_i}"
+    flds[0][1]="#{flds[0][1]}\n\n*Total:*	#{f[0]}%"
+    flds[1][1]="#{flds[1][1]}\n\n*Total:*	#{f[1]}"
+    flds[2][1]="#{flds[2][1]}\n\n*Total:*	#{f[2]}"
     text="#{text}\n**Promotes from:** Discord bot" if clss[0]=="Automaton"
-    text="#{text}\n#{clss[17]}"
-    text="#{text}\n**Class skills:** #{clss[18]}" unless clss[18].nil? || clss[18]==""
-    xcolor=0x061069 if clss[19]=="Awakening"
-    if clss[19]=="Fates"
+    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| q[0]}
+    if clss[6].nil? || clss[6]==''
+      text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[8].nil? || clss[7].length<=0
+      text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
+      text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8].length<=0
+      text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
+    else
+      if clss[6].include?('**')
+        text="#{text}\n#{clss[6].gsub('/n',"\n")}"
+      else
+        text="#{text}\n**#{clss[6]} Class**"
+      end
+      text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[7].nil? || clss[7]=='' || clss[6].include?('Promotes into')
+      text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss[6].include?('Promotes from')
+      text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+      text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
+    end
+    xcolor=0x061069 if clss[1]=="Awakening"
+    if clss[1]=="Fates"
       xcolor=0xC5EEF2
-      xcolor=0xCF000D if clss[28]=="Hoshido"
-      xcolor=0xAA7FCD if clss[28]=="Nohr"
-      xcolor=0x2DA5AF if clss[28]=="Valla"
-      xcolor=0xFFEA8B if clss[28]=="Penumbra"
+      xcolor=0xCF000D if clss[2]=="Hoshido"
+      xcolor=0xAA7FCD if clss[2]=="Nohr"
+      xcolor=0x2DA5AF if clss[2]=="Valla"
+      xcolor=0xFFEA8B if clss[2]=="Penumbra"
     end
     create_embed(event,fullname,text,xcolor,nil,nil,flds)
   end
@@ -2790,6 +2980,26 @@ def parse_args(event,game,args,lil=true,mde=0)
       if kidname=="Portia"
         unit[5].push('Dark Mage')
       end
+      data_load()
+      for i in 0...unit[5].length
+        clss22=unit[5][i]
+        clss22=gender_adjust(clss22,unit[1][1,1])
+        if clss22[0,10]=='Troubadour'
+          if unit[1][2,1]=='A'
+            unit[5][i]='Troubadour (War Cleric, Valkyrie)'
+          elsif unit[1][1,1]=='m'
+            unit[5][i]='Troubadour (Butler, Strategist)'
+          elsif unit[1][1,1]=='f'
+            unit[5][i]='Troubadour (Maid, Strategist)'
+          else
+            unit[5][i]='Troubadour (Servant, Strategist)'
+          end
+        else
+          unit[5][i]=clss22
+          m=@classes.find_index{|q| q[0]==clss22 && q[1][0,1]==unit[1][2,1]}
+          unit[5][i]="#{clss22} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
+        end
+      end
       unit[0]="**#{unit[0]}**"
       picture=get_picture(kidname,nil,nil,unit[1][1,1],event)
     end
@@ -2802,9 +3012,6 @@ def parse_args(event,game,args,lil=true,mde=0)
     elsif clss[0][0,10]=="Great Lord" && clss[1]=="Awakening"
       clss=find_class("Great Lord (C)",event) if !event.message.text.downcase.include?('(f)') && !event.message.text.downcase.include?('(m)')
       clss=find_class("Great Lord (#{unit[1][1,1].upcase})",event) unless unit.nil?
-    end
-    for i in 1...17
-      clss[i]=clss[i].to_i
     end
   end
   return [unit,clss,apt,mem,g,step1]
@@ -3000,10 +3207,10 @@ def parse_job(event,args,bot,mde=0)
     f=[0,0]
     flds=[["**Growth Rates**",[]],["**Maximum Stats**",[]]]
     for i in 0...8
-      flds[0][1].push("*#{m[i]}:*	#{unit[3][i]+clss[2*i+1]+apt}%")
-      flds[1][1].push("*#{m[i]}:*	#{unit[4][i]+clss[2*i+2]}")
-      f[0]+=unit[3][i]+clss[2*i+1]+apt
-      f[1]+=unit[4][i]+clss[2*i+2]
+      flds[0][1].push("*#{m[i]}:*	#{unit[3][i]+clss[3][i]+apt}%")
+      flds[1][1].push("*#{m[i]}:*	#{unit[4][i]+clss[4][i]}")
+      f[0]+=unit[3][i]+clss[3][i]+apt
+      f[1]+=unit[4][i]+clss[4][i]
     end
     flds[0][1].push('')
     flds[1][1].push('')
@@ -3014,8 +3221,8 @@ def parse_job(event,args,bot,mde=0)
     text="#{text}\n~~Please note that stat maximums do not account for statue bonuses~~" unless g=="Awakening"
     xcolor=embed_color_x(unit[2],clss)
     unless unit[1]=="Cross-game child"
-      xcolor=0x010101 if clss[19]=="Awakening" && !unit[2].include?("Awakening")
-      xcolor=0x010101 if clss[19]!="Awakening" && unit[2].include?("Awakening")
+      xcolor=0x010101 if clss[1]=="Awakening" && !unit[2].include?("Awakening")
+      xcolor=0x010101 if clss[1]!="Awakening" && unit[2].include?("Awakening")
     end
     xstats=find_stats_in_string(event)
     game=""
@@ -4009,7 +4216,7 @@ bot.command(:levelup) do |event, *args|
   g=f[4]
   ### displaying data ###
   unit=["default","1cX","",[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],"",""] if unit.nil? # no unit defined
-  clss=["default",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] if clss.nil? # no class defined
+  clss=["default","","",[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]] if clss.nil? # no class defined
   disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
   if disp=="__**Maid**!**Micro Mermaid Megankarp**__" && rand(3).zero?
     fullname="__**Micro Meido Magikarp Mermaid Megan**__"
@@ -4025,7 +4232,7 @@ bot.command(:levelup) do |event, *args|
   text=""
   f=0
   for i in 0...8
-    x=unit[3][i].to_i+clss[1+2*i].to_i+apt
+    x=unit[3][i].to_i+clss[3][i].to_i+apt
     y=x/100
     x=x%100
     r=rand(100)
@@ -4044,8 +4251,8 @@ bot.command(:levelup) do |event, *args|
   end
   xcolor=embed_color(unit[2])
   unless unit[2]=="Cross-game child"
-    xcolor=0x010101 if clss[19]=="Awakening" && !unit[2].include?("Awakening")
-    xcolor=0x010101 if clss[19]!="Awakening" && unit[2].include?("Awakening")
+    xcolor=0x010101 if clss[1]=="Awakening" && !unit[2].include?("Awakening")
+    xcolor=0x010101 if clss[1]!="Awakening" && unit[2].include?("Awakening")
   end
   create_embed(event,fullname,text,xcolor,f)
 end
@@ -4102,20 +4309,20 @@ bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
     event.respond "#{unit[0].gsub('*','')}, as a first-gen unit, cannot use an Offspring Seal."
     return nil
   end
-  clss=["default",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,nil,nil,"",0,0,0,0,0,0,0,0] if clss.nil? # no class defined
+  clss=["default","","",[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]] if clss.nil? # no class defined
   disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
   if apt>0 && game==""
     f=find_unit(game,kidname,event)
     apt=10
     apt=20 if ["Awakening","*Awakening*"].include?(f[1])
   end
-  base_clss=find_class(unit[6][0],event)
+  base_clss=@classes[@classes.find_index{|q| q[0]==unit[6][0] && q[1]==unit[1]}]
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
   text=""
   f=0
   for i in 0...8
-    x=unit[3][i].to_i+clss[1+2*i].to_i+apt
-    y=x*level/100+clss[20+i].to_i-base_clss[20+i].to_i
+    x=unit[3][i].to_i+clss[3][i].to_i+apt
+    y=x*level/100+clss[5][i].to_i-base_clss[5][i].to_i
     text="#{text}\n#{b[i]} went up by #{y}" if y>0
     f+=1 if y>0
   end
@@ -4124,8 +4331,8 @@ bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
   end
   xcolor=embed_color(unit[2])
   unless unit[2]=="Cross-game child"
-    xcolor=0x010101 if clss[19]=="Awakening" && !unit[2].include?("Awakening")
-    xcolor=0x010101 if clss[19]!="Awakening" && unit[2].include?("Awakening")
+    xcolor=0x010101 if clss[1]=="Awakening" && !unit[2].include?("Awakening")
+    xcolor=0x010101 if clss[1]!="Awakening" && unit[2].include?("Awakening")
   end
   create_embed(event,disp,text,xcolor)
 end
@@ -4221,9 +4428,9 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     numbers[0]+=1
     numbers[1]+=1 unless @units[i][1][3]=='g'
   end
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
+  for i in 0...@classes.length
     numbers[2]+=1
-    numbers[3]+=1 unless line.include?("Penumbra")
+    numbers[3]+=1 unless @classes[i][2]=='Penumbra'
   end
   File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
     numbers[4]+=1
