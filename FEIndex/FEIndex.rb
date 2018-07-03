@@ -101,6 +101,25 @@ def data_load()
     b[i][9]=b[i][9].split('; ').map{|q| q.split(', ').map{|q2| q2.gsub("\n",'')}} unless b[i][9].nil?
   end
   @classes=b.map{|q| q}
+  # SKILL DATA
+  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
+    b=[]
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
+      b.push(line)
+    end
+  else
+    b=[]
+  end
+  for i in 0...b.length
+    b[i]=b[i].gsub("\n",'').split('\\'[0])
+    unless b[i][2]=='-'
+      b[i][2]=b[i][2].split('; ').map{|q| q.split(', ')}
+      for j in 0...b[i][2].length
+        b[i][2][j][1]=b[i][2][j][1].to_i if b[i][2][j][1].to_i.to_s==b[i][2][j][1]
+      end
+    end
+  end
+  @skills=b.map{|q| q}
 end
 
 def nicknames_load()
@@ -2331,7 +2350,7 @@ def unit_parse(event,bot,args)
     unless picture.nil?
       picture=nil if picture[0,1]=='>'
     end
-    text="#{text}\n**Personal Skill:** *#{@bob[7]}*" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A"
+    text="#{text}\n**Personal Skill:** *#{@bob[7]}*	#{@skills[@skills.find_index{|q| q[0]==@bob[7]}][4]}" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A"
     flds=nil
     m=['HP','Strength','Magic','Skill','Speed','Luck','Defense','Resistance']
     flds=[["**Growth Rates**",[]],["**Modifiers**",['-']],["**Classes**","*Default class:* #{@bob[5][0]}\n*#{'Heart Seal' if @bob[1][2]=='F'}#{'Second Seal' if @bob[1][2]=='A'}:* #{@bob[5][1,@bob[5].length-1].join(', ')}#{"\n*Partner Seal:* Spear Master, Basara" if @bob[0]=='Mathoo'}",false]]
@@ -2429,12 +2448,24 @@ def class_parse(event,bot,args)
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
   flds=nil
   clzz=@classes.map{|q| q}
+  clss[0]=clss[0].gsub(' (C)','')
   if game=="" && find_class(args.join(' ').downcase,event,"Fates")!=find_class(args.join(' ').downcase,event,"Awakening")
     if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
       fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       clss=find_class(args.join(' ').downcase,event,"Fates")
       clss2=find_class(args.join(' ').downcase,event,"Awakening")
-      text="#{fullname}\n\n__*Awakening*__"
+      clss[0]=clss[0].gsub(' (C)','')
+      clss2[0]=clss2[0].gsub(' (C)','')
+      for i in 0...clss[8].length
+        s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
+        clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*	#{s[4]}"
+      end
+      for i in 0...clss2[8].length
+        s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && ['Fateswakening',clss2[1]].include?(q[1])}]
+        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss2[0]}][1]}]*	#{s[4]}"
+      end
+      event.respond fullname
+      text="__*Awakening*__"
       apt=20 if apt>0
       f=[0,0,0]
       for i in 0...8
@@ -2443,25 +2474,26 @@ def class_parse(event,bot,args)
         f[1]+=clss2[5][i].to_i
         f[2]+=clss2[4][i].to_i
       end
-      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| q[0]}
+      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
       text="#{text}\n**Total:**	*Growth:* #{f[0]}%	*Base:* #{f[1]}	*Maximum:* #{f[2]}"
       if clss2[6].nil? || clss2[6]==''
-        text="#{text}\n**Promotes into:** #{clss2[7].join(', ')}" unless clss2[7].nil? || clss2[7].length<=0
-        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
-        text="#{text}\n**Skills learned:** #{clss2[8].join(', ')}" unless clss2[8].nil? || clss2[8].length<=0
+        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0
+        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
+        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0
       else
         if clss2[6].include?('**')
-          text="#{text}\n#{clss2[6].gsub('/n',"\n")}"
+          text="#{text}\n#{clss2[6].gsub('/n',"\n").gsub('/t',"	")}"
         else
           text="#{text}\n**#{clss2[6]} Class**"
         end
-        text="#{text}\n**Promotes into:** #{clss2[7].join(', ')}" unless clss2[7].nil? || clss2[7]=='' || clss2[6].include?('Promotes into')
-        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss2[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:** #{clss2[8].join(', ')}" unless clss2[8].nil? || clss2[8]=='' || clss2[6].include?('Skills learned')
+        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
+        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss2[6].include?('Promotes from')
+        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8]=='' || clss2[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
       end
-      text="#{text}\n\n__*Fates*__"
+      event.respond text
+      text="__*Fates*__"
       apt=10 if apt>0
       f=[0,0,0]
       for i in 0...8
@@ -2471,27 +2503,37 @@ def class_parse(event,bot,args)
         f[2]+=clss[4][i].to_i
       end
       text="#{text}\n**Total:**	*Growth:* #{f[0]}%	*Base:* #{f[1]}	*Maximum:* #{f[2]}"
-      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| q[0]}
+      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
       if clss[6].nil? || clss[6]==''
-        text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[8].nil? || clss[7].length<=0
-        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
-        text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8].length<=0
+        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
+        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 if prm.length>0
+        text="#{text}\n**Skills learned:**\n#{clss[8].map{|q| "*#{q}*"}.join("\n")}" unless clss[8].nil? || clss[8].length<=0
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
       else
         if clss[6].include?('**')
-          text="#{text}\n#{clss[6].gsub('/n',"\n")}"
+          text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"	")}"
         else
           text="#{text}\n**#{clss[6]} Class**"
         end
-        text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[7].nil? || clss[7]=='' || clss[6].include?('Promotes into')
-        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
+        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
+        text="#{text}\n**Skills learned:**\n#{clss[8].map{|q| "*#{q}*"}.join("\n")}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
       end
       event.respond text
     else
       clss2=find_class(args.join(' ').downcase,event,"Fates")
       clss=find_class(args.join(' ').downcase,event,"Awakening")
+      clss[0]=clss[0].gsub(' (C)','')
+      clss2[0]=clss2[0].gsub(' (C)','')
+      for i in 0...clss[8].length
+        s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
+        clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*	#{s[4]}"
+      end
+      for i in 0...clss2[8].length
+        s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && ['Fateswakening',clss2[1]].include?(q[1])}]
+        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss2[0]}][1]}]*	#{s[4]}"
+      end
       flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
       fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       text=''
@@ -2508,21 +2550,21 @@ def class_parse(event,bot,args)
       flds[1][1]="#{flds[1][1]}\n\n*Total:*	#{f[1]}"
       flds[2][1]="#{flds[2][1]}\n\n*Total:*	#{f[2]}"
       text="#{text}\n**Promotes from:** Discord bot" if clss[0]=="Automaton"
-      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| q[0]}
+      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
       if clss[6].nil? || clss[6]==''
-        text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[8].nil? || clss[7].length<=0
-        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
-        text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8].length<=0
+        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
+        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
+        text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
       else
         if clss[6].include?('**')
-          text="#{text}\n#{clss[6].gsub('/n',"\n")}"
+          text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"	")}"
         else
           text="#{text}\n**#{clss[6]} Class**"
         end
-        text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[7].nil? || clss[7]=='' || clss[6].include?('Promotes into')
-        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
+        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
+        text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
       end
       xcolor=0x061069 if clss[1]=="Awakening"
@@ -2550,21 +2592,21 @@ def class_parse(event,bot,args)
       flds[1][1]="#{flds[1][1]}\n\n*Total:*	#{f[1]}"
       flds[2][1]="#{flds[2][1]}\n\n*Total:*	#{f[2]}"
       text="#{text}\n**Promotes from:** Discord bot" if clss2[0]=="Automaton"
-      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| q[0]}
+      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
       if clss2[6].nil? || clss2[6]==''
-        text="#{text}\n**Promotes into:** #{clss2[7].join(', ')}" unless clss2[8].nil? || clss2[7].length<=0
-        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
-        text="#{text}\n**Skills learned:** #{clss2[8].join(', ')}" unless clss2[8].nil? || clss2[8].length<=0
+        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[8].nil? || clss2[7].length<=0
+        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
+        text="#{text}\n**Skills learned:**\n#{clss2[8].map{|q| "*#{q}*"}.join("\n")}" unless clss2[8].nil? || clss2[8].length<=0
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0
       else
         if clss2[6].include?('**')
-          text="#{text}\n#{clss2[6].gsub('/n',"\n")}"
+          text="#{text}\n#{clss2[6].gsub('/n',"\n").gsub('/t',"	")}"
         else
           text="#{text}\n**#{clss2[6]} Class**"
         end
-        text="#{text}\n**Promotes into:** #{clss2[7].join(', ')}" unless clss2[7].nil? || clss2[7]=='' || clss2[6].include?('Promotes into')
-        text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss2[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:** #{clss2[8].join(', ')}" unless clss2[8].nil? || clss2[8]=='' || clss2[6].include?('Skills learned')
+        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
+        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss2[6].include?('Promotes from')
+        text="#{text}\n**Skills learned:**\n#{clss2[8].map{|q| "*#{q}*"}.join("\n")}" unless clss2[8].nil? || clss2[8]=='' || clss2[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
       end
       xcolor=0x061069 if clss2[1]=="Awakening"
@@ -2579,6 +2621,11 @@ def class_parse(event,bot,args)
     end
   elsif @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
     fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
+    clss[0]=clss[0].gsub(' (C)','')
+    for i in 0...clss[8].length
+      s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
+      clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*	#{s[4]}"
+    end
     text="#{fullname}"
     f=[0,0,0]
     for i in 0...8
@@ -2588,27 +2635,32 @@ def class_parse(event,bot,args)
       f[2]+=clss[4][i].to_i
     end
     text="#{text}\n**Total:**	*Growth:* #{f[0]}%	*Base:* #{f[1]}	*Maximum:* #{f[2]}"
-    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| q[0]}
+    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
     if clss[6].nil? || clss[6]==''
-      text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[8].nil? || clss[7].length<=0
-      text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
-      text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8].length<=0
+      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
+      text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
+      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
     else
       if clss[6].include?('**')
-        text="#{text}\n#{clss[6].gsub('/n',"\n")}"
+        text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"	")}"
       else
         text="#{text}\n**#{clss[6]} Class**"
       end
-      text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[7].nil? || clss[7]=='' || clss[6].include?('Promotes into')
-      text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss[6].include?('Promotes from')
-      text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
+      text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
+      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
     end
     event.respond text
   else
     flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
     fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
+    clss[0]=clss[0].gsub(' (C)','')
+    for i in 0...clss[8].length
+      s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
+      clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*	#{s[4]}"
+    end
     text=''
     f=[0,0,0]
     for i in 0...8
@@ -2623,21 +2675,21 @@ def class_parse(event,bot,args)
     flds[1][1]="#{flds[1][1]}\n\n*Total:*	#{f[1]}"
     flds[2][1]="#{flds[2][1]}\n\n*Total:*	#{f[2]}"
     text="#{text}\n**Promotes from:** Discord bot" if clss[0]=="Automaton"
-    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| q[0]}
+    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
     if clss[6].nil? || clss[6]==''
-      text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[8].nil? || clss[7].length<=0
-      text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0
-      text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8].length<=0
+      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
+      text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
+      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
     else
       if clss[6].include?('**')
-        text="#{text}\n#{clss[6].gsub('/n',"\n")}"
+        text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"	")}"
       else
         text="#{text}\n**#{clss[6]} Class**"
       end
-      text="#{text}\n**Promotes into:** #{clss[7].join(', ')}" unless clss[7].nil? || clss[7]=='' || clss[6].include?('Promotes into')
-      text="#{text}\n**Promotes from:** #{prm.join(', ')}" if prm.length>0 && !clss[6].include?('Promotes from')
-      text="#{text}\n**Skills learned:** #{clss[8].join(', ')}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
+      text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
+      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
     end
     xcolor=0x061069 if clss[1]=="Awakening"
@@ -2674,39 +2726,33 @@ def x_find_skill(game,name,event,fullname=false)
     end
   end
   # try skill from the specific game
-  bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
-    bob4=[]
-    line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-    return bob4 if bob4[0].gsub(' ','').downcase==name.gsub(' ','').downcase && bob4[5]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
+  data_load()
+  m=[game,'Fateswakening']
+  m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168 && game=='Fates'
+  for i in 0...@skills.length
+    return @skills[i] if @skills[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
   end
   unless fullname
-    bob4=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
-      bob4=[]
-      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-      return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && bob4[5]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
+    for i in 0...@skills.length
+      return @skills[i] if @skills[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
     end
   end
   # then try generic skill
-  bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
-    bob4=[]
-    line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-    return bob4 if bob4[0].gsub(' ','').downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
+  m=['Fates','Awakening','Fateswakening']
+  m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168
+  for i in 0...@skills.length
+    return @skills[i] if @skills[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
   end
   unless fullname
-    bob4=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
-      bob4=[]
-      line.each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-      return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[5]!="Gates")
+    for i in 0...@skills.length
+      return @skills[i] if @skills[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
     end
   end
   return nil
 end
 
 def find_skill(game,name,event,fullname=false)
+  puts name
   return x_find_skill(game,name,event,fullname) unless x_find_skill(game,name,event,fullname).nil?
   if x_find_skill(game,name,event,fullname).nil?
     args=name.split(' ')
@@ -3289,52 +3335,59 @@ def skill_parse(event,bot,args)
     fullname="__**#{bob4[0]}**__"
     skillA=find_skill("Awakening",name,event)
     skillF=find_skill("Fates",name,event)
-    text=''
-    if skillA[1]!=skillF[1] || skillA[2]!=skillF[2]
-      if skillA[2]=="-"
-        if skillA[1].downcase=="enemy exclusive"
-          text="#{text}\n*Awakening*: #{skillA[1]}"
-        elsif skillA[1]=="-"
-          text="#{text}\n*Awakening*: Possible personal skill for Bond Units"
-        elsif skillA[1].length<7
-          text="#{text}\n*Awakening*: `#{skillA[1]}`'s personal skill"
-        elsif skillA[1][skillA[1].length-7,7].downcase==" manual"
-          text="#{text}\n*Awakening*: Learned via #{skillA[1]}"
+    text='**Availability:**'
+    if skillA[2]!=skillF[2]
+      sA=[]
+      for i in 0...skillA[2].length
+        m=skillA[2][i]
+        if ['Enemy exclusive','Enemy-exclusive','Enemy'].include?(m[0])
+          sA.push('Enemy exclusive')
+        elsif m[1].nil?
+          sA.push(m[0])
+        elsif m[1]=='personal'
+          sA.push("#{m[0]}'s unique skill (can be passed to Morgan)")
         else
-          text="#{text}\n*Awakening*: `#{skillA[1]}`'s personal skill"
+          sA.push("#{m[0]} [level #{m[1]}]")
         end
-      else
-        text="#{text}\n*Awakening*: Learned at level #{skillA[2]} by #{skillA[1]}"
       end
-      if skillF[2]=="-"
-        if skillF[1].downcase=="enemy exclusive"
-          text="#{text}\n*Fates*: #{skillF[1]}"
-        elsif skillF[1]=="-"
-          text="#{text}\n*Fates*: Possible personal skill for Bond Units"
-        elsif skillF[1].length<7
-          text="#{text}\n*Fates*: `#{skillF[1]}`'s personal skill"
-        elsif skillF[1][skillF[1].length-7,7].downcase==" scroll"
-          text="#{text}\n*Fates*: Learned via #{skillF[1]}"
+      text="#{text}\n*Awakening:*	#{sA.join(', ')}"
+      sF=[]
+      for i in 0...skillF[2].length
+        m=skillF[2][i]
+        if ['Enemy exclusive','Enemy-exclusive','Enemy'].include?(m[0])
+          sF.push('Enemy exclusive')
+        elsif m[1].nil?
+          sF.push(m[0])
+        elsif m[1]=='personal'
+          if m[0]=='-'
+            sF.push("possible personal skill for Bond Units")
+          else
+            sF.push("#{m[0]}'s personal skill")
+          end
         else
-          text="#{text}\n*Fates*: `#{skillF[1]}`'s personal skill"
+          sF.push("#{m[0]} [level #{m[1]}]")
         end
-      else
-        text="#{text}\n*Fates*: Learned at level #{skillF[2]} by #{skillF[1]}"
       end
-    elsif bob4[2]=="-"
-      if bob4[1].downcase=="enemy exclusive"
-        text="#{text}\n#{bob4[1]}"
-      elsif bob4[1]=="-"
-        text="#{text}\nPossible personal skill for Bond Units"
-      elsif bob4[1].length<7
-        text="#{text}\n`#{bob4[1]}`'s personal skill"
-      elsif [" scroll"," manual"].include?(bob4[1][bob4[1].length-7,7].downcase)
-        text="#{text}\nLearned via #{bob4[1]}"
-      else
-        text="#{text}\n`#{bob4[1]}`'s personal skill"
-      end
+      text="#{text}\n*Fates:*	#{sF.join(', ')}"
     else
-      text="#{text}\nLearned at level #{bob4[2]} by #{bob4[1]}"
+      sB=[]
+      for i in 0...bob4[2].length
+        m=bob4[2][i]
+        if ['Enemy exclusive','Enemy-exclusive','Enemy'].include?(m[0])
+          sB.push('Enemy exclusive')
+        elsif m[1].nil?
+          sB.push(m[0])
+        elsif m[1]=='personal'
+          if m[0]=='-'
+            sB.push("possible personal skill for Bond Units")
+          else
+            sB.push("#{m[0]}'s personal/unique skill (in *Awakening*, can be passed to Morgan)")
+          end
+        else
+          sB.push("#{m[0]} [level #{m[1]}]")
+        end
+      end
+      text="#{text}	#{sB.join(', ')}"
     end
     if bob4[3]!="-"
       if bob4[3][bob4[3].length-8,8].downcase==" command"
@@ -3344,34 +3397,52 @@ def skill_parse(event,bot,args)
       end
     end
     if skillA[4]==skillF[4]
-      text="#{text}\n**Effect:** #{bob4[4]}"
+      text="#{text}\n**Effect:** #{bob4[4].gsub('/*','\\*')}"
     elsif bob4[0]=="Lethality"
-      text="#{text}\n**Effect:** #{skillA[4]} (In *Fates*, does not work if the user would deal 0 damage)"
+      text="#{text}\n**Effect:** #{skillA[4].gsub('/*','\\*')} (In *Fates*, does not work if the user would deal 0 damage)"
     elsif bob4[0]=="Galeforce"
-      text="#{text}\n**Effect:** #{skillA[4]} (In *Fates*, this does not trigger in Attack or Guard Stance)"
+      text="#{text}\n**Effect:** #{skillA[4].gsub('/*','\\*')} (In *Fates*, this does not trigger in Attack or Guard Stance)"
     else
-      text="#{text}\n***Awakening*** **Effect:** #{skillA[4]}"
-      text="#{text}\n***Fates*** **Effect:** #{skillF[4]}"
+      text="#{text}\n***Awakening*** **Effect:** #{skillA[4].gsub('/*','\\*')}"
+      text="#{text}\n***Fates*** **Effect:** #{skillF[4].gsub('/*','\\*')}"
     end
     xcolor=0x010101
   else
     fullname="__**#{bob4[0]}**__"
-    text=''
-    if bob4[2]=="-"
-      if bob4[1].downcase=="enemy exclusive"
-        text="#{text}\n#{bob4[1]}"
-      elsif bob4[1]=="-"
-        text="#{text}\nPossible personal skill for Bond Units"
-      elsif bob4[1].length<7
-        text="#{text}\n`#{bob4[1]}`'s personal skill"
-      elsif [" scroll"," manual"].include?(bob4[1][bob4[1].length-7,7].downcase)
-        text="#{text}\nLearned via #{bob4[1]}"
+    text='**Availability:**'
+    sB=[]
+    alignment=[]
+    for i in 0...bob4[2].length
+      m=bob4[2][i]
+      if ['Enemy exclusive','Enemy-exclusive','Enemy'].include?(m[0])
+        sB.push('Enemy exclusive')
+      elsif m[1].nil?
+        sB.push(m[0])
+      elsif m[1]=='personal'
+        if m[0]=='-'
+          sB.push("possible personal skill for Bond Units")
+        else
+          if bob4[1]=='Fates' || bob4[1]=='Gates' || (bob4[1]=="Fateswakening" && ['Fates','Gates'].include?(game))
+            sB.push("#{m[0]}'s personal skill")
+          elsif bob4[1]=='Awakening' || (bob4[1]=="Fateswakening" && game=="Awakening")
+            sB.push("#{m[0]}'s unique skill (can be passed to Morgan)")
+          else
+            sB.push("#{m[0]}'s personal/unique skill (in *Awakening*, can be passed to Morgan)")
+          end
+          if bob4[1]=="Fates" || (bob4[1]=="Fateswakening" && game=="Fates")
+            a=@units[@units.find_index{|q| q[0]==m[0] && q[1][2,1]=='F'}][1][3]
+            alignment.push('Hoshido') if a=='b'
+            alignment.push('Nohr') if a=='c'
+            alignment.push('Valla') if a=='r'
+            alignment.push('Penumbra') if a=='g'
+          end
+        end
       else
-        text="#{text}\n`#{bob4[1]}`'s personal skill"
+        sB.push("#{m[0]} [level #{m[1]}]")
+        alignment.push(@classes[@classes.find_index{|q| q[0]==m[0] && q[1]=='Fates'}][2]) if bob4[1]=="Fates" || (bob4[1]=="Fateswakening" && game=="Fates")
       end
-    else
-      text="#{text}\nLearned at level #{bob4[2]} by #{bob4[1]}"
     end
+    text="#{text}	#{sB.join(', ')}"
     if bob4[3]!="-"
       if bob4[3][bob4[3].length-8,8].downcase==" command"
         text="#{text}\n**Usage:** #{bob4[3]}"
@@ -3382,11 +3453,20 @@ def skill_parse(event,bot,args)
         text="#{text}\n**Trigger rate:** #{bob4[3]}"
       end
     end
-    text="#{text}\n**Effect:** #{bob4[4]}"
+    text="#{text}\n**Effect:** #{bob4[4].gsub('/*','\\*')}"
     xcolor=0x010101
-    xcolor=0x061069 if bob4[5]=="Awakening"
-    xcolor=0xC5EEF2 if bob4[5]=="Fates"
-    xcolor=0xFFEA8B if bob4[5]=="Gates"
+    xcolor=0x061069 if bob4[1]=="Awakening" || (bob4[1]=="Fateswakening" && game=="Awakening")
+    if bob4[1]=="Fates" || (bob4[1]=="Fateswakening" && game=="Fates")
+      xcolor=0xC5EEF2
+      if alignment.uniq.length==1
+        a=alignment[0]
+        xcolor=0xCF000D if a=='Hoshido'
+        xcolor=0xAA7FCD if a=='Nohr'
+        xcolor=0x2DA5AF if a=='Valla'
+        xcolor=0xFFEA8B if a=='Penumbra'
+      end
+    end
+    xcolor=0xFFEA8B if bob4[1]=="Gates"
   end
   create_embed(event,fullname,text,xcolor,nil,"https://inheritance-planner.herokuapp.com/images/skills/#{bob4[0].downcase.gsub(' ','').gsub('+','')}.png")
   return nil
@@ -3897,7 +3977,7 @@ end
 
 bot.command(:invite) do |event, user|
   usr=event.user
-  txt="You can invite me to your server with this link: <https://goo.gl/v3ADBG>\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nIf you suggested me to server mods and they ask what I do, show them this image: https://orig00.deviantart.net/a1d7/f/2017/288/d/6/marketing___robin_by_rot8erconex-dbqoba5.png"
+  txt="You can invite me to your server with this link: <https://goo.gl/v3ADBG>\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nTo follow my creator's development Twitter and learn of updates: <https://twitter.com/EliseBotDev>\nIf you suggested me to server mods and they ask what I do, show them this image: https://orig00.deviantart.net/a1d7/f/2017/288/d/6/marketing___robin_by_rot8erconex-dbqoba5.png"
   user_to_name="you"
   unless user.nil?
     if /<@!?(?:\d+)>/ =~ user
@@ -4343,7 +4423,7 @@ bot.command(:faq) do |event, inp|
   elsif ["masterseal","heartseal","secondseal","seals"].include?(inp.downcase)
     create_embed(event,"FAQ #2: You added Offspring Seal calculations to the bot.  Will you add the Master/Heart/Second Seal as well?","The way the Offspring Seal works is based off the kids' default classes.  Other Seals would need two classes listed - the class you're changing __from__ and the class you're changing __to__.  Even the Master Seal requires two classes - if promoting to Hero, are you coming from Mercenary or Fighter?\n\nDue to technical limitations regarding to how commands parse multi-word inputs, listing two or more classes is not possible.",0xff8040,"A: No, I will not")
   elsif ["lucina","robin","anna","characters"].include?(inp.downcase)
-    create_embed(event,"FAQ #3: Certain characters exist in both *Fire Emblem: Awakening* and *Fire Emblem Fates*.  How does the bot handle that?","Generally, the rule of thumb is \"in *Awakening* Mode, it shows the *Awakening* version of the character; in *Fates* Mode, it shows the *Fates* version of the character\", just like is the case with classes, items, and skills.  However, this does not cover Fluid Mode.  In Fluid Mode, the bot will display all relevant info for both versions of classes, skills, and items, but it will show only one version of a character.\n- Selena/Severa, Odin/Owain, and Laslow/Inigo exist in both games, but under a different name in each.  Use the name they use in the game you wish to see info from.  (These three are brought up because you can use their *Awakening* names in *Fates* Mode and get their *Fates* selves.)\n- Cordelia, Gaius, and Tharja are not the same characters as Caeldori, Asugi, and Rhajat, and are not treated as such.\n- Chrom, Lissa, and Frederick exist in *Fates* but don't have growths, so their *Fates* selves aren't in the bot's data\n- Robin defaults to being his Amiibo self, as seen in *Fates*.\n- Anna defaults to being an Outlaw, but you can invoke a specific Anna by typing either `Awakening!Anna` or `Fates!Anna`.\n- Lucina defaults to being her Amiibo self as seen in *Fates*, but will become a second-gen unit as seen in *Awakening* if you list another first-gen unit beside her.  (Due to this, you can make Amiibo!Lucina be Awakening!Lucina's mother).",0xff8040)
+    create_embed(event,"FAQ #3: Certain characters exist in both *Fire Emblem: Awakening* and *Fire Emblem Fates*.  How does the bot handle that?","Generally, the rule of thumb is \"in *Awakening* Mode, it shows the *Awakening* version of the character; in *Fates* Mode, it shows the *Fates* version of the character\", just like is the case with classes, items, and skills.  However, this does not cover Fluid Mode.  In Fluid Mode, the bot will display all relevant info for both versions of classes, skills, and items, but it will show only one version of a character.\n- Selena/Severa, Odin/Owain, and Laslow/Inigo exist in both games, but under a different name in each.  Use the name they use in the game you wish to see info from.  (These three are brought up because you can use their *Awakening* names in *Fates* Mode and get their *Fates* selves.)\n- Cordelia, Gaius, and Tharja are not the same characters as Caeldori, Asugi, and Rhajat, and are not treated as such.\n- Chrom, Lissa, and Frederick exist in *Fates* but don't have growths, so their *Fates* selves aren't in the bot's data\n- Robin defaults to being an avatar character, as seen in *Awakening*, but becomes an Amiibo as seen in *Fates* if listed alongside a *Fates* kid.\n- Corrin defaults to being an avatar character, as seen in *Fates*, but becomes hir default self if listed alongside an *Awakening* kid.\n- Anna defaults to being an Outlaw, but you can invoke a specific Anna by typing either `Awakening!Anna` or `Fates!Anna`.\n- Lucina defaults to being her Amiibo self as seen in *Fates*, but will become a second-gen unit as seen in *Awakening* if you list another first-gen unit beside her.  (Due to this, you can make Amiibo!Lucina be Awakening!Lucina's mother).",0xff8040)
   end
 end
 
@@ -4432,9 +4512,9 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     numbers[2]+=1
     numbers[3]+=1 unless @classes[i][2]=='Penumbra'
   end
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
+  for i in 0...@skills.length
     numbers[4]+=1
-    numbers[5]+=1 unless line.include?("Gates")
+    numbers[5]+=1 unless @skills[i][1]=='Gates'
   end
   File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
     numbers[6]+=1
