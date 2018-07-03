@@ -2489,7 +2489,7 @@ def class_parse(event,bot,args)
         end
         text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss2[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8]=='' || clss2[6].include?('Skills learned')
+        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0 || clss2[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
       end
       event.respond text
@@ -2517,7 +2517,7 @@ def class_parse(event,bot,args)
         end
         text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:**\n#{clss[8].map{|q| "*#{q}*"}.join("\n")}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+        text="#{text}\n**Skills learned:**\n#{clss[8].map{|q| "*#{q}*"}.join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
       end
       event.respond text
@@ -2564,7 +2564,7 @@ def class_parse(event,bot,args)
         end
         text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+        text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
       end
       xcolor=0x061069 if clss[1]=="Awakening"
@@ -2596,7 +2596,7 @@ def class_parse(event,bot,args)
       if clss2[6].nil? || clss2[6]==''
         text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[8].nil? || clss2[7].length<=0
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
-        text="#{text}\n**Skills learned:**\n#{clss2[8].map{|q| "*#{q}*"}.join("\n")}" unless clss2[8].nil? || clss2[8].length<=0
+        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0
       else
         if clss2[6].include?('**')
@@ -2606,7 +2606,7 @@ def class_parse(event,bot,args)
         end
         text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss2[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:**\n#{clss2[8].map{|q| "*#{q}*"}.join("\n")}" unless clss2[8].nil? || clss2[8]=='' || clss2[6].include?('Skills learned')
+        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0 || clss2[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
       end
       xcolor=0x061069 if clss2[1]=="Awakening"
@@ -2649,7 +2649,7 @@ def class_parse(event,bot,args)
       end
       text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
       text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
-      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
     end
     event.respond text
@@ -2689,7 +2689,7 @@ def class_parse(event,bot,args)
       end
       text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
       text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
-      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8]=='' || clss[6].include?('Skills learned')
+      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
     end
     xcolor=0x061069 if clss[1]=="Awakening"
