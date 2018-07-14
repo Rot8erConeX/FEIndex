@@ -2752,7 +2752,6 @@ def x_find_skill(game,name,event,fullname=false)
 end
 
 def find_skill(game,name,event,fullname=false)
-  puts name
   return x_find_skill(game,name,event,fullname) unless x_find_skill(game,name,event,fullname).nil?
   if x_find_skill(game,name,event,fullname).nil?
     args=name.split(' ')
@@ -4648,7 +4647,6 @@ bot.command(:snagchannels, from: 167657750971547648) do |event, server_id|
   srv=bot.server(server_id.to_i)
   for i in 0...srv.channels.length
     chn=srv.channels[i]
-    puts bot.user(bot.profile.id).on(srv.id).permission?(:send_messages,chn).to_s
     msg=extend_message(msg,"*#{chn.name}* (#{chn.id})#{" - can post" if bot.user(bot.profile.id).on(srv.id).permission?(:send_messages,chn)}",event) if chn.type==0
   end
   event.respond msg
