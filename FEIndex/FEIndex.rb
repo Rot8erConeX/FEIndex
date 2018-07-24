@@ -120,6 +120,27 @@ def data_load()
     end
   end
   @skills=b.map{|q| q}
+  # ITEM DATA
+  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt')
+    b=[]
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
+      b.push(line)
+    end
+  else
+    b=[]
+  end
+  for i in 0...b.length
+    b[i]=b[i].gsub("\n",'').split('\\'[0])
+    b[i][2]=b[i][2].split(', ')
+    b[i][3]=nil if b[i][3].length<=0
+    b[i][4]=b[i][4].split(', ')
+    for j in 0...b[i][4].length
+      b[i][4][j]=b[i][4][j].to_i if b[i][4][j].to_i.to_s==b[i][4][j]
+    end
+    b[i][6]=b[i][6].split(', ')
+    b[i][6][0]=b[i][6][0].to_i if b[i][6][0].to_i.to_s==b[i][6][0]
+  end
+  @items=b.map{|q| q}
 end
 
 def nicknames_load()
@@ -404,7 +425,7 @@ def embed_color(path)
   return 0x061069 if path.downcase.include?('awakening')
   return 0xC5EEF2 if path.downcase.include?('available in all') || path.downcase.include?('dlc') || path.downcase.include?('amiibo') || path.downcase.include?('not obtainable')
   return 0x2DA5AF if path.downcase.include?('exclusive to *revelation*')
-  return 0xCF000D if path.downcase.include?('exclusive to *birthright*') || path.downcase.include?('not available in *conquest*')
+  return 0xCF000D if path.downcase.include?('exclusive to *birthright*') || path.downcase.include?('*birthright* exclusive') || path.downcase.include?('not available in *conquest*')
   return 0xAA7FCD if path.downcase.include?('exclusive to *conquest*') || path.downcase.include?('*conquest* exclusive') || path.downcase.include?('not available in *birthright*')
   return 0x010101 if path.downcase.include?('cross-game')
   return 0xBC4372 if path.downcase.include?('not available in *revelation*')
@@ -516,7 +537,7 @@ def get_corrin(event,display=true,apt=0)
   else
     desc="+#{data[0]}, -#{data[1]}"
   end
-  text="*Fates*: Available in all routes\n**Personal Skill:** *Supportive* If this unit is supporting a lead unit with a support level of C or higher, lead unit receives +10 Hit, +2 damage dealt and -2 damage received in combat"
+  text="*Fates*: Available in all routes\n**Personal Skill:** *Supportive* If this unit is supporting a lead unit with a support level of C or higher, lead unit receives +10 Hit, +2 damage dealt and -2 damage received in combat\n**Prf weapon:** *Yato* (in all its forms)\n**Can use Dragon Veins**, weak to dragon-effective weapons regardless of class"
   flds=[["Growth Rates",[]],["Modifiers",["-"]]]
   for i in 0...8
     g[i]=g[i]+boon[1][i]+bane[1][i]
@@ -1160,7 +1181,7 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
       c=momstuff[2]
       c=">talent<" if c.nil?
       c=">talent<" if c.length<2
-      @mom=["Corrin","1cF","Available in all routes",g,m,c,"",c,""]
+      @mom=["Corrin","1cFrD","Available in all routes",g,m,c,"",c,""]
     elsif parent.downcase=="robin" && (xgame=="Awakening" || (xgame != "Fates" && (xstats[0].length>0 || xstats[1].length>0) && !mentions_avatar_kid(event,"Fates")))
       momstuff=get_robin(event,false)
       g=momstuff[0]
@@ -1209,7 +1230,7 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
     for i in 1...7
       bob4[4][i]=m[i]+kanaboost
     end
-    bob4[1]="3#{@mom[1][1,1]}F"
+    bob4[1]="3#{@mom[1][1,1]}FrD"
   elsif kidname.downcase=="morgan"
     momstuff=get_robin(event,false)
     m=momstuff[1]
@@ -1255,6 +1276,11 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
   elsif !@shigure_class_kids.include?(bob4[0]) && @mom[1][1,1]=="m" && !homosexuality_filter?(event) && !["Awakening","*Awakening*"].include?(bob4[2])
     event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as they already have one.  Showing default #{bob4[0]}." if display
     return bob4
+  elsif bob4[1][2]=='F'
+    bob4[1]="#{bob4[1]} " if bob4[1].length<=3
+    bob4[1]="#{bob4[1].gsub('d','D')}" if bob4[1].length>4 && (@mom[0]=='Corrin' || @mom[1][4]=='D')
+    bob4[1]="#{bob4[1]}D" if bob4[1].length<=4 && (@mom[0]=='Corrin' || @mom[1][4]=='D')
+    bob4[1]="#{bob4[1]}d" if bob4[1].length<=4 && @mom[1][4]=='d'
   end
   data_load()
   for i in 0...bob4[5].length
@@ -1380,6 +1406,7 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
     bob4[5][0]=gender_adjust(bob4[5][0],bob4[1][1,1])
   end
   bob4[5].uniq!
+  puts bob4[1]
   return bob4
 end
 
@@ -1451,21 +1478,21 @@ def forge(weapon,upgrade,game="Fates")
   if game=="Awakening"
     upgrade=[upgrade,5].min
     weapon[0]="#{weapon[0]} +#{upgrade}"
-    weapon[3]="Anywhere between #{weapon[3].to_i} and #{weapon[3].to_i+upgrade}"
-    weapon[4]="Anywhere between #{weapon[4].to_i} and #{weapon[4].to_i+5*upgrade}"
-    weapon[5]="Anywhere between #{weapon[5].to_i} and #{weapon[5].to_i+3*upgrade}" if weapon[0]!="Ruin +#{upgrade}"
+    weapon[4][0]="Anywhere between #{weapon[4][0].to_i} and #{weapon[4][0].to_i+upgrade}"
+    weapon[4][1]="Anywhere between #{weapon[4][1].to_i} and #{weapon[4][1].to_i+5*upgrade}"
+    weapon[4][2]="Anywhere between #{weapon[4][2].to_i} and #{weapon[4][2].to_i+3*upgrade}" if weapon[0]!="Ruin +#{upgrade}"
     return weapon
   end
   ups=[[],[2,0,0],[4,2,0],[6,4,1],[8,6,3],[9,10,6],[10,15,10],[11,20,15]]
-  if weapon[9].downcase.include?("cannot trigger crit") || weapon[9].downcase.include?("cannot crit") || weapon[9].downcase.include?("cannot double attack or inflict crit")
+  if weapon[7].downcase.include?("cannot trigger crit") || weapon[7].downcase.include?("cannot crit") || weapon[7].downcase.include?("cannot double attack or inflict crit")
     ups=[[],[2,0,0],[4,2,0],[6,5,0],[8,9,0],[9,15,0],[10,22,0],[11,30,0]]
   end
   weapon[0]="#{weapon[0]} +#{upgrade}"
-  weapon[3]=weapon[3].to_i+ups[upgrade][0]
-  weapon[4]=weapon[4].to_i+ups[upgrade][1]
-  weapon[5]=weapon[5].to_i+ups[upgrade][2]
-  if weapon[8]!="-"
-    weapon[8]=weapon[8].to_i*(2**upgrade)
+  weapon[4][0]=weapon[4][0].to_i+ups[upgrade][0]
+  weapon[4][1]=weapon[4][1].to_i+ups[upgrade][1]
+  weapon[4][2]=weapon[4][2].to_i+ups[upgrade][2]
+  if weapon[6][0]!="-"
+    weapon[6][0]=weapon[6][0].to_i*(2**upgrade)
   end
   return weapon
 end
@@ -2088,7 +2115,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
     d2=momstuff[5]
     c=">talent<" if c.nil?
     c=">talent<" if c.length<2
-    mom=["Corrin",'1cF',"Available in all routes",g,m,['Nohr Royal', c],['Nohr Royal', c]]
+    mom=["Corrin",'1cFrD',"Available in all routes",g,m,['Nohr Royal', c],['Nohr Royal', c]]
     return mom
   elsif name.downcase=="robin" && (xxgame=="Awakening" || (xxgame != "Fates" && (xstats[0].length>0 || xstats[1].length>0) && !mentions_avatar_kid(event,"Fates")))
     momstuff=get_robin(event,false)
@@ -2350,10 +2377,16 @@ def unit_parse(event,bot,args)
     unless picture.nil?
       picture=nil if picture[0,1]=='>'
     end
-    text="#{text}\n**Personal Skill:** *#{@bob[7]}*	#{@skills[@skills.find_index{|q| q[0]==@bob[7]}][4]}" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A"
+    text="#{text}\n**Personal Skill:** *#{@bob[7]}*	#{@skills[@skills.find_index{|q| q[0]==@bob[7]}][4]}" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A" || @skills.find_index{|q| q[0]==@bob[7]}.nil?
+    prf=@items.find_index{|q| !q[1].nil? && !q[3].nil? && q[3].gsub('*','')==@bob[0].gsub('**','') && @bob[1][2,1]==q[1][0].gsub('G','F')}
+    text="#{text}\n**Prf weapon:** *#{@items[prf][0]}*" unless prf.nil? || ['staff','rod'].include?(@items[prf][2][0].downcase)
+    text="#{text}\n**Prf staff:** *#{@items[prf][0]}*" unless prf.nil? || !['staff','rod'].include?(@items[prf][2][0].downcase)
+    text="#{text}\n**Pseudo-Prf staff:** *Liliputia*" if @bob[0].gsub('**','')=='Mathoo'
+    text="#{text}\n**Can use Dragon Veins**" if @bob[1].length>4 && @bob[1][4]=='d'
+    text="#{text}\n**Can use Dragon Veins**, weak to dragon-effective weapons regardless of class" if @bob[1].length>4 && @bob[1][4]=='D'
     flds=nil
     m=['HP','Strength','Magic','Skill','Speed','Luck','Defense','Resistance']
-    flds=[["**Growth Rates**",[]],["**Modifiers**",['-']],["**Classes**","*Default class:* #{@bob[5][0]}\n*#{'Heart Seal' if @bob[1][2]=='F'}#{'Second Seal' if @bob[1][2]=='A'}:* #{@bob[5][1,@bob[5].length-1].join(', ')}#{"\n*Partner Seal:* Spear Master, Basara" if @bob[0]=='Mathoo'}",false]]
+    flds=[["**Growth Rates**",[]],["**Modifiers**",['-']],["**Classes**","*Default class:* #{@bob[5][0]}\n*#{'Seals unusable' if @bob[0]=='**Candace**'}#{'Heart Seal' if @bob[0]!='**Candace**' && @bob[1][2]=='F'}#{'Second Seal' if @bob[0]!='**Candace**' && @bob[1][2]=='A'}#{':'if @bob[0]!='**Candace**'}* #{'~~none~~' if @bob[5].length<=1 && @bob[0]!='**Candace**'}#{@bob[5][1,@bob[5].length-1].join(', ')}#{"\n*Partner Seal:* Spear Master, Basara" if @bob[0].gsub('**','')=='Mathoo'}",false]]
     f=[0,0]
     for i in 0...8
       flds[0][1].push("*#{m[i]}:*	#{@bob[3][i]+apt}%")
@@ -2782,40 +2815,27 @@ def x_find_item(game,name,event,fullname=false)
   end
   # try item from the specific game
   name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"
-  bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
-    bob4=[]
-    "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-    return bob4 if bob4[0].gsub(' ','').downcase==name.gsub(' ','').downcase && bob4[10]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
+  data_load()
+  m=[game]
+  m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168 && game=='Fates'
+  for i in 0...@items.length
+    return @items[i] if @items[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
   end
   unless fullname
-    if bob4[0][0,name.length].downcase != name.downcase
-      bob4=[]
-      name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"[0,name.gsub(' ','').length] && name.gsub(' ','').length>3
-      File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
-        bob4=[]
-        "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-        return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && bob4[10]==game && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
-      end
+    for i in 0...@items.length
+      return @items[i] if @items[i][0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
     end
   end
   # then try generic item
   name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"
-  bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
-    bob4=[]
-    "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-    return bob4 if bob4[0].gsub(' ','').downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
+  m=['Fates','Awakening']
+  m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168
+  for i in 0...@items.length
+    return @items[i] if @items[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
   end
   unless fullname
-    if bob4[0][0,name.length].downcase != name.downcase
-      bob4=[]
-      name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"[0,name.gsub(' ','').length] && name.gsub(' ','').length>3
-      File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
-        bob4=[]
-        "#{line} ".each_line('\n') {|s| bob4.push(s[0,s.length-2])}
-        return bob4 if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || bob4[10]!="Gates")
-      end
+    for i in 0...@items.length
+      return @items[i] if @items[i][0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
     end
   end
   return ["kvsnokfdn"]
@@ -3241,11 +3261,20 @@ def parse_job(event,args,bot,mde=0)
     return 0
   else # both defined
     disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}#{" (with *Aptitude*)" if apt>0}__"
+    data_load()
+    f=find_unit(game,unit[0].gsub('**','').gsub('__','').split('!')[-1],event)
     if apt>0 && game==""
-      f=find_unit(game,unit[0].gsub('**','').gsub('__','').split('!')[-1],event)
       apt=10
       apt=20 if ["Awakening","*Awakening*"].include?(f[1])
     end
+    prf=@items.find_index{|q| !q[1].nil? && !q[3].nil? && q[3].gsub('*','')==f[0] && q[1][0].gsub('G','F')==f[1][2]}
+    unless prf.nil?
+      prf=@items[prf]
+      prf[2][0]=prf[2][0].gsub('Katana','Sword').gsub('Naginata','Lance').gsub('Club','Lance').gsub('Rod','Staff').gsub('Yumi','Bow').gsub('Scroll','Tome').gsub('Shuriken','Dagger')
+      prf[2][0]="#{prf[2][0]}s".gsub('staffs','staves')
+      puts prf[2][0]
+    end
+    prf=['Liliputia','Gates',['Staves']] if f[0]=='Mathoo'
     text=""
     flds=[]
     m=['HP','Strength','Magic','Skill','Speed','Luck','Defense','Resistance']
@@ -3263,6 +3292,13 @@ def parse_job(event,args,bot,mde=0)
     flds[1][1].push("*Total:*	#{f[1]}")
     flds[0][1]=flds[0][1].join("\n")
     flds[1][1]=flds[1][1].join("\n")
+    unless prf.nil?
+      if clss[9].find_index{|q| q[0]==prf[2][0]}.nil?
+        text="#{text}\n#{unit[0].gsub('**','').gsub('__','').split('!')[-1]} cannot use #{prf[0]} in the #{gender_adjust(clss[0],unit[1][1,1],true,g)} class"
+      else
+        text="#{text}\n#{unit[0].gsub('**','').gsub('__','').split('!')[-1]} can use #{prf[0]} in the #{gender_adjust(clss[0],unit[1][1,1],true,g)} class"
+      end
+    end
     text="#{text}\n~~Please note that stat maximums do not account for statue bonuses~~" unless g=="Awakening"
     xcolor=embed_color_x(unit[2],clss)
     unless unit[1]=="Cross-game child"
@@ -3507,84 +3543,125 @@ def item_parse(event,bot,args,mde=0)
     itemA=find_item("Awakening",bob4[0],event)
     itemF=find_item("Fates",bob4[0],event)
     xcolor=0x010101
-    if ["staff","rod"].include?(bob4[1].downcase)
+    if ["staff","rod"].include?(bob4[2][0].downcase)
       fullname="__**#{bob4[0]}**__"
-      h=itemA[4]
+      h=itemA[4][1]
       h="Always hits" if h=="-"
-      if itemA[8] == "-"
+      if itemA[6][0] == "-"
         p="Not purchaseable or sellable"
-      elsif !itemA[11].nil?
-        p="#{itemA[8]} (sells for #{itemA[8].to_i/4})"
+      elsif !itemA[6][1].nil?
+        p="#{itemA[6][0]} (sells for #{itemA[6][0]/4})"
       else
-        p="#{itemA[8]} (sells for #{itemA[8].to_i/2})"
+        p="#{itemA[6][0]} (sells for #{itemA[6][0]/2})"
       end
-      text="__*Awakening*__\n#{itemA[2]}-rank #{itemA[1]}\n**Uses:** #{itemA[3]}\n**Hit:** #{h}\n**EXP Modifier:** #{itemA[6]}\n**Range:** #{itemA[7].gsub('~','-')}\n**Cost:** #{p}"
-      text="#{text}\n**Additional info:** #{itemA[9]}" if itemA[9] != '-' && !itemA[9].nil? && itemA[9] != ''
-      h=itemF[4]
+      text="__*Awakening*__\n#{itemA[2][1]}-rank #{itemA[2][0]}\n**Uses:** #{itemA[4][0]}\n**Hit:** #{h}\n**EXP Modifier:** #{itemA[4][3]}\n**Range:** #{itemA[5].gsub('~','-')}\n**Cost:** #{p}"
+      if itemA[3].nil?
+      elsif itemA[3]=='Enemy'
+        text="#{text}\n**Enemy exclusive**"
+      elsif itemA[3].include?('*')
+        text="#{text}\n**Locked to:** #{itemA[3].gsub('*','')}"
+      elsif itemA[3].length>0
+        text="#{text}\n**Prf to:** #{itemA[3]}"
+      end
+      text="#{text}\n**Additional info:** #{itemA[7]}" if itemA[7] != '-' && !itemA[7].nil? && itemA[7] != ''
+      h=itemF[4][1]
       h="Always hits" if h=="-"
-      if itemF[8] == "-"
+      if itemF[6][0] == "-"
         p="Not purchaseable or sellable"
-      elsif !itemF[11].nil?
-        p="#{itemF[8]} (sells for #{itemF[8].to_i/4})"
+      elsif !itemF[6][1].nil?
+        p="#{itemF[6][0]} (sells for #{itemF[6][0]/4})"
       else
-        p="#{itemF[8]} (sells for #{itemF[8].to_i/2})"
+        p="#{itemF[6][0]} (sells for #{itemF[6][0]/2})"
       end
-      text="#{text}\n\n__*Fates*__\n#{itemF[2]}-rank #{itemF[1]}\n**Uses:** #{itemF[3]}\n**Hit:** #{h}\n**EXP Modifier:** #{itemF[6]}\n**Range:** #{itemF[7].gsub('~','-')}\n**Cost:** #{p}"
-      text="#{text}\n**Additional info:** #{itemF[9]}" if itemF[9] != '-' && !itemF[9].nil? && itemF[9] != ''
+      text="#{text}\n\n__*Fates*__\n#{itemF[2][1]}-rank #{itemF[2][0]}\n**Uses:** #{itemF[4][0]}\n**Hit:** #{h}\n**EXP Modifier:** #{itemF[4][3]}\n**Range:** #{itemF[5].gsub('~','-')}\n**Cost:** #{p}"
+      if itemF[3].nil?
+      elsif itemF[3]=='Enemy'
+        text="#{text}\n**Enemy exclusive**"
+      elsif itemF[3].include?('*')
+        text="#{text}\n**Locked to:** #{itemF[3].gsub('*','')}"
+      elsif itemF[3].length>0
+        text="#{text}\n**Prf to:** #{itemF[3]}"
+      end
+      text="#{text}\n**Additional info:** #{itemF[7]}" if itemF[7] != '-' && !itemF[7].nil? && itemF[7] != ''
     else
       itemA=forge(itemA,upgrade,"Awakening") if upgrade>0
       itemF=forge(itemF,upgrade,"Fates") if upgrade>0
-      if itemA[8] == "-"
+      if itemA[6][0] == "-"
         p="Not purchaseable or sellable"
-      elsif !itemA[11].nil?
-        p="#{itemA[8]} (sells for #{itemA[8].to_i/4})"
+      elsif !itemA[6][1].nil?
+        p="#{itemA[6][0]} (sells for #{itemA[6][0]/4})"
       else
-        p="#{itemA[8]} (sells for #{itemA[8].to_i/2})"
+        p="#{itemA[6][0]} (sells for #{itemA[6][0]/2})"
       end
       fullname="__**#{bob4[0]}**__"
-      text="__*Awakening* #{"(+#{[upgrade,5].min})" if upgrade>0}__\n#{itemA[2]}-rank #{itemA[1]}\n**Uses:** #{itemA[6]}\n**Might:** #{itemA[3]}\n**Hit:** #{itemA[4]}\n**Crit:** #{itemA[5]}\n**Range:** #{itemA[7].gsub('~','-')}\n**Cost:** #{p}"
-      text="#{text}\n**Additional info:** #{itemA[9]}" if itemA[9] != '-' && !itemA[9].nil? && itemA[9] != ''
-      c=itemF[5]
-      c="Never crits" if itemF[9].downcase.include?("cannot trigger crit") || itemF[9].downcase.include?("cannot crit") || itemF[9].downcase.include?("cannot double attack or inflict crit")
-      if itemF[8] == "-"
-        p="Not purchaseable or sellable"
-      elsif !itemF[11].nil?
-        p="#{itemF[8]} (sells for #{itemF[8].to_i/4})"
-      else
-        p="#{itemF[8]} (sells for #{itemF[8].to_i/2})"
+      text="__*Awakening* #{"(+#{[upgrade,5].min})" if upgrade>0}__\n#{itemA[2][1]}-rank #{itemA[2][0]}\n**Uses:** #{itemA[4][3]}\n**Might:** #{itemA[4][0]}\n**Hit:** #{itemA[4][1]}\n**Crit:** #{itemA[4][2]}\n**Range:** #{itemA[5].gsub('~','-')}\n**Cost:** #{p}"
+      if itemA[3].nil?
+      elsif itemA[3]=='Enemy'
+        text="#{text}\n**Enemy exclusive**"
+      elsif itemA[3].include?('*')
+        text="#{text}\n**Locked to:** #{itemA[3].gsub('*','')}"
+      elsif itemA[3].length>0
+        text="#{text}\n**Prf to:** #{itemA[3]}"
       end
-      text="#{text}\n\n__*Fates* #{"(+#{upgrade})" if upgrade>0}__\n#{itemF[2]}-rank #{itemF[1]}\n**Might:** #{itemF[3]}\n**Hit:** #{itemF[4]}\n**Crit:** #{c}\n**Avoid:** #{itemF[6]}\n**Range:** #{itemF[7].gsub('~','-')}\n**Cost:** #{p}"
-      text="#{text}\n**Additional info:** #{itemF[9]}" if itemF[9] != '-' && !itemF[9].nil? && itemF[9] != ''
+      text="#{text}\n**Additional info:** #{itemA[7]}" if itemA[7] != '-' && !itemA[7].nil? && itemA[7] != ''
+      c=itemF[4][1]
+      c="Never crits" if itemF[7].downcase.include?("cannot trigger crit") || itemF[7].downcase.include?("cannot crit") || itemF[7].downcase.include?("cannot double attack or inflict crit")
+      if itemF[6][0] == "-"
+        p="Not purchaseable or sellable"
+      elsif !itemF[6][1].nil?
+        p="#{itemF[6][0]} (sells for #{itemF[6][0]/4})"
+      else
+        p="#{itemF[6][0]} (sells for #{itemF[6][0]/2})"
+      end
+      text="#{text}\n\n__*Fates* #{"(+#{upgrade})" if upgrade>0}__\n#{itemF[2][1]}-rank #{itemF[2][0]}\n**Might:** #{itemF[4][0]}\n**Hit:** #{itemF[4][1]}\n**Crit:** #{c}\n**Avoid:** #{itemF[4][3]}\n**Range:** #{itemF[5].gsub('~','-')}\n**Cost:** #{p}"
+      if itemF[3].nil?
+      elsif itemF[3]=='Enemy'
+        text="#{text}\n**Enemy exclusive**"
+      elsif itemF[3].include?('*')
+        text="#{text}\n**Locked to:** #{itemF[3].gsub('*','')}"
+      elsif itemF[3].length>0
+        text="#{text}\n**Prf to:** #{itemF[3]}"
+      end
+      text="#{text}\n**Additional info:** #{itemF[7]}" if itemF[7] != '-' && !itemF[7].nil? && itemF[7] != ''
     end
   else
-    xcolor=0xC5EEF2 if bob4[10]=="Fates"
-    xcolor=0xCF000D if ["katana","naginata","club","scroll","shuriken","yumi","rod"].include?(bob4[1].downcase)
-    xcolor=0xAA7FCD if ["sword","lance","axe","tome","dark tome","dagger","bow","staff"].include?(bob4[1].downcase)
-    xcolor=0x061069 if bob4[10]=="Awakening"
-    if ["staff","rod"].include?(bob4[1].downcase)
+    xcolor=0xC5EEF2 if bob4[1]=="Fates"
+    xcolor=0xCF000D if ["katana","naginata","club","scroll","shuriken","yumi","rod"].include?(bob4[2][0].downcase)
+    xcolor=0xAA7FCD if ["sword","lance","axe","tome","dark tome","dagger","bow","staff"].include?(bob4[2][0].downcase) || ['Grim Yato','Shadow Yato'].include?(bob4[0])
+    xcolor=0xC5EEF2 if ['Yato','Alpha Yato','Omega Yato'].include?(bob4[0])
+    xcolor=0x061069 if bob4[1]=="Awakening"
+    if ["staff","rod"].include?(bob4[2][0].downcase)
       fullname="__**#{bob4[0]}**__"
-      h=bob4[4]
+      h=bob4[4][1]
       h="Always hits" if h=="-"
-      text="#{bob4[2]}-rank #{bob4[1]}\n**Uses:** #{bob4[3]}\n**Hit:** #{h}\n**EXP Modifier:** #{bob4[6]}"
+      text="#{bob4[2][1]}-rank #{bob4[2][0]}\n**Uses:** #{bob4[4][0]}\n**Hit:** #{h}\n**EXP Modifier:** #{bob4[4][3]}"
     else
-      bob4=forge(bob4,upgrade,bob4[10]) if upgrade>0
-      c=bob4[5]
-      c="Never crits" if bob4[9].downcase.include?("cannot trigger crit") || bob4[9].downcase.include?("cannot crit") || bob4[9].downcase.include?("cannot double attack or inflict crit")
+      bob4=forge(bob4,upgrade,bob4[1]) if upgrade>0
+      c=bob4[4][2]
+      c="Never crits" if bob4[7].downcase.include?("cannot trigger crit") || bob4[7].downcase.include?("cannot crit") || bob4[7].downcase.include?("cannot double attack or inflict crit")
       fullname="__**#{bob4[0]}**__"
-      text="#{bob4[2]}-rank #{bob4[1]}"
-      text="#{text}\n**Uses:** #{bob4[6]}" if bob4[10]=="Awakening"
-      text="#{text}\n**Might:** #{bob4[3]}\n**Hit:** #{bob4[4]}\n**Crit:** #{c}"
-      text="#{text}\n**Avoid:** #{bob4[6]}" if bob4[10]=="Fates"
+      text="#{bob4[2][1]}-rank #{bob4[2][0]}"
+      text="#{text}\n**Uses:** #{bob4[4][3]}" if bob4[1]=="Awakening"
+      text="#{text}\n**Might:** #{bob4[4][0]}\n**Hit:** #{bob4[4][1]}\n**Crit:** #{c}"
+      text="#{text}\n**Avoid:** #{bob4[4][3]}" if bob4[1]=="Fates"
     end
-    if bob4[8] == "-"
+    if bob4[6][0] == "-"
       p="Not purchaseable or sellable"
-    elsif !bob4[11].nil?
-      p="#{bob4[8]} (sells for #{bob4[8].to_i/4})"
+    elsif !bob4[6][1].nil?
+      p="#{bob4[6][0]} (sells for #{bob4[6][0]/4})"
     else
-      p="#{bob4[8]} (sells for #{bob4[8].to_i/2})"
+      p="#{bob4[6][0]} (sells for #{bob4[6][0]/2})"
     end
-    text="#{text}\n**Range:** #{bob4[7].gsub('~','-')}\n**Cost:** #{p}"
-    text="#{text}\n**Additional info:** #{bob4[9]}" if bob4[9] != '-' && !bob4[9].nil? && bob4[9] != ''
+    text="#{text}\n**Range:** #{bob4[5].gsub('~','-')}\n**Cost:** #{p}"
+      if bob4[3].nil?
+      elsif bob4[3]=='Enemy'
+        text="#{text}\n**Enemy exclusive**"
+      elsif bob4[3].include?('*')
+        text="#{text}\n**Locked to:** #{bob4[3].gsub('*','')}"
+      elsif bob4[3].length>0
+        text="#{text}\n**Prf to:** #{bob4[3]}"
+      end
+    text="#{text}\n**Additional info:** #{bob4[7]}" if bob4[7] != '-' && !bob4[7].nil? && bob4[7] != ''
   end
   create_embed(event,fullname,text,xcolor)
 end
