@@ -1,4 +1,4 @@
-Hoshido Noble\Fates\Hoshido\15, 15, 10, 10, 10, 10, 15, 0\60, 34, 28, 29, 30, 33, 31, 28\19, 10, 4, 5, 6, 4, 7, 3\**Promotes from:**/n*Nohr Prince/ss [Birthright/Revelation]*/t(Nobility, Dragon Fang)\\Dragon Ward, Hoshidian Unity\Swords, A; Dragonstones, A; Staves, B
+Hoshido Noble\Fates\Hoshido\15, 15, 10, 10, 10, 10, 15, 0\60, 34, 28, 29, 30, 33, 31, 28\19, 10, 4, 5, 6, 4, 7, 3\**Promotes from:**/n*Nohr Prince/ss [Birthright/Revelation]*/t(Nobility, Dragon Fang)\\Dragon Ward, Hoshidan Unity\Swords, A; Dragonstones, A; Staves, B
 Samurai\Fates\Hoshido\10, 10, 0, 15, 20, 15, 0, 10\40, 20, 16, 23, 25, 24, 18, 20\17, 4, 0, 5, 8, 3, 3, 3\\Swordmaster, Master of Arms\Duelist's Blow, Vantage\Swords, B
 Swordmaster\Fates\Hoshido\10, 10, 5, 15, 20, 15, 0, 10\55, 30, 28, 32, 35, 33, 27, 31\18, 6, 2, 7, 11, 4, 5, 5\\\Astra, Swordfaire\Swords, S
 Master of Arms\Fates\Hoshido\20, 15, 0, 10, 10, 10, 10, 0\65, 33, 25, 30, 30, 31, 31, 28\20, 8, 0, 6, 9, 3, 7, 3\\\Seal Strength, Life and Death\Swords, A; Lances, B; Axes, B
@@ -27,7 +27,7 @@ Ninja\Fates\Hoshido\5, 5, 0, 20, 20, 0, 5, 15\35, 17, 15, 25, 25, 18, 19, 20\16,
 Master Ninja\Fates\Hoshido\5, 5, 0, 20, 20, 0, 5, 20\55, 27, 25, 35, 35, 28, 26, 34\17, 5, 0, 10, 11, 2, 4, 8\\\Lethality, Shurikenfaire\Swords, B; Daggers, S
 Mechanist\Fates\Hoshido\10, 10, 0, 15, 10, 5, 5, 15\60, 30, 25, 33, 30, 30, 31, 31\18, 7, 0, 9, 7, 2, 6, 6\\\Golembane, Replicate\Bows, B; Daggers, A
 Apothecary\Fates\Hoshido\20, 20, 0, 10, 10, 5, 10, 5\45, 24, 15, 19, 19, 21, 23, 20\18, 6, 0, 4, 4, 2, 6, 2\\Merchant, Mechanist\Potent Potion, Quick Salve\Bows, B
-Merchant\Fates\Hoshido\20, 20, 0, 10, 5, 15, 10, 5\65, 33, 25, 29, 28, 32, 33, 30\20, 8, 0, 6, 5, 4, 8, 5\\\Profeteer, Spendthrift\Lances, B; Bows, A
+Merchant\Fates\Hoshido\20, 20, 0, 10, 5, 15, 10, 5\65, 33, 25, 29, 28, 32, 33, 30\20, 8, 0, 6, 5, 4, 8, 5\\\Profiteer, Spendthrift\Lances, B; Bows, A
 Kitsune\Fates\Hoshido\10, 10, 0, 15, 20, 10, 0, 20\40, 20, 18, 23, 24, 24, 18, 23\16, 5, 1, 6, 8, 4, 1, 4\\Nine-Tails\Evenhanded, Beastbane\Beaststones, B
 Nine-Tails\Fates\Hoshido\10, 10, 0, 15, 20, 10, 0, 20\55, 29, 29, 33, 34, 33, 27, 34\19, 6, 2, 9, 10, 5, 2, 8\\\Even Better, Grisly Wound\Beaststones, S
 Songstress\Fates\Hoshido\0, 10, 0, 20, 20, 20, 0, 0\45, 28, 27, 31, 31, 35, 27, 28\16, 3, 0, 6, 5, 3, 2, 3\Special\\Luck +4, Inspiring Song, Voice of Peace, Foreign Princess\Lances, C
@@ -61,7 +61,7 @@ Maid\Fates\Nohr\0, 10, 10, 15, 15, 10, 5, 10\50, 28, 31, 33, 33, 32, 29, 29\18, 
 Servant\Fates\Nohr\0, 10, 10, 15, 15, 10, 5, 10\50, 28, 31, 33, 33, 32, 29, 29\18, 4, 5, 9, 8, 4, 5, 4\\\Live to Serve, Tomebreaker\Staves, S; Daggers, B
 Wolfskin\Fates\Nohr\20, 20, 0, 5, 15, 5, 10, 0\45, 24, 15, 18, 22, 17, 21, 15\19, 8, 0, 4, 6, 0, 4, 0\\Wolfssegner\Odd Shaped, Beastbane\Beaststones, B
 Wolfssegner\Fates\Nohr\20, 20, 0, 5, 15, 5, 10, 0\65, 36, 25, 29, 31, 26, 32, 26\22, 11, 0, 6, 7, 1, 7, 1\\\Better Odds, Grisly Wound\Beaststones, S
-Valla Noble\Fates \Valla\15, 13, 13, 8, 13, 8, 10, 8\60, 33, 30, 29, 31, 30, 30, 30\19, 9, 5, 4, 7, 3, 6, 5\**Promotes from:**/n*Nohr Prince/ss [Revelation]*/t(Nobility, Dragon Fang)\\ \Swords, A; Dragonstones, S; Daggers, B
+Valla Noble\Fates\Valla\15, 13, 13, 8, 13, 8, 10, 8\60, 33, 30, 29, 31, 30, 30, 30\19, 9, 5, 4, 7, 3, 6, 5\**Promotes from:**/n*Nohr Prince/ss [Revelation]*/t(Nobility, Dragon Fang)\\\Swords, A; Dragonstones, S; Daggers, B
 Lancer\Fates \Unavailable\10, 10, 0, 10, 10, 5, 10, 10\60, 31, 25, 29, 29, 30, 31, 29\17, 5, 0, 5, 5, 2, 5, 2\Unavailable\\\Lances, B
 Lord\Fates \Unavailable\15, 15, 0, 5, 20, 10, 15, 0\60, 33, 25, 30, 31, 34, 32, 29\18, 6, 0, 5, 7, 4, 7, 0\Unavailable\\\Swords, A
 Cleric\Fates \Unavailable\0, 5, 15, 0, 15, 15, 0, 20\50, 27, 33, 27, 32, 34, 27, 34\16, 0, 4, 3, 6, 4, 1, 6\Unavailable\\\Staves, C
