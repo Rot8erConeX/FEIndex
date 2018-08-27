@@ -127,7 +127,7 @@ Tiki\1fA\*Awakening*\80, 40, 40, 35, 30, 80, 45, 45\0, 0, -1, 0, 1, 2, 1, 2\Mana
 Basilio\1mA\*Awakening*\65, 45, 10, 40, 35, 45, 40, 15\0, 3, -2, 1, 1, -1, 1, -1\Fighter, Barbarian, Knight\Fighter, Barbarian, Knight\\
 Flavia\1fA\*Awakening*\50, 35, 20, 45, 45, 55, 30, 25\0, 1, -1, 2, 1, 0, -1, 0\Mercenary, Thief, Knight\Mercenary, Thief, Knight\\
 Gangrel\1fA\*Awakening*\40, 40, 30, 50, 50, 30, 30, 30\0, -2, 0, 3, 3, -1, -1, 0\Thief, Barbarian, Dark Mage\Thief, Barbarian, Dark Mage\\
-Walhart\1mA\*Awakening*\75, 60, 10, 30, 30, 45, 45, 25\0, 4, -2, 0, -1, -1, 4, -2\Conqueror, Knight, Wyvern Rider\Conqueror, Knight, Wyvern Rider\\
+Walhart\1mA\*Awakening*\75, 60, 10, 30, 30, 45, 45, 25\0, 4, -2, 0, -1, -1, 4, -2\Conqueror, Knight, Wyvern Rider\Knight, Wyvern Rider\\
 Emmeryn\1fA\*Awakening*\45, 10, 55, 40, 40, 70, 25, 35\0, -2, 4, 0, 1, 0, -2, 1\Cleric, Pegasus Knight, Troubadour\Cleric, Pegasus Knight, Troubadour\\
 Yenfay\1mA\*Awakening*\60, 45, 10, 45, 50, 60, 30, 20\0, 1, -2, 2, 4, 0, -1, -2\Myrmidon, Wyvern Rider, Archer\Myrmidon, Wyvern Rider, Archer\\
 Aversa\1fA\*Awakening*\45, 25, 45, 35, 40, 65, 30, 30\0, -1, 3, 1, 1, -2, 0, 0\Pegasus Knight, Wyvern Rider, Dark Mage\Pegasus Knight, Wyvern Rider, Dark Mage\\
