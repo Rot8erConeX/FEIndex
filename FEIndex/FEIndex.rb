@@ -19,45 +19,6 @@ else
 end
 bot.gateway.check_heartbeat_acks = false
 
-@shigure_class_kids=["Shigure","Elentil","DizJr","Portia"]
-@names=[["Ana", "Anna"],["Harold", "Arthur"],["Gurei", "Asugi"],["Asama", "Azama"],["Aqua", "Azura"],["Bajirio", "Basilio"],["Benoit", "Benny"],
-        ["Berka", "Beruka"],["Bredy", "Brady"],["Buredi", "Brady"],["Matoi", "Caeldori"],["Riceload", "Caeldori"],["Serge", "Cherche"],["Seruju", "Cherche"],
-        ["Zelcher", "Cherche"],["Krom", "Chrom"],["Kuromu", "Chrom"],["Tiamo", "Cordelia"],["Kamui", "Corrin"],["Shinshia", "Cynthia"],["Denis", "Donnel"],
-        ["Doni", "Donnel"],["Donny", "Donnel"],["Deere", "Dwyer"],["Elfie", "Effie"],["CinnamonRoll", "Elise"],["Emelina", "Emmeryn"],["Emerina", "Emmeryn"],
-        ["Furavia", "Flavia"],["Foleo", "Forrest"],["Frederik", "Frederick"],["Furederiku", "Frederick"],["Fuuga", "Fuga"],["Gaia", "Gaius"],
-        ["Guire", "Gaius"],["Jerome", "Gerome"],["Jeromu", "Gerome"],["Grego", "Gregor"],["Gurego", "Gregor"],["Gunther", "Gunter"],["Kazahana", "Hana"],
-        ["Tsukuyomi", "Hayato"],["Henri", "Henry"],["Ignis", "Ignatius"],["Azur", "Inigo"],["Azure", "Inigo"],["Azuru", "Inigo"],["Joker", "Jakob"],
-        ["Nishiki", "Kaden"],["Kagerou", "Kagero"],["Kanna", "Kana"],["Suzukaze", "Kaze"],["Flannel", "Keaton"],["Callum", "Kellam"],["Karamu", "Kellam"],
-        ["Kisaragi", "Kiragi"],["Degel", "Kjelle"],["Dejeru", "Kjelle"],["Lazward", "Laslow"],["Loran", "Laurent"],["Roran", "Laurent"],["Leon", "Leo"],
-        ["Libera", "Libra"],["Ribera", "Libra"],["Riviera", "Libra"],["Liz", "Lissa"],["Rizu", "Lissa"],["Lon'zu", "Lon'qu"],["Lonqu", "Lon'qu"],
-        ["Lonzu", "Lon'qu"],["Ronku", "Lon'qu"],["Ronkuu", "Lon'qu"],["Rukina", "Lucina"],["Mariabel", "Maribelle"],["Mariabell", "Maribelle"],
-        ["Mariaberu", "Maribelle"],["Midoriko", "Midori"],["Mirieru", "Miriel"],["Linfan", "Morgan"],["Maku", "Morgan"],["Marc", "Morgan"],["Mark", "Morgan"],
-        ["Mozume", "Mozu"],["n_n", "Nah"],["Nn", "Nah"],["Zero", "Niles"],["Eponine", "Nina"],["Noir", "Noire"],["Nowaru", "Noire"],["Nono", "Nowi"],
-        ["Olivie", "Olivia"],["Orivie", "Olivia"],["Eudes", "Owain"],["Udo", "Owain"],["Wood", "Owain"],["Berubetto", "Panne"],["Palne", "Panne"],
-        ["Velvet", "Panne"],["Lutz", "Percy"],["Pieri", "Peri"],["Paris", "Priam"],["Parisu", "Priam"],["Yuugiri", "Reina"],["Syalla", "Rhajat"],
-        ["Licht", "Ricken"],["Richt", "Ricken"],["Rihito", "Ricken"],["Rinka", "Rinkah"],["Daraen", "Robin"],["Reflet", "Robin"],["Rufure", "Robin"],
-        ["Lobster", "Ryoma"],["Ryouma", "Ryoma"],["Saizou", "Saizo"],["Sairi", "Say'ri"],["Sayri", "Say'ri"],["Crimson", "Scarlet"],["Luna", "Selena"],
-        ["Kinu", "Selkie"],["Selena", "Severa"],["Serena", "Severa"],["Shinonome", "Shiro"],["Asyura", "Shura"],["Sort", "Stahl"],["Soru", "Stahl"],
-        ["Tsubaki", "Subaki"],["Soiree", "Sully"],["Soware", "Sully"],["Smia", "Sumia"],["Betrayal", "Takumi"],["Pineapple", "Takumi"],["Tacomeme", "Takumi"],
-        ["Sallya", "Tharja"],["Sariya", "Tharja"],["Sarya", "Tharja"],["Chiki", "Tiki"],["Vake", "Vaike"],["Veiku", "Vaike"],["Wyck", "Vaike"],
-        ["Velour", "Velouria"],["Viaur", "Virion"],["Viole", "Virion"],["Vioru", "Virion"],["Marx", "Xander"],["Chambray", "Yarne"],["Shanbure", "Yarne"]]
-@predetermined_parents=[["Azura","Shigure"],["Jakob","Dwyer"],["Ryoma","Shiro"],["Takumi","Kiragi"],["Hinata","Hisame"],["Saizo","Asugi"],
-                        ["Xander","Siegbert"],["Leo","Forrest"],["Benny","Ignatius"],["Arthur","Percy"],["Kaze","Midori"],["Silas","Sophie"],
-                        ["Subaki","Caeldori"],["Azama","Mitama"],["Kaden","Selkie"],["Hayato","Rhajat"],["Niles","Nina"],["Odin","Ophelia"],
-                        ["Keaton","Velouria"],["Laslow","Soliel"],["Chrom","Lucina"],["Cordelia","Severa"],["Lissa","Owain"],["Sully","Kjelle"],
-                        ["Miriel","Laurent"],["Panne","Yarne"],["Nowi","Nah"],["Tharja","Noire"],["Olivia","Inigo"],["Cherche","Gerome"],
-                        ["Bluezie","Elentil"],["Dizzy","DizJr"],["Rudyard","Gaotora"],["Megan","Portia"],["Steel","Fauna"],["Draco","Oregano"],
-                        ["GSO","Ocarina"],["Cherche","Gerome"],["Erich","Synn"],["Dwight","Gella"],["Sheldon","Xavier"]]
-@japanese_names=[["Axe Fighter","Fighter"],["Dark Prince","Nohr Prince"],["Dark Princess","Nohr Princess"],["Dark Royal","Nohr Royal"],
-                 ["Dark Blood","Nohr Noble"],["Light Blood","Hoshido Noble"],["Dragon Knight","Wyvern Rider"],["Dragon Master","Wyvern Lord"],
-                 ["Revanant Knight","Malig Knight"],["Rod Knight","Troubadour"],["Singer","Songstress"],["Golem","Stoneborn"],["Dark Lord","Nohrian King"],
-                 ["Dark Dragon","Blight Dragon"],["Invisible Dragon","Silent Dragon"],["Familiar","Empty Vessel"]]
-@units=[]
-@skills=[]
-@items=[]
-@classes=[]
-@server_data=[]
-
 def all_commands(include_nil=false)
   k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character','class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats','reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backup','restore','sort','deletealias','checkaliases','aliases','embeds','snagchannels','shard','alliance']
   k[0]=nil if include_nil
@@ -357,10 +318,10 @@ def create_embed(event,header,text,xcolor=nil,xfooter=nil,xpic=nil,xfields=nil)
 end
 
 def is_mod?(user,server,channel)
-  return true if user.id==167657750971547648
-  return false if server.nil?
-  return true if user.id==server.owner.id
-  for i in 0...user.roles.length
+  return true if user.id==167657750971547648 # bot developer is always mod
+  return false if server.nil? # no one is mod in PM
+  return true if user.id==server.owner.id # server owners are always mods
+  for i in 0...user.roles.length # 
     return true if ['mod','mods','moderator','moderators','admin','admins','administrator','administrators','owner','owners'].include?(user.roles[i].name.downcase)
   end
   return true if user.permission?(:manage_messages,channel)
@@ -542,13 +503,13 @@ def get_corrin(event,display=true,apt=0)
   for i in 0...8
     g[i]=g[i]+boon[1][i]+bane[1][i]
     m[i]=m[i]+boon[0][i]+bane[0][i]
-    flds[0][1].push("*#{b[i]}:*	#{g[i]+apt}%")
-    flds[1][1].push("*#{b[i]}:*	#{"+" if m[i]>0}#{m[i]+apt}") if i>0
+    flds[0][1].push("*#{b[i]}:*  #{g[i]+apt}%")
+    flds[1][1].push("*#{b[i]}:*  #{"+" if m[i]>0}#{m[i]+apt}") if i>0
   end
   flds[0][1].push("")
   flds[1][1].push("")
-  flds[0][1].push("*Total:*	#{g[0]+g[1]+g[2]+g[3]+g[4]+g[5]+g[6]+g[7]}%")
-  flds[1][1].push("*Total:*	#{m[0]+m[1]+m[2]+m[3]+m[4]+m[5]+m[6]+m[7]}")
+  flds[0][1].push("*Total:*  #{g[0]+g[1]+g[2]+g[3]+g[4]+g[5]+g[6]+g[7]}%")
+  flds[1][1].push("*Total:*  #{m[0]+m[1]+m[2]+m[3]+m[4]+m[5]+m[6]+m[7]}")
   flds[0][1]=flds[0][1].join("\n")
   flds[1][1]=flds[1][1].join("\n")
   flds.push(["Classes","*Default Class:* Nohr Royal (Hoshido Noble, Nohr Noble)\n*Heart Seal:* #{talent[0]}"])
@@ -583,13 +544,13 @@ def get_robin(event,display=true,apt=0)
   for i in 0...8
     g[i]=g[i]+boon[1][i]+bane[1][i]
     m[i]=m[i]+boon[0][i]+bane[0][i]
-    flds[0][1].push("*#{b[i]}:*	#{g[i]+apt}%")
-    flds[1][1].push("*#{b[i]}:*	#{"+" if m[i]>0}#{m[i]+apt}") if i>0
+    flds[0][1].push("*#{b[i]}:*  #{g[i]+apt}%")
+    flds[1][1].push("*#{b[i]}:*  #{"+" if m[i]>0}#{m[i]+apt}") if i>0
   end
   flds[0][1].push("")
   flds[1][1].push("")
-  flds[0][1].push("*Total:*	#{g[0]+g[1]+g[2]+g[3]+g[4]+g[5]+g[6]+g[7]}%")
-  flds[1][1].push("*Total:*	#{m[0]+m[1]+m[2]+m[3]+m[4]+m[5]+m[6]+m[7]}")
+  flds[0][1].push("*Total:*  #{g[0]+g[1]+g[2]+g[3]+g[4]+g[5]+g[6]+g[7]}%")
+  flds[1][1].push("*Total:*  #{m[0]+m[1]+m[2]+m[3]+m[4]+m[5]+m[6]+m[7]}")
   flds[0][1]=flds[0][1].join("\n")
   flds[1][1]=flds[1][1].join("\n")
   if display
@@ -1251,10 +1212,10 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
       bob5[i]="#{bob5[i]} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
     end
     bob4[5]=bob5.map{|q| q}
-    special=["chrom","azura","olivia"]
+    special=["chrom","azura","olivia","walhart"]
     special.push("lucina") if @mom[2].include?("Awakening")
     if special.include?(@mom[0].downcase)
-      bob4[5].unshift('Tactician')
+      bob4[5].unshift('Tactician (Grandmaster)')
       bob4[5].uniq!
     end
   elsif bob4[1][0,1].to_i<=@mom[1][0,1].to_i && !(bob4[0].include?("Portia") && @mom[0].include?("Oregano"))
@@ -1322,18 +1283,23 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
     end
   elsif game=="Awakening" && (bob4[0]=="Morgan" || @mom[6][0]=="Tactician")
     if @mom[1][1,1]!="f" && @mom[1][1,1]!="m"
-      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"].uniq
+      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Healer","Archer","Thief","Wyvern Rider","Mage","Dark Mage"]
     elsif @mom[1][1,1]=="m"
-      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Barbarian","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Priest","Fighter"].uniq
+      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Barbarian","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Priest","Fighter"]
     else
-      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Troubadour","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Cleric","Pegasus Knight"].uniq
+      bob5=[gender_adjust(@mom[6][0],bob4[1][1,1]),"Tactician","Cavalier","Knight","Myrmidon","Mercenary","Troubadour","Archer","Thief","Wyvern Rider","Mage","Dark Mage","Cleric","Pegasus Knight"]
     end
-    unless bob4[0]=='Morgan'
+    if bob4[0]=='Morgan'
+      special=["chrom","azura","olivia","walhart"]
+      special.push("lucina") if @mom[2].include?("Awakening")
+      bob5.shift if special.include?(@mom[0].downcase)
+    else
       bob5.unshift(bob4[6][3]) unless bob4[6][3].nil?
       bob5.unshift(bob4[6][2]) unless bob4[6][2].nil?
       bob5.unshift(bob4[6][1]) unless bob4[6][1].nil?
       bob5.unshift(bob4[6][0]) unless bob4[6][0].nil?
     end
+    bob5.uniq!
     data_load()
     for i in 0...bob5.length
       m=@classes.find_index{|q| q[0]==bob5[i] && q[1]=='Awakening'}
@@ -1373,7 +1339,7 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
       m=@classes.find_index{|q| q[0]==clss && q[1]=='Awakening'}
       clss="#{clss} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
       clss=nil if !["Awakening","*Awakening*"].include?(@mom[2]) && @mom[1][0,1]=="1" && !["Anna","Gunter","Reina","Scarlet","Shura","Izana","Yukimura","Fuga"].include?(@mom[0]) && i==2
-      bob4[5].push(clss) unless [bob4[6][0],bob4[6][1],bob4[6][2],"Dancer","Songstress"].include?(clss) || clss.nil?
+      bob4[5].push(clss) unless [bob4[6][0],bob4[6][1],bob4[6][2],"Dancer","Songstress","Conqueror"].include?(clss) || clss.nil?
     end
   else
     clss=gender_adjust(@mom[6][0],bob4[1][1,1])
@@ -1406,7 +1372,6 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
     bob4[5][0]=gender_adjust(bob4[5][0],bob4[1][1,1])
   end
   bob4[5].uniq!
-  puts bob4[1]
   return bob4
 end
 
@@ -2377,7 +2342,7 @@ def unit_parse(event,bot,args)
     unless picture.nil?
       picture=nil if picture[0,1]=='>'
     end
-    text="#{text}\n**Personal Skill:** *#{@bob[7]}*	#{@skills[@skills.find_index{|q| q[0]==@bob[7]}][4]}" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A" || @skills.find_index{|q| q[0]==@bob[7]}.nil?
+    text="#{text}\n**Personal Skill:** *#{@bob[7]}*  #{@skills[@skills.find_index{|q| q[0]==@bob[7]}][4]}" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A" || @skills.find_index{|q| q[0]==@bob[7]}.nil?
     prf=@items.find_index{|q| !q[1].nil? && !q[3].nil? && q[3].gsub('*','')==@bob[0].gsub('**','') && @bob[1][2,1]==q[1][0].gsub('G','F')}
     text="#{text}\n**Prf weapon:** *#{@items[prf][0]}*" unless prf.nil? || ['staff','rod'].include?(@items[prf][2][0].downcase)
     text="#{text}\n**Prf staff:** *#{@items[prf][0]}*" unless prf.nil? || !['staff','rod'].include?(@items[prf][2][0].downcase)
@@ -2389,15 +2354,15 @@ def unit_parse(event,bot,args)
     flds=[["**Growth Rates**",[]],["**Modifiers**",['-']],["**Classes**","*Default class:* #{@bob[5][0]}\n*#{'Seals unusable' if @bob[0]=='**Candace**'}#{'Heart Seal' if @bob[0]!='**Candace**' && @bob[1][2]=='F'}#{'Second Seal' if @bob[0]!='**Candace**' && @bob[1][2]=='A'}#{':'if @bob[0]!='**Candace**'}* #{'~~none~~' if @bob[5].length<=1 && @bob[0]!='**Candace**'}#{@bob[5][1,@bob[5].length-1].join(', ')}#{"\n*Partner Seal:* Spear Master, Basara" if @bob[0].gsub('**','')=='Mathoo'}",false]]
     f=[0,0]
     for i in 0...8
-      flds[0][1].push("*#{m[i]}:*	#{@bob[3][i]+apt}%")
-      flds[1][1].push("*#{m[i]}:*	#{'+' if @bob[4][i]>0}#{@bob[4][i]}") unless i==0
+      flds[0][1].push("*#{m[i]}:*  #{@bob[3][i]+apt}%")
+      flds[1][1].push("*#{m[i]}:*  #{'+' if @bob[4][i]>0}#{@bob[4][i]}") unless i==0
       f[0]+=@bob[3][i]+apt
       f[1]+=@bob[4][i]
     end
     flds[0][1].push('')
     flds[1][1].push('')
-    flds[0][1].push("*Total:*	#{f[0]}%")
-    flds[1][1].push("*Total:*	#{'+' if f[1]>0}#{f[1]}")
+    flds[0][1].push("*Total:*  #{f[0]}%")
+    flds[1][1].push("*Total:*  #{'+' if f[1]>0}#{f[1]}")
     flds[0][1]=flds[0][1].join("\n")
     flds[1][1]=flds[1][1].join("\n")
     xstats=find_stats_in_string(event)
@@ -2491,36 +2456,36 @@ def class_parse(event,bot,args)
       clss2[0]=clss2[0].gsub(' (C)','')
       for i in 0...clss[8].length
         s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-        clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*	#{s[4]}"
+        clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*  #{s[4]}"
       end
       for i in 0...clss2[8].length
         s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && ['Fateswakening',clss2[1]].include?(q[1])}]
-        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss2[0]}][1]}]*	#{s[4]}"
+        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss2[0]}][1]}]*  #{s[4]}"
       end
       event.respond fullname
       text="__*Awakening*__"
       apt=20 if apt>0
       f=[0,0,0]
       for i in 0...8
-        text="#{text}\n**#{b[i]}:**	*Growth:* #{clss2[3][i].to_i+apt}%	*Base:* #{clss2[5][i]}	*Maximum:* #{clss2[4][i]}"
+        text="#{text}\n**#{b[i]}:**  *Growth:* #{clss2[3][i].to_i+apt}%  *Base:* #{clss2[5][i]}  *Maximum:* #{clss2[4][i]}"
         f[0]+=clss2[3][i].to_i+apt
         f[1]+=clss2[5][i].to_i
         f[2]+=clss2[4][i].to_i
       end
-      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
-      text="#{text}\n**Total:**	*Growth:* #{f[0]}%	*Base:* #{f[1]}	*Maximum:* #{f[2]}"
+      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
+      text="#{text}\n**Total:**  *Growth:* #{f[0]}%  *Base:* #{f[1]}  *Maximum:* #{f[2]}"
       if clss2[6].nil? || clss2[6]==''
-        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0
+        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
         text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0
       else
         if clss2[6].include?('**')
-          text="#{text}\n#{clss2[6].gsub('/n',"\n").gsub('/t',"	")}"
+          text="#{text}\n#{clss2[6].gsub('/n',"\n").gsub('/t',"  ")}"
         else
           text="#{text}\n**#{clss2[6]} Class**"
         end
-        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
+        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss2[6].include?('Promotes from')
         text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0 || clss2[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
@@ -2530,25 +2495,25 @@ def class_parse(event,bot,args)
       apt=10 if apt>0
       f=[0,0,0]
       for i in 0...8
-        text="#{text}\n**#{b[i]}:**	*Growth:* #{clss[3][i].to_i+apt}%	*Base:* #{clss[5][i]}	*Maximum:* #{clss[4][i]}"
+        text="#{text}\n**#{b[i]}:**  *Growth:* #{clss[3][i].to_i+apt}%  *Base:* #{clss[5][i]}  *Maximum:* #{clss[4][i]}"
         f[0]+=clss[3][i].to_i+apt
         f[1]+=clss[5][i].to_i
         f[2]+=clss[4][i].to_i
       end
-      text="#{text}\n**Total:**	*Growth:* #{f[0]}%	*Base:* #{f[1]}	*Maximum:* #{f[2]}"
-      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
+      text="#{text}\n**Total:**  *Growth:* #{f[0]}%  *Base:* #{f[1]}  *Maximum:* #{f[2]}"
+      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
       if clss[6].nil? || clss[6]==''
-        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
+        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 if prm.length>0
         text="#{text}\n**Skills learned:**\n#{clss[8].map{|q| "*#{q}*"}.join("\n")}" unless clss[8].nil? || clss[8].length<=0
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
       else
         if clss[6].include?('**')
-          text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"	")}"
+          text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
         else
           text="#{text}\n**#{clss[6]} Class**"
         end
-        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
+        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
         text="#{text}\n**Skills learned:**\n#{clss[8].map{|q| "*#{q}*"}.join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
@@ -2561,41 +2526,41 @@ def class_parse(event,bot,args)
       clss2[0]=clss2[0].gsub(' (C)','')
       for i in 0...clss[8].length
         s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-        clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*	#{s[4]}"
+        clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*  #{s[4]}"
       end
       for i in 0...clss2[8].length
         s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && ['Fateswakening',clss2[1]].include?(q[1])}]
-        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss2[0]}][1]}]*	#{s[4]}"
+        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss2[0]}][1]}]*  #{s[4]}"
       end
       flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
       fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       text=''
       f=[0,0,0]
       for i in 0...8
-        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss[3][i].to_i+apt}%"
-        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*	#{clss[5][i].to_i}"
-        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*	#{clss[4][i].to_i}"
+        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*  #{clss[3][i].to_i+apt}%"
+        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*  #{clss[5][i].to_i}"
+        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*  #{clss[4][i].to_i}"
         f[0]+=clss[3][i].to_i+apt
         f[1]+=clss[5][i].to_i
         f[2]+=clss[4][i].to_i
       end
-      flds[0][1]="#{flds[0][1]}\n\n*Total:*	#{f[0]}%"
-      flds[1][1]="#{flds[1][1]}\n\n*Total:*	#{f[1]}"
-      flds[2][1]="#{flds[2][1]}\n\n*Total:*	#{f[2]}"
+      flds[0][1]="#{flds[0][1]}\n\n*Total:*  #{f[0]}%"
+      flds[1][1]="#{flds[1][1]}\n\n*Total:*  #{f[1]}"
+      flds[2][1]="#{flds[2][1]}\n\n*Total:*  #{f[2]}"
       text="#{text}\n**Promotes from:** Discord bot" if clss[0]=="Automaton"
-      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
+      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
       if clss[6].nil? || clss[6]==''
-        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
+        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
         text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
       else
         if clss[6].include?('**')
-          text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"	")}"
+          text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
         else
           text="#{text}\n**#{clss[6]} Class**"
         end
-        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
+        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
         text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
@@ -2610,34 +2575,34 @@ def class_parse(event,bot,args)
       end
       create_embed(event,fullname,text,xcolor,nil,nil,flds)
       flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
-      fullname="__**#{clss[0].gsub(' (C)','')}**__"
+      fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       text=''
       f=[0,0,0]
       for i in 0...8
-        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss2[3][i].to_i+apt}%"
-        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*	#{clss2[5][i].to_i}"
-        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*	#{clss2[4][i].to_i}"
+        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*  #{clss2[3][i].to_i+apt}%"
+        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*  #{clss2[5][i].to_i}"
+        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*  #{clss2[4][i].to_i}"
         f[0]+=clss2[3][i].to_i+apt
         f[1]+=clss2[5][i].to_i
         f[2]+=clss2[4][i].to_i
       end
-      flds[0][1]="#{flds[0][1]}\n\n*Total:*	#{f[0]}%"
-      flds[1][1]="#{flds[1][1]}\n\n*Total:*	#{f[1]}"
-      flds[2][1]="#{flds[2][1]}\n\n*Total:*	#{f[2]}"
+      flds[0][1]="#{flds[0][1]}\n\n*Total:*  #{f[0]}%"
+      flds[1][1]="#{flds[1][1]}\n\n*Total:*  #{f[1]}"
+      flds[2][1]="#{flds[2][1]}\n\n*Total:*  #{f[2]}"
       text="#{text}\n**Promotes from:** Discord bot" if clss2[0]=="Automaton"
-      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
+      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
       if clss2[6].nil? || clss2[6]==''
-        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[8].nil? || clss2[7].length<=0
+        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[8].nil? || clss2[7].length<=0
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
         text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0
       else
         if clss2[6].include?('**')
-          text="#{text}\n#{clss2[6].gsub('/n',"\n").gsub('/t',"	")}"
+          text="#{text}\n#{clss2[6].gsub('/n',"\n").gsub('/t',"  ")}"
         else
           text="#{text}\n**#{clss2[6]} Class**"
         end
-        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
+        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
         text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss2[6].include?('Promotes from')
         text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0 || clss2[6].include?('Skills learned')
         text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
@@ -2657,30 +2622,30 @@ def class_parse(event,bot,args)
     clss[0]=clss[0].gsub(' (C)','')
     for i in 0...clss[8].length
       s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-      clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*	#{s[4]}"
+      clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*  #{s[4]}"
     end
     text="#{fullname}"
     f=[0,0,0]
     for i in 0...8
-      text="#{text}\n**#{b[i]}:**	*Growth:* #{clss[3][i].to_i+apt}%	*Base:* #{clss[5][i]}	*Maximum:* #{clss[4][i]}"
+      text="#{text}\n**#{b[i]}:**  *Growth:* #{clss[3][i].to_i+apt}%  *Base:* #{clss[5][i]}  *Maximum:* #{clss[4][i]}"
       f[0]+=clss[3][i].to_i+apt
       f[1]+=clss[5][i].to_i
       f[2]+=clss[4][i].to_i
     end
-    text="#{text}\n**Total:**	*Growth:* #{f[0]}%	*Base:* #{f[1]}	*Maximum:* #{f[2]}"
-    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
+    text="#{text}\n**Total:**  *Growth:* #{f[0]}%  *Base:* #{f[1]}  *Maximum:* #{f[2]}"
+    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
     if clss[6].nil? || clss[6]==''
-      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
+      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
       text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
       text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
     else
       if clss[6].include?('**')
-        text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"	")}"
+        text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
       else
         text="#{text}\n**#{clss[6]} Class**"
       end
-      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
+      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
       text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
       text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
@@ -2692,35 +2657,35 @@ def class_parse(event,bot,args)
     clss[0]=clss[0].gsub(' (C)','')
     for i in 0...clss[8].length
       s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-      clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*	#{s[4]}"
+      clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*  #{s[4]}"
     end
     text=''
     f=[0,0,0]
     for i in 0...8
-      flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*	#{clss[3][i].to_i+apt}%"
-      flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*	#{clss[5][i].to_i}"
-      flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*	#{clss[4][i].to_i}"
+      flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*  #{clss[3][i].to_i+apt}%"
+      flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*  #{clss[5][i].to_i}"
+      flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*  #{clss[4][i].to_i}"
       f[0]+=clss[3][i].to_i+apt
       f[1]+=clss[5][i].to_i
       f[2]+=clss[4][i].to_i
     end
-    flds[0][1]="#{flds[0][1]}\n\n*Total:*	#{f[0]}%"
-    flds[1][1]="#{flds[1][1]}\n\n*Total:*	#{f[1]}"
-    flds[2][1]="#{flds[2][1]}\n\n*Total:*	#{f[2]}"
+    flds[0][1]="#{flds[0][1]}\n\n*Total:*  #{f[0]}%"
+    flds[1][1]="#{flds[1][1]}\n\n*Total:*  #{f[1]}"
+    flds[2][1]="#{flds[2][1]}\n\n*Total:*  #{f[2]}"
     text="#{text}\n**Promotes from:** Discord bot" if clss[0]=="Automaton"
-    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
+    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
     if clss[6].nil? || clss[6]==''
-      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
+      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
       text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
       text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
     else
       if clss[6].include?('**')
-        text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"	")}"
+        text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
       else
         text="#{text}\n**#{clss[6]} Class**"
       end
-      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"	(#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
+      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
       text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
       text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
       text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
@@ -3281,15 +3246,15 @@ def parse_job(event,args,bot,mde=0)
     f=[0,0]
     flds=[["**Growth Rates**",[]],["**Maximum Stats**",[]]]
     for i in 0...8
-      flds[0][1].push("*#{m[i]}:*	#{unit[3][i]+clss[3][i]+apt}%")
-      flds[1][1].push("*#{m[i]}:*	#{unit[4][i]+clss[4][i]}")
+      flds[0][1].push("*#{m[i]}:*  #{unit[3][i]+clss[3][i]+apt}%")
+      flds[1][1].push("*#{m[i]}:*  #{unit[4][i]+clss[4][i]}")
       f[0]+=unit[3][i]+clss[3][i]+apt
       f[1]+=unit[4][i]+clss[4][i]
     end
     flds[0][1].push('')
     flds[1][1].push('')
-    flds[0][1].push("*Total:*	#{f[0]}%")
-    flds[1][1].push("*Total:*	#{f[1]}")
+    flds[0][1].push("*Total:*  #{f[0]}%")
+    flds[1][1].push("*Total:*  #{f[1]}")
     flds[0][1]=flds[0][1].join("\n")
     flds[1][1]=flds[1][1].join("\n")
     unless prf.nil?
@@ -3385,7 +3350,7 @@ def skill_parse(event,bot,args)
           sA.push("#{m[0]} [level #{m[1]}]")
         end
       end
-      text="#{text}\n*Awakening:*	#{sA.join(', ')}"
+      text="#{text}\n*Awakening:*  #{sA.join(', ')}"
       sF=[]
       for i in 0...skillF[2].length
         m=skillF[2][i]
@@ -3403,7 +3368,7 @@ def skill_parse(event,bot,args)
           sF.push("#{m[0]} [level #{m[1]}]")
         end
       end
-      text="#{text}\n*Fates:*	#{sF.join(', ')}"
+      text="#{text}\n*Fates:*  #{sF.join(', ')}"
     else
       sB=[]
       for i in 0...bob4[2].length
@@ -3422,7 +3387,7 @@ def skill_parse(event,bot,args)
           sB.push("#{m[0]} [level #{m[1]}]")
         end
       end
-      text="#{text}	#{sB.join(', ')}"
+      text="#{text}  #{sB.join(', ')}"
     end
     if bob4[3]!="-"
       if bob4[3][bob4[3].length-8,8].downcase==" command"
@@ -3477,7 +3442,7 @@ def skill_parse(event,bot,args)
         alignment.push(@classes[@classes.find_index{|q| q[0]==m[0] && q[1]=='Fates'}][2]) if bob4[1]=="Fates" || (bob4[1]=="Fateswakening" && game=="Fates")
       end
     end
-    text="#{text}	#{sB.join(', ')}"
+    text="#{text}  #{sB.join(', ')}"
     if bob4[3]!="-"
       if bob4[3][bob4[3].length-8,8].downcase==" command"
         text="#{text}\n**Usage:** #{bob4[3]}"
@@ -4103,7 +4068,7 @@ bot.command(:proc) do |event, *args|
   names=["Lethality","Aether","Astra","Sol","Luna","Ignis","Vengeance"]
   names.push("Dragon Fang") if game != "Awakening"
   names.push("Rend Heaven") if game != "Awakening"
-  names.push("Glacies") if event.user.id==167657750971547648
+  names.push("Glacies") if event.user.id==256379815601373184 || (event.user.id==167657750971547648 && !event.server.nil? && [256291408598663168,285663217261477889].include?(event.server.id))
   names2=[]
   names3=[]
   for i in 0...args.length
@@ -4570,7 +4535,7 @@ bot.command(:sort) do |event|
   event.respond "The alias list has been sorted alphabetically"
 end
 
-bot.command(:snagstats) do |event, f| # snags the number of members in each of the servers Elise is in
+bot.command(:snagstats) do |event, f| # snags the number of members in each of the servers Robin is in
   nicknames_load()
   metadata_load()
   bot.servers.values(&:members)
@@ -4669,7 +4634,7 @@ bot.command(:sendpm, from: 167657750971547648) do |event, user_id, *args| # send
   event.respond "Message sent."
 end
 
-bot.command(:ignoreuser, from: 167657750971547648) do |event, user_id| # causes Elise to ignore the specified user
+bot.command(:ignoreuser, from: 167657750971547648) do |event, user_id| # causes Robin to ignore the specified user
   return nil unless event.server.nil?
   return nil unless event.user.id==167657750971547648
   metadata_load()
@@ -4696,7 +4661,7 @@ bot.command(:sendmessage, from: 167657750971547648) do |event, channel_id, *args
   return nil
 end
 
-bot.command(:leaveserver, from: 167657750971547648) do |event, server_id| # forces Elise to leave a server
+bot.command(:leaveserver, from: 167657750971547648) do |event, server_id| # forces Robin to leave a server
   return nil unless event.server.nil?
   return nil unless event.user.id==167657750971547648
   bot.server(server_id).general_channel.send_message("My coder would rather that I not associate with you guys.  I'm sorry.  If you would like me back, please take it up with him.")
@@ -4841,7 +4806,7 @@ bot.ready do |event|
       end
     end
   end
-  system("color B#{"14506"[@shardizard,1]}")
+  system("color 1#{"BCD0E"[@shardizard,1]}")
   bot.game="booting, please wait..." if [0,4].include?(@shardizard)
   if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
     download = open('http://pastebin.com/raw/43UKARGi')
@@ -4870,7 +4835,7 @@ bot.ready do |event|
   end
   metadata_save()
   data_load()
-  system("color 1#{"BCD0E"[@shardizard,1]}")
+  system("color B#{"14506"[@shardizard,1]}")
   bot.game="Fire Emblem Awakening / Fates" if [0,4].include?(@shardizard)
   bot.user(bot.profile.id).on(285663217261477889).nickname="FEIndex (RobinDebug)" if @shardizard==4
   bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/DebugRobin.png','r')) if @shardizard==4
