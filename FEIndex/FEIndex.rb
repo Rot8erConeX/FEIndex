@@ -19,6 +19,45 @@ else
 end
 bot.gateway.check_heartbeat_acks = false
 
+@shigure_class_kids=["Shigure","Elentil","DizJr","Portia"]
+@names=[["Ana", "Anna"],["Harold", "Arthur"],["Gurei", "Asugi"],["Asama", "Azama"],["Aqua", "Azura"],["Bajirio", "Basilio"],["Benoit", "Benny"],
+        ["Berka", "Beruka"],["Bredy", "Brady"],["Buredi", "Brady"],["Matoi", "Caeldori"],["Riceload", "Caeldori"],["Serge", "Cherche"],["Seruju", "Cherche"],
+        ["Zelcher", "Cherche"],["Krom", "Chrom"],["Kuromu", "Chrom"],["Tiamo", "Cordelia"],["Kamui", "Corrin"],["Shinshia", "Cynthia"],["Denis", "Donnel"],
+        ["Doni", "Donnel"],["Donny", "Donnel"],["Deere", "Dwyer"],["Elfie", "Effie"],["CinnamonRoll", "Elise"],["Emelina", "Emmeryn"],["Emerina", "Emmeryn"],
+        ["Furavia", "Flavia"],["Foleo", "Forrest"],["Frederik", "Frederick"],["Furederiku", "Frederick"],["Fuuga", "Fuga"],["Gaia", "Gaius"],
+        ["Guire", "Gaius"],["Jerome", "Gerome"],["Jeromu", "Gerome"],["Grego", "Gregor"],["Gurego", "Gregor"],["Gunther", "Gunter"],["Kazahana", "Hana"],
+        ["Tsukuyomi", "Hayato"],["Henri", "Henry"],["Ignis", "Ignatius"],["Azur", "Inigo"],["Azure", "Inigo"],["Azuru", "Inigo"],["Joker", "Jakob"],
+        ["Nishiki", "Kaden"],["Kagerou", "Kagero"],["Kanna", "Kana"],["Suzukaze", "Kaze"],["Flannel", "Keaton"],["Callum", "Kellam"],["Karamu", "Kellam"],
+        ["Kisaragi", "Kiragi"],["Degel", "Kjelle"],["Dejeru", "Kjelle"],["Lazward", "Laslow"],["Loran", "Laurent"],["Roran", "Laurent"],["Leon", "Leo"],
+        ["Libera", "Libra"],["Ribera", "Libra"],["Riviera", "Libra"],["Liz", "Lissa"],["Rizu", "Lissa"],["Lon'zu", "Lon'qu"],["Lonqu", "Lon'qu"],
+        ["Lonzu", "Lon'qu"],["Ronku", "Lon'qu"],["Ronkuu", "Lon'qu"],["Rukina", "Lucina"],["Mariabel", "Maribelle"],["Mariabell", "Maribelle"],
+        ["Mariaberu", "Maribelle"],["Midoriko", "Midori"],["Mirieru", "Miriel"],["Linfan", "Morgan"],["Maku", "Morgan"],["Marc", "Morgan"],["Mark", "Morgan"],
+        ["Mozume", "Mozu"],["n_n", "Nah"],["Nn", "Nah"],["Zero", "Niles"],["Eponine", "Nina"],["Noir", "Noire"],["Nowaru", "Noire"],["Nono", "Nowi"],
+        ["Olivie", "Olivia"],["Orivie", "Olivia"],["Eudes", "Owain"],["Udo", "Owain"],["Wood", "Owain"],["Berubetto", "Panne"],["Palne", "Panne"],
+        ["Velvet", "Panne"],["Lutz", "Percy"],["Pieri", "Peri"],["Paris", "Priam"],["Parisu", "Priam"],["Yuugiri", "Reina"],["Syalla", "Rhajat"],
+        ["Licht", "Ricken"],["Richt", "Ricken"],["Rihito", "Ricken"],["Rinka", "Rinkah"],["Daraen", "Robin"],["Reflet", "Robin"],["Rufure", "Robin"],
+        ["Lobster", "Ryoma"],["Ryouma", "Ryoma"],["Saizou", "Saizo"],["Sairi", "Say'ri"],["Sayri", "Say'ri"],["Crimson", "Scarlet"],["Luna", "Selena"],
+        ["Kinu", "Selkie"],["Selena", "Severa"],["Serena", "Severa"],["Shinonome", "Shiro"],["Asyura", "Shura"],["Sort", "Stahl"],["Soru", "Stahl"],
+        ["Tsubaki", "Subaki"],["Soiree", "Sully"],["Soware", "Sully"],["Smia", "Sumia"],["Betrayal", "Takumi"],["Pineapple", "Takumi"],["Tacomeme", "Takumi"],
+        ["Sallya", "Tharja"],["Sariya", "Tharja"],["Sarya", "Tharja"],["Chiki", "Tiki"],["Vake", "Vaike"],["Veiku", "Vaike"],["Wyck", "Vaike"],
+        ["Velour", "Velouria"],["Viaur", "Virion"],["Viole", "Virion"],["Vioru", "Virion"],["Marx", "Xander"],["Chambray", "Yarne"],["Shanbure", "Yarne"]]
+@predetermined_parents=[["Azura","Shigure"],["Jakob","Dwyer"],["Ryoma","Shiro"],["Takumi","Kiragi"],["Hinata","Hisame"],["Saizo","Asugi"],
+                        ["Xander","Siegbert"],["Leo","Forrest"],["Benny","Ignatius"],["Arthur","Percy"],["Kaze","Midori"],["Silas","Sophie"],
+                        ["Subaki","Caeldori"],["Azama","Mitama"],["Kaden","Selkie"],["Hayato","Rhajat"],["Niles","Nina"],["Odin","Ophelia"],
+                        ["Keaton","Velouria"],["Laslow","Soliel"],["Chrom","Lucina"],["Cordelia","Severa"],["Lissa","Owain"],["Sully","Kjelle"],
+                        ["Miriel","Laurent"],["Panne","Yarne"],["Nowi","Nah"],["Tharja","Noire"],["Olivia","Inigo"],["Cherche","Gerome"],
+                        ["Bluezie","Elentil"],["Dizzy","DizJr"],["Rudyard","Gaotora"],["Megan","Portia"],["Steel","Fauna"],["Draco","Oregano"],
+                        ["GSO","Ocarina"],["Cherche","Gerome"],["Erich","Synn"],["Dwight","Gella"],["Sheldon","Xavier"]]
+@japanese_names=[["Axe Fighter","Fighter"],["Dark Prince","Nohr Prince"],["Dark Princess","Nohr Princess"],["Dark Royal","Nohr Royal"],
+                 ["Dark Blood","Nohr Noble"],["Light Blood","Hoshido Noble"],["Dragon Knight","Wyvern Rider"],["Dragon Master","Wyvern Lord"],
+                 ["Revanant Knight","Malig Knight"],["Rod Knight","Troubadour"],["Singer","Songstress"],["Golem","Stoneborn"],["Dark Lord","Nohrian King"],
+                 ["Dark Dragon","Blight Dragon"],["Invisible Dragon","Silent Dragon"],["Familiar","Empty Vessel"]]
+@units=[]
+@skills=[]
+@items=[]
+@classes=[]
+@server_data=[]
+
 def all_commands(include_nil=false)
   k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character','class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats','reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backup','restore','sort','deletealias','checkaliases','aliases','embeds','snagchannels','shard','alliance']
   k[0]=nil if include_nil
@@ -3534,9 +3573,9 @@ def item_parse(event,bot,args,mde=0)
       if itemF[6][0] == "-"
         p="Not purchaseable or sellable"
       elsif !itemF[6][1].nil?
-        p="#{itemF[6][0]} (sells for #{itemF[6][0]/4})"
+        p="#{longFormattedNumber(itemF[6][0])} (sells for #{longFormattedNumber(itemF[6][0]/4)})"
       else
-        p="#{itemF[6][0]} (sells for #{itemF[6][0]/2})"
+        p="#{longFormattedNumber(itemF[6][0])} (sells for #{longFormattedNumber(itemF[6][0]/2)})"
       end
       text="#{text}\n\n__*Fates*__\n#{itemF[2][1]}-rank #{itemF[2][0]}\n**Uses:** #{itemF[4][0]}\n**Hit:** #{h}\n**EXP Modifier:** #{itemF[4][3]}\n**Range:** #{itemF[5].gsub('~','-')}\n**Cost:** #{p}"
       if itemF[3].nil?
@@ -3574,9 +3613,9 @@ def item_parse(event,bot,args,mde=0)
       if itemF[6][0] == "-"
         p="Not purchaseable or sellable"
       elsif !itemF[6][1].nil?
-        p="#{itemF[6][0]} (sells for #{itemF[6][0]/4})"
+        p="#{longFormattedNumber(itemF[6][0])} (sells for #{longFormattedNumber(itemF[6][0]/4)})"
       else
-        p="#{itemF[6][0]} (sells for #{itemF[6][0]/2})"
+        p="#{longFormattedNumber(itemF[6][0])} (sells for #{longFormattedNumber(itemF[6][0]/2)})"
       end
       text="#{text}\n\n__*Fates* #{"(+#{upgrade})" if upgrade>0}__\n#{itemF[2][1]}-rank #{itemF[2][0]}\n**Might:** #{itemF[4][0]}\n**Hit:** #{itemF[4][1]}\n**Crit:** #{c}\n**Avoid:** #{itemF[4][3]}\n**Range:** #{itemF[5].gsub('~','-')}\n**Cost:** #{p}"
       if itemF[3].nil?
@@ -3613,9 +3652,9 @@ def item_parse(event,bot,args,mde=0)
     if bob4[6][0] == "-"
       p="Not purchaseable or sellable"
     elsif !bob4[6][1].nil?
-      p="#{bob4[6][0]} (sells for #{bob4[6][0]/4})"
+      p="#{longFormattedNumber(bob4[6][0])} (sells for #{longFormattedNumber(bob4[6][0]/4)})"
     else
-      p="#{bob4[6][0]} (sells for #{bob4[6][0]/2})"
+      p="#{longFormattedNumber(bob4[6][0])} (sells for #{longFormattedNumber(bob4[6][0]/2)})"
     end
     text="#{text}\n**Range:** #{bob4[5].gsub('~','-')}\n**Cost:** #{p}"
       if bob4[3].nil?
@@ -3647,6 +3686,41 @@ def remove_format(s,format)
     end
   end
   return s
+end
+
+def longFormattedNumber(number,cardinal=false)
+  if cardinal
+    k='th'
+    unless (number%100)/10==1
+      k='st' if number%10==1
+      k='nd' if number%10==2
+      k='rd' if number%10==3
+    end
+    return "#{longFormattedNumber(number,false)}#{k}"
+  end
+  return "#{number}" if number<1000
+  if number<1000
+    bob="#{number%1000}"
+  elsif number%1000<10
+    bob="00#{number%1000}"
+  elsif number%1000<100
+    bob="0#{number%1000}"
+  elsif number%1000<1000
+    bob="#{number%1000}"
+  end
+  while number>1000
+    number=number/1000
+    if number<1000
+      bob="#{number%1000},#{bob}"
+    elsif number%1000<10
+      bob="00#{number%1000},#{bob}"
+    elsif number%1000<100
+      bob="0#{number%1000},#{bob}"
+    elsif number%1000<1000
+      bob="#{number%1000},#{bob}"
+    end
+  end
+  return bob
 end
 
 bot.command([:embeds,:embed]) do |event|
