@@ -3554,9 +3554,9 @@ def item_parse(event,bot,args,mde=0)
       if itemA[6][0] == "-"
         p="Not purchaseable or sellable"
       elsif !itemA[6][1].nil?
-        p="#{itemA[6][0]} (sells for #{itemA[6][0]/4})"
+        p="#{longFormattedNumber(itemA[6][0])} (sells for #{longFormattedNumber(itemA[6][0]/4)})"
       else
-        p="#{itemA[6][0]} (sells for #{itemA[6][0]/2})"
+        p="#{longFormattedNumber(itemA[6][0])} (sells for #{longFormattedNumber(itemA[6][0]/2)})"
       end
       text="__*Awakening*__\n#{itemA[2][1]}-rank #{itemA[2][0]}\n**Uses:** #{itemA[4][0]}\n**Hit:** #{h}\n**EXP Modifier:** #{itemA[4][3]}\n**Range:** #{itemA[5].gsub('~','-')}\n**Cost:** #{p}"
       if itemA[3].nil?
