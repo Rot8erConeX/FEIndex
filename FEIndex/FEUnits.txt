@@ -16,7 +16,7 @@ Niles\1mFc\Not available in *Birthright*\40, 35, 20, 40, 50, 30, 30, 40\0, -2, 0
 Benny\1mFc\Not available in *Birthright*\50, 40, 0, 50, 10, 35, 55, 45\0, 0, 0, 0, -3, 0, 3, 1\Knight, Fighter\Knight, Fighter, Spear Fighter\Fierce Mien\
 Keaton\1mFc\Not available in *Birthright*\60, 60, 0, 20, 35, 30, 50, 25\0, 3, 0, -2, -1, 0, 2, -1\Wolfskin, Fighter\Wolfskin, Fighter, Outlaw\Collector\
 Laslow\1mFc\Not available in *Birthright*\50, 45, 0, 45, 30, 55, 35, 25\0, 1, 0, 2, -1, 1, -1, -1\Mercenary, Ninja\Mercenary, Ninja, Samurai\Fancy Footwork\
-Odinc\1mF\Not available in *Birthright*\55, 35, 30, 55, 35, 50, 40, 20\0, 0, 1, 1, -1, 1, 0, -1\Dark Mage, Samurai\Dark Mage, Samurai, Diviner\Aching Blood\
+Odin\1mF\Not available in *Birthright*\55, 35, 30, 55, 35, 50, 40, 20\0, 0, 1, 1, -1, 1, 0, -1\Dark Mage, Samurai\Dark Mage, Samurai, Diviner\Aching Blood\
 Azura\1fFrd\Available in all routes\25, 50, 25, 60, 60, 40, 15, 35\0, 0, 0, 1, 3, 0, -3, 0\Songstress, Sky Knight\Sky Knight, Troubadour, Wyvern Rider\Healing Descant\
 Felicia\1fFr\Available in all routes\40, 10, 35, 30, 40, 55, 15, 35\0, -2, 2, 0, 1, 0, -1, 1\Maid, Stragegist, Hero, Bow Knight\Troubadour, Mercenary, Samurai\Devoted Partner\
 Mozu\1fFr\Available in all routes\30, 40, 5, 50, 55, 45, 35, 30\0, 0, 0, 1, 1, 1, 0, -2\Villager, Archer\Villager, Archer, Apothecary\Forager\
