@@ -35,7 +35,7 @@ Effie\1fFc\Not available in *Birthright*\35, 60, 0, 35, 50, 50, 35, 30\0, 3, 0, 
 Nyx\1fFc\Not available in *Birthright*\30, 5, 50, 35, 50, 20, 15, 30\0, 0, 3, -2, 2, -1, -2, 1\Dark Mage, Outlaw\Dark Mage, Outlaw, Diviner\Countercurse\
 Selena\1fFc\Not available in *Birthright*\40, 30, 5, 25, 45, 30, 45, 30\0, -1, 0, -1, 2, 0, 1, 0\Mercenary, Sky Knight\Mercenary, Sky Knight, Samurai\Fierce Rival\
 Peri\1fFc\Not available in *Birthright*\30, 50, 5, 30, 50, 35, 25, 45\0, 1, 0, -1, 1, 0, -2, 2\Cavalier, Dark Mage\Cavalier, Dark Mage, Ninja\Bloodthirst\
-Charlotte\1fFc\Not available in *Birthright*\65, 55, 0, 35, 45, 45, 30, 45\0, 3, 0, 0, 2, 0, -2, -2\Fighter, Troubadour\Fighter, Troubadour, Oni Savage\Unmask\
+Charlotte\1fFc\Not available in *Birthright*\65, 55, 0, 35, 50, 45, 20, 5\0, 3, 0, 0, 2, 0, -2, -2\Fighter, Troubadour\Fighter, Troubadour, Oni Savage\Unmask\
 Shura\1mFr\Available in all routes\30, 25, 10, 20, 35, 30, 15, 35\0, -1, 0, -1, 3, -1, -2, 2\Adventurer, Bow Knight, Berserker, Hero, Mechanist, Master Ninja\Outlaw, Fighter, Ninja\Highwayman\
 Izana\1mFr\Not available in *Revelation*\45, 15, 35, 55, 30, 45, 35, 35\0, 0, 1, 1, -2, 0, 0, 1\Onmyoji, Great Master, Swordmaster, Master of Arms, Merchant, Mechanist\Monk, Samurai, Apothecary\Peacebringer\
 Fuga\1mFr\Exclusive to *Revelation*\20, 20, 0, 15, 5, 20, 10, 10\0, 2, -1, 1, 0, -1, 2, -2\Master of Arms, Swordmaster, Oni Chieftain, Blacksmith, Onmyoji, Great Master\Samurai, Oni Savage, Monk\Wind Disciple\
