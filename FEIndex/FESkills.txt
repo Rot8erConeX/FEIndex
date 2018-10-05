@@ -113,10 +113,10 @@ Survey\Fates\Ballistician, 1\Turret Command\Turret Hit rate +10
 Opportunity Shot\Fates\Ballistician, 10\Skill%\Automatically attack an enemy within range at the start of the user's Turn
 Rifled Barrel\Fates\Ballistician, 25\Turret Command\Turret's range +1 and inner/outer range -1
 Surefooted\Fates\Ballistician, 35\-\When user is a Ballistician, Movement +1 and all traversable terrain costs 1 movement point to cross
-Shadowgift\Fates\Witch, 1\-\Obtain a potion item (eg.  HP Tonic) after moving during the first seven Turns
-Witch's Brew\Fates\Witch, 10\Luck%\Obtain a potion item (eg.  HP Tonic) after moving during the first seven Turns
-Warp\Fates\Witch, 25; Warp Scroll\Warp Command\Instantly move adjacent to an ally and perform another action
-Toxic Brew\Fates\Witch, 35\(Skill*3/2)%\Reduces the enemy's Movement to 0 and Avoid by 20 after the battle until the next turn
+Shadowgift\Fates\Witch, 1; Warlock, 1; Great Sorcerer, 1\-\Enables the usage of Dark Tomes in any Tome wielding class
+Witch's Brew\Fates\Witch, 10; Warlock, 10; Great Sorcerer, 10\Luck%\Obtain a potion item (eg.  HP Tonic) after moving during the first seven Turns
+Warp\Fates\Witch, 25; Warlock, 25; Great Sorcerer, 25; Warp Scroll\Warp Command\Instantly move adjacent to an ally and perform another action
+Toxic Brew\Fates\Witch, 35; Warlock, 35; Great Sorcerer, 35\(Skill*3/2)%\Reduces the enemy's Movement to 0 and Avoid by 20 after the battle until the next turn
 Dancing Blade\Fates\Lodestar, 1\-\Speed +3, Defense -1
 Charm\Fates\Lodestar, 10; Great Lord, 10\-\Allies within a 2 tile radius deal 2 extra damage during battles
 Dual Guardsman\Fates\Lodestar, 25\-\When user is the support unit in Guard Stance, shield gauge gain +1
