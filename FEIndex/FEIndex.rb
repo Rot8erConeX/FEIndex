@@ -2495,11 +2495,15 @@ def class_parse(event,bot,args)
       clss2[0]=clss2[0].gsub(' (C)','')
       for i in 0...clss[8].length
         s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-        clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*  #{s[4]}"
+        f=s[2].find_index{|q| q[0]==clss[0]}
+        f=s[2].find_index{|q| q[0].split('(')[0]==clss[0].split('(')[0].gsub(' ','')} if f.nil?
+        clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
       end
       for i in 0...clss2[8].length
         s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && ['Fateswakening',clss2[1]].include?(q[1])}]
-        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss2[0]}][1]}]*  #{s[4]}"
+        f=s[2].find_index{|q| q[0]==clss2[0]}
+        f=s[2].find_index{|q| q[0].split('(')[0]==clss2[0].split('(')[0].gsub(' ','')} if f.nil?
+        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
       end
       event.respond fullname
       text="__*Awakening*__"
@@ -2565,11 +2569,15 @@ def class_parse(event,bot,args)
       clss2[0]=clss2[0].gsub(' (C)','')
       for i in 0...clss[8].length
         s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-        clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*  #{s[4]}"
+        f=s[2].find_index{|q| q[0]==clss[0]}
+        f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
+        clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
       end
       for i in 0...clss2[8].length
         s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && ['Fateswakening',clss2[1]].include?(q[1])}]
-        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss2[0]}][1]}]*  #{s[4]}"
+        f=s[2].find_index{|q| q[0]==clss2[0]}
+        f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss2[0].split('(')[0].gsub(' ','')} if f.nil?
+        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
       end
       flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
       fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
@@ -2661,7 +2669,9 @@ def class_parse(event,bot,args)
     clss[0]=clss[0].gsub(' (C)','')
     for i in 0...clss[8].length
       s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-      clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*  #{s[4]}"
+      f=s[2].find_index{|q| q[0]==clss[0]}
+      f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
+      clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
     end
     text="#{fullname}"
     f=[0,0,0]
@@ -2696,9 +2706,9 @@ def class_parse(event,bot,args)
     clss[0]=clss[0].gsub(' (C)','')
     for i in 0...clss[8].length
       s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-      puts s.to_s
-      puts clss.to_s
-      clss[8][i]="*#{clss[8][i]} [level #{s[2][s[2].find_index{|q| q[0]==clss[0]}][1]}]*  #{s[4]}"
+      f=s[2].find_index{|q| q[0]==clss[0]}
+      f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
+      clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
     end
     text=''
     f=[0,0,0]
@@ -3480,7 +3490,7 @@ def skill_parse(event,bot,args)
         end
       else
         sB.push("#{m[0]} [level #{m[1]}]")
-        alignment.push(@classes[@classes.find_index{|q| q[0]==m[0] && q[1]=='Fates'}][2]) if bob4[1]=="Fates" || (bob4[1]=="Fateswakening" && game=="Fates")
+        alignment.push(@classes[@classes.find_index{|q| q[0].split('(')[0].gsub(' ','')==m[0].split('(')[0].gsub(' ','') && q[1]=='Fates'}][2]) if bob4[1]=="Fates" || (bob4[1]=="Fateswakening" && game=="Fates")
       end
     end
     text="#{text}  #{sB.join(', ')}"
