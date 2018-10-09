@@ -1384,7 +1384,7 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
     clss=gender_adjust(@mom[6][0],bob4[1][1,1])
     if bob4[0]=="Shigure" && @mom[0]=="Jakob"
       clss="Wyvern Rider"
-    elsif [bob4[6][0],bob4[6][1]].include?(clss)
+    elsif [bob4[6][0],bob4[6][1]].include?(clss.split(' (')[0])
       clss=gender_adjust(@mom[6][1],bob4[1][1,1])
       clss=gender_adjust(@mom[6][2],bob4[1][1,1]) if [bob4[6][0],bob4[6][1]].include?(clss)
     end
@@ -4323,36 +4323,36 @@ bot.command(:marry) do |event, name1, name2|
     end
   end
   if bob1[0]=="GSO" && name2=="Corrin"
-    f=gender_adjust(bob2[21],bob1[1][1,1])
-    f=gender_adjust(bob2[22],bob1[1][1,1]) if f==bob1[20]
-    event << "GSO's Partner Seal option becomes: #{f}"
-    event << "Kamui's Partner Seal option becomes: #{bob1[20]}"
+    event << "GSO's Partner Seal option becomes: >talent<"
+    event << "Kamui's Partner Seal option becomes: #{bob1[6][0]}"
     event << "Kamui!Ocarina and the GSO!Kana twins are born"
     return nil
   elsif bob2[0]=="GSO" && name1=="Corrin"
-    f=gender_adjust(bob1[21],bob2[1][1,1])
-    f=gender_adjust(bob1[22],bob2[1][1,1]) if f==bob2[20]
-    event << "Kamui's Partner Seal option becomes: #{bob2[20]}"
-    event << "GSO's Partner Seal option becomes: #{f}"
+    event << "Kamui's Partner Seal option becomes: #{bob2[6][0]}"
+    event << "GSO's Partner Seal option becomes: >talent<"
     event << "The GSO!Kana twins and Kamui!Ocarina are born"
     return nil
   end
   p1=0
   p2=0
-  if ["Villager",gender_adjust("Nohr Royal",bob1[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob2[6][p1],bob1[1][1,1]))
+  if ["Villager",gender_adjust("Nohr Royal",bob1[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob2[6][p1],bob1[1][1,1]).split(' (')[0])
     p1=1
   end
-  if gender_adjust(bob2[6][p1],bob1[1][1,1])==bob1[6][0]
+  if gender_adjust(bob2[6][p1],bob1[1][1,1]).split(' (')[0]==bob1[6][0].split(' (')[0]
     p1+=1
   end
-  if ["Villager",gender_adjust("Nohr Royal",bob2[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob1[6][p1],bob2[1][1,1]))
+  if ["Villager",gender_adjust("Nohr Royal",bob2[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob1[6][p1],bob2[1][1,1]).split(' (')[0])
     p2=1
   end
-  if gender_adjust(bob1[6][p2],bob2[1][1,1])==bob2[6][0]
+  if gender_adjust(bob1[6][p2],bob2[1][1,1]).split(' (')[0]==bob2[6][0].split(' (')[0]
     p2+=1
   end
   ps1=gender_adjust(bob2[6][p1],bob1[1][1,1])
+  m=@classes.find_index{|q| q[0]==ps1 && q[1][0,1]==bob2[1][2,1]}
+  ps1="#{ps1} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
   ps2=gender_adjust(bob1[6][p2],bob2[1][1,1])
+  m=@classes.find_index{|q| q[0]==ps2 && q[1][0,1]==bob1[1][2,1]}
+  ps2="#{ps2} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
   if bob1[1][2,1]=="A"
     event << "#{name1} cannot get a Partner Seal option."
   elsif ps1.nil? || ps1=="" || ps1==" "
