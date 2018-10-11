@@ -3288,7 +3288,6 @@ def parse_job(event,args,bot,mde=0)
       prf=@items[prf]
       prf[2][0]=prf[2][0].gsub('Katana','Sword').gsub('Naginata','Lance').gsub('Club','Lance').gsub('Rod','Staff').gsub('Yumi','Bow').gsub('Scroll','Tome').gsub('Shuriken','Dagger')
       prf[2][0]="#{prf[2][0]}s".gsub('staffs','staves')
-      puts prf[2][0]
     end
     prf=['Liliputia','Gates',['Staves']] if f[0]=='Mathoo'
     text=""
