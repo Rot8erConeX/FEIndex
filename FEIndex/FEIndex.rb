@@ -4921,7 +4921,7 @@ bot.ready do |event|
   metadata_save()
   data_load()
   system("color B#{"14506"[@shardizard,1]}")
-  bot.game="Fire Emblem Awakening / Fates" if [0,4].include?(@shardizard)
+  bot.game="Fire Emblem Awakening / Fates"
   bot.user(bot.profile.id).on(285663217261477889).nickname="FEIndex (RobinDebug)" if @shardizard==4
   bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/DebugRobin.png','r')) if @shardizard==4
   system("title #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} FEIndex")
