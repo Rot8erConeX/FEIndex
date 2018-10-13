@@ -4268,7 +4268,7 @@ bot.command(:marry) do |event, name1, name2|
   elsif !bob1.is_a?(Array) && !bob2.is_a?(Array)
     event.respond "Two names must be included."
     return nil
-  elsif [name1,name2].include?("Kana")
+  elsif [name1,name2].include?("Kana") || name1[name1.length-5,5]=='!Kana' || name2[name2.length-5,5]=='!Kana'
     if [name1,name2].include?("Corrin")
       event.respond "You cannot marry Kana as they are your child"
       return nil
@@ -4276,7 +4276,7 @@ bot.command(:marry) do |event, name1, name2|
       event.respond "#{name1} and #{name2} cannot marry as they are of different generations"
       return nil
     end
-  elsif [name1,name2].include?("Morgan")
+  elsif [name1,name2].include?("Morgan") || name1[name1.length-7,7]=='!Morgan' || name2[name2.length-7,7]=='!Morgan'
     if [name1,name2].include?("Robin")
       event.respond "You cannot marry Morgan as they are your child"
       return nil
@@ -4289,6 +4289,7 @@ bot.command(:marry) do |event, name1, name2|
     return nil
   elsif [name1,name2].include?("Corrin") || [name1,name2].include?("Robin")
   elsif bob1[1][0,1]!=bob2[1][0,1]
+    puts "oops"
     event.respond "#{name1} and #{name2} cannot marry as they are of different generations"
     return nil
   elsif bob1[1][1,1]==bob2[1][1,1] && !homosexuality_filter?(event)
@@ -4387,6 +4388,12 @@ bot.command(:marry) do |event, name1, name2|
   end
   if [name1,name2].include?('Takumi') && [name1,name2].include?('Azura')
     event << "My developer becomes happy that someone else ships best *Fates* ship."
+  elsif [name1,name2].include?("Soleil") || name1[name1.length-7,7]=='!Soleil' || name2[name2.length-7,7]=='!Soleil'
+    if [name1,name2].include?("Ophelia") || name1[name1.length-8,8]=='!Ophelia' || name2[name2.length-8,8]=='!Ophelia'
+      event << "Magical lesbian shenanigans ensue."
+    elsif [name1,name2].include?("Nina") || name1[name1.length-5,5]=='!Nina' || name2[name2.length-5,5]=='!Nina'
+      event << "They spend more time debating yaoi vs. yuri than actually doing anything."
+    end
   end
 end
 
