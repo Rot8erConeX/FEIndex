@@ -57,6 +57,8 @@ bot.gateway.check_heartbeat_acks = false
 @items=[]
 @classes=[]
 @server_data=[]
+@ignored=[]
+@embedless=[]
 
 def all_commands(include_nil=false)
   k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character','class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats','reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backup','restore','sort','deletealias','checkaliases','aliases','embeds','snagchannels','shard','alliance']
@@ -178,10 +180,10 @@ def metadata_load()
       b.push(eval line)
     end
   else
-    b=[[168592191189417984, 235527416901009410],[],[[0,0,0,0,0],[0,0,0,0,0]]]
+    b=[[168592191189417984, 256379815601373184],[],[[0,0,0,0,0],[0,0,0,0,0]]]
   end
   @embedless=b[0]
-  @embedless=[168592191189417984, 235527416901009410] if @embedless.nil?
+  @embedless=[168592191189417984, 256379815601373184] if @embedless.nil?
   @ignored=b[1]
   @ignored=[] if @ignored.nil?
   @server_data2=b[2]
@@ -4874,17 +4876,20 @@ bot.mention do |event|
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   game=""
   m=-1
-  a=args.reject{|q| !find_unit(game,q,event,true).nil? || !find_class(q,event,game,true).nil?}
-  m=parse_job(event,args,bot,1) unless (!find_skill(game,args.join(' '),event,true).nil? && (find_skill(game,args.join(' '),event,true)[0]!='Aptitude' || a.length==args.length)) || !find_item(game,args.join(' '),event,true).nil?
+  m=1 if event.user.bot_account?
   if m<0
-    if !find_skill(game,args.join(' '),event,true).nil?
-      skill_parse(event,bot,args)
-    elsif !find_item(game,args.join(' '),event,true).nil?
-      item_parse(event,bot,args,1)
-    elsif !find_skill(game,args.join(' '),event).nil?
-      skill_parse(event,bot,args)
-    elsif !find_item(game,args.join(' '),event).nil?
-      item_parse(event,bot,args,1)
+    a=args.reject{|q| !find_unit(game,q,event,true).nil? || !find_class(q,event,game,true).nil?}
+    m=parse_job(event,args,bot,1) unless (!find_skill(game,args.join(' '),event,true).nil? && (find_skill(game,args.join(' '),event,true)[0]!='Aptitude' || a.length==args.length)) || !find_item(game,args.join(' '),event,true).nil?
+    if m<0
+      if !find_skill(game,args.join(' '),event,true).nil?
+        skill_parse(event,bot,args)
+      elsif !find_item(game,args.join(' '),event,true).nil?
+        item_parse(event,bot,args,1)
+      elsif !find_skill(game,args.join(' '),event).nil?
+        skill_parse(event,bot,args)
+      elsif !find_item(game,args.join(' '),event).nil?
+        item_parse(event,bot,args,1)
+      end
     end
   end
 end
