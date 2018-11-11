@@ -94,7 +94,7 @@ Seal Magic\Fates\Dark Knight, 5\-\After battle, enemy's Magic -6
 Lifetaker\Fateswakening\Dark Knight, 15\-\User recovers 50% Max HP after they defeat an enemy during the user's Turn
 Resistance +2\Fateswakening\Troubadour, 1\-\Resistance +2
 Gentilhomme\Fates\Troubadour(M), 10\-\Female allies within a 2 tile radius receive 2 less damage during battles
-Demoiselle\Fates\Troubadour(M), 10\-\Male allies within a 2 tile radius receive 2 less damage during battles
+Demoiselle\Fates\Troubadour(F), 10\-\Male allies within a 2 tile radius receive 2 less damage during battles
 Rally Resistance\Fates\Strategist, 5\Rally Command\Resistance +4 to all allies within a 2 tile radius for one Turn
 Inspiration\Fates\Strategist, 15\-\Allies within a 2 tile radius deal 2 extra damage and receive 2 less damage during battles
 Live to Serve\Fates\Maid, 5; Butler, 5; Servant, 5\-\When healing an ally, the user recovers the same amount of HP

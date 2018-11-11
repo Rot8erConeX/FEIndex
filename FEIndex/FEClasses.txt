@@ -17,7 +17,7 @@ Great Master\Fates\Hoshido\10, 15, 5, 5, 15, 15, 10, 10\55, 32, 30, 31, 33, 32, 
 Great Priest\Fates\Hoshido\10, 10, 10, 5, 15, 15, 0, 20\50, 29, 32, 30, 33, 34, 26, 34\19, 6, 7, 6, 9, 5, 5, 8\\\Renewal, Countermagic\Bows, B; Staves, A
 Priestess\Fates\Hoshido\10, 10, 10, 5, 15, 15, 0, 20\50, 29, 32, 30, 33, 34, 26, 34\19, 6, 7, 6, 9, 5, 5, 8\\\Renewal, Countermagic\Bows, B; Staves, A
 Great Mistress\Fates\Hoshido\10, 15, 5, 5, 15, 15, 10, 10\55, 32, 30, 31, 33, 32, 28, 32\19, 8, 6, 6, 8, 5, 6, 7\\\Renewal, Countermagic\Lances, B; Staves, A
-Great Healer\Fates\Hoshido\0, 0, 0, 0, 0, 0, 0, 0\53, 31, 31, 31, 33, 33, 27, 33\19, 7, 7, 6, 8, 5, 5, 8\\\Renewal, Countermagic\Bows, C; Lances, C; Staves, A
+Great Healer\Fates\Hoshido\10, 12, 8, 10, 15, 15, 5, 15\53, 31, 31, 31, 33, 33, 27, 33\19, 7, 7, 6, 8, 5, 5, 8\\\Renewal, Countermagic\Bows, C; Lances, C; Staves, A
 Sky Knight\Fates\Hoshido\0, 10, 0, 10, 15, 20, 0, 20\35, 19, 16, 21, 23, 25, 18, 25\16, 3, 0, 5, 7, 4, 2, 6\\Falcon Knight, Kinshi Knight\Darting Blow, Camaraderie\Lances, B
 Falcon Knight\Fates\Hoshido\0, 10, 10, 10, 15, 20, 0, 20\55, 28, 27, 30, 34, 35, 27, 35\18, 5, 4, 6, 10, 5, 5, 9\\\Rally Speed, Warding Blow\Lances, A; Staves, B
 Kinshi Knight\Fates\Hoshido\0, 5, 0, 15, 15, 15, 0, 15\50, 27, 26, 33, 31, 34, 25, 31\17, 4, 1, 9, 8, 5, 4, 7\\\Air Superiority, Amaterasu\Lances, B; Bows, A
@@ -42,7 +42,7 @@ Great Knight\Fates\Nohr\20, 20, 0, 10, 5, 5, 20, 0\65, 35, 25, 29, 27, 28, 37, 2
 Knight\Fates\Nohr\20, 20, 0, 15, 5, 10, 20, 0\45, 24, 15, 22, 17, 22, 26, 18\19, 8, 0, 5, 3, 3, 8, 1\\Great Knight, General\Defense +2, Natural Cover\Lances, A
 General\Fates\Nohr\25, 20, 0, 15, 0, 10, 20, 5\70, 38, 25, 32, 25, 32, 40, 30\22, 11, 0, 7, 3, 4, 12, 3\\\Wary Fighter, Pavise\Lances, A; Axes, B
 Fighter\Fates\Nohr\20, 20, 0, 15, 15, 5, 5, 0\45, 25, 15, 23, 22, 21, 19, 18\19, 7, 0, 6, 6, 2, 4, 1\\Berserker, Hero\HP +5, Gamble\Axes, B
-Berserker\Fates\Nohr\30, 25, 0, 15, 15, 0, 0, 0\70, 40, 25, 32, 33, 25, 27, 25\24, 12, 0, 8, 9, 0, 5, 0\\\Rally Strengh, Axefaire\Axes, S
+Berserker\Fates\Nohr\30, 25, 0, 15, 15, 0, 0, 0\70, 40, 25, 32, 33, 25, 27, 25\24, 12, 0, 8, 9, 0, 5, 0\\\Rally Strength, Axefaire\Axes, S
 Mercenary\Fates\Nohr\10, 15, 0, 20, 15, 5, 10, 5\40, 22, 15, 24, 22, 20, 21, 19\17, 5, 0, 7, 6, 2, 5, 2\\Hero, Bow Knight\Good Fortune, Strong Risposte\Swords, B
 Hero\Fates\Nohr\20, 15, 0, 20, 15, 5, 10, 0\60, 32, 25, 35, 32, 31, 30, 27\20, 8, 0, 10, 8, 3, 7, 2\\\Sol, Axebreaker\Swords, A; Axes, B
 Bow Knight\Fates\Nohr\10, 10, 0, 15, 15, 10, 0, 10\55, 29, 25, 32, 33, 30, 27, 32\18, 6, 0, 8, 9, 3, 5, 6\\\Rally Skill, Shurikenbreaker\Swords, B; Bows, A
