@@ -5,6 +5,7 @@ system("title loading #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'
 require 'discordrb' # Download link: https://github.com/meew0/discordrb
 require 'open-uri' # pre-installed with Ruby in Windows
 require 'net/http'
+require_relative 'rot8er_functs' # functions I use commonly in bots
 
 # All the possible command prefixes, not case insensitive so I have to fake it by including every combination of lower- and upper-case
 @prefix = ['FE!','fe!','Fe!','fE!',
@@ -61,7 +62,7 @@ bot.gateway.check_heartbeat_acks = false
 @embedless=[]
 
 def all_commands(include_nil=false)
-  k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character','class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats','reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backup','restore','sort','deletealias','checkaliases','aliases','embeds','snagchannels','shard','alliance']
+  k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character','class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats','reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backup','restore','sortaliases','deletealias','checkaliases','aliases','embeds','snagchannels','shard','alliance']
   k[0]=nil if include_nil
   return k
 end
@@ -322,60 +323,6 @@ def normalize(str)
   str=str.gsub("\u00DD",'y').gsub("\u00FD",'y').gsub("\u0177",'y').gsub("\u0178",'y').gsub("\u00FF",'y').gsub("\u1E8F",'y').gsub("\u1EF5",'y').gsub("\u1EF3",'y').gsub("\u1EF7",'y').gsub("\u01B4",'y').gsub("\u0233",'y').gsub("\u1E99",'y').gsub("\u024E",'y').gsub("\u024F",'y').gsub("\u1EF9",'y').gsub("\u028F",'y').gsub("\u028E",'y').gsub("\u02B8",'y').gsub("\u2144",'y').gsub("\u00A5",'y')
   str=str.gsub("\u01B6",'z').gsub("\u017A",'z').gsub("\u017E",'z').gsub("\u1E91",'z').gsub("\u0291",'z').gsub("\u017C",'z').gsub("\u1E93",'z').gsub("\u0225",'z').gsub("\u1E95",'z').gsub("\u0290",'z').gsub("\u01B6",'z').gsub("\u0240",'z').gsub("\u2128",'z').gsub("\u2124",'z').gsub("\u1D22",'z')
   return str
-end
-
-def create_embed(event,header,text,xcolor=nil,xfooter=nil,xpic=nil,xfields=nil)
-  if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
-    if header.include?('*') || header.include?('_')
-      event << header
-    else
-      event << "__**#{header.gsub('!','')}**__"
-    end
-    event << ""
-    event << text
-    unless xfields.nil?
-      for i in 0...xfields.length
-        event << ""
-        event << xfields[i][0]
-        event << xfields[i][1]
-      end
-    end
-    event << "" unless xfooter.nil?
-    event << xfooter unless xfooter.nil?
-  else
-    event.channel.send_embed(header) do |embed|
-      embed.description=text
-      embed.color=xcolor unless xcolor.nil?
-      embed.footer={"text"=>xfooter} unless xfooter.nil?
-      unless xfields.nil?
-        for i in 0...xfields.length
-          embed.add_field(name: xfields[i][0], value: xfields[i][1], inline: true)
-        end
-      end
-      embed.thumbnail=Discordrb::Webhooks::EmbedThumbnail.new(url: xpic) unless xpic.nil?
-    end
-  end
-  return nil
-end
-
-def is_mod?(user,server,channel)
-  return true if user.id==167657750971547648 # bot developer is always mod
-  return false if server.nil? # no one is mod in PM
-  return true if user.id==server.owner.id # server owners are always mods
-  for i in 0...user.roles.length # 
-    return true if ['mod','mods','moderator','moderators','admin','admins','administrator','administrators','owner','owners'].include?(user.roles[i].name.downcase)
-  end
-  return true if user.permission?(:manage_messages,channel)
-  return false
-end
-
-def was_embedless_mentioned?(event)
-  metadata_load()
-  for i in 0...@embedless.length
-    return true if event.message.text.include?("<@#{@embedless[i].to_s}>")
-    return true if event.message.text.include?("<@!#{@embedless[i].to_s}>")
-  end
-  return false
 end
 
 def get_talent(clss)
@@ -2003,15 +1950,6 @@ def find_server_data(event)
   return j
 end
 
-def extend_message(msg1,msg2,event,enters=1)
-  if "#{msg1}#{"\n"*enters}#{msg2}".length>=2000
-    event.respond msg1
-    return msg2
-  else
-    return "#{msg1}#{"\n"*enters}#{msg2}"
-  end
-end
-
 def homosexuality_filter?(event)
   return false if event.server.nil?
   return @server_data[find_server_data(event)][1]
@@ -2020,27 +1958,6 @@ end
 def incest_filter?(event)
   return false if event.server.nil?
   return @server_data[find_server_data(event)][2]
-end
-
-def has_any?(arr1,arr2)
-  return true if arr1.nil? && arr2.nil?
-  return true if arr1.nil? && !arr2.nil? && arr2.include?(nil)
-  return true if arr2.nil? && !arr1.nil? && arr1.include?(nil)
-  return false if arr1.nil? || arr2.nil?
-  if arr1.is_a?(String)
-    arr1=arr1.downcase.chars
-  elsif arr1.is_a?(Array)
-    arr1=arr1.map{|q| q.downcase rescue q}
-  end
-  if arr2.is_a?(String)
-    arr2=arr2.downcase.chars
-  elsif arr2.is_a?(Array)
-    arr2=arr2.map{|q| q.downcase rescue q}
-  end
-  for i in 0...arr1.length
-    return true if arr2.include?(arr1[i])
-  end
-  return false
 end
 
 def find_unit(game,name,event,disp=true,f3=false)
@@ -2240,20 +2157,6 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   return nil
 end
 
-def list_lift(a,c)
-  if a.length==1
-    return a[0]
-  elsif a.length==2
-    return "#{a[0]} #{c} #{a[1]}"
-  else
-    b=a[a.length-1]
-    a[a.length-1]=nil
-    a.uniq!
-    a.compact!
-    return "#{a.join(', ')}, #{c} #{b}"
-  end
-end
-
 def unit_parse(event,bot,args)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   event.message.delete if event.user.id==bot.profile.id
@@ -2436,7 +2339,7 @@ def unit_parse(event,bot,args)
     else
       foot="#{foot} / #{foot2}" unless foot2.nil?
     end
-    create_embed(event,fullname,text,embed_color(path),foot,picture,flds)
+    create_embed(event,fullname,text,embed_color(path),foot,picture,flds,2)
   end
   return nil
 end
@@ -3196,41 +3099,6 @@ def get_bane(game,stat)
   end
 end
 
-def longFormattedNumber(number,cardinal=false)
-  if cardinal
-    k="th"
-    unless (number%100)/10==1
-      k="st" if number%10==1
-      k="nd" if number%10==2
-      k="rd" if number%10==3
-    end
-    return "#{longFormattedNumber(number,false)}#{k}"
-  end
-  return "#{number}" if number<1000
-  if number<1000
-    bob="#{number%1000}"
-  elsif number%1000<10
-    bob="00#{number%1000}"
-  elsif number%1000<100
-    bob="0#{number%1000}"
-  elsif number%1000<1000
-    bob="#{number%1000}"
-  end
-  while number>1000
-    number=number/1000
-    if number<1000
-      bob="#{number%1000},#{bob}"
-    elsif number%1000<10
-      bob="00#{number%1000},#{bob}"
-    elsif number%1000<100
-      bob="0#{number%1000},#{bob}"
-    elsif number%1000<1000
-      bob="#{number%1000},#{bob}"
-    end
-  end
-  return bob
-end
-
 def parse_job(event,args,bot,mde=0)
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
@@ -3248,7 +3116,7 @@ def parse_job(event,args,bot,mde=0)
   end
   f=parse_args(event,game,args,false,mde)
   if f=="L"
-    create_embed(event,"__**Lilith**__","*Fates*: Protector of My Castle\n**HP:** *Max:* 60\n**Strength:** *Max:* 28\n**Magic:** *Max:* 35\n**Skill:** *Max:* 29\n**Speed:** *Max:* 33\n**Luck:** *Max:* 35\n**Defense:** *Max:* 30\n**Resistance:** *Max:* 35\n**Default Class:** Astral Dragon\n**Cannot use Seals**",embed_color("*Fates*: Available in all routes"),nil,'https://vignette2.wikia.nocookie.net/fireemblem/images/f/ff/4Koma_Lilith.png/revision/latest?cb=20160817053542')
+    create_embed(event,"__**Lilith**__","*Fates*: Protector of My Castle\n**HP:** *Max:* 60\n**Strength:** *Max:* 28\n**Magic:** *Max:* 35\n**Skill:** *Max:* 29\n**Speed:** *Max:* 33\n**Luck:** *Max:* 35\n**Defense:** *Max:* 30\n**Resistance:** *Max:* 35\n**Default Class:** Astral Dragon\n**Cannot use Seals**",embed_color("*Fates*: Available in all routes"),nil,'https://vignette2.wikia.nocookie.net/fireemblem/images/f/ff/4Koma_Lilith.png/revision/latest?cb=20160817053542',nil,2)
     return 0
   elsif f.nil?
     event.respond("Please include a class name and/or a unit name.") if mde==0
@@ -3352,13 +3220,10 @@ def parse_job(event,args,bot,mde=0)
     else
       foot="#{foot} / #{foot2}" unless foot2.nil?
     end
-    if disp=="__**Bride**!**Sakura**__"
-      create_embed(event,disp,text,xcolor,foot,"http://pre02.deviantart.net/8b57/th/pre/f/2016/156/d/6/bride_sakura_by_rot8erconex-da4y62l.png",flds)
-    elsif disp=="__**Maid**!**Cordelia**__"
-      create_embed(event,disp,text,xcolor,foot,"http://orig14.deviantart.net/9122/f/2016/156/1/f/maid_cordelia_by_rot8erconex-da4zrei.png",flds)
-    else
-      create_embed(event,disp,text,xcolor,foot,nil,flds)
-    end
+    xpic=nil
+    xpic="http://pre02.deviantart.net/8b57/th/pre/f/2016/156/d/6/bride_sakura_by_rot8erconex-da4y62l.png" if disp=="__**Bride**!**Sakura**__"
+    xpic="http://orig14.deviantart.net/9122/f/2016/156/1/f/maid_cordelia_by_rot8erconex-da4zrei.png" if disp=="__**Maid**!**Cordelia**__"
+    create_embed(event,disp,text,xcolor,foot,xpic,flds,2)
     return 0
   end
 end
@@ -3683,73 +3548,8 @@ def item_parse(event,bot,args,mde=0)
   create_embed(event,fullname,text,xcolor)
 end
 
-def remove_format(s,format)
-  if format.length==1
-    s=s.gsub("#{'\\'[0,1]}#{format}",'')
-  else
-    s=s.gsub("#{'\\'[0,1]}#{format}",format[1,format.length-1])
-  end
-  for i in 0...[s.length,25].min
-    f=s.index(format)
-    unless f.nil?
-      f2=s.index(format,f+format.length)
-      unless f2.nil?
-        s="#{s[0,f]}|#{s[f2+format.length,s.length-f2-format.length+1]}"
-      end
-    end
-  end
-  return s
-end
-
-def longFormattedNumber(number,cardinal=false)
-  if cardinal
-    k='th'
-    unless (number%100)/10==1
-      k='st' if number%10==1
-      k='nd' if number%10==2
-      k='rd' if number%10==3
-    end
-    return "#{longFormattedNumber(number,false)}#{k}"
-  end
-  return "#{number}" if number<1000
-  if number<1000
-    bob="#{number%1000}"
-  elsif number%1000<10
-    bob="00#{number%1000}"
-  elsif number%1000<100
-    bob="0#{number%1000}"
-  elsif number%1000<1000
-    bob="#{number%1000}"
-  end
-  while number>1000
-    number=number/1000
-    if number<1000
-      bob="#{number%1000},#{bob}"
-    elsif number%1000<10
-      bob="00#{number%1000},#{bob}"
-    elsif number%1000<100
-      bob="0#{number%1000},#{bob}"
-    elsif number%1000<1000
-      bob="#{number%1000},#{bob}"
-    end
-  end
-  return bob
-end
-
 bot.command([:embeds,:embed]) do |event|
-  metadata_load()
-  if @embedless.include?(event.user.id)
-    for i in 0...@embedless.length
-      @embedless[i]=nil if @embedless[i]==event.user.id
-    end
-    @embedless.compact!
-    event.respond "You will now see my replies as embeds again."
-  else
-    @embedless.push(event.user.id)
-    event.respond "You will now see my replies as plaintext."
-  end
-  metadata_save()
-  return nil
+  embedless_swap(bot,event)
 end
 
 bot.command([:gay,:homosexuality,:homo]) do |event, m|
@@ -3797,24 +3597,7 @@ bot.command([:sibling,:incest,:wincest]) do |event, m|
 end
 
 bot.command([:bugreport, :suggestion, :feedback]) do |event, *args|
-  s5=event.message.text.downcase
-  s5=s5[2,s5.length-2] if ['f?','e?','h?'].include?(event.message.text.downcase[0,2])
-  s5=s5[4,s5.length-4] if ['feh!','feh?'].include?(event.message.text.downcase[0,4])
-  a=s5.split(' ')
-  s3="Bug Report"
-  s3="Suggestion" if a[0]=='suggestion'
-  s3="Feedback" if a[0]=='feedback'
-  s2=""
-  if event.server.nil?
-    s="**#{s3} sent by PM**"
-  else
-    s="**Server:** #{event.server.name} (#{event.server.id}) - #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(event.server.id >> 22) % 3]} Alliance\n**Channel:** #{event.channel.name} (#{event.channel.id})"
-  end
-  bot.user(167657750971547648).pm("#{s}\n**User:** #{event.user.distinct} (#{event.user.id})\n**#{s3}:** #{args.join(' ')}#{s2}")
-  s3="Bug" if s3=="Bug Report"
-  t=Time.now
-  event << "Your #{s3.downcase} has been logged."
-  return nil
+  bug_report(bot,event,args,3,['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'],'Alliance',@prefix)
 end
 
 bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
@@ -4617,7 +4400,7 @@ bot.command(:restore) do |event|
   event << "Alias list has been restored from backup."
 end
 
-bot.command(:sort) do |event|
+bot.command(:sortaliases) do |event|
   nicknames_load()
   @names.uniq!
   @names.sort! {|a,b| (a[1].downcase <=> b[1].downcase) == 0 ? (a[0].downcase <=> b[0].downcase) : (a[1].downcase <=> b[1].downcase)}
@@ -4720,72 +4503,19 @@ bot.command([:shard,:alliance]) do |event, i|
 end
 
 bot.command(:sendpm, from: 167657750971547648) do |event, user_id, *args| # sends a PM to a specific user
-  return nil unless event.server.nil?
-  return nil unless event.user.id==167657750971547648
-  f=event.message.text.split(' ')
-  f="#{f[0]} #{f[1]} "
-  bot.user(user_id.to_i).pm(event.message.text.gsub(f,''))
-  event.respond "Message sent."
+  dev_pm(bot,event,user_id)
 end
 
 bot.command(:ignoreuser, from: 167657750971547648) do |event, user_id| # causes Robin to ignore the specified user
-  return nil unless event.server.nil?
-  return nil unless event.user.id==167657750971547648
-  metadata_load()
-  bot.ignore_user(user_id.to_i)
-  event.respond "#{bot.user(user_id.to_i).distinct} is now being ignored."
-  @ignored.push(bot.user(user_id.to_i).id)
-  bot.user(user_id.to_i).pm("You have been added to my ignore list.")
-  metadata_save()
-  return nil
+  bliss_mode(bot,event,user_id)
 end
 
 bot.command(:sendmessage, from: 167657750971547648) do |event, channel_id, *args| # sends a message to a specific channel
-  return nil unless event.server.nil?
-  if event.user.id==167657750971547648
-  else
-    event.respond "Are you trying to use the `bugreport`, `suggestion`, or `feedback` command?"
-    bot.user(167657750971547648).pm("#{event.user.distinct} (#{event.user.id}) tried to use the `sendmessage` command.")
-    return nil
-  end
-  f=event.message.text.split(' ')
-  f="#{f[0]} #{f[1]} "
-  bot.channel(channel_id).send_message(event.message.text.gsub(f,''))
-  event.respond "Message sent."
-  return nil
+  dev_message(bot,event,channel_id)
 end
 
 bot.command(:leaveserver, from: 167657750971547648) do |event, server_id| # forces Robin to leave a server
-  return nil unless event.server.nil?
-  return nil unless event.user.id==167657750971547648
-  bot.server(server_id).general_channel.send_message("My coder would rather that I not associate with you guys.  I'm sorry.  If you would like me back, please take it up with him.")
-  bot.server(server_id).leave
-  return nil
-end
-
-bot.command(:snagchannels, from: 167657750971547648) do |event, server_id|
-  return nil unless event.user.id==167657750971547648
-  if server_id.to_i==285663217261477889 && @shardizard != 4
-    event.respond "That is the testing server.  Please run this command in the testing server for this information."
-    return nil
-  elsif server_id.to_i != 285663217261477889 && @shardizard == 4
-    event.respond "The debug version of the bot can only see the debug server.  Please run this command in another server for the desired information.\nThat server ID (#{server_id}) is in the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(server_id.to_i >> 22) % 3]} Alliance, that is likely your best bet."
-    return nil
-  elsif @shardizard == 4
-  elsif (bot.server(server_id.to_i) rescue nil).nil? || bot.user(bot.profile.id).on(server_id.to_i).nil?
-    event.respond "I am not in that server."
-    return nil
-  elsif @shardizard != (server_id.to_i >> 22) % 3
-    event.respond "This shard is unable to read the channel set of that server.  Perhaps it would be best to use the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(server_id.to_i >> 22) % 3]} Alliance."
-    return nil
-  end
-  msg="__**#{bot.server(server_id.to_i).name}**__\n\n__*Text Channels*__"
-  srv=bot.server(server_id.to_i)
-  for i in 0...srv.channels.length
-    chn=srv.channels[i]
-    msg=extend_message(msg,"*#{chn.name}* (#{chn.id})#{" - can post" if bot.user(bot.profile.id).on(srv.id).permission?(:send_messages,chn)}",event) if chn.type==0
-  end
-  event.respond msg
+  walk_away(bot,event,server_id)
 end
 
 bot.server_create do |event|
