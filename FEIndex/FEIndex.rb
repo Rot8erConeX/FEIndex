@@ -59,11 +59,22 @@ bot.gateway.check_heartbeat_acks = false
 @classes=[]
 @server_data=[]
 @ignored=[]
+@spam_channels=[]
 @embedless=[]
 
-def all_commands(include_nil=false)
-  k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character','class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats','reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backup','restore','sortaliases','deletealias','checkaliases','aliases','embeds','snagchannels','shard','alliance']
-  k[0]=nil if include_nil
+def all_commands(include_nil=false,permissions=-1)
+  k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character',
+     'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
+     'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
+     'snagchannels','shard','alliance','restorealiases','chara','char']
+  if permissions==0
+    k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
+  elsif permissions==1
+    k=['addalias','deletealias','removealias']
+  elsif permissions==2
+    k=['reboot','restorealiases','backupaliases','sendpm','ignoreuser','sendmessage','leaveserver','cleanupaliases','setmarker','snagchannels','reload']
+  end
+  k.unshift(nil) if include_nil
   return k
 end
 
@@ -201,16 +212,34 @@ def metadata_save()
   }
 end
 
+def safe_to_spam?(event,chn=nil) # determines whether or not it is safe to send extremely long messages
+  return true if event.server.nil? # it is safe to spam in PM
+  return true if [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,508792801455243266,508793141202255874,508793425664016395].include?(event.server.id) # it is safe to spam in the emoji servers
+  chn=event.channel if chn.nil?
+  return true if ['bots','bot'].include?(chn.name.downcase) # channels named "bots" are safe to spam in
+  return true if chn.name.downcase.include?('bot') && chn.name.downcase.include?('spam') # it is safe to spam in any bot spam channel
+  return true if chn.name.downcase.include?('bot') && chn.name.downcase.include?('command') # it is safe to spam in any bot spam channel
+  return true if chn.name.downcase.include?('bot') && chn.name.downcase.include?('channel') # it is safe to spam in any bot spam channel
+  return true if chn.name.downcase.include?('feindex') # it is safe to spam in channels designed specifically for FEIndex
+  return true if chn.name.downcase.include?('fe-index')
+  return true if chn.name.downcase.include?('fe_index')
+  return true if chn.name.downcase.include?('robinbot') # it is safe to spam in channels designed specifically for FEIndex
+  return true if chn.name.downcase.include?('robin-bot')
+  return true if chn.name.downcase.include?('robin_bot')
+  return true if @spam_channels.include?(chn.id)
+  return false
+end
+
 bot.command(:reboot, from: 167657750971547648) do |event|
   return nil unless event.user.id==167657750971547648
   exec "cd C:/Users/Mini-Matt/Desktop/devkit && feindex.rb #{@shardizard}"
 end
 
-bot.command(:help) do |event, command|
+bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, command|
   command="" if command.nil?
-  if command.downcase=="help"
-    event.respond "The `help` command displays this message:"
-    command=""
+  if ['help','commands','command_list','commandlist'].include?(command.downcase)
+    event.respond "The `#{command.downcase}` command displays this message:"
+    command=''
   end
   if command.downcase=="mode"
     create_embed(event,"__***Awakening*** **mode**__","- Forced by using the command prefixes `FEA!` `fea!` `FE13!` `fe13!`\n- Kids' growths are calculated via (mom + dad + kid default)/3\n- Kids inherit all classes from their variable parent\n- Lucina is a second-generation unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Trickster.  The Outlaw Anna can still be invoked via the string 'Fates!Anna'\n- Corrin shows with default stats\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, and Vengeance\n- Vengeance procs at (Skill*2)%",0x061069)
@@ -230,6 +259,12 @@ bot.command(:help) do |event, command|
     create_embed(event,'**reboot**',"Reboots this shard of the bot, installing any updates.\n\n**This command is only able to be used by Rot8er_ConeX**",0x008b8b)
   elsif command.downcase=='sendmessage'
     create_embed(event,'**sendmessage** __channel id__ __*message__',"Sends the message `message` to the channel with id `channel`\n\n**This command is only able to be used by Rot8er_ConeX**, and only in PM.",0x008b8b)
+  elsif command.downcase=='sendpm'
+    create_embed(event,'**sendpm** __user id__ __*message__',"Sends the message `message` to the user with id `user`\n\n**This command is only able to be used by Rot8er_ConeX**, and only in PM.",0x008b8b)
+  elsif command.downcase=='ignoreuser'
+    create_embed(event,'**ignoreuser** __user id__',"Causes me to ignore the user with id `user`\n\n**This command is only able to be used by Rot8er_ConeX**, and only in PM.",0x008b8b)
+  elsif command.downcase=='sortaliases'
+    create_embed(event,"**#{command.downcase}**","Sorts the alias list alphabetically by unit the alias is for.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x008b8b)
   elsif command.downcase=='leaveserver'
     create_embed(event,'**leaveserver** __server id number__',"Forces me to leave the server with the id `server id`.\n\n**This command is only able to be used by Rot8er_ConeX**, and only in PM.",0x008b8b)
   elsif command.downcase=='snagstats'
@@ -240,10 +275,16 @@ bot.command(:help) do |event, command|
     create_embed(event,"**#{command.downcase}** __*message__","PMs my developer with your username, the server, and the contents of the message `message`",0x40C0F0)
   elsif command.downcase=='invite'
     create_embed(event,'**invite**',"PMs the invoker with a link to invite me to their server.",0x40C0F0)
-  elsif command.downcase=="unit"
-    create_embed(event,"**unit** __name1__ __name2__ __name3__","parses the names listed to create a unit, whose stats are then displayed\nIf one unit is listed, displays that unit's default stats\nIf two units are listed, uses the first-gen to create a specialized kid\nIf three units are listed, uses the first-gen to create a specialized second-gen which is used to create a super-specialized Kana/Morgan\n\nUnits can be listed in any order.  The command will arrange them correctly.\nIf multiple units from the same generation are listed, the command will use the first listed and ignore all others\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x31CC24)
+  elsif ['unit','char','chara','character'].include?(command.downcase)
+    create_embed(event,"**#{command.downcase}** __name1__ __name2__ __name3__","parses the names listed to create a unit, whose stats are then displayed\nIf one unit is listed, displays that unit's default stats\nIf two units are listed, uses the first-gen to create a specialized kid\nIf three units are listed, uses the first-gen to create a specialized second-gen which is used to create a super-specialized Kana/Morgan\n\nUnits can be listed in any order.  The command will arrange them correctly.\nIf multiple units from the same generation are listed, the command will use the first listed and ignore all others\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x31CC24)
   elsif ["shard","alliance"].include?(command.downcase)
     create_embed(event,'**shard**',"Returns the shard that this server is served by, labeled as if it was an alliance between a country in *Awakening* with a country in *Fates*.",0x31CC24)
+  elsif ["faq"].include?(command.downcase)
+    create_embed(event,'**faq**',"Answers the frequently asked questions.",0x31CC24)
+  elsif ['backupaliases'].include?(command.downcase)
+    create_embed(event,"**#{command.downcase}** __item__","Backs up the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x31CC24)
+  elsif ['restorealiases'].include?(command.downcase)
+    create_embed(event,"**#{command.downcase}** __item__","Restores the the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x31CC24)
   elsif command.downcase=="class"
     create_embed(event,"**class** __name__","displays the stats of the named class\n\nThis command informs you if you do not list a class.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x31CC24)
   elsif ["data","job","stats"].include?(command.downcase)
@@ -261,7 +302,7 @@ bot.command(:help) do |event, command|
   elsif ["incest","wincest","sibling"].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** __state__","Sets the incest filter to `state`.\nIf `state` is not defined, toggles the current setting.\n\n**Allowed words**: On/Off, true/false, yes/no.",0x31CC24)
   elsif ['aliases','checkaliases','seealiases'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __unit__","Responds with a list of all `unit`'s aliases.\nIf no unit is listed, responds with a list of all aliases and who they are for.\n\nPlease note that if more than 50 aliases are to be listed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",0xD49F61)
+    create_embed(event,"**#{command.downcase}** __unit__","Responds with a list of all `unit`'s aliases.\nIf no unit is listed, responds with a list of all aliases and who they are for.\n\nPlease note that if more than 50 aliases are to be listed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",0x31CC24)
   elsif ['deletealias','removealias'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** __alias__","Removes `alias` from the list of aliases, regardless of who it was for.",0xC31C19)
   elsif command.downcase=='addalias'
@@ -274,7 +315,7 @@ bot.command(:help) do |event, command|
     event.respond("#{command.downcase} is not a command.") if command != ""
     create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x31CC24)
     create_embed(event,"__**Server Admin Commands**__","__**Unit Aliases**__\n`addalias` __new alias__ __unit__ - Adds a new server-specific alias\n~~`aliases` __unit__ (*also `checkaliases` or `seealiases`*)~~\n`deletealias` __alias__ (*also `removealias`*) - deletes a server-specific alias",0xC31C19) if is_mod?(event.user,event.server,event.channel)
-    create_embed(event,"__**Bot Developer Commands**__","`ignoreuser` __user id number__ - makes me ignore a user\n`leaveserver` __server id number__ - makes me leave a server\n\n`sendpm` __user id number__ __\\*message__ - sends a PM to a user\n`sendmessage` __channel id__ __\\*message__ - sends a message to a specific channel\n\n`snagstats` - snags server stats for multiple servers\n\n`reboot` - reboots this shard\n\n`backup` - backs up the alias list\n`restore` - restores the alias list from last backup\n`sort` - sorts the alias list alphabetically by unit",0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
+    create_embed(event,"__**Bot Developer Commands**__","`ignoreuser` __user id number__ - makes me ignore a user\n`leaveserver` __server id number__ - makes me leave a server\n\n`sendpm` __user id number__ __\\*message__ - sends a PM to a user\n`sendmessage` __channel id__ __\\*message__ - sends a message to a specific channel\n\n`snagstats` - snags server stats for multiple servers\n\n`reboot` - reboots this shard\n\n`backupaliases` - backs up the alias list\n`restorealiases` - restores the alias list from last backup\n`sort` - sorts the alias list alphabetically by unit",0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
     event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FE13!`\n*Fates* mechanics: `FEF!` `FE14!`\nDetermine mechanics contextually: `FE!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
   end
 end
@@ -2473,13 +2514,17 @@ def class_parse(event,bot,args)
       clss[0]=clss[0].gsub(' (C)','')
       clss2[0]=clss2[0].gsub(' (C)','')
       for i in 0...clss[8].length
-        s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
+        gmz=['Fateswakening',clss[1]]
+        gmz[1]='Gates' if clss[2]=='Penumbra'
+        s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && gmz.include?(q[1])}]
         f=s[2].find_index{|q| q[0]==clss[0]}
         f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
         clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
       end
       for i in 0...clss2[8].length
-        s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && ['Fateswakening',clss2[1]].include?(q[1])}]
+        gmz=['Fateswakening',clss2[1]]
+        gmz[1]='Gates' if clss2[2]=='Penumbra'
+        s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && gmz.include?(q[1])}]
         f=s[2].find_index{|q| q[0]==clss2[0]}
         f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss2[0].split('(')[0].gsub(' ','')} if f.nil?
         clss2[8][i]="*#{clss2[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
@@ -2610,7 +2655,9 @@ def class_parse(event,bot,args)
     fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
     clss[0]=clss[0].gsub(' (C)','')
     for i in 0...clss[8].length
-      s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
+      gmz=['Fateswakening',clss[1]]
+      gmz[1]='Gates' if clss[2]=='Penumbra'
+      s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && gmz.include?(q[1])}]
       f=s[2].find_index{|q| q[0]==clss[0]}
       f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
       clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
@@ -3754,7 +3801,7 @@ bot.command([:checkaliases,:aliases,:seealiases]) do |event, *args|
   f=[]
   n=@names.map{|a| a}
   if unit.nil?
-    if event.server.nil? || event.channel.id == 283821884800499714
+    if safe_to_spam?(event)
       for i in 0...n.length
         if n[i][2].nil?
           f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
@@ -3810,7 +3857,7 @@ bot.command([:checkaliases,:aliases,:seealiases]) do |event, *args|
     end
   end
   f.uniq!
-  if f.length>50 && !event.server.nil? && event.channel.id != 283821884800499714
+  if f.length>50 && !safe_to_spam?(event)
     event.respond "There are so many aliases that I don't want to spam the server.  Please use the command in PM."
     return nil
   end
@@ -4023,7 +4070,7 @@ bot.command(:proc) do |event, *args|
   create_embed(event,name,text,0x880000)
 end
 
-bot.command([:unit,:character]) do |event, *args|
+bot.command([:unit,:character,:char,:chara]) do |event, *args|
   args=splice(event)
   unit_parse(event,bot,args)
 end
@@ -4335,7 +4382,7 @@ bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
   create_embed(event,disp,text,xcolor)
 end
 
-bot.command(:faq) do |event, inp|
+bot.command([:faq,:FAQ]) do |event, inp|
   if ["echoes","shadows","valentia"].include?(inp.downcase)
     create_embed(event,"FAQ #1: Will the bot be updated with info from *Fire Emblem Echoes: Shadows of Valentia*?","In *Fire Emblem: Awakening* and *Fire Emblem Fates*, growths came mostly from the character and stat maximums came mostly from the class, but both character and class had fingers in both pies.  In *Fire Emblem Echoes: Shadows of Valentia*, much like the game it is based on, *Fire Emblem: Gaiden*, growths and maximum stats __both come fully from the character, with nothing coming from the class__.  This meant that while in *Awakening* and *Fates* it made sense to need to calculate what a specific character looked like in a specific class, with *Shadows of Valentia* it is merely a matter of looking up the character.\n\nIn *Awakening* and *Fates*, there was a mechanic which involved characters getting married and having kids, with the kids' stats being affected by their \"variable\" parents'.  This mechanic does not exist in *Shadows of Valentia*.\n\nTheoretically, I could just add the data for SoV characters to the bot and have them all be treated as first-gens, but due to characters' \"stat modifiers\" being replaced with \"stat maximums\", this would result in really bizarre cross-game kids.",0xff8040,"A: No, it will not")
   elsif ["masterseal","heartseal","secondseal","seals"].include?(inp.downcase)
@@ -4345,7 +4392,7 @@ bot.command(:faq) do |event, inp|
   end
 end
 
-bot.command(:backup) do |event|
+bot.command(:backupaliases) do |event|
   return nil unless event.user.id==167657750971547648
   nicknames_load()
   @names.uniq!
@@ -4366,7 +4413,7 @@ bot.command(:backup) do |event|
   return nil
 end
 
-bot.command(:restore) do |event|
+bot.command(:restorealiases) do |event|
   return nil unless [167657750971547648,bot.profile.id].include?(event.user.id) || event.channel.id==386658080257212417
   bot.gateway.check_heartbeat_acks = false
   if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt')
@@ -4417,7 +4464,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   metadata_load()
   bot.servers.values(&:members)
   @server_data2[0][@shardizard]=bot.servers.length
-  @server_data2[0][@shardizard]-=4 if @shardizard==4
+  @server_data2[0][@shardizard]-=5 if @shardizard==4
   @server_data2[1][@shardizard]=bot.users.size
   metadata_save()
   numbers=[0,0,0,0,0,0,0,0]
@@ -4434,9 +4481,9 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     numbers[4]+=1
     numbers[5]+=1 unless @skills[i][1]=='Gates'
   end
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
+  for i in 0...@items.length
     numbers[6]+=1
-    numbers[7]+=1 unless line.include?("Gates")
+    numbers[7]+=1 unless @items[i][1]=='Gates'
   end
   k=0
   k=event.server.id unless event.server.nil?
@@ -4445,23 +4492,360 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     l=line.gsub(' ','').gsub("\n",'')
     b.push(l) unless l.length<=0
   end
-  unless event.user.id==167657750971547648 && !f.nil?
-    bot.servers.values(&:members)
-    event << "I am in #{longFormattedNumber(@server_data2[0].inject(0){|sum,x| sum + x })} servers, reaching #{longFormattedNumber(@server_data2[1].inject(0){|sum,x| sum + x })} unique members."
-    event << "This shard is in #{longFormattedNumber(@server_data2[0][@shardizard])} servers, reaching #{longFormattedNumber(@server_data2[1][@shardizard])} unique members."
-    event << ''
-    event << "There are #{numbers[1]} units#{", or #{numbers[0]} with Penumbrans included" if k==256291408598663168}."
-    event << "There are #{numbers[3]} classes#{", or #{numbers[2]} with Penumbra-exclusives included" if k==256291408598663168}."
-    event << "There are #{numbers[5]} skills#{", or #{numbers[4]} with Penumbrans' included" if k==256291408598663168}."
-    event << "There are #{numbers[7]} items#{", or #{numbers[6]} with Penumbrans' included" if k==256291408598663168}."
-    event << ''
-    event << "I keep track of #{@names.length} aliases."
-    event << ''
-    event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long."
-    event << "Of those, #{longFormattedNumber(b.length)} are SLOC (non-empty)."
+  f='' if f.nil?
+  if ['servers','server','members','member','shard','shards','user','users','alliance','alliances','ally','allies'].include?(f.downcase)
+    event << "**I am in #{longFormattedNumber(@server_data2[0].inject(0){|sum,x| sum + x })} servers, reaching #{longFormattedNumber(@server_data2[1].inject(0){|sum,x| sum + x })} unique members.**"
+    event << "The Plegian/Vallite Alliance contains #{longFormattedNumber(@server_data2[0][0])} server#{"s" if @server_data2[0][0]!=1}, reaching #{longFormattedNumber(@server_data2[1][0])} unique members."
+    event << "The Ylissian/Hoshidan Alliance contains #{longFormattedNumber(@server_data2[0][1])} server#{"s" if @server_data2[0][1]!=1}, reaching #{longFormattedNumber(@server_data2[1][1])} unique members."
+    event << "The Valmese/Nohrian Alliance contains #{longFormattedNumber(@server_data2[0][2])} server#{"s" if @server_data2[0][2]!=1}, reaching #{longFormattedNumber(@server_data2[1][2])} unique members."
+    event << "The Golden Alliance contains #{longFormattedNumber(@server_data2[0][4])} server#{"s" if @server_data2[0][4]!=1}, reaching #{longFormattedNumber(@server_data2[1][4])} unique members." if event.user.id==167657750971547648
     return nil
-  end
-  if f.to_i.to_s==f
+  elsif ['unit','units','chars','char','charas','chara','characters','character'].include?(f.downcase)
+    u=@units.reject{|q| q[1][3]=='g'}
+    u=@units.map{|q| q} if k==256291408598663168
+    u2=@units.reject{|q| q[1][3]=='g'}
+    event << "**There are #{numbers[1]} units#{", or #{numbers[0]} with Penumbrans included" if k==256291408598663168}.**"
+    event << "This includes:"
+    event << ''
+    d=u2.map{|q| q[0]}.uniq.length
+    d2=u.map{|q| q[0]}.uniq.length
+    event << "#{d}#{" (#{d2})" unless d==d2} unique characters, based on name"
+    event << "#{d-3+1}#{" (#{d2-3+1})" unless d==d2} actually unique characters"
+    event << ''
+    d=u2.reject{|q| q[1][0]!='1' || q[2].downcase.include?('capturable') || q[2].include?('Amiibo')}.length
+    d2=u.reject{|q| q[1][0]!='1' || q[2].downcase.include?('capturable') || q[2].include?('Amiibo')}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} first-generation units"
+    d=u2.reject{|q| q[1][0]!='2' || q[0]=='Portia'}.length
+    d2=u.reject{|q| q[1][0]!='2' || q[0]=='Portia'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} second-generation units"
+    d=u2.reject{|q| q[1][0]!='3'}.length
+    d2=u.reject{|q| q[1][0]!='3'}.length
+    if k==256291408598663168
+      event << "(1 second-or-third-generation unit)"
+      event << "#{d}#{" (#{d2})" unless d==d2} second-through-fourth-generation units"
+    else
+      event << "#{d}#{" (#{d2})" unless d==d2} second-or-third-generation units"
+    end
+    d=u2.reject{|q| !q[2].downcase.include?('capturable')}.length
+    d2=u.reject{|q| !q[2].downcase.include?('capturable')}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} capturable bosses"
+    d=u2.reject{|q| !q[2].include?('Amiibo')}.length
+    d2=u.reject{|q| !q[2].include?('Amiibo')}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} Amiibo units"
+    event << ''
+    d=u2.reject{|q| q[1][1]!='c'}.length
+    d2=u.reject{|q| q[1][1]!='c'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} variable-gender units"
+    d=u2.reject{|q| q[1][1]!='m'}.length
+    d2=u.reject{|q| q[1][1]!='m'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} male units"
+    d=u2.reject{|q| q[1][1]!='f'}.length
+    d2=u.reject{|q| q[1][1]!='f'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} female units"
+    event << ''
+    d=u2.reject{|q| q[1][2]!='A'}.length
+    d2=u.reject{|q| q[1][2]!='A'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} units in *Awakening*"
+    strs=[]
+    d=u2.reject{|q| !['b','B','e','r'].include?(q[1][3])}.length
+    d2=u.reject{|q| !['b','B','e','r'].include?(q[1][3])}.length
+    strs.push("#{d}#{" (#{d2})" unless d==d2} *Birthright*")
+    d=u2.reject{|q| !['c','C','e','r'].include?(q[1][3])}.length
+    d2=u.reject{|q| !['c','C','e','r'].include?(q[1][3])}.length
+    strs.push("#{d}#{" (#{d2})" unless d==d2} *Conquest*")
+    d=u2.reject{|q| q[1][3].nil? || !['b','c','r','R'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][3].nil? || !['b','c','r','R'].include?(q[1][3])}.length
+    strs.push("#{d}#{" (#{d2})" unless d==d2} *Revelation*")
+    if k===256291408598663168
+      d=u2.reject{|q| q[1][3]!='g'}.length
+      d2=u.reject{|q| q[1][3]!='g'}.length
+      strs.push("#{d}#{" (#{d2})" unless d==d2} Penumbrans")
+    end
+    d=u2.reject{|q| q[1][2]!='F'}.length
+    d2=u.reject{|q| q[1][2]!='F'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} units in *Fates*  ~~#{strs.join(', ')}~~"
+    return nil
+  elsif ['class','classes'].include?(f.downcase)
+    c=@classes.reject{|q| q[2]=='Penumbra'}
+    c=@classes.map{|q| q} if k==256291408598663168
+    c2=@classes.reject{|q| q[2]=='Penumbra'}
+    event << "**There are #{numbers[3]} classes#{", or #{numbers[2]} with Penumbra-exclusives included" if k==256291408598663168}.**"
+    event << "This includes:"
+    event << ''
+    d=c2.map{|q| q[0]}.uniq.length
+    d2=c.map{|q| q[0]}.uniq.length
+    event << "#{d}#{" (#{d2})" unless d==d2} unique classes, based on name"
+    event << ''
+    d=c2.reject{|q| q[1]!='Awakening'}.length
+    d2=c.reject{|q| q[1]!='Awakening'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} classes that come from *Awakening*"
+    d=c2.reject{|q| q[1]!='Fates'}.length
+    d2=c.reject{|q| q[1]!='Fates'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} classes that come from *Fates*"
+    if safe_to_spam?(event)
+      event << ''
+      d=c2.reject{|q| q[2]!='Ylisse'}.length
+      d2=c.reject{|q| q[2]!='Ylisse'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Ylissian class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| q[2]!='Plegia'}.length
+      d2=c.reject{|q| q[2]!='Plegia'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Plegian class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| q[2]!='Valm'}.length
+      d2=c.reject{|q| q[2]!='Valm'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Valmese class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| !['Regna Ferox','Rosanne','Warren'].include?(q[2])}.length
+      d2=c.reject{|q| !['Regna Ferox','Rosanne','Warren'].include?(q[2])}.length
+      event << "__#{d}#{" (#{d2})" unless d==d2} class#{"es" if [d,d2].max>1} from other *Awakening* countries__"
+      d=c2.reject{|q| q[2]!='Hoshido'}.length
+      d2=c.reject{|q| q[2]!='Hoshido'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Hoshidan class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| q[2]!='Nohr'}.length
+      d2=c.reject{|q| q[2]!='Nohr'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Nohrian class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| !['Valla','Corrin'].include?(q[2])}.length
+      d2=c.reject{|q| !['Valla','Corrin'].include?(q[2])}.length
+      event << "#{'__' unless k==256291408598663168}#{d}#{" (#{d2})" unless d==d2} Vallite class#{"es" if [d,d2].max>1}#{'__' unless k==256291408598663168}"
+      if k==256291408598663168
+        d=c2.reject{|q| q[2]!='Penumbra'}.length
+        d2=c.reject{|q| q[2]!='Penumbra'}.length
+        event << "__(#{d}#{" (#{d2})" unless d==d2} Penumbran class#{"es" if [d,d2].max>1})__"
+      end
+      d=c2.reject{|q| q[2]!='DLC'}.length
+      d2=c.reject{|q| q[2]!='DLC'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} DLC class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| q[2]!='Amiibo'}.length
+      d2=c.reject{|q| q[2]!='Amiibo'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Amiibo class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| q[2]!='Unavailable'}.length
+      d2=c.reject{|q| q[2]!='Unavailable'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} enemy-exclusive class#{"es" if [d,d2].max>1}"
+    end
+    return nil
+  elsif ['skill','skills'].include?(f.downcase)
+    s=@skills.reject{|q| q[1]=='Gates'}
+    s=@skills.map{|q| q} if k==256291408598663168
+    s2=@skills.reject{|q| q[1]=='Gates'}
+    event << "**There are #{numbers[5]} skills#{", or #{numbers[4]} with Penumbrans' included" if k==256291408598663168}.**"
+    event << "This includes:"
+    event << ''
+    d=s2.map{|q| q[0]}.uniq.length
+    d2=s.map{|q| q[0]}.uniq.length
+    event << "#{d}#{" (#{d2})" unless d==d2} unique skills, based on name"
+    event << ''
+    d=s2.reject{|q| q[1]!='Fateswakening'}.length
+    d2=s.reject{|q| q[1]!='Fateswakening'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} skills that behave identically in both *Awakening* and *Fates*"
+    d=s2.reject{|q| q[1]!='Awakening'}.length
+    d2=s.reject{|q| q[1]!='Awakening'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} skills with *Awakening* quirks"
+    d=s2.reject{|q| q[1]!='Fates' && q[1]!='Gates'}.length
+    d2=s.reject{|q| q[1]!='Fates' && q[1]!='Gates'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} skills with *Fates* quirks"
+    event << "~~\"Quirk\" refers to either game-specific mechanics or given to different classes in each game~~"
+    event << ''
+    d=s2.reject{|q| q[2].map{|q2| q2[1].to_i<=0}.include?(true)}.length
+    d2=s.reject{|q| q[2].map{|q2| q2[1].to_i<=0}.include?(true)}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} skills learned via classes"
+    d=s2.reject{|q| !q[2].map{|q2| q2[1]=='personal'}.include?(true)}.length
+    d2=s.reject{|q| !q[2].map{|q2| q2[1]=='personal'}.include?(true)}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} personal skills"
+    d=s2.reject{|q| !q[2].map{|q2| ['Scroll','Manual'].include?(q2[0].split(' ')[-1])}.include?(true)}.length
+    d2=s.reject{|q| !q[2].map{|q2| ['Scroll','Manual'].include?(q2[0].split(' ')[-1])}.include?(true)}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} skills learned through manuals or scrolls"
+    d=s2.reject{|q| !q[2].map{|q2| q2[0]=='Enemy exclusive'}.include?(true)}.length
+    d2=s.reject{|q| !q[2].map{|q2| q2[0]=='Enemy exclusive'}.include?(true)}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} enemy exclusive skills"
+    return nil
+  elsif ['item','items','weapon','weapons'].include?(f.downcase)
+    event << "**There are #{numbers[7]} items/weapons#{", or #{numbers[6]} with Penumbrans' included" if k==256291408598663168}.**"
+    s=@items.reject{|q| q[1]=='Gates'}
+    s=@items.map{|q| q} if k==256291408598663168
+    s2=@items.reject{|q| q[1]=='Gates'}
+    event << "This includes:"
+    event << ''
+    d=s2.map{|q| q[0]}.uniq.length
+    d2=s.map{|q| q[0]}.uniq.length
+    event << "#{d}#{" (#{d2})" unless d==d2} unique items/weapons, based on name"
+    event << ''
+    d=s2.reject{|q| q[1]!='Awakening'}.length
+    d2=s.reject{|q| q[1]!='Awakening'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} items/weapons from *Awakening*"
+    d=s2.reject{|q| q[1]!='Fates' && q[1]!='Gates'}.length
+    d2=s.reject{|q| q[1]!='Fates' && q[1]!='Gates'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} items/weapons from *Fates*"
+    if safe_to_spam?(event)
+      event << ''
+      d=s2.reject{|q| !['Sword','Katana'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Sword','Katana'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Swords/Katanas"
+      d=s2.reject{|q| !['Lance','Naginata'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Lance','Naginata'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Lances/Naginatas"
+      d=s2.reject{|q| !['Axes','Club'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Axes','Club'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Axes/Clubs"
+      d=s2.reject{|q| !['Bow','Yumi'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Bow','Yumi'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Bows/Yumis"
+      d=s2.reject{|q| !['Dagger','Shuriken'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Dagger','Shuriken'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Daggers/Shuriken"
+      d=s2.reject{|q| !['Tome','Scroll'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Tome','Scroll'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Tomes/Scrolls"
+      d=s2.reject{|q| !['Beaststone'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Beaststone'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Beaststones"
+      d=s2.reject{|q| !['Dragonstone'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Dragonstone'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Dragonstones"
+      d=s2.reject{|q| !['Staff','Rod'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Staff','Rod'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Staves/Rods"
+      d=s2.reject{|q| ['Staff','Rod','Dragonstone','Beaststone','Tome','Scroll','Dagger','Shuriken','Bow','Yumi','Axes','Club','Lance','Naginata','Sword','Katana'].include?(q[2][0])}.length
+      d2=s.reject{|q| ['Staff','Rod','Dragonstone','Beaststone','Tome','Scroll','Dagger','Shuriken','Bow','Yumi','Axes','Club','Lance','Naginata','Sword','Katana'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} other weapons/items"
+      event << ''
+      d=s2.reject{|q| !['E'].include?(q[2][1])}.length
+      d2=s.reject{|q| !['E'].include?(q[2][1])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} E-rank weapons"
+      d=s2.reject{|q| !['D'].include?(q[2][1])}.length
+      d2=s.reject{|q| !['D'].include?(q[2][1])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} D-rank weapons"
+      d=s2.reject{|q| !['C'].include?(q[2][1])}.length
+      d2=s.reject{|q| !['C'].include?(q[2][1])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} C-rank weapons"
+      d=s2.reject{|q| !['B'].include?(q[2][1])}.length
+      d2=s.reject{|q| !['B'].include?(q[2][1])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} B-rank weapons"
+      d=s2.reject{|q| !['A'].include?(q[2][1])}.length
+      d2=s.reject{|q| !['A'].include?(q[2][1])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} A-rank weapons"
+      d=s2.reject{|q| !['S'].include?(q[2][1])}.length
+      d2=s.reject{|q| !['S'].include?(q[2][1])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} S-rank weapons"
+    end
+    event << ''
+    d=s2.reject{|q| ![nil,''].include?(q[3])}.length
+    d2=s.reject{|q| ![nil,''].include?(q[3])}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} regular weapons/items"
+    d=s2.reject{|q| ['Enemy',nil,''].include?(q[3])}.length
+    d2=s.reject{|q| ['Enemy',nil,''].include?(q[3])}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} Prf weapons/items"
+    d=s2.reject{|q| !['Enemy'].include?(q[3])}.length
+    d2=s.reject{|q| !['Enemy'].include?(q[3])}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} enemy-exclusive weapons/items"
+    return nil
+  elsif ['alias','aliases','name','names','nickname','nicknames'].include?(f.downcase)
+    event.channel.send_temporary_message('Calculating data, please wait...',1)
+    glbl=@names.reject{|q| !q[2].nil?}
+    srv_spec=@names.reject{|q| q[2].nil?}
+    all_units=@units.reject{|q| q[1][3]=='g'}
+    all_units=@units.map{|q| q} if event.server.nil? && event.user.id==167657750971547648
+    all_units=@units.map{|q| q} if !event.server.nil? && event.server.id==256291408598663168
+    all_units=all_units.map{|q| [q[0],0,0]}
+    legal_units=@units.reject{|q| q[1][3]=='g'}
+    srv_spec=srv_spec.reject{|q| !all_units.map{|q| q[0]}.include?(q[1])}
+    for j in 0...all_units.length
+      all_units[j][1]+=glbl.reject{|q| q[1]!=all_units[j][0]}.length
+      all_units[j][2]+=srv_spec.reject{|q| q[1]!=all_units[j][0]}.length
+    end
+    event << "**There are #{longFormattedNumber(glbl.length)} global aliases.**"
+    all_units=all_units.sort{|b,a| supersort(a,b,1).zero? ? supersort(a,b,0) : supersort(a,b,1)}
+    k=all_units.reject{|q| q[1]!=all_units[0][1]}.map{|q| "*#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}#{q[0]}#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}*"}
+    event << "The unit#{"s" unless k.length==1} with the most global aliases #{"is" if k.length==1}#{"are" unless k.length==1} #{list_lift(k,"and")}, with #{all_units[0][1]} global aliases#{" each" unless k.length==1}."
+    k=all_units.reject{|q| q[1]!=0}.map{|q| "*#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}#{q[0]}#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}*"}
+    if safe_to_spam?(event) || " #{event.message.text.downcase} ".include?(" all ")
+      if k.length.zero?
+        all_units=all_units.sort{|a,b| supersort(a,b,1).zero? ? supersort(b,a,0) : supersort(a,b,1)}
+        k=all_units.reject{|q| q[1]!=all_units[0][1]}.map{|q| "*#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}#{q[0]}#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}*"}
+        event << "The unit#{"s" unless k.length==1} with the fewest global aliases #{"is" if k.length==1}#{"are" unless k.length==1} #{list_lift(k,"and")}, with #{all_units[0][1]} global alias#{"es" unless all_units[0][1]==1}#{" each" unless k.length==1}."
+      elsif event.server.nil? && event.user.id==167657750971547648
+        if k.reject{|q| q.include?('~~')}.length.zero?
+          event << "The following unit#{"s" unless k.length==1} have no global aliases: #{list_lift(k.map{|q| q.gsub('~~','')},"and")}"
+        else
+          event << "The following unit#{"s" unless k.reject{|q| q.include?('~~')}.length==1} have no global aliases: #{list_lift(k.reject{|q| q.include?('~~')},"and")}"
+          event << "The following unit#{"s" unless k.reject{|q| !q.include?('~~')}.length==1} are fake: #{list_lift(k.reject{|q| !q.include?('~~')}.map{|q| q.gsub('~~','')},"and")}"
+        end
+      else
+        event << "The following unit#{"s" unless k.length==1} have no global aliases: #{list_lift(k,"and")}"
+      end
+    end
+    event << ''
+    event << "**There are #{longFormattedNumber(srv_spec.length)} server-specific aliases.**"
+    if event.server.nil? && @shardizard==4
+      event << "Due to being the debug version, I cannot show more information."
+    elsif event.server.nil?
+      event << "Servers you and I share account for #{@names.reject{|q| q[2].nil? || q[2].reject{|q2| q2==285663217261477889 || bot.user(event.user.id).on(q2).nil?}.length<=0}.length} of those."
+    else
+      event << "This server accounts for #{@names.reject{|q| q[2].nil? || !q[2].include?(event.server.id)}.length} of those."
+    end
+    all_units=all_units.sort{|b,a| supersort(a,b,2).zero? ? supersort(a,b,0) : supersort(a,b,2)}
+    k=all_units.reject{|q| q[2]!=all_units[0][2]}.map{|q| "*#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}#{q[0]}#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}*"}
+    k=k.uniq
+    event << "The unit#{"s" unless k.length==1} with the most server-specific aliases #{"is" if k.length==1}#{"are" unless k.length==1} #{list_lift(k,"and")}, with #{all_units[0][2]} server-specific aliases#{" each" unless k.length==1}."
+    for i in 0...srv_spec.length
+      srv_spec[i][2]=srv_spec[i][2].length
+    end
+    srv_spec=srv_spec.sort{|b,a| supersort(a,b,2).zero? ? (supersort(a,b,1).zero? ? supersort(a,b,0) : supersort(a,b,1)) : supersort(a,b,2)}
+    k=srv_spec.reject{|q| q[2]!=srv_spec[0][2]}.map{|q| "*#{q[0]} = #{q[1]}*"}
+    event << "The most agreed-upon server-specific alias#{"es are" unless k.length==1}#{" is" if k.length==1} #{list_lift(k,"and")}.  #{srv_spec[0][2]} servers agree on #{"them" unless k.length==1}#{"it" if k.length==1}." if safe_to_spam?(event) || " #{event.message.text.downcase} ".include?(" all ")
+    k=srv_spec.map{|q| q[2]}.inject(0){|sum,x| sum + x }
+    event << "Counting each alias/server combo as a unique alias, there are #{longFormattedNumber(k)} server-specific aliases"
+    return nil
+  elsif ['code','lines','line','sloc'].include?(f.downcase)
+    event.channel.send_temporary_message('Calculating data, please wait...',3)
+    b=[[],[],[],[],[]]
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb').each_line do |line|
+      l=line.gsub("\n",'')
+      b[0].push(l)
+      b[3].push(l)
+      l=line.gsub("\n",'').gsub(' ','')
+      b[1].push(l) unless l.length<=0
+    end
+    File.open('C:/Users/Mini-Matt/Desktop/devkit/rot8er_functs.rb').each_line do |line|
+      l=line.gsub("\n",'')
+      b[0].push(l)
+      b[4].push(l)
+      l=line.gsub("\n",'').gsub(' ','')
+      b[2].push(l) unless l.length<=0
+    end
+    event << "**I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long.**"
+    event << "Of those, #{longFormattedNumber(b[1].length)} are SLOC (non-empty)."
+    event << "~~When fully collapsed, I appear to be #{longFormattedNumber(b[3].reject{|q| q.length>0 && (q[0,2]=='  ' || q[0,3]=='end' || q[0,4]=='else')}.length)} lines of code long.~~"
+    event << ''
+    event << "**I rely on a library that is #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/rot8er_functs.rb").inject(0) {|c, line| c+1})} lines of code long.**"
+    event << "Of those, #{longFormattedNumber(b[2].length)} are SLOC (non-empty)."
+    event << "~~When fully collapsed, it appears to be #{longFormattedNumber(b[4].reject{|q| q.length>0 && (q[0,2]=='  ' || q[0,3]=='end' || q[0,4]=='else')}.length)} lines of code long.~~"
+    event << ''
+    event << "**There are #{longFormattedNumber(b[0].reject{|q| q[0,12]!='bot.command('}.length)} commands, invoked with #{longFormattedNumber(all_commands().length)} different phrases.**"
+    event << 'This includes:'
+    event << "#{longFormattedNumber(b[0].reject{|q| q[0,12]!='bot.command(' || q.include?('from: 167657750971547648')}.length-b[0].reject{|q| q.gsub('  ','')!='event.respond "You are not a mod."'}.length)} global commands, invoked with #{longFormattedNumber(all_commands(false,0).length)} different phrases."
+    event << "#{longFormattedNumber(b[0].reject{|q| q.gsub('  ','')!='event.respond "You are not a mod."'}.length)} mod-only commands, invoked with #{longFormattedNumber(all_commands(false,1).length)} different phrases."
+    event << "#{longFormattedNumber(b[0].reject{|q| q[0,12]!='bot.command(' || !q.include?('from: 167657750971547648')}.length)} dev-only commands, invoked with #{longFormattedNumber(all_commands(false,2).length)} different phrases."
+    event << ''
+    event << "**There are #{longFormattedNumber(@prefix.map{|q| q.downcase}.uniq.length)} command prefixes**, but because I am faking case-insensitivity it's actually #{longFormattedNumber(@prefix.length)} prefixes."
+    event << ''
+    event << "**There are #{longFormattedNumber(b[0].reject{|q| q[0,4]!='def '}.length)} functions the commands use.**"
+    if safe_to_spam?(event) || " #{event.message.text.downcase} ".include?(" all ")
+      b=b[0].map{|q| q.gsub('  ','')}.reject{|q| q.length<=0}
+      for i in 0...b.length
+        b[i]=b[i][1,b[i].length-1] if b[i][0,1]==' '
+      end
+      event << ''
+      event << 'There are:'
+      event << "#{longFormattedNumber(b.reject{|q| q[0,4]!='for '}.length)} `for` loops."
+      event << "#{longFormattedNumber(b.reject{|q| q[0,6]!='while '}.length)} `while` loops."
+      event << "#{longFormattedNumber(b.reject{|q| q[0,3]!='if '}.length)} `if` trees, along with #{longFormattedNumber(b.reject{|q| q[0,6]!='elsif '}.length)} `elsif` branches and #{longFormattedNumber(b.reject{|q| q[0,4]!='else'}.length)} `else` branches."
+      event << "#{longFormattedNumber(b.reject{|q| q[0,7]!='unless '}.length)} `unless` trees."
+      event << "#{longFormattedNumber(b.reject{|q| count_in(q,'[')<=count_in(q,']')}.length)} multi-line arrays."
+      event << "#{longFormattedNumber(b.reject{|q| count_in(q,'{')<=count_in(q,'}')}.length)} multi-line hashes."
+      event << "#{longFormattedNumber(b.reject{|q| q[0,3]=='if ' || !remove_format(remove_format(q,"'"),'"').include?(' if ')}.length)} single-line `if` conditionals."
+      event << "#{longFormattedNumber(b.reject{|q| q[0,7]=='unless ' || !remove_format(remove_format(q,"'"),'"').include?(' unless ')}.length)} single-line `unless` conditionals."
+      event << "#{longFormattedNumber(b.reject{|q| q[0,7]!='return '}.length)} `return` lines."
+    end
+    return nil
+  elsif f.to_i.to_s==f && event.user.id==167657750971547648
     srv=(bot.server(f.to_i) rescue nil)
     if srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
       s2="I am not in that server."
@@ -4472,17 +4856,17 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     return nil
   end
   bot.servers.values(&:members)
-  event << "I am in #{longFormattedNumber(@server_data2[0].inject(0){|sum,x| sum + x })} servers, reaching #{longFormattedNumber(@server_data2[1].inject(0){|sum,x| sum + x })} unique members."
+  event << "**I am in #{longFormattedNumber(@server_data2[0].inject(0){|sum,x| sum + x })} *servers*, reaching #{longFormattedNumber(@server_data2[1].inject(0){|sum,x| sum + x })} unique members.**"
   event << "This shard is in #{longFormattedNumber(@server_data2[0][@shardizard])} servers, reaching #{longFormattedNumber(@server_data2[1][@shardizard])} unique members."
   event << ''
-  event << "There are #{numbers[1]} units#{", or #{numbers[0]} with Penumbrans included" if k==256291408598663168}."
-  event << "There are #{numbers[3]} classes#{", or #{numbers[2]} with Penumbra-exclusives included" if k==256291408598663168}."
-  event << "There are #{numbers[5]} skills#{", or #{numbers[4]} with Penumbrans' included" if k==256291408598663168}."
+  event << "There are #{numbers[1]} *units*#{", or #{numbers[0]} with Penumbrans included" if k==256291408598663168}."
+  event << "There are #{numbers[3]} *classes*#{", or #{numbers[2]} with Penumbra-exclusives included" if k==256291408598663168}."
+  event << "There are #{numbers[5]} *skills*#{", or #{numbers[4]} with Penumbrans' included" if k==256291408598663168}."
   event << "There are #{numbers[7]} items#{", or #{numbers[6]} with Penumbrans' included" if k==256291408598663168}."
   event << ''
-  event << "I keep track of #{@names.length} aliases."
+  event << "There are #{longFormattedNumber(@names.reject{|q| !q[2].nil?}.length)} global and #{longFormattedNumber(@names.reject{|q| q[2].nil?}.length)} server-specific *aliases*"
   event << ''
-  event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long."
+  event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of *code* long."
   event << "Of those, #{longFormattedNumber(b.length)} are SLOC (non-empty)."
   return nil
 end
