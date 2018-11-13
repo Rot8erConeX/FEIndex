@@ -235,7 +235,7 @@ bot.command(:reboot, from: 167657750971547648) do |event|
   exec "cd C:/Users/Mini-Matt/Desktop/devkit && feindex.rb #{@shardizard}"
 end
 
-bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, command|
+bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, command, subcommand|
   command="" if command.nil?
   if ['help','commands','command_list','commandlist'].include?(command.downcase)
     event.respond "The `#{command.downcase}` command displays this message:"
@@ -268,7 +268,26 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
   elsif command.downcase=='leaveserver'
     create_embed(event,'**leaveserver** __server id number__',"Forces me to leave the server with the id `server id`.\n\n**This command is only able to be used by Rot8er_ConeX**, and only in PM.",0x008b8b)
   elsif command.downcase=='snagstats'
-    create_embed(event,'**snagstats**',"Returns:\n- the number of servers I'm in\n- how long of a file I am.",0x40C0F0)
+    subcommand='' if subcommand.nil?
+    if ['server','servers','member','members','shard','shards','users','user'].include?(subcommand.downcase)
+      create_embed(event,"**#{command.downcase} #{subcommand.downcase}**",'Returns the number of servers and unique members each shard reaches.',0x40C0F0)
+    elsif ['alts','alt','alternate','alternates','alternative','alternatives'].include?(subcommand.downcase)
+      create_embed(event,"**#{command.downcase} #{subcommand.downcase}**",'Returns the number of units within each type of alt, as well as specifics about characters with the most alts.',0x40C0F0)
+    elsif ['unit','char','character','units','chars','charas','chara'].include?(subcommand.downcase)
+      create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the number of units sorted in each of the following ways:\nGeneration (in PM)\nGender\nGame of Origin",0x40C0F0)
+    elsif ['class','classes'].include?(subcommand.downcase)
+      create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the number of classes sorted in each of the following ways:\nGame of origin\nCountry of origin (in PM)",0x40C0F0)
+    elsif ['skills','skill','weapon','weapons','assist','assists','special','specials','passive','passives'].include?(subcommand.downcase)
+      create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the number of skills sorted in each of the following ways:\nGame of origin\nMethod of obtaining the skill",0x40C0F0)
+    elsif ['item','items','weapons','weapon'].include?(subcommand.downcase)
+      create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the number of items sorted in each of the following ways:\nGame of origin\nWeapon type (in PM)\nWeapon rank required (in PM)\nAvailablity",0x40C0F0)
+    elsif ['alias','aliases','name','names','nickname','nicknames'].include?(subcommand.downcase)
+      create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the number of aliases in each of the two categories - global and server-specific.\nAlso returns specifics about the most frequent instances of each category",0x40C0F0)
+    elsif ['code','lines','line','sloc'].include?(subcommand.downcase)
+      create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the specifics about my code, including number of commands and functions, as well as - if in PM - loops, statements, and conditionals.",0x40C0F0)
+    else
+      create_embed(event,"**#{command.downcase}**","Returns:\n- the number of servers I'm in\n- the numbers of units, classes, skills, and items in the games\n- the numbers of aliases I keep track of\n- how long of a file I am.\n\nYou can also include the following words to get more specialized data:\nServer(s), Member(s), Shard(s), User(s)\nUnit(s), Character(s), Char(a)(s)\nAlt(s)\nSkill(s)\nAlias(es), Name(s), Nickname(s)\nCode, Line(s), SLOC#{"\n\nAs the bot developer, you can also include a server ID number to snag the shard number, owner, and my nickname in the specified server." if event.user.id==167657750971547648}",0x40C0F0)
+    end
   elsif command.downcase=='shard'
     create_embed(event,'**shard**',"Returns the shard that this server is served by.",0x40C0F0)
   elsif ['bugreport','suggestion','feedback'].include?(command.downcase)
@@ -4511,27 +4530,29 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     d2=u.map{|q| q[0]}.uniq.length
     event << "#{d}#{" (#{d2})" unless d==d2} unique characters, based on name"
     event << "#{d-3+1}#{" (#{d2-3+1})" unless d==d2} actually unique characters"
-    event << ''
-    d=u2.reject{|q| q[1][0]!='1' || q[2].downcase.include?('capturable') || q[2].include?('Amiibo')}.length
-    d2=u.reject{|q| q[1][0]!='1' || q[2].downcase.include?('capturable') || q[2].include?('Amiibo')}.length
-    event << "#{d}#{" (#{d2})" unless d==d2} first-generation units"
-    d=u2.reject{|q| q[1][0]!='2' || q[0]=='Portia'}.length
-    d2=u.reject{|q| q[1][0]!='2' || q[0]=='Portia'}.length
-    event << "#{d}#{" (#{d2})" unless d==d2} second-generation units"
-    d=u2.reject{|q| q[1][0]!='3'}.length
-    d2=u.reject{|q| q[1][0]!='3'}.length
-    if k==256291408598663168
-      event << "(1 second-or-third-generation unit)"
-      event << "#{d}#{" (#{d2})" unless d==d2} second-through-fourth-generation units"
-    else
-      event << "#{d}#{" (#{d2})" unless d==d2} second-or-third-generation units"
+    if safe_to_spam?(event)
+      event << ''
+      d=u2.reject{|q| q[1][0]!='1' || q[2].downcase.include?('capturable') || q[2].include?('Amiibo')}.length
+      d2=u.reject{|q| q[1][0]!='1' || q[2].downcase.include?('capturable') || q[2].include?('Amiibo')}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} first-generation units"
+      d=u2.reject{|q| q[1][0]!='2' || q[0]=='Portia'}.length
+      d2=u.reject{|q| q[1][0]!='2' || q[0]=='Portia'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} second-generation units"
+      d=u2.reject{|q| q[1][0]!='3'}.length
+      d2=u.reject{|q| q[1][0]!='3'}.length
+      if k==256291408598663168
+        event << "(1 second-or-third-generation unit)"
+        event << "#{d}#{" (#{d2})" unless d==d2} second-through-fourth-generation units"
+      else
+        event << "#{d}#{" (#{d2})" unless d==d2} second-or-third-generation units"
+      end
+      d=u2.reject{|q| !q[2].downcase.include?('capturable')}.length
+      d2=u.reject{|q| !q[2].downcase.include?('capturable')}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} capturable bosses"
+      d=u2.reject{|q| !q[2].include?('Amiibo')}.length
+      d2=u.reject{|q| !q[2].include?('Amiibo')}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Amiibo units"
     end
-    d=u2.reject{|q| !q[2].downcase.include?('capturable')}.length
-    d2=u.reject{|q| !q[2].downcase.include?('capturable')}.length
-    event << "#{d}#{" (#{d2})" unless d==d2} capturable bosses"
-    d=u2.reject{|q| !q[2].include?('Amiibo')}.length
-    d2=u.reject{|q| !q[2].include?('Amiibo')}.length
-    event << "#{d}#{" (#{d2})" unless d==d2} Amiibo units"
     event << ''
     d=u2.reject{|q| q[1][1]!='c'}.length
     d2=u.reject{|q| q[1][1]!='c'}.length
@@ -4862,7 +4883,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   event << "There are #{numbers[1]} *units*#{", or #{numbers[0]} with Penumbrans included" if k==256291408598663168}."
   event << "There are #{numbers[3]} *classes*#{", or #{numbers[2]} with Penumbra-exclusives included" if k==256291408598663168}."
   event << "There are #{numbers[5]} *skills*#{", or #{numbers[4]} with Penumbrans' included" if k==256291408598663168}."
-  event << "There are #{numbers[7]} items#{", or #{numbers[6]} with Penumbrans' included" if k==256291408598663168}."
+  event << "There are #{numbers[7]} *items*#{", or #{numbers[6]} with Penumbrans' included" if k==256291408598663168}."
   event << ''
   event << "There are #{longFormattedNumber(@names.reject{|q| !q[2].nil?}.length)} global and #{longFormattedNumber(@names.reject{|q| q[2].nil?}.length)} server-specific *aliases*"
   event << ''
