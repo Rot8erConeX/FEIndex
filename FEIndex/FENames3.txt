@@ -142,6 +142,7 @@
 ["Serena", "Severa"]
 ["Shinonome", "Shiro"]
 ["Asyura", "Shura"]
+["LizardMan", "Silas", [374991726139670528]]
 ["Sort", "Stahl"]
 ["Soru", "Stahl"]
 ["R63Cordelia", "Subaki", [214552543835979778, 271642342153388034]]

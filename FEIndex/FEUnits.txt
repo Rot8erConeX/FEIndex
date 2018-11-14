@@ -37,10 +37,10 @@ Selena\1fFc\Not available in *Birthright*\40, 30, 5, 25, 45, 30, 45, 30\0, -1, 0
 Peri\1fFc\Not available in *Birthright*\30, 50, 5, 30, 50, 35, 25, 45\0, 1, 0, -1, 1, 0, -2, 2\Cavalier, Dark Mage\Cavalier, Dark Mage, Ninja\Bloodthirst\
 Charlotte\1fFc\Not available in *Birthright*\65, 55, 0, 35, 50, 45, 20, 5\0, 3, 0, 0, 2, 0, -2, -2\Fighter, Troubadour\Fighter, Troubadour, Oni Savage\Unmask\
 Shura\1mFr\Available in all routes\30, 25, 10, 20, 35, 30, 15, 35\0, -1, 0, -1, 3, -1, -2, 2\Adventurer, Bow Knight, Berserker, Hero, Mechanist, Master Ninja\Outlaw, Fighter, Ninja\Highwayman\
-Izana\1mFr\Not available in *Revelation*\45, 15, 35, 55, 30, 45, 35, 35\0, 0, 1, 1, -2, 0, 0, 1\Onmyoji, Great Master, Swordmaster, Master of Arms, Merchant, Mechanist\Monk, Samurai, Apothecary\Peacebringer\
-Fuga\1mFr\Exclusive to *Revelation*\20, 20, 0, 15, 5, 20, 10, 10\0, 2, -1, 1, 0, -1, 2, -2\Master of Arms, Swordmaster, Oni Chieftain, Blacksmith, Onmyoji, Great Master\Samurai, Oni Savage, Monk\Wind Disciple\
-Yukimura\1mFb\Exclusive to *Birthright*\25, 25, 5, 40, 15, 30, 25, 30\0, -1, 0, 3, -1, 0, -1, 0\Mechanist, Merchant, Swordmaster, Master of Arms, Onmyoji, Great Master\Apothecary, Samurai, Monk\Perspicacious\
-Gunter\1mFb\Not available in *Birthright*\15, 5, 0, 5, 0, 15, 5, 5\0, 2, 0, 1, -2, 0, 2, -2\Great Knight, Paladin, Wyvern Lord, Malig Knight, Hero, Bow Knight\Cavalier, Wyvern Rider, Mercenary\Forceful Partner\
+Izana\1mFe\Not available in *Revelation*\45, 15, 35, 55, 30, 45, 35, 35\0, 0, 1, 1, -2, 0, 0, 1\Onmyoji, Great Master, Swordmaster, Master of Arms, Merchant, Mechanist\Monk, Samurai, Apothecary\Peacebringer\
+Fuga\1mFR\Exclusive to *Revelation*\20, 20, 0, 15, 5, 20, 10, 10\0, 2, -1, 1, 0, -1, 2, -2\Master of Arms, Swordmaster, Oni Chieftain, Blacksmith, Onmyoji, Great Master\Samurai, Oni Savage, Monk\Wind Disciple\
+Yukimura\1mFB\Exclusive to *Birthright*\25, 25, 5, 40, 15, 30, 25, 30\0, -1, 0, 3, -1, 0, -1, 0\Mechanist, Merchant, Swordmaster, Master of Arms, Onmyoji, Great Master\Apothecary, Samurai, Monk\Perspicacious\
+Gunter\1mFc\Not available in *Birthright*\15, 5, 0, 5, 0, 15, 5, 5\0, 2, 0, 1, -2, 0, 2, -2\Great Knight, Paladin, Wyvern Lord, Malig Knight, Hero, Bow Knight\Cavalier, Wyvern Rider, Mercenary\Forceful Partner\
 Reina\1fFb\Not available in *Conquest*\40, 45, 5, 20, 45, 10, 20, 10\0, 2, 0, 0, 2, -1, -2, -1\Kinshi Knight, Sky Knight, Basara, Onmyoji, Mechanist, Master Ninja\Sky Knight, Diviner, Ninja\Morbid Celebration\
 Scarlet\1fFb\Not available in *Conquest*\30, 45, 20, 40, 50, 40, 25, 20\0, 2, 0, 0, 1, -1, 1, -2\Wyvern Lord, Malig Knight, Bow Knight, Adventurer, Great Knight, General\Wyvern Rider, Outlaw, Knight\In Extremis\
 Flora\1fFc\Not available in *Birthright*\35, 40, 20, 45, 30, 35, 30, 30\0, 1, -1, 2, 0, -1, 1, -1\Maid, Strategist, Sorcerer, Dark Knight, Hero, Bow Knight\Troubadour, Dark Mage, Mercenary\Icy Blood\
@@ -132,6 +132,7 @@ Emmeryn\1fA\*Awakening*\45, 10, 55, 40, 40, 70, 25, 35\0, -2, 4, 0, 1, 0, -2, 1\
 Yenfay\1mA\*Awakening*\60, 45, 10, 45, 50, 60, 30, 20\0, 1, -2, 2, 4, 0, -1, -2\Myrmidon, Wyvern Rider, Archer\Myrmidon, Wyvern Rider, Archer\\
 Aversa\1fA\*Awakening*\45, 25, 45, 35, 40, 65, 30, 30\0, -1, 3, 1, 1, -2, 0, 0\Pegasus Knight, Wyvern Rider, Dark Mage\Pegasus Knight, Wyvern Rider, Dark Mage\\
 Priam\1mA\*Awakening*\80, 60, 10, 40, 30, 50, 40, 10\0, 3, -2, 1, 0, 0, 2, -2\Mercenary, Fighter, Myrmidon\Mercenary, Fighter, Myrmidon\\
+Robin\1cA\*Awakening*\40, 40, 35, 35, 35, 55, 30, 20\0, 0, 0, 0, 0, 0, 0, 0\Tactician\Tactician\\
 Rallyman\1mF\*Conquest* exclusive capturable unit\30, 35, 0, 40, 35, 10, 15, 5\0, 0, 0, 0, 0, 0, 0, 0\Samurai\Samurai\\
 Bluezie\1fFg\Exclusive to *Gates*\40, 20, 40, 60, 40, 20, 40, 20\0, -2, 3, 3, 0, -2, 1, -2\Outlaw, Oni Savage\Outlaw, Oni Savage, Archer\Trounce\
 GSO\1mFg\Exclusive to *Gates*\40, 40, 60, 50, 50, 20, 30, 20\0, 1, 2, 1, 2, -2, -1, -2\Sorcerer, Dark Knight, Wyvern Lord, Malig Knight\Dark Mage, Wyvern Rider, Diviner\\
@@ -155,6 +156,6 @@ Xiao-va\1fFg\Exclusive to *Gates*\35, 45, 15, 45, 40, 40, 30, 30\0, 2, -2, 0, 1,
 Aoi\1fFg\Exclusive to *Gates*\35, 25, 50, 40, 20, 20, 50, 40\0, -1, 2, 1, -3, -1, 3, 0\Diviner, Spear Fighter\Diviner, Spear Fighter, Dark Mage\\
 Ocarina\2fFg\Exclusive to *Gates*\40, 45, 30, 40, 40, 45, 30, 30\0, 2, 3, 2, 3, -1, 0, -1\Sky Knight, Dark Mage\Sky Knight, Dark Mage\\
 DizJr\2mFg\Exclusive to *Gates*\35, 0, 70, 35, 25, 55, 15, 65\0, -2, 4, 1, -1, 1, 3, 2\Troubadour, Sky Knight\Troubadour, Sky Knight\\
-Synn\1mAg\Exclusive to *Gates*\50, 0, 60, 35, 50, 55, 25, 25\0, -2, 4, 1, -1, 1, 2, 3\Dark Mage, Troubadour\Dark Mage, Troubadour, Diviner\\
-Xavier\1mAg\Exclusive to *Gates*\45, 60, 10, 40, 55, 45, 25, 20\0, 3, -2, 1, 4, 1, 0, 1\Fighter, Astral Dragon\Fighter, Oni Savage\\
-Naomi\1mAg\Not obtainable\40, 55, 10, 55, 35, 30, 35, 15\0, 1, -1, 0, -3, 3, 2, -2\Spear Fighter, Shrine Maiden\Spear Fighter, Shrine Maiden, Knight\Needlepoint Knitter\
+Synn\1mFg\Exclusive to *Gates*\50, 0, 60, 35, 50, 55, 25, 25\0, -2, 4, 1, -1, 1, 2, 3\Dark Mage, Troubadour\Dark Mage, Troubadour, Diviner\\
+Xavier\1mFg\Exclusive to *Gates*\45, 60, 10, 40, 55, 45, 25, 20\0, 3, -2, 1, 4, 1, 0, 1\Fighter, Astral Dragon\Fighter, Oni Savage\\
+Naomi\1mFg\Not obtainable\40, 55, 10, 55, 35, 30, 35, 15\0, 1, -1, 0, -3, 3, 2, -2\Spear Fighter, Shrine Maiden\Spear Fighter, Shrine Maiden, Knight\Needlepoint Knitter\

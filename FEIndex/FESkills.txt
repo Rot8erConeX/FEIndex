@@ -304,6 +304,8 @@ Luna+\Awakening\Enemy exclusive\-\User ignores half of the enemy's Defense or Re
 Hawkeye\Awakening\Enemy exclusive\-\User will always hit the enemy
 Pavise+\Awakening\Enemy exclusive\-\Halves damage from swords, lances, axes (includes magical variants) and beaststones
 Aegis+\Awakening\Enemy exclusive\-\Halves damage from bows, tomes and dragonstones
+Acrobat\Gates\Trickster, 15\-\All traversable terrain costs 1 movement point to cross
+Lucky Seven\Gates\Trickster, 5\-\Hit rate and Avoid +20 for the first 7 Turns of a map
 Crippled Blow\Gates\Mathoo, personal\-\If HP is below 25% maximum, this unit can get critical hits and use special skills on weapons that usually don't allow them as long as they are unforged
 Downpour\Gates\Draco, personal\-\If this unit is outside, all enemies that are also outside receive -2 Speed
 Trounce\Gates\Bluezie, personal\-\When this unit is facing an enemy of a lower level, this unit receives +5 Crit
