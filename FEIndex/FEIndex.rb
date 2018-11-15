@@ -66,7 +66,7 @@ def all_commands(include_nil=false,permissions=-1)
   k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character',
      'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
-     'snagchannels','shard','alliance','restorealiases','chara','char']
+     'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
@@ -4921,6 +4921,10 @@ end
 
 bot.command(:leaveserver, from: 167657750971547648) do |event, server_id| # forces Robin to leave a server
   walk_away(bot,event,server_id)
+end
+
+bot.command([:donation, :donate]) do |event, uid|
+  donor_embed(bot,event)
 end
 
 bot.server_create do |event|
