@@ -3727,7 +3727,7 @@ def get_unit_list(event,bot,args)
     flds=[]
     flds.push(['*Awakening*',untz.reject{|q| q[1][2,1]!='A'}.map{|q| q[0]}.uniq.join("\n")])
     flds.push(['*Fates*',untz.reject{|q| q[1][2,1]!='F'}.map{|q| q[0]}.uniq.join("\n")])
-  elsif untz.map{|q| q[1][2,1]}.uniq.length<=1 && untz.map{|q| q[1][2,1]}[0]=='F' && untz.map{|q| q[1][3,1]}.uniq.length>1
+  elsif untz.map{|q| q[1][2,1]}.uniq.length<=1 && untz.map{|q| q[1][2,1]}[0]=='F' && untz.map{|q| q[1][3,1]}.uniq.length>1 && games2x.length != 1
     flds=[]
     flds.push(['*Birthright*',untz.reject{|q| !['b','B','r','e'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['B','e'].include?(q[1][3,1])}"}.uniq.join("\n")])
     flds.push(['*Conquest*',untz.reject{|q| !['c','C','r','e'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['C','e'].include?(q[1][3,1])}"}.uniq.join("\n")])
