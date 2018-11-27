@@ -66,7 +66,7 @@ def all_commands(include_nil=false,permissions=-1)
   k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character',
      'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
-     'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation']
+     'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
@@ -295,44 +295,44 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
   elsif command.downcase=='invite'
     create_embed(event,'**invite**',"PMs the invoker with a link to invite me to their server.",0x40C0F0)
   elsif ['unit','char','chara','character'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __name1__ __name2__ __name3__","parses the names listed to create a unit, whose stats are then displayed\nIf one unit is listed, displays that unit's default stats\nIf two units are listed, uses the first-gen to create a specialized kid\nIf three units are listed, uses the first-gen to create a specialized second-gen which is used to create a super-specialized Kana/Morgan\n\nUnits can be listed in any order.  The command will arrange them correctly.\nIf multiple units from the same generation are listed, the command will use the first listed and ignore all others\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x31CC24)
+    create_embed(event,"**#{command.downcase}** __name1__ __name2__ __name3__","parses the names listed to create a unit, whose stats are then displayed\nIf one unit is listed, displays that unit's default stats\nIf two units are listed, uses the first-gen to create a specialized kid\nIf three units are listed, uses the first-gen to create a specialized second-gen which is used to create a super-specialized Kana/Morgan\n\nUnits can be listed in any order.  The command will arrange them correctly.\nIf multiple units from the same generation are listed, the command will use the first listed and ignore all others\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x02010a)
   elsif ["shard","alliance"].include?(command.downcase)
-    create_embed(event,'**shard**',"Returns the shard that this server is served by, labeled as if it was an alliance between a country in *Awakening* with a country in *Fates*.",0x31CC24)
+    create_embed(event,'**shard**',"Returns the shard that this server is served by, labeled as if it was an alliance between a country in *Awakening* with a country in *Fates*.",0x02010a)
   elsif ["faq"].include?(command.downcase)
-    create_embed(event,'**faq**',"Answers the frequently asked questions.",0x31CC24)
+    create_embed(event,'**faq**',"Answers the frequently asked questions.",0x02010a)
   elsif ['backupaliases'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __item__","Backs up the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x31CC24)
+    create_embed(event,"**#{command.downcase}** __item__","Backs up the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x02010a)
   elsif ['restorealiases'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __item__","Restores the the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x31CC24)
+    create_embed(event,"**#{command.downcase}** __item__","Restores the the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x02010a)
   elsif command.downcase=="class"
-    create_embed(event,"**class** __name__","displays the stats of the named class\n\nThis command informs you if you do not list a class.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x31CC24)
+    create_embed(event,"**class** __name__","displays the stats of the named class\n\nThis command informs you if you do not list a class.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x02010a)
   elsif ["data","job","stats"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** (string)","This command interprets the rest of your message as a single string whose beginning and end are searched for up to three character names and the remainder is assumed to be the name of a class\nFunctionally, this means that you can type out three names and a class, in any order\n`FE!#{command.downcase} Maid Corrin` is as valid as `FE!#{command.downcase} Corrin Maid`\n`FE!#{command.downcase} Sniper Azura Kiragi Kana` is as valid as `FE!#{command.downcase} Kiragi Azura Sniper Kana`\n\nSimilar to the `unit` command, this command figures out the generational order of the units listed and uses that to calculate the most accurate child.  If only one unit is listed, then the command uses that unit's default data.\nThe resulting unit is given the class specified, and the stats are displayed.\n\nIf no class is specified, this command is functionally identical to the `unit` command.\nIf no units are specified, this command is functionally identical to the `class` command.\nIf no class or units are specified, this command informs you of your mistake.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x31CC24)
+    create_embed(event,"**#{command.downcase}** (string)","This command interprets the rest of your message as a single string whose beginning and end are searched for up to three character names and the remainder is assumed to be the name of a class\nFunctionally, this means that you can type out three names and a class, in any order\n`FE!#{command.downcase} Maid Corrin` is as valid as `FE!#{command.downcase} Corrin Maid`\n`FE!#{command.downcase} Sniper Azura Kiragi Kana` is as valid as `FE!#{command.downcase} Kiragi Azura Sniper Kana`\n\nSimilar to the `unit` command, this command figures out the generational order of the units listed and uses that to calculate the most accurate child.  If only one unit is listed, then the command uses that unit's default data.\nThe resulting unit is given the class specified, and the stats are displayed.\n\nIf no class is specified, this command is functionally identical to the `unit` command.\nIf no units are specified, this command is functionally identical to the `class` command.\nIf no class or units are specified, this command informs you of your mistake.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x02010a)
   elsif "levelup"==command.downcase
-    create_embed(event,"**levelup** (string)","Much like the *data* command, this command parses the string into up to three unit names and a class name, which are then parsed together.\nThe result is then used to display a sample level-up, accounting for the combined growth rates.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust probability accordingly",0x31CC24)
+    create_embed(event,"**levelup** (string)","Much like the *data* command, this command parses the string into up to three unit names and a class name, which are then parsed together.\nThe result is then used to display a sample level-up, accounting for the combined growth rates.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust probability accordingly",0x02010a)
   elsif ["offspringseal","childseal","offspring"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** (string)","Much like the *data* command, this command parses the string into up to three unit names, a class name, and a number\nNumbers between 1 and 18 are interpreted as a level to promote to, and numbers between 19 and 27 are interpreted as a chapter before which you use the seal\nThe level 20 (base class) child is then promoted to the resulting level using an Offspring Seal.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust growths (and therefore stat increases) accordingly",0x31CC24)
+    create_embed(event,"**#{command.downcase}** (string)","Much like the *data* command, this command parses the string into up to three unit names, a class name, and a number\nNumbers between 1 and 18 are interpreted as a level to promote to, and numbers between 19 and 27 are interpreted as a chapter before which you use the seal\nThe level 20 (base class) child is then promoted to the resulting level using an Offspring Seal.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust growths (and therefore stat increases) accordingly",0x02010a)
   elsif command.downcase=="skill"
-    create_embed(event,"**skill** __name__","Shows data on the skill `name`, including what class or character learns it, and the trigger rate, if applicable",0x31CC24)
+    create_embed(event,"**skill** __name__","Shows data on the skill `name`, including what class or character learns it, and the trigger rate, if applicable",0x02010a)
   elsif ["item","weapon"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __name__","Shows data on the item `name`, including the price, range, and hit rate, if applicable.",0x31CC24)
+    create_embed(event,"**#{command.downcase}** __name__","Shows data on the item `name`, including the price, range, and hit rate, if applicable.",0x02010a)
   elsif ["homosexuality","homo","gay"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __state__","Sets the homosexuality filter to `state`.\nIf `state` is not defined, toggles the current setting.\n\n**Allowed words**: On/Off, true/false, yes/no.",0x31CC24)
+    create_embed(event,"**#{command.downcase}** __state__","Sets the homosexuality filter to `state`.\nIf `state` is not defined, toggles the current setting.\n\n**Allowed words**: On/Off, true/false, yes/no.",0x02010a)
   elsif ["incest","wincest","sibling"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __state__","Sets the incest filter to `state`.\nIf `state` is not defined, toggles the current setting.\n\n**Allowed words**: On/Off, true/false, yes/no.",0x31CC24)
+    create_embed(event,"**#{command.downcase}** __state__","Sets the incest filter to `state`.\nIf `state` is not defined, toggles the current setting.\n\n**Allowed words**: On/Off, true/false, yes/no.",0x02010a)
   elsif ['aliases','checkaliases','seealiases'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __unit__","Responds with a list of all `unit`'s aliases.\nIf no unit is listed, responds with a list of all aliases and who they are for.\n\nPlease note that if more than 50 aliases are to be listed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",0x31CC24)
+    create_embed(event,"**#{command.downcase}** __unit__","Responds with a list of all `unit`'s aliases.\nIf no unit is listed, responds with a list of all aliases and who they are for.\n\nPlease note that if more than 50 aliases are to be listed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",0x02010a)
   elsif ['deletealias','removealias'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** __alias__","Removes `alias` from the list of aliases, regardless of who it was for.",0xC31C19)
   elsif command.downcase=='addalias'
     create_embed(event,'**addalias** __new alias__ __unit__',"Adds `new alias` to `unit`'s aliases.\nIf the arguments are listed in the opposite order, the command will auto-switch them.\n\nInforms you if the alias already belongs to someone.\nAlso informs you if the unit you wish to give the alias to does not exist.",0xC31C19)
   elsif "marry"==command.downcase
-    create_embed(event,"**marry** __name1__ __name2__","Shows what the Partner Seal options would be for `name1` and `name2` if they were to marry each other.\nAlso shows the resulting children.",0x31CC24)
+    create_embed(event,"**marry** __name1__ __name2__","Shows what the Partner Seal options would be for `name1` and `name2` if they were to marry each other.\nAlso shows the resulting children.",0x02010a)
   elsif "proc"==command.downcase
-    create_embed(event,"**proc** __stat__ __list of skills__","Shows the likelihood of each of the listed skills proc'ing, given a unit's Skill stat is `stat`.\nIncluding the skills 'Hoshidan Unity' and/or 'Quixotic' will increases chances accordingly.\nIncluding the skill 'Nohrian Trust' allows you to have more than five skills listed.\n\nIf no Skill stat is listed, shows a random number between 1 and 64.\nIf no proc skills are listed, shows the list as if you have all possible proc skills.\n\nUsing a negative number as the Skill stat, crossing out one or more skill names, or including the word 'not' in your message will change the command to Reverse Mode.\nIn Reverse Mode, the listed skills will be *excluded* from the list of all proc skills, and the result will be the list of skills you have.",0x31CC24)
+    create_embed(event,"**proc** __stat__ __list of skills__","Shows the likelihood of each of the listed skills proc'ing, given a unit's Skill stat is `stat`.\nIncluding the skills 'Hoshidan Unity' and/or 'Quixotic' will increases chances accordingly.\nIncluding the skill 'Nohrian Trust' allows you to have more than five skills listed.\n\nIf no Skill stat is listed, shows a random number between 1 and 64.\nIf no proc skills are listed, shows the list as if you have all possible proc skills.\n\nUsing a negative number as the Skill stat, crossing out one or more skill names, or including the word 'not' in your message will change the command to Reverse Mode.\nIn Reverse Mode, the listed skills will be *excluded* from the list of all proc skills, and the result will be the list of skills you have.",0x02010a)
   else
     event.respond("#{command.downcase} is not a command.") if command != ""
-    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x31CC24)
+    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x02010a)
     create_embed(event,"__**Server Admin Commands**__","__**Unit Aliases**__\n`addalias` __new alias__ __unit__ - Adds a new server-specific alias\n~~`aliases` __unit__ (*also `checkaliases` or `seealiases`*)~~\n`deletealias` __alias__ (*also `removealias`*) - deletes a server-specific alias",0xC31C19) if is_mod?(event.user,event.server,event.channel)
     create_embed(event,"__**Bot Developer Commands**__","`ignoreuser` __user id number__ - makes me ignore a user\n`leaveserver` __server id number__ - makes me leave a server\n\n`sendpm` __user id number__ __\\*message__ - sends a PM to a user\n`sendmessage` __channel id__ __\\*message__ - sends a message to a specific channel\n\n`snagstats` - snags server stats for multiple servers\n\n`reboot` - reboots this shard\n\n`backupaliases` - backs up the alias list\n`restorealiases` - restores the alias list from last backup\n`sort` - sorts the alias list alphabetically by unit",0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
     event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FE13!`\n*Fates* mechanics: `FEF!` `FE14!`\nDetermine mechanics contextually: `FE!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
@@ -439,7 +439,7 @@ def embed_color(path)
   return 0x010101 if path.downcase.include?('cross-game')
   return 0xBC4372 if path.downcase.include?('not available in *revelation*')
   return 0xFFEA8B if path.downcase.include?('gates')
-  return 0x000000
+  return 0x02010a
 end
 
 def embed_color_x(path,clss=nil)
@@ -2351,8 +2351,8 @@ def unit_parse(event,bot,args)
     text="#{text}\n**Prf weapon:** *#{@items[prf][0]}*" unless prf.nil? || ['staff','rod'].include?(@items[prf][2][0].downcase)
     text="#{text}\n**Prf staff:** *#{@items[prf][0]}*" unless prf.nil? || !['staff','rod'].include?(@items[prf][2][0].downcase)
     text="#{text}\n**Pseudo-Prf staff:** *Liliputia*" if @bob[0].gsub('**','')=='Mathoo'
-    text="#{text}\n**Can use Dragon Veins**" if @bob[1].length>4 && @bob[1][4]=='d'
-    text="#{text}\n**Can use Dragon Veins**, weak to dragon-effective weapons regardless of class" if @bob[1].length>4 && @bob[1][4]=='D'
+    text="#{text}\n**Can use Dragon Veins**" if @bob[1].length>4 && @bob[1][4]=='d' && @bob[1][2]=='F'
+    text="#{text}\n**Can use Dragon Veins**, weak to dragon-effective weapons regardless of class" if @bob[1].length>4 && @bob[1][4]=='D' && @bob[1][2]=='F'
     flds=nil
     m=['HP','Strength','Magic','Skill','Speed','Luck','Defense','Resistance']
     flds=[["**Growth Rates**",[]],["**Modifiers**",['-']],["**Classes**","*Default class:* #{@bob[5][0]}\n*#{'Seals unusable' if @bob[0]=='**Candace**'}#{'Heart Seal' if @bob[0]!='**Candace**' && @bob[1][2]=='F'}#{'Second Seal' if @bob[0]!='**Candace**' && @bob[1][2]=='A'}#{':'if @bob[0]!='**Candace**'}* #{'~~none~~' if @bob[5].length<=1 && @bob[0]!='**Candace**'}#{@bob[5][1,@bob[5].length-1].join(', ')}#{"\n*Partner Seal:* Spear Master, Basara" if @bob[0].gsub('**','')=='Mathoo'}",false]]
@@ -3612,6 +3612,106 @@ def item_parse(event,bot,args,mde=0)
     text="#{text}\n**Additional info:** #{bob4[7]}" if bob4[7] != '-' && !bob4[7].nil? && bob4[7] != ''
   end
   create_embed(event,fullname,text,xcolor)
+end
+
+def get_unit_list(event,bot,args)
+  args=event.message.text.downcase.split(' ') if args.nil?
+  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
+  game=""
+  game="Awakening" if event.message.text[0,4].downcase=="fea!"
+  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+  game="Fates" if event.message.text[0,4].downcase=="fef!"
+  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  generations=[]
+  genders=[]
+  games=[]
+  games2=[]
+  games2x=[]
+  blood=[]
+  for i in 0...args.length
+    generations.push("1") if ['1','1st','1stgen','1st-gen','1st_gen','gen1','gen-1','gen_1','firstgen','first-gen','first_gen'].include?(args[i].downcase)
+    generations.push("2") if ['2','2nd','2ndgen','2nd-gen','2nd_gen','gen2','gen-2','gen_2','secondgen','second-gen','second_gen'].include?(args[i].downcase)
+    generations.push("3") if ['3','3rd','3rdgen','3rd-gen','2nd_gen','gen3','gen-3','gen_3','thirdgen','third-gen','third_gen'].include?(args[i].downcase)
+    genders.push('m') if ['male','man','boy'].include?(args[i].downcase)
+    genders.push('f') if ['female','woman','girl'].include?(args[i].downcase)
+    genders.push('c') if ['avatar'].include?(args[i].downcase)
+    games.push("A") if ['FE13', 'Awakening', 'FEA', 'FE:A'].map{|q| q.downcase}.include?(args[i].downcase)
+    games.push("F") if ['FE14', 'if', 'FEif', 'FE:if', 'FE:f', 'FEf', 'Fates'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2.push("b") if ['FE14b', 'Birthright', 'Hoshido', 'FE14r', 'Revelation', 'Revelations'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2x.push("Birthright") if ['FE14b', 'Birthright', 'Hoshido'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2.push("B") if ['FE14b', 'Birthright', 'Hoshido'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2.push("c") if ['FE14c', 'Conquest', 'Nohr', 'FE14r', 'Revelation', 'Revelations'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2.push("C") if ['FE14c', 'Conquest', 'Nohr'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2x.push("Conquest") if ['FE14c', 'Conquest', 'Nohr'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2.push("r") if ['FE14r', 'Revelation', 'Revelations', 'FE14b', 'Birthright', 'Hoshido', 'FE14c', 'Conquest', 'Nohr'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2.push("e") if ['FE14b', 'Birthright', 'Hoshido', 'FE14c', 'Conquest', 'Nohr'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2.push("R") if ['FE14r', 'Revelation', 'Revelations'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2x.push("Revelations") if ['FE14r', 'Revelation', 'Revelations'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2.push("g") if ['FE14g', 'Gates', 'Penumbra'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2x.push("Gates") if ['FE14g', 'Gates', 'Penumbra'].map{|q| q.downcase}.include?(args[i].downcase)
+  end
+  games.push('F') if games.length<=0 && games2.length>0
+  games.push(game[0,1]) if games.length<=0 && game.length>0
+  games.uniq!
+  games2.uniq!
+  games2x.uniq!
+  generations.uniq!
+  genders.uniq!
+  blood.uniq!
+  data_load()
+  untz=@units.map{|q| q}
+  untz=@units.reject{|q| q[1][3]=='g'} if event.server.nil? || event.server.id != 256291408598663168
+  if generations.length>0
+    m=untz.map{|q| q}
+    untz=[]
+    for i in 0...m.length
+      if generations.include?(m[i][1][0,1])
+        untz.push(m[i])
+      elsif m[i][1][0,1]=='3' && generations.include?('2')
+        m[i][0]="#{m[i][0]} *[generation varies]*"
+        untz.push(m[i])
+      end
+    end
+  end
+  if genders.length>0
+    m=untz.map{|q| q}
+    untz=[]
+    for i in 0...m.length
+      if genders.include?(m[i][1][1,1])
+        untz.push(m[i])
+      elsif genders.include?('m') && genders.include?('f')
+      elsif m[i][1][1,1]=='c'
+        m[i][0]="#{m[i][0]} *[gender varies]*"
+        untz.push(m[i])
+      end
+    end
+  end
+  for i in 0...untz.length
+    untz[i][0]=untz[i][0].gsub(' *[generation varies]* *[gender varies]*',' *[varies]*')
+    untz[i][0]="*Awakening*!#{untz[i][0]}" if untz[i][0]=='Anna' && untz[i][1][2,1]=='A' && games.length != 1
+    untz[i][0]="*Fates*!#{untz[i][0]}" if untz[i][0]=='Anna' && untz[i][1][2,1]=='F' && games.length != 1
+  end
+  untz=untz.reject{|q| !games.include?(q[1][2,1])} if games.length>0
+  untz=untz.reject{|q| q[1][2,1]=='F' && !games2.include?(q[1][3,1])} if games2.length>0
+  untz=untz.reject{|q| !blood.include?(q[1][4,1])} if blood.length>0
+  untz=untz.sort{|a,b| a[0]<=>b[0]}
+  dispstr=[]
+  dispstr.push("*Games:* #{'Awakening' if games.include?('A')}#{', ' if games.length>1}#{"Fates#{" (#{games2x.join(', ')})" if games2x.length>0}" if games.include?('F')}") if games.length>0
+  dispstr.push("*Generations:* #{generations.map{|q| ['','1st Gen','2nd Gen','3rd Gen'][q.to_i]}.join(', ')}") if generations.length>0
+  for i in 0...genders.length
+    genders[i]='Male' if genders[i]=='m'
+    genders[i]='Female' if genders[i]=='f'
+    genders[i]='Avatar or kid' if genders[i]=='c'
+  end
+  dispstr.push("*Genders:* #{genders.join(', ')}") if genders.length>0
+  dispstr.push("*Dragon Blood:* #{blood.join(', ')}") if blood.length>0
+  flds=nil
+  flds=triple_finish(untz.map{|q| q[0]}.uniq) unless untz.length<=0
+  create_embed(event,"#{"__**Search**__\n#{dispstr.join("\n")}\n\n" if dispstr.length>0}__**Results**__",'',0x02010a,"#{untz.map{|q| q[0]}.uniq.length} total",nil,flds)
+end
+
+bot.command([:find, :sort, :list, :search]) do |event, *args|
+  get_unit_list(event,bot,args)
 end
 
 bot.command([:embeds,:embed]) do |event|
