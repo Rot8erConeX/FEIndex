@@ -84,7 +84,7 @@ Ophelia\2fFc\Not available in *Birthright*\45, 15, 45, 40, 45, 65, 20, 30\0, 1, 
 Velouria\2fFc\Not available in *Birthright*\50, 50, 0, 40, 40, 35, 45, 30\0, 4, 1, -1, 0, 1, 3, 0\Wolfskin, Fighter\Wolfskin, Fighter\Goody Basket\
 Soleil\2fFc\Not available in *Birthright*\25, 60, 0, 35, 35, 45, 35, 40\0, 2, 1, 3, 0, 2, 0, 0\Mercenary, Ninja\Mercenary, Ninja\Sisterhood\
 Corrin\1cFrD\Available in all routes\45, 45, 30, 40, 45, 45, 35, 25\0, 0, 0, 0, 0, 0, 0, 0\Nohr Royal\Nohr Royal\Supportive\
-Chrom\1mA\*Awakening*\45, 40, 10, 40, 40, 70, 35, 20\0, 1, 0, 1, 1, 1, -1, -1\Lord, Cavalier, Archer\Cavalier, Archer\\
+Chrom\1mA_d\*Awakening*\45, 40, 10, 40, 40, 70, 35, 20\0, 1, 0, 1, 1, 1, -1, -1\Lord, Cavalier, Archer\Cavalier, Archer\\
 Frederick\1mA\*Awakening*\60, 40, 10, 40, 35, 40, 40, 20\0, 2, -2, 2, -2, 0, 2, 0\Cavalier, Knight\Cavalier, Knight, Wyvern Rider\\
 Virion\1mA\*Awakening*\35, 40, 30, 40, 45, 40, 25, 25\0, 0, 0, 2, 2, -1, -2, 0\Archer, Wyvern Rider, Mage\Archer, Wyvern Rider, Mage\\
 Stahl\1mA\*Awakening*\50, 45, 10, 35, 30, 50, 50, 10\0, 2, -1, 1, 0, -2, 2, -1\Cavalier, Archer, Myrmidon\Cavalier, Archer, Myrmidon\\
@@ -96,43 +96,43 @@ Ricken\1mA\*Awakening*\50, 20, 35, 30, 30, 65, 30, 25\0, -1, 2, 0, 0, 1, -1, 0\M
 Gaius\1mA\*Awakening*\50, 45, 15, 45, 45, 35, 25, 15\0, 1, -1, 2, 2, -2, -1, 0\Thief, Fighter, Myrmidon\Thief, Fighter, Myrmidon\\
 Gregor\1mA\*Awakening*\60, 40, 10, 40, 30, 45, 40, 10\0, 2, -1, 2, 0, -1, 1, -2\Mercenary, Barbarian, Myrmidon\Mercenary, Barbarian, Myrmidon\\
 Libra\1mA\*Awakening*\45, 25, 35, 45, 35, 45, 25, 30\0, 0, 1, 1, 0, -1, 0, 1\Priest, Mage, Dark Mage\Priest, Mage, Dark Mage\\
-Henry\1mA\*Awakening*\45, 35, 35, 45, 40, 40, 40, 20\0, 1, 1, 2, 0, -2, 1, -1\Dark Mage, Barbarian, Thief\Dark Mage, Barbarian, Thief\\
-Lissa\1fA\*Awakening*\35, 25, 35, 30, 35, 65, 15, 35\0, -2, 2, -1, 0, 2, -1, 1\Cleric, Pegasus Knight, Troubadour\Cleric, Pegasus Knight, Troubadour\\
+Henry\1mA_d\*Awakening*\45, 35, 35, 45, 40, 40, 40, 20\0, 1, 1, 2, 0, -2, 1, -1\Dark Mage, Barbarian, Thief\Dark Mage, Barbarian, Thief\\
+Lissa\1fA_d\*Awakening*\35, 25, 35, 30, 35, 65, 15, 35\0, -2, 2, -1, 0, 2, -1, 1\Cleric, Pegasus Knight, Troubadour\Cleric, Pegasus Knight, Troubadour\\
 Sully\1fA\*Awakening*\40, 35, 20, 40, 40, 60, 35, 20\0, -1, -1, 2, 2, 0, -1, 0\Cavalier, Myrmidon, Wyvern Rider\Cavalier, Myrmidon, Wyvern Rider\\
 Miriel\1fA\*Awakening*\35, 15, 40, 40, 40, 50, 20, 30\0, -2, 3, 1, 1, 0, -2, 0\Mage, Troubadour, Dark Mage\Mage, Troubadour, Dark Mage\\
 Sumia\1fA\*Awakening*\35, 30, 20, 45, 45, 60, 25, 30\0, -2, 0, 2, 3, 0, -2, 1\Pegasus Knight, Knight, Cleric\Pegasus Knight, Knight, Cleric\\
 Maribelle\1fA\*Awakening*\30, 20, 40, 40, 30, 80, 10, 40\0, -3, 2, 1, 0, 3, -3, 2\Troubadour, Pegasus Knight, Mage\Troubadour, Pegasus Knight, Mage\\
 Panne\1fA\*Awakening*\60, 45, 15, 50, 55, 40, 40, 15\0, 2, -1, 2, 3, -1, 1, -1\Taguel, Thief, Wyvern Rider\Taguel, Thief, Wyvern Rider\\
 Cordelia\1fA\*Awakening*\50, 45, 15, 35, 35, 45, 40, 25\0, 1, -1, 2, 2, -1, 0, -1\Pegasus Knight, Mercenary, Dark Mage\Pegasus Knight, Mercenary, Dark Mage\\
-Nowi\1fA\*Awakening*\70, 45, 35, 30, 30, 65, 50, 35\0, 1, 1, -1, -2, 1, 3, 2\Manakete, Mage, Wyvern Rider\Manakete, Mage, Wyvern Rider\\
+Nowi\1fA_d\*Awakening*\70, 45, 35, 30, 30, 65, 50, 35\0, 1, 1, -1, -2, 1, 3, 2\Manakete, Mage, Wyvern Rider\Manakete, Mage, Wyvern Rider\\
 Tharja\1fA\*Awakening*\40, 25, 45, 25, 45, 40, 35, 20\0, 0, 3, -1, 1, -3, 1, 0\Dark Mage, Knight, Archer\Dark Mage, Knight, Archer\\
 Olivia\1fA\*Awakening*\40, 35, 25, 45, 45, 60, 20, 20\0, 0, 0, 1, 1, 0, -1, -1\Dancer, Myrmidon, Pegasus Knight\Myrmidon, Pegasus Knight\\
 Cherche\1fA\*Awakening*\55, 40, 20, 40, 35, 50, 45, 10\0, 3, 0, -1, -1, 0, 2, -2\Wyvern Rider, Troubadour, Cleric\Wyvern Rider, Troubadour, Cleric\\
-Morgan\3cA\*Awakening*\35, 35, 40, 40, 40, 50, 25, 25\0, 1, 1, 1, 1, 1, 1, 1\*same as variable parent*, Tactician\*same as variable parent*, Tactician\\
-Owain\2mA\*Awakening*\45, 40, 30, 45, 35, 50, 30, 30\0, -1, 3, 0, 1, 3, 0, 2\Myrmidon, Priest, Barbarian\Myrmidon, Priest, Barbarian\\
+Morgan\3cA_D\*Awakening*\35, 35, 40, 40, 40, 50, 25, 25\0, 1, 1, 1, 1, 1, 1, 1\*same as variable parent*, Tactician\*same as variable parent*, Tactician\\
+Owain\2mA_d\*Awakening*\45, 40, 30, 45, 35, 50, 30, 30\0, -1, 3, 0, 1, 3, 0, 2\Myrmidon, Priest, Barbarian\Myrmidon, Priest, Barbarian\\
 Inigo\2mA\*Awakening*\50, 35, 15, 35, 45, 65, 30, 20\0, 1, 1, 2, 2, 1, 0, 0\Mercenary, Myrmidon, Barbarian\Mercenary, Myrmidon, Barbarian\\
 Brady\2mA\*Awakening*\55, 30, 40, 25, 30, 60, 30, 30\0, -2, 3, 2, 1, 4, -2, 3\Priest, Cavalier, Mage\Priest, Cavalier, Mage\\
 Gerome\2mA\*Awakening*\65, 50, 15, 40, 40, 30, 40, 10\0, 4, 1, 0, 0, 1, 3, -1\Wyvern Rider, Fighter, Priest\Wyvern Rider, Fighter, Priest\\
 Yarne\2mA\*Awakening*\70, 50, 10, 45, 40, 60, 45, 10\0, 3, 0, 3, 4, 0, 2, 0\Taguel, Thief, Barbarian\Taguel, Thief, Barbarian\\
 Laurent\2mA\*Awakening*\45, 20, 40, 40, 30, 50, 25, 35\0, -1, 4, 2, 2, 1, -1, 1\Mage, Barbarian, Dark Mage\Mage, Barbarian, Dark Mage\\
-Lucina\2fA\*Awakening*\45, 35, 20, 45, 45, 80, 25, 25\0, 2, 1, 2, 2, 2, 0, 0\Lord, Cavalier, Archer\Cavalier, Archer, \\
+Lucina\2fA_d\*Awakening*\45, 35, 20, 45, 45, 80, 25, 25\0, 2, 1, 2, 2, 2, 0, 0\Lord, Cavalier, Archer\Cavalier, Archer, \\
 Kjelle\2fA\*Awakening*\40, 35, 25, 40, 45, 55, 40, 20\0, 0, 0, 3, 3, 1, 0, 1\Knight, Myrmidon, Cavalier, Wyvern Rider\Knight, Myrmidon, Cavalier, Wyvern Rider\\
-Cynthia\2fA\*Awakening*\45, 35, 20, 25, 45, 70, 30, 30\0, -1, 1, 3, 4, 1, -1, 2\Pegasus Knight, Knight, Cleric\Pegasus Knight, Knight, Cleric\\
+Cynthia\2fA_d\*Awakening*\45, 35, 20, 25, 45, 70, 30, 30\0, -1, 1, 3, 4, 1, -1, 2\Pegasus Knight, Knight, Cleric\Pegasus Knight, Knight, Cleric\\
 Severa\2fA\*Awakening*\45, 40, 10, 45, 35, 35, 40, 30\0, 2, 0, 3, 3, 0, 1, 0\Mercenary, Pegasus Knight, Dark Mage\Mercenary, Pegasus Knight, Dark Mage\\
 Noire\2fA\*Awakening*\30, 45, 40, 35, 50, 40, 30, 40\0, 1, 4, 0, 2, -2, 2, 1\Archer, Knight, Dark Mage\Archer, Knight, Dark Mage\\
-Nah\2fA\*Awakening*\70, 35, 35, 45, 35, 70, 45, 40\0, 2, 2, 0, -1, 2, 4, 3\Manakete, Wyvern Rider, Mage\Manakete, Wyvern Rider, Mage\\
+Nah\2fA_d\*Awakening*\70, 35, 35, 45, 35, 70, 45, 40\0, 2, 2, 0, -1, 2, 4, 3\Manakete, Wyvern Rider, Mage\Manakete, Wyvern Rider, Mage\\
 Anna\1fA\*Awakening*\45, 30, 30, 35, 35, 80, 30, 30\0, -1, 0, 1, 0, 3, -1, 0\Thief, Archer, Mage\Thief, Archer, Mage\\
 Say'ri\1fA\*Awakening*\50, 35, 20, 40, 40, 45, 35, 30\0, 1, -1, 1, 1, -1, 0, 1\Myrmidon, Pegasus Knight\Myrmidon, Pegasus Knight, Wyvern Rider\\
-Tiki\1fA\*Awakening*\80, 40, 40, 35, 30, 80, 45, 45\0, 0, -1, 0, 1, 2, 1, 2\Manakete, Wyvern Rider, Mage\Manakete, Wyvern Rider, Mage\\
+Tiki\1fA_D\*Awakening*\80, 40, 40, 35, 30, 80, 45, 45\0, 0, -1, 0, 1, 2, 1, 2\Manakete, Wyvern Rider, Mage\Manakete, Wyvern Rider, Mage\\
 Basilio\1mA\*Awakening*\65, 45, 10, 40, 35, 45, 40, 15\0, 3, -2, 1, 1, -1, 1, -1\Fighter, Barbarian, Knight\Fighter, Barbarian, Knight\\
 Flavia\1fA\*Awakening*\50, 35, 20, 45, 45, 55, 30, 25\0, 1, -1, 2, 1, 0, -1, 0\Mercenary, Thief, Knight\Mercenary, Thief, Knight\\
 Gangrel\1fA\*Awakening*\40, 40, 30, 50, 50, 30, 30, 30\0, -2, 0, 3, 3, -1, -1, 0\Thief, Barbarian, Dark Mage\Thief, Barbarian, Dark Mage\\
 Walhart\1mA\*Awakening*\75, 60, 10, 30, 30, 45, 45, 25\0, 4, -2, 0, -1, -1, 4, -2\Conqueror, Knight, Wyvern Rider\Knight, Wyvern Rider\\
-Emmeryn\1fA\*Awakening*\45, 10, 55, 40, 40, 70, 25, 35\0, -2, 4, 0, 1, 0, -2, 1\Cleric, Pegasus Knight, Troubadour\Cleric, Pegasus Knight, Troubadour\\
+Emmeryn\1fA_d\*Awakening*\45, 10, 55, 40, 40, 70, 25, 35\0, -2, 4, 0, 1, 0, -2, 1\Cleric, Pegasus Knight, Troubadour\Cleric, Pegasus Knight, Troubadour\\
 Yenfay\1mA\*Awakening*\60, 45, 10, 45, 50, 60, 30, 20\0, 1, -2, 2, 4, 0, -1, -2\Myrmidon, Wyvern Rider, Archer\Myrmidon, Wyvern Rider, Archer\\
 Aversa\1fA\*Awakening*\45, 25, 45, 35, 40, 65, 30, 30\0, -1, 3, 1, 1, -2, 0, 0\Pegasus Knight, Wyvern Rider, Dark Mage\Pegasus Knight, Wyvern Rider, Dark Mage\\
 Priam\1mA\*Awakening*\80, 60, 10, 40, 30, 50, 40, 10\0, 3, -2, 1, 0, 0, 2, -2\Mercenary, Fighter, Myrmidon\Mercenary, Fighter, Myrmidon\\
-Robin\1cA\*Awakening*\40, 40, 35, 35, 35, 55, 30, 20\0, 0, 0, 0, 0, 0, 0, 0\Tactician\Tactician\\
+Robin\1cA_D\*Awakening*\40, 40, 35, 35, 35, 55, 30, 20\0, 0, 0, 0, 0, 0, 0, 0\Tactician\Tactician\\
 Rallyman\1mF\*Conquest* exclusive capturable unit\30, 35, 0, 40, 35, 10, 15, 5\0, 0, 0, 0, 0, 0, 0, 0\Samurai\Samurai\\
 Bluezie\1fFg\Exclusive to *Gates*\40, 20, 40, 60, 40, 20, 40, 20\0, -2, 3, 3, 0, -2, 1, -2\Outlaw, Oni Savage\Outlaw, Oni Savage, Archer\Trounce\
 GSO\1mFg\Exclusive to *Gates*\40, 40, 60, 50, 50, 20, 30, 20\0, 1, 2, 1, 2, -2, -1, -2\Sorcerer, Dark Knight, Wyvern Lord, Malig Knight\Dark Mage, Wyvern Rider, Diviner\\
