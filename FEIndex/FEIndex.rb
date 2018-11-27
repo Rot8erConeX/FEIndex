@@ -255,6 +255,8 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
       event << "This help window is not in an embed so that people who need this command can see it."
     end
     return nil
+  elsif ['find','search','list','sort'].include?(command.downcase)
+    create_embed(event,"**#{command.downcase}** __\*filters__","Displays all units that fit `filters`.\n\nYou can search by:\n- Game of origin\n- Generation\n- Gender\n\nIf too many units are trying to be displayed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",0x010101)
   elsif command.downcase=='reboot'
     create_embed(event,'**reboot**',"Reboots this shard of the bot, installing any updates.\n\n**This command is only able to be used by Rot8er_ConeX**",0x008b8b)
   elsif command.downcase=='sendmessage'
@@ -332,7 +334,7 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
     create_embed(event,"**proc** __stat__ __list of skills__","Shows the likelihood of each of the listed skills proc'ing, given a unit's Skill stat is `stat`.\nIncluding the skills 'Hoshidan Unity' and/or 'Quixotic' will increases chances accordingly.\nIncluding the skill 'Nohrian Trust' allows you to have more than five skills listed.\n\nIf no Skill stat is listed, shows a random number between 1 and 64.\nIf no proc skills are listed, shows the list as if you have all possible proc skills.\n\nUsing a negative number as the Skill stat, crossing out one or more skill names, or including the word 'not' in your message will change the command to Reverse Mode.\nIn Reverse Mode, the listed skills will be *excluded* from the list of all proc skills, and the result will be the list of skills you have.",0x02010a)
   else
     event.respond("#{command.downcase} is not a command.") if command != ""
-    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x02010a)
+    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n`find` __\*filters__ - to search for units that fit specific criteria\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x02010a)
     create_embed(event,"__**Server Admin Commands**__","__**Unit Aliases**__\n`addalias` __new alias__ __unit__ - Adds a new server-specific alias\n~~`aliases` __unit__ (*also `checkaliases` or `seealiases`*)~~\n`deletealias` __alias__ (*also `removealias`*) - deletes a server-specific alias",0xC31C19) if is_mod?(event.user,event.server,event.channel)
     create_embed(event,"__**Bot Developer Commands**__","`ignoreuser` __user id number__ - makes me ignore a user\n`leaveserver` __server id number__ - makes me leave a server\n\n`sendpm` __user id number__ __\\*message__ - sends a PM to a user\n`sendmessage` __channel id__ __\\*message__ - sends a message to a specific channel\n\n`snagstats` - snags server stats for multiple servers\n\n`reboot` - reboots this shard\n\n`backupaliases` - backs up the alias list\n`restorealiases` - restores the alias list from last backup\n`sort` - sorts the alias list alphabetically by unit",0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
     event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FE13!`\n*Fates* mechanics: `FEF!` `FE14!`\nDetermine mechanics contextually: `FE!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
@@ -5145,6 +5147,31 @@ bot.mention do |event|
   game=""
   m=-1
   m=1 if event.user.bot_account?
+  if ['unit','character','chara','char'].include?(args[0].downcase)
+    args.shift
+    unit_parse(event,bot,args)
+    m=1
+  elsif ['class'].include?(args[0].downcase)
+    args.shift
+    class_parse(event,bot,args)
+    m=1
+  elsif ['data','job'].include?(args[0].downcase)
+    args.shift
+    parse_job(event,args,bot,0)
+    m=1
+  elsif ['item','weapon'].include?(args[0].downcase)
+    args.shift
+    item_parse(event,bot,args)
+    m=1
+  elsif ['skill'].include?(args[0].downcase)
+    args.shift
+    skill_parse(event,bot,args)
+    m=1
+  elsif ['find','search','sort','list'].include?(args[0].downcase)
+    args.shift
+    get_unit_list(event,bot,args)
+    m=1
+  end
   if m<0
     a=args.reject{|q| !find_unit(game,q,event,true).nil? || !find_class(q,event,game,true).nil?}
     m=parse_job(event,args,bot,1) unless (!find_skill(game,args.join(' '),event,true).nil? && (find_skill(game,args.join(' '),event,true)[0]!='Aptitude' || a.length==args.length)) || !find_item(game,args.join(' '),event,true).nil?
