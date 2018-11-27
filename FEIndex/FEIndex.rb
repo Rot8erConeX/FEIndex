@@ -3648,7 +3648,7 @@ def get_unit_list(event,bot,args)
     games2.push("R") if ['FE14r', 'Revelation', 'Revelations'].map{|q| q.downcase}.include?(args[i].downcase)
     games2x.push("Revelations") if ['FE14r', 'Revelation', 'Revelations'].map{|q| q.downcase}.include?(args[i].downcase)
     games2.push("g") if ['FE14g', 'Gates', 'Penumbra'].map{|q| q.downcase}.include?(args[i].downcase)
-    games2x.push("Gates") if ['FE14g', 'Gates', 'Penumbra'].map{|q| q.downcase}.include?(args[i].downcase)
+    games2x.push("Gates") if ['FE14g', 'Gates', 'Penumbra'].map{|q| q.downcase}.include?(args[i].downcase) && !event.server.nil? && event.server.id==256291408598663168
   end
   games.push('F') if games.length<=0 && games2.length>0
   games.push(game[0,1]) if games.length<=0 && game.length>0
@@ -3661,6 +3661,13 @@ def get_unit_list(event,bot,args)
   data_load()
   untz=@units.map{|q| q}
   untz=@units.reject{|q| q[1][3]=='g'} if event.server.nil? || event.server.id != 256291408598663168
+  m=untz.map{|q| q}
+  untz=[]
+  for i in 0...m.length
+    m[i][0]="#{m[i][0]} *[Amiibo]*" if m[i][2].downcase.include?('amiibo')
+    m[i][0]="#{m[i][0]} *[Capturable]*" if m[i][2].downcase.include?('capturable')
+    untz.push(m[i])
+  end
   if generations.length>0
     m=untz.map{|q| q}
     untz=[]
@@ -3705,9 +3712,31 @@ def get_unit_list(event,bot,args)
   end
   dispstr.push("*Genders:* #{genders.join(', ')}") if genders.length>0
   dispstr.push("*Dragon Blood:* #{blood.join(', ')}") if blood.length>0
+  xcolor=0x02010a
+  xcolor=0x061069 if games.length==1 && games[0]=='A'
+  if games.length==1 && games[0]=='F'
+    xcolor=0xC5EEF2
+    xcolor=0xBC4372 if games2x.length>0 && !games2x.include?('Revelations') && !games2x.include?('Gates')
+    xcolor=0x2DA5AF if games2x.length==1 && games2x[0]=='Revelations'
+    xcolor=0xCF000D if games2x.length==1 && games2x[0]=='Birthright'
+    xcolor=0xAA7FCD if games2x.length==1 && games2x[0]=='Conquest'
+    xcolor=0xFFEA8B if games2x.length==1 && games2x[0]=='Gates'
+  end
   flds=nil
-  flds=triple_finish(untz.map{|q| q[0]}.uniq) unless untz.length<=0
-  create_embed(event,"#{"__**Search**__\n#{dispstr.join("\n")}\n\n" if dispstr.length>0}__**Results**__",'',0x02010a,"#{untz.map{|q| q[0]}.uniq.length} total",nil,flds)
+  if untz.map{|q| q[1][2,1]}.uniq.length>1
+    flds=[]
+    flds.push(['*Awakening*',untz.reject{|q| q[1][2,1]!='A'}.map{|q| q[0]}.uniq.join("\n")])
+    flds.push(['*Fates*',untz.reject{|q| q[1][2,1]!='F'}.map{|q| q[0]}.uniq.join("\n")])
+  elsif untz.map{|q| q[1][2,1]}.uniq.length<=1 && untz.map{|q| q[1][2,1]}[0]=='F' && untz.map{|q| q[1][3,1]}.uniq.length>1
+    flds=[]
+    flds.push(['*Birthright*',untz.reject{|q| !['b','B','r','e'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['B','e'].include?(q[1][3,1])}"}.uniq.join("\n")])
+    flds.push(['*Conquest*',untz.reject{|q| !['c','C','r','e'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['C','e'].include?(q[1][3,1])}"}.uniq.join("\n")])
+    flds.push(['*Revelations*-exclusive',untz.reject{|q| !['R'].include?(q[1][3,1])}.map{|q| q[0]}.uniq.join("\n")])
+    flds=flds.reject{|q| q[1].length<=0}
+  else
+    flds=triple_finish(untz.map{|q| q[0]}.uniq) unless untz.length<=0
+  end
+  create_embed(event,"#{"__**Search**__\n#{dispstr.join("\n")}\n\n" if dispstr.length>0}__**Results**__",'',xcolor,"#{untz.map{|q| q[0]}.uniq.length} total",nil,flds)
 end
 
 bot.command([:find, :sort, :list, :search]) do |event, *args|
