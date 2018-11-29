@@ -3847,7 +3847,7 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
     event.respond "#{newname} has __***NOT***__ been added to #{find_unit(game,unit,event)[0]}'s aliases.\nThat is the name of a skill, and I do not want confusion when people in this server attempt `FE!#{newname}`"
     bot.channel(logchn).send_message("~~**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** #{newname} for #{unit}~~\n**Reason for rejection:** #{newname} is a skill name.")
     return nil
-  elsif find_item(game,checkstr,event).length>1
+  elsif !find_item(game,checkstr,event).nil?
     event.respond "#{newname} has __***NOT***__ been added to #{find_unit(game,unit,event)[0]}'s aliases.\nThat is the name of an item, and I do not want confusion when people in this server attempt `FE!#{newname}`"
     bot.channel(logchn).send_message("~~**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** #{newname} for #{unit}~~\n**Reason for rejection:** #{newname} is an item name.")
     return nil
@@ -3895,7 +3895,8 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
         @names[i][2].push(srv)
         bot.channel(chn).send_message("The alias #{newname} exists in another server already.  Adding this server to those that can use it.")
         event.respond "The alias #{newname} exists in another server already.  Adding this server to those that can use it.\nPlease test to be sure that the alias stuck." if event.user.id==167657750971547648 && !modifier2.nil? && modifier2.to_i.to_s==modifier2
-        bot.user(167657750971547648).pm("The alias **#{@names[i][0]}** for the character **#{@names[i][1]}** is used in quite a few servers.  It might be time to make this global") if @names[i][2].length >= bot.servers.length / 20 && @names[i][3].nil?
+        metadata_load()
+        bot.user(167657750971547648).pm("The alias **#{@names[i][0]}** for the character **#{@names[i][1]}** is used in quite a few servers.  It might be time to make this global") if @names[i][2].length >= @server_data2[0].inject(0){|sum,x| sum + x } / 20 && @names[i][3].nil?
         bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** #{newname} for #{unit} - gained a new server that supports it.")
         double=true
       end
@@ -4085,7 +4086,7 @@ end
 
 bot.command(:invite) do |event, user|
   usr=event.user
-  txt="You can invite me to your server with this link: <https://goo.gl/v3ADBG>\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nTo follow my creator's development Twitter and learn of updates: <https://twitter.com/EliseBotDev>\nIf you suggested me to server mods and they ask what I do, show them this image: https://orig00.deviantart.net/a1d7/f/2017/288/d/6/marketing___robin_by_rot8erconex-dbqoba5.png"
+  txt="You can invite me to your server with this link: <https://goo.gl/v3ADBG>\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nTo follow my creator's development Twitter and learn of updates: <https://twitter.com/EliseBotDev>\nIf you suggested me to server mods and they ask what I do, show them this image: https://raw.githubusercontent.com/Rot8erConeX/FEIndex/master/FEIndex/MarketingRobin.png"
   user_to_name="you"
   unless user.nil?
     if /<@!?(?:\d+)>/ =~ user
@@ -4493,7 +4494,7 @@ bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
     event.respond "#{level} is being interpreted as a chapter number, which means the promotion would be to level #{(level-18)*2}\nOr rather, this would be the case if Chapter #{level} existed.  Showing promotion to level 18."
     level=18
   elsif level > 18 
-    event.respond "#{level} is being interpreted as a chapter number, which means the promotion would be to level #{(level-18)*2}."
+    event.respond "#{level} is being interpreted as a chapter number,\nwhich means the promotion would be to level #{(level-18)*2}."
     level=(level-18)*2 
   else 
     event.respond "#{level} is being interpreted as the level being promoted to."
@@ -4511,7 +4512,7 @@ bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
     apt=10
     apt=20 if ["Awakening","*Awakening*"].include?(f[1])
   end
-  base_clss=@classes[@classes.find_index{|q| q[0]==unit[6][0] && q[1]==unit[1]}]
+  base_clss=@classes[@classes.find_index{|q| q[0]==unit[6][0] && q[1][0,1]==unit[1][2,1]}]
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
   text=""
   f=0
