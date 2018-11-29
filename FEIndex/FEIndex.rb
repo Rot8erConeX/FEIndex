@@ -4318,13 +4318,15 @@ bot.command(:marry) do |event, name1, name2|
   end
   p1=0
   p2=0
-  if ["Villager",gender_adjust("Nohr Royal",bob1[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob2[6][p1],bob1[1][1,1]).split(' (')[0])
+  if bob1[1][2,1]=="A"
+  elsif ["Villager",gender_adjust("Nohr Royal",bob1[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob2[6][p1],bob1[1][1,1]).split(' (')[0])
     p1=1
   end
   if gender_adjust(bob2[6][p1],bob1[1][1,1]).split(' (')[0]==bob1[6][0].split(' (')[0]
     p1+=1
   end
-  if ["Villager",gender_adjust("Nohr Royal",bob2[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob1[6][p1],bob2[1][1,1]).split(' (')[0])
+  if bob2[1][2,1]=="A"
+  elsif ["Villager",gender_adjust("Nohr Royal",bob2[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob1[6][p1],bob2[1][1,1]).split(' (')[0])
     p2=1
   end
   if gender_adjust(bob1[6][p2],bob2[1][1,1]).split(' (')[0]==bob2[6][0].split(' (')[0]
