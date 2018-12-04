@@ -4,7 +4,7 @@
 ["Gurei", "Asugi"]
 ["Asama", "Azama"]
 ["Aqua", "Azura"]
-["BestSon", "Azura!Kiragi", [256291408598663168, 285663217261477889]]
+["BestSon", "Azura!Kiragi", [256291408598663168, 285663217261477889, 330850148261298176]]
 ["Bajirio", "Basilio"]
 ["Benoit", "Benny"]
 ["Berka", "Beruka"]
