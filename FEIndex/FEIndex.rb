@@ -5104,6 +5104,17 @@ bot.message do |event|
     else
       event.respond "I am not Elise right now.  Please use `FEH!reboot` to turn me into Elise."
     end
+  elsif (['fgo!','fgo?','liz!','liz?'].include?(str[0,4]) || ['fate!','fate?'].include?(str[0,5])) && @shardizard==4
+    s=event.message.text.downcase
+    s=s[5,s.length-5] if ['fate!','fate?'].include?(event.message.text.downcase[0,2])
+    s=s[4,s.length-4] if ['fgo!','fgo?','liz!','liz?'].include?(event.message.text.downcase[0,4])
+    a=s.split(' ')
+    if a[0].downcase=='reboot'
+      event.respond "Becoming Liz.  Please wait approximately ten seconds..."
+      exec "cd C:/Users/Mini-Matt/Desktop/devkit && LizBot.rb 4"
+    else
+      event.respond "I am not Liz right now.  Please use `FGO!reboot` to turn me into Elise."
+    end
   elsif ['fea!','fef!'].include?(str[0,4]) || ['fe13!','fe14!'].include?(str[0,5]) || ['fe!'].include?(str[0,3])
     str=str[4,str.length-4] if ['fea!','fef!'].include?(str[0,4])
     str=str[5,str.length-5] if ['fe13!','fe14!'].include?(str[0,5])
