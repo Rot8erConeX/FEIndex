@@ -21,27 +21,41 @@ end
 bot.gateway.check_heartbeat_acks = false
 
 @shigure_class_kids=["Shigure","Elentil","DizJr","Portia"]
-@names=[["Ana", "Anna"],["Harold", "Arthur"],["Gurei", "Asugi"],["Asama", "Azama"],["Aqua", "Azura"],["Bajirio", "Basilio"],["Benoit", "Benny"],
-        ["Berka", "Beruka"],["Bredy", "Brady"],["Buredi", "Brady"],["Matoi", "Caeldori"],["Riceload", "Caeldori"],["Serge", "Cherche"],["Seruju", "Cherche"],
-        ["Zelcher", "Cherche"],["Krom", "Chrom"],["Kuromu", "Chrom"],["Tiamo", "Cordelia"],["Kamui", "Corrin"],["Shinshia", "Cynthia"],["Denis", "Donnel"],
-        ["Doni", "Donnel"],["Donny", "Donnel"],["Deere", "Dwyer"],["Elfie", "Effie"],["CinnamonRoll", "Elise"],["Emelina", "Emmeryn"],["Emerina", "Emmeryn"],
-        ["Furavia", "Flavia"],["Foleo", "Forrest"],["Frederik", "Frederick"],["Furederiku", "Frederick"],["Fuuga", "Fuga"],["Gaia", "Gaius"],
-        ["Guire", "Gaius"],["Jerome", "Gerome"],["Jeromu", "Gerome"],["Grego", "Gregor"],["Gurego", "Gregor"],["Gunther", "Gunter"],["Kazahana", "Hana"],
-        ["Tsukuyomi", "Hayato"],["Henri", "Henry"],["Ignis", "Ignatius"],["Azur", "Inigo"],["Azure", "Inigo"],["Azuru", "Inigo"],["Joker", "Jakob"],
-        ["Nishiki", "Kaden"],["Kagerou", "Kagero"],["Kanna", "Kana"],["Suzukaze", "Kaze"],["Flannel", "Keaton"],["Callum", "Kellam"],["Karamu", "Kellam"],
-        ["Kisaragi", "Kiragi"],["Degel", "Kjelle"],["Dejeru", "Kjelle"],["Lazward", "Laslow"],["Loran", "Laurent"],["Roran", "Laurent"],["Leon", "Leo"],
-        ["Libera", "Libra"],["Ribera", "Libra"],["Riviera", "Libra"],["Liz", "Lissa"],["Rizu", "Lissa"],["Lon'zu", "Lon'qu"],["Lonqu", "Lon'qu"],
-        ["Lonzu", "Lon'qu"],["Ronku", "Lon'qu"],["Ronkuu", "Lon'qu"],["Rukina", "Lucina"],["Mariabel", "Maribelle"],["Mariabell", "Maribelle"],
-        ["Mariaberu", "Maribelle"],["Midoriko", "Midori"],["Mirieru", "Miriel"],["Linfan", "Morgan"],["Maku", "Morgan"],["Marc", "Morgan"],["Mark", "Morgan"],
-        ["Mozume", "Mozu"],["n_n", "Nah"],["Nn", "Nah"],["Zero", "Niles"],["Eponine", "Nina"],["Noir", "Noire"],["Nowaru", "Noire"],["Nono", "Nowi"],
-        ["Olivie", "Olivia"],["Orivie", "Olivia"],["Eudes", "Owain"],["Udo", "Owain"],["Wood", "Owain"],["Berubetto", "Panne"],["Palne", "Panne"],
-        ["Velvet", "Panne"],["Lutz", "Percy"],["Pieri", "Peri"],["Paris", "Priam"],["Parisu", "Priam"],["Yuugiri", "Reina"],["Syalla", "Rhajat"],
-        ["Licht", "Ricken"],["Richt", "Ricken"],["Rihito", "Ricken"],["Rinka", "Rinkah"],["Daraen", "Robin"],["Reflet", "Robin"],["Rufure", "Robin"],
-        ["Lobster", "Ryoma"],["Ryouma", "Ryoma"],["Saizou", "Saizo"],["Sairi", "Say'ri"],["Sayri", "Say'ri"],["Crimson", "Scarlet"],["Luna", "Selena"],
-        ["Kinu", "Selkie"],["Selena", "Severa"],["Serena", "Severa"],["Shinonome", "Shiro"],["Asyura", "Shura"],["Sort", "Stahl"],["Soru", "Stahl"],
-        ["Tsubaki", "Subaki"],["Soiree", "Sully"],["Soware", "Sully"],["Smia", "Sumia"],["Betrayal", "Takumi"],["Pineapple", "Takumi"],["Tacomeme", "Takumi"],
-        ["Sallya", "Tharja"],["Sariya", "Tharja"],["Sarya", "Tharja"],["Chiki", "Tiki"],["Vake", "Vaike"],["Veiku", "Vaike"],["Wyck", "Vaike"],
-        ["Velour", "Velouria"],["Viaur", "Virion"],["Viole", "Virion"],["Vioru", "Virion"],["Marx", "Xander"],["Chambray", "Yarne"],["Shanbure", "Yarne"]]
+@names=[["Unit", "Ana", "Anna"],["Unit", "Harold", "Arthur"],["Unit", "Gurei", "Asugi"],["Unit", "Asama", "Azama"],["Unit", "Aqua", "Azura"],
+        ["Unit", "Bajirio", "Basilio"],["Unit", "Benoit", "Benny"],["Unit", "Berka", "Beruka"],["Unit", "Bredy", "Brady"],["Unit", "Buredi", "Brady"],
+        ["Unit", "Matoi", "Caeldori"],["Unit", "Riceload", "Caeldori"],["Unit", "Serge", "Cherche"],["Unit", "Seruju", "Cherche"],
+        ["Unit", "Zelcher", "Cherche"],["Unit", "Krom", "Chrom"],["Unit", "Kuromu", "Chrom"],["Unit", "Tiamo", "Cordelia"],["Unit", "Kamui", "Corrin"],
+        ["Unit", "Shinshia", "Cynthia"],["Unit", "Denis", "Donnel"],["Unit", "Doni", "Donnel"],["Unit", "Donny", "Donnel"],["Unit", "Deere", "Dwyer"],
+        ["Unit", "Elfie", "Effie"],["Unit", "CinnamonRoll", "Elise"],["Unit", "Emelina", "Emmeryn"],["Unit", "Emerina", "Emmeryn"],
+        ["Unit", "Furavia", "Flavia"],["Unit", "Foleo", "Forrest"],["Unit", "Frederik", "Frederick"],["Unit", "Furederiku", "Frederick"],
+        ["Unit", "Fuuga", "Fuga"],["Unit", "Gaia", "Gaius"],["Unit", "Guire", "Gaius"],["Unit", "Jerome", "Gerome"],["Unit", "Jeromu", "Gerome"],
+        ["Unit", "Grego", "Gregor"],["Unit", "Gurego", "Gregor"],["Unit", "Gunther", "Gunter"],["Unit", "Kazahana", "Hana"],["Unit", "Tsukuyomi", "Hayato"],
+        ["Unit", "Henri", "Henry"],["Unit", "Ignis", "Ignatius"],["Unit", "Azur", "Inigo"],["Unit", "Azure", "Inigo"],["Unit", "Azuru", "Inigo"],
+        ["Unit", "Joker", "Jakob"],["Unit", "Nishiki", "Kaden"],["Unit", "Kagerou", "Kagero"],["Unit", "Kanna", "Kana"],["Unit", "Suzukaze", "Kaze"],
+        ["Unit", "Flannel", "Keaton"],["Unit", "Callum", "Kellam"],["Unit", "Karamu", "Kellam"],["Unit", "Kisaragi", "Kiragi"],["Unit", "Degel", "Kjelle"],
+        ["Unit", "Dejeru", "Kjelle"],["Unit", "Lazward", "Laslow"],["Unit", "Loran", "Laurent"],["Unit", "Roran", "Laurent"],["Unit", "Leon", "Leo"],
+        ["Unit", "Libera", "Libra"],["Unit", "Ribera", "Libra"],["Unit", "Riviera", "Libra"],["Unit", "Liz", "Lissa"],["Unit", "Rizu", "Lissa"],
+        ["Unit", "Lon'zu", "Lon'qu"],["Unit", "Lonqu", "Lon'qu"],["Unit", "Lonzu", "Lon'qu"],["Unit", "Ronku", "Lon'qu"],["Unit", "Ronkuu", "Lon'qu"],
+        ["Unit", "Rukina", "Lucina"],["Unit", "Mariabel", "Maribelle"],["Unit", "Mariabell", "Maribelle"],["Unit", "Mariaberu", "Maribelle"],
+        ["Unit", "Midoriko", "Midori"],["Unit", "Mirieru", "Miriel"],["Unit", "Linfan", "Morgan"],["Unit", "Maku", "Morgan"],["Unit", "Marc", "Morgan"],
+        ["Unit", "Mark", "Morgan"],["Unit", "Mozume", "Mozu"],["Unit", "n_n", "Nah"],["Unit", "Nn", "Nah"],["Unit", "Zero", "Niles"],
+        ["Unit", "Eponine", "Nina"],["Unit", "Noir", "Noire"],["Unit", "Nowaru", "Noire"],["Unit", "Nono", "Nowi"],["Unit", "Olivie", "Olivia"],
+        ["Unit", "Orivie", "Olivia"],["Unit", "Eudes", "Owain"],["Unit", "Udo", "Owain"],["Unit", "Wood", "Owain"],["Unit", "Berubetto", "Panne"],
+        ["Unit", "Palne", "Panne"],["Unit", "Velvet", "Panne"],["Unit", "Lutz", "Percy"],["Unit", "Pieri", "Peri"],["Unit", "Paris", "Priam"],
+        ["Unit", "Parisu", "Priam"],["Unit", "Yuugiri", "Reina"],["Unit", "Syalla", "Rhajat"],["Unit", "Licht", "Ricken"],["Unit", "Richt", "Ricken"],
+        ["Unit", "Rihito", "Ricken"],["Unit", "Rinka", "Rinkah"],["Unit", "Daraen", "Robin"],["Unit", "Reflet", "Robin"],["Unit", "Rufure", "Robin"],
+        ["Unit", "Lobster", "Ryoma"],["Unit", "Ryouma", "Ryoma"],["Unit", "Saizou", "Saizo"],["Unit", "Sairi", "Say'ri"],["Unit", "Sayri", "Say'ri"],
+        ["Unit", "Crimson", "Scarlet"],["Unit", "Luna", "Selena"],["Unit", "Kinu", "Selkie"],["Unit", "Selena", "Severa"],["Unit", "Serena", "Severa"],
+        ["Unit", "Shinonome", "Shiro"],["Unit", "Asyura", "Shura"],["Unit", "Sort", "Stahl"],["Unit", "Soru", "Stahl"],["Unit", "Tsubaki", "Subaki"],
+        ["Unit", "Soiree", "Sully"],["Unit", "Soware", "Sully"],["Unit", "Smia", "Sumia"],["Unit", "Betrayal", "Takumi"],["Unit", "Pineapple", "Takumi"],
+        ["Unit", "Tacomeme", "Takumi"],["Unit", "Sallya", "Tharja"],["Unit", "Sariya", "Tharja"],["Unit", "Sarya", "Tharja"],["Unit", "Chiki", "Tiki"],
+        ["Unit", "Vake", "Vaike"],["Unit", "Veiku", "Vaike"],["Unit", "Wyck", "Vaike"],["Unit", "Velour", "Velouria"],["Unit", "Viaur", "Virion"],
+        ["Unit", "Viole", "Virion"],["Unit", "Vioru", "Virion"],["Unit", "Marx", "Xander"],["Unit", "Chambray", "Yarne"],["Unit", "Shanbure", "Yarne"],
+        ["Class", "Axe Fighter", "Fighter"],["Class", "Dark Prince", "Nohr Prince"],["Class", "Dark Princess", "Nohr Princess"],
+        ["Class", "Dark Royal", "Nohr Royal"],["Class", "Dark Blood", "Nohr Noble"],["Class", "Light Blood", "Hoshido Noble"],
+        ["Class", "Dragon Knight", "Wyvern Rider"],["Class", "Dragon Master", "Wyvern Lord"],["Class", "Revanant Knight", "Malig Knight"],
+        ["Class", "Rod Knight", "Troubadour"],["Class", "Singer", "Songstress"],["Class", "Golem", "Stoneborn"],["Class", "Dark Lord", "Nohrian King"],
+        ["Class", "Dark Dragon", "Blight Dragon"],["Class", "Invisible Dragon", "Silent Dragon"],["Class", "Familiar", "Empty Vessel"]]
 @predetermined_parents=[["Azura","Shigure"],["Jakob","Dwyer"],["Ryoma","Shiro"],["Takumi","Kiragi"],["Hinata","Hisame"],["Saizo","Asugi"],
                         ["Xander","Siegbert"],["Leo","Forrest"],["Benny","Ignatius"],["Arthur","Percy"],["Kaze","Midori"],["Silas","Sophie"],
                         ["Subaki","Caeldori"],["Azama","Mitama"],["Kaden","Selkie"],["Hayato","Rhajat"],["Niles","Nina"],["Odin","Ophelia"],
@@ -49,10 +63,6 @@ bot.gateway.check_heartbeat_acks = false
                         ["Miriel","Laurent"],["Panne","Yarne"],["Nowi","Nah"],["Tharja","Noire"],["Olivia","Inigo"],["Cherche","Gerome"],
                         ["Bluezie","Elentil"],["Dizzy","DizJr"],["Rudyard","Gaotora"],["Megan","Portia"],["Steel","Fauna"],["Draco","Oregano"],
                         ["GSO","Ocarina"],["Cherche","Gerome"],["Erich","Synn"],["Dwight","Gella"],["Sheldon","Xavier"]]
-@japanese_names=[["Axe Fighter","Fighter"],["Dark Prince","Nohr Prince"],["Dark Princess","Nohr Princess"],["Dark Royal","Nohr Royal"],
-                 ["Dark Blood","Nohr Noble"],["Light Blood","Hoshido Noble"],["Dragon Knight","Wyvern Rider"],["Dragon Master","Wyvern Lord"],
-                 ["Revanant Knight","Malig Knight"],["Rod Knight","Troubadour"],["Singer","Songstress"],["Golem","Stoneborn"],["Dark Lord","Nohrian King"],
-                 ["Dark Dragon","Blight Dragon"],["Invisible Dragon","Silent Dragon"],["Familiar","Empty Vessel"]]
 @units=[]
 @skills=[]
 @items=[]
@@ -66,7 +76,7 @@ def all_commands(include_nil=false,permissions=-1)
   k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character',
      'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
-     'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list']
+     'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list','saliases','serveraliases']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
@@ -164,23 +174,39 @@ def nicknames_load()
       b.push(eval line)
     end
   else
-    b=[["Ana","Anna"],["Harold","Arthur"],["Gurei","Asugi"],["Asama","Azama"],["Aqua","Azura"],["Bajirio","Basilio"],["Benoit","Benny"],["Berka","Beruka"],["Bredy","Brady"],
-       ["Buredi","Brady"],["Matoi","Caeldori"],["Riceload","Caeldori"],["Serge","Cherche"],["Seruju","Cherche"],["Zelcher","Cherche"],["Krom","Chrom"],["Kuromu","Chrom"],
-       ["Tiamo","Cordelia"],["Kamui","Corrin"],["Shinshia","Cynthia"],["Denis","Donnel"],["Doni","Donnel"],["Donny","Donnel"],["Deere","Dwyer"],["Elfie","Effie"],
-       ["CinnamonRoll","Elise"],["Emelina","Emmeryn"],["Emerina","Emmeryn"],["Furavia","Flavia"],["Foleo","Forrest"],["Frederik","Frederick"],["Furederiku","Frederick"],
-       ["Fuuga","Fuga"],["Gaia","Gaius"],["Guire","Gaius"],["Jerome","Gerome"],["Jeromu","Gerome"],["Grego","Gregor"],["Gurego","Gregor"],["Gunther","Gunter"],["Kazahana","Hana"],
-       ["Tsukuyomi","Hayato"],["Henri","Henry"],["Ignis","Ignatius"],["Azur","Inigo"],["Azure","Inigo"],["Azuru","Inigo"],["Joker","Jakob"],["Nishiki","Kaden"],["Kagerou","Kagero"],
-       ["Kanna","Kana"],["Suzukaze","Kaze"],["Flannel","Keaton"],["Callum","Kellam"],["Karamu","Kellam"],["Kisaragi","Kiragi"],["Degel","Kjelle"],["Dejeru","Kjelle"],
-       ["Lazward","Laslow"],["Loran","Laurent"],["Roran","Laurent"],["Leon","Leo"],["Libera","Libra"],["Ribera","Libra"],["Riviera","Libra"],["Liz","Lissa"],["Rizu","Lissa"],
-       ["Lon'zu","Lon'qu"],["Lonqu","Lon'qu"],["Lonzu","Lon'qu"],["Ronku","Lon'qu"],["Ronkuu","Lon'qu"],["Rukina","Lucina"],["Mariabel","Maribelle"],["Mariabell","Maribelle"],
-       ["Mariaberu","Maribelle"],["Midoriko","Midori"],["Mirieru","Miriel"],["Linfan","Morgan"],["Maku","Morgan"],["Marc","Morgan"],["Mark","Morgan"],["Mozume","Mozu"],["n_n","Nah"],
-       ["Nn","Nah"],["Zero","Niles"],["Eponine","Nina"],["Noir","Noire"],["Nowaru","Noire"],["Nono","Nowi"],["Olivie","Olivia"],["Orivie","Olivia"],["Eudes","Owain"],["Udo","Owain"],
-       ["Wood","Owain"],["Berubetto","Panne"],["Palne","Panne"],["Velvet","Panne"],["Lutz","Percy"],["Pieri","Peri"],["Paris","Priam"],["Parisu","Priam"],["Yuugiri","Reina"],
-       ["Syalla","Rhajat"],["Licht","Ricken"],["Richt","Ricken"],["Rihito","Ricken"],["Rinka","Rinkah"],["Daraen","Robin"],["Reflet","Robin"],["Rufure","Robin"],["Lobster","Ryoma"],
-       ["Ryouma","Ryoma"],["Saizou","Saizo"],["Sairi","Say'ri"],["Sayri","Say'ri"],["Crimson","Scarlet"],["Luna","Selena"],["Kinu","Selkie"],["Selena","Severa"],["Serena","Severa"],
-       ["Shinonome","Shiro"],["Asyura","Shura"],["Sort","Stahl"],["Soru","Stahl"],["Tsubaki","Subaki"],["Soiree","Sully"],["Soware","Sully"],["Smia","Sumia"],["Betrayal","Takumi"],
-       ["Pineapple","Takumi"],["Tacomeme","Takumi"],["Sallya","Tharja"],["Sariya","Tharja"],["Sarya","Tharja"],["Chiki","Tiki"],["Vake","Vaike"],["Veiku","Vaike"],["Wyck","Vaike"],
-       ["Velour","Velouria"],["Viaur","Virion"],["Viole","Virion"],["Vioru","Virion"],["Marx","Xander"],["Chambray","Yarne"],["Shanbure","Yarne"]]
+    b=[["Unit","Ana","Anna"],["Unit","Harold","Arthur"],["Unit","Gurei","Asugi"],["Unit","Asama","Azama"],["Unit","Aqua","Azura"],["Unit","Bajirio","Basilio"],
+       ["Unit","Benoit","Benny"],["Unit","Berka","Beruka"],["Unit","Bredy","Brady"],["Unit","Buredi","Brady"],["Unit","Matoi","Caeldori"],
+       ["Unit","Riceload","Caeldori"],["Unit","Serge","Cherche"],["Unit","Seruju","Cherche"],["Unit","Zelcher","Cherche"],["Unit","Krom","Chrom"],
+       ["Unit","Kuromu","Chrom"],["Unit","Tiamo","Cordelia"],["Unit","Kamui","Corrin"],["Unit","Shinshia","Cynthia"],["Unit","Denis","Donnel"],
+       ["Unit","Doni","Donnel"],["Unit","Donny","Donnel"],["Unit","Deere","Dwyer"],["Unit","Elfie","Effie"],["Unit","CinnamonRoll","Elise"],
+       ["Unit","Emelina","Emmeryn"],["Unit","Emerina","Emmeryn"],["Unit","Furavia","Flavia"],["Unit","Foleo","Forrest"],["Unit","Frederik","Frederick"],
+       ["Unit","Furederiku","Frederick"],["Unit","Fuuga","Fuga"],["Unit","Gaia","Gaius"],["Unit","Guire","Gaius"],["Unit","Jerome","Gerome"],
+       ["Unit","Jeromu","Gerome"],["Unit","Grego","Gregor"],["Unit","Gurego","Gregor"],["Unit","Gunther","Gunter"],["Unit","Kazahana","Hana"],
+       ["Unit","Tsukuyomi","Hayato"],["Unit","Henri","Henry"],["Unit","Ignis","Ignatius"],["Unit","Azur","Inigo"],["Unit","Azure","Inigo"],
+       ["Unit","Azuru","Inigo"],["Unit","Joker","Jakob"],["Unit","Nishiki","Kaden"],["Unit","Kagerou","Kagero"],["Unit","Kanna","Kana"],
+       ["Unit","Suzukaze","Kaze"],["Unit","Flannel","Keaton"],["Unit","Callum","Kellam"],["Unit","Karamu","Kellam"],["Unit","Kisaragi","Kiragi"],
+       ["Unit","Degel","Kjelle"],["Unit","Dejeru","Kjelle"],["Unit","Lazward","Laslow"],["Unit","Loran","Laurent"],["Unit","Roran","Laurent"],
+       ["Unit","Leon","Leo"],["Unit","Libera","Libra"],["Unit","Ribera","Libra"],["Unit","Riviera","Libra"],["Unit","Liz","Lissa"],["Unit","Rizu","Lissa"],
+       ["Unit","Lon'zu","Lon'qu"],["Unit","Lonqu","Lon'qu"],["Unit","Lonzu","Lon'qu"],["Unit","Ronku","Lon'qu"],["Unit","Ronkuu","Lon'qu"],
+       ["Unit","Rukina","Lucina"],["Unit","Mariabel","Maribelle"],["Unit","Mariabell","Maribelle"],["Unit","Mariaberu","Maribelle"],
+       ["Unit","Midoriko","Midori"],["Unit","Mirieru","Miriel"],["Unit","Linfan","Morgan"],["Unit","Maku","Morgan"],["Unit","Marc","Morgan"],
+       ["Unit","Mark","Morgan"],["Unit","Mozume","Mozu"],["Unit","n_n","Nah"],["Unit","Nn","Nah"],["Unit","Zero","Niles"],["Unit","Eponine","Nina"],
+       ["Unit","Noir","Noire"],["Unit","Nowaru","Noire"],["Unit","Nono","Nowi"],["Unit","Olivie","Olivia"],["Unit","Orivie","Olivia"],["Unit","Eudes","Owain"],
+       ["Unit","Udo","Owain"],["Unit","Wood","Owain"],["Unit","Berubetto","Panne"],["Unit","Palne","Panne"],["Unit","Velvet","Panne"],["Unit","Lutz","Percy"],
+       ["Unit","Pieri","Peri"],["Unit","Paris","Priam"],["Unit","Parisu","Priam"],["Unit","Yuugiri","Reina"],["Unit","Syalla","Rhajat"],
+       ["Unit","Licht","Ricken"],["Unit","Richt","Ricken"],["Unit","Rihito","Ricken"],["Unit","Rinka","Rinkah"],["Unit","Daraen","Robin"],
+       ["Unit","Reflet","Robin"],["Unit","Rufure","Robin"],["Unit","Lobster","Ryoma"],["Unit","Ryouma","Ryoma"],["Unit","Saizou","Saizo"],
+       ["Unit","Sairi","Say'ri"],["Unit","Sayri","Say'ri"],["Unit","Crimson","Scarlet"],["Unit","Luna","Selena"],["Unit","Kinu","Selkie"],
+       ["Unit","Selena","Severa"],["Unit","Serena","Severa"],["Unit","Shinonome","Shiro"],["Unit","Asyura","Shura"],["Unit","Sort","Stahl"],
+       ["Unit","Soru","Stahl"],["Unit","Tsubaki","Subaki"],["Unit","Soiree","Sully"],["Unit","Soware","Sully"],["Unit","Smia","Sumia"],
+       ["Unit","Betrayal","Takumi"],["Unit","Pineapple","Takumi"],["Unit","Tacomeme","Takumi"],["Unit","Sallya","Tharja"],["Unit","Sariya","Tharja"],
+       ["Unit","Sarya","Tharja"],["Unit","Chiki","Tiki"],["Unit","Vake","Vaike"],["Unit","Veiku","Vaike"],["Unit","Wyck","Vaike"],["Unit","Velour","Velouria"],
+       ["Unit","Viaur","Virion"],["Unit","Viole","Virion"],["Unit","Vioru","Virion"],["Unit","Marx","Xander"],["Unit","Chambray","Yarne"],
+       ["Unit","Shanbure","Yarne"],["Class","Axe Fighter","Fighter"],["Class","Dark Prince","Nohr Prince"],["Class","Dark Princess","Nohr Princess"],
+       ["Class","Dark Royal","Nohr Royal"],["Class","Dark Blood","Nohr Noble"],["Class","Light Blood","Hoshido Noble"],
+       ["Class","Dragon Knight","Wyvern Rider"],["Class","Dragon Master","Wyvern Lord"],["Class","Revanant Knight","Malig Knight"],
+       ["Class","Rod Knight","Troubadour"],["Class","Singer","Songstress"],["Class","Golem","Stoneborn"],["Class","Dark Lord","Nohrian King"],
+       ["Class","Dark Dragon","Blight Dragon"],["Class","Invisible Dragon","Silent Dragon"],["Class","Familiar","Empty Vessel"]]
   end
   @names=b.uniq
 end
@@ -325,9 +351,9 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
   elsif ['aliases','checkaliases','seealiases'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** __unit__","Responds with a list of all `unit`'s aliases.\nIf no unit is listed, responds with a list of all aliases and who they are for.\n\nPlease note that if more than 50 aliases are to be listed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",0x02010a)
   elsif ['deletealias','removealias'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __alias__","Removes `alias` from the list of aliases, regardless of who it was for.",0xC31C19)
+    create_embed(event,"**#{command.downcase}** __alias__","Removes `alias` from the list of aliases, regardless of who/what it was for.\n\n**This command can only be used by server mods.**",0xC31C19)
   elsif command.downcase=='addalias'
-    create_embed(event,'**addalias** __new alias__ __unit__',"Adds `new alias` to `unit`'s aliases.\nIf the arguments are listed in the opposite order, the command will auto-switch them.\n\nInforms you if the alias already belongs to someone.\nAlso informs you if the unit you wish to give the alias to does not exist.",0xC31C19)
+    create_embed(event,'**addalias** __new alias__ __unit__',"Adds `new alias` to `name`'s aliases.\nIf the arguments are listed in the opposite order, the command will auto-switch them.\n\nAliases can be added to:\n- Units\n- Classes\n- Skills\n- Items/Weapons\n\nInforms you if the alias already belongs to someone/something.\nAlso informs you if the unit you wish to give the alias to does not exist.\n\n**This command can only be used by server mods.**",0xC31C19)
   elsif "marry"==command.downcase
     create_embed(event,"**marry** __name1__ __name2__","Shows what the Partner Seal options would be for `name1` and `name2` if they were to marry each other.\nAlso shows the resulting children.",0x02010a)
   elsif "proc"==command.downcase
@@ -1025,30 +1051,47 @@ def x_find_class(name,event,game="",ignore=false)
   if name.downcase.gsub(' ','').gsub('_','')[0,2]=="<:"
     name=name.split(':')[1] unless x_find_class(name.split(':')[1],event,game).nil?
   end
-  return x_find_class("Oni Savage",event,game) if "oni"==name.gsub(' ','').downcase
-  return x_find_class("Nohrian Royal",event,game) if "nohrroyal"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
   return nil if name.length<4
   data_load()
   # Match the class from the game first...
   for i in 0...@classes.length
     return @classes[i] if @classes[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && @classes[i][1]==game && ((!event.server.nil? && event.server.id==256291408598663168) || @classes[i][2]!="Penumbra")
   end
+  nicknames_load()
+  g=0
+  g=event.server.id unless event.server.nil?
+  alz=@names.reject{|q| q[0]!='Class'}.map{|q| [q[1],q[2],q[3]]}
+  for i in alz
+    if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+      x=x_find_class(i[1],event,game)
+      return x if !x.nil? && x[1]==game
+    end
+  end
   unless ignore
     for i in 0...@classes.length
       return @classes[i] if @classes[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && @classes[i][1]==game && ((!event.server.nil? && event.server.id==256291408598663168) || @classes[i][2]!="Penumbra")
+    end
+    for i in alz
+      if i[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+        x=x_find_class(i[1],event,game)
+        return x if !x.nil? && x[1]==game
+      end
     end
   end
   # ...only if that fails try the class from another game
   for i in 0...@classes.length
     return @classes[i] if @classes[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || @classes[i][2]!="Penumbra")
   end
+  for i in alz
+    return x_find_class(i[1],event,game) if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+  end
   unless ignore
     for i in 0...@classes.length
       return @classes[i] if @classes[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && ((!event.server.nil? && event.server.id==256291408598663168) || @classes[i][2]!="Penumbra")
     end
-  end
-  for i in @japanese_names
-    return x_find_class(i[1],event,game) if i[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase
+    for i in alz
+      return x_find_class(i[1],event,game) if i[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+    end
   end
   return nil
 end
@@ -2050,9 +2093,10 @@ def mentions_avatar_kid(event,game)
   nicknames_load()
   morgan_names=["Morgan"]
   kana_names=["Kana"]
-  for i in 0...@names.length
-    morgan_names.push(@names[i][0]) if @names[i][1]=="Morgan" && (@names[i][2].nil? || @names[i][2].include?(k))
-    kana_names.push(@names[i][0]) if @names[i][1]=="Kana" && (@names[i][2].nil? || @names[i][2].include?(k))
+  alz=@names.reject{|q| q[0]!='Unit'}.map{|q| [q[1],q[2],q[3]]}
+  for i in 0...alz.length
+    morgan_names.push(alz[i][0]) if alz[i][1]=="Morgan" && (alz[i][2].nil? || alz[i][2].include?(k))
+    kana_names.push(alz[i][0]) if alz[i][1]=="Kana" && (alz[i][2].nil? || alz[i][2].include?(k))
   end
   if game=="Awakening"
     for i in 0...morgan_names.length
@@ -2173,8 +2217,9 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   k=0
   k=event.server.id unless event.server.nil?
   nicknames_load()
-  for i in 0...@names.length
-    return find_unit(xgame,@names[i][1],event,false) if @names[i][0].downcase==name.downcase && (@names[i][2].nil? || @names[i][2].include?(k))
+  alz=@names.reject{|q| q[0]!='Unit'}.map{|q| [q[1],q[2],q[3]]}
+  for i in 0...alz.length
+    return find_unit(xgame,alz[i][1],event,false) if alz[i][0].downcase==name.downcase && (alz[i][2].nil? || alz[i][2].include?(k))
   end
   # Retries all of the above, but this time looking for slight matches.
   return "Lilith" if "lilith"[0,name.length]==name.downcase
@@ -2213,8 +2258,8 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
     return bob4
   end
   # then the Japanese counterpart names
-  for i in 0...@names[2].length
-    return find_unit(xgame,@names[i][1],event,false) if @names[i][0][0,name.length].downcase==name.downcase && (@names[i][2].nil? || @names[i][2].include?(k))
+  for i in 0...alz.length
+    return find_unit(xgame,alz[i][1],event,false) if alz[i][0][0,name.length].downcase==name.downcase && (alz[i][2].nil? || alz[i][2].include?(k))
   end
   return nil
 end
@@ -2464,13 +2509,15 @@ def class_parse(event,bot,args)
         s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
         f=s[2].find_index{|q| q[0]==clss[0]}
         f=s[2].find_index{|q| q[0].split('(')[0]==clss[0].split('(')[0].gsub(' ','')} if f.nil?
-        clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
+        f=0 if f.nil?
+        clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}" unless f.nil?
       end
       for i in 0...clss2[8].length
         s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && ['Fateswakening',clss2[1]].include?(q[1])}]
         f=s[2].find_index{|q| q[0]==clss2[0]}
         f=s[2].find_index{|q| q[0].split('(')[0]==clss2[0].split('(')[0].gsub(' ','')} if f.nil?
-        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
+        f=0 if f.nil?
+        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][f][1]}]*  #{s[4]}" unless f.nil?
       end
       event.respond fullname
       text="__*Awakening*__"
@@ -2540,6 +2587,7 @@ def class_parse(event,bot,args)
         s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && gmz.include?(q[1])}]
         f=s[2].find_index{|q| q[0]==clss[0]}
         f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
+        f=0 if f.nil?
         clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
       end
       for i in 0...clss2[8].length
@@ -2548,6 +2596,7 @@ def class_parse(event,bot,args)
         s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && gmz.include?(q[1])}]
         f=s[2].find_index{|q| q[0]==clss2[0]}
         f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss2[0].split('(')[0].gsub(' ','')} if f.nil?
+        f=0 if f.nil?
         clss2[8][i]="*#{clss2[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
       end
       flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
@@ -2642,6 +2691,7 @@ def class_parse(event,bot,args)
       s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
       f=s[2].find_index{|q| q[0]==clss[0]}
       f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
+        f=0 if f.nil?
       clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
     end
     text="#{fullname}"
@@ -2681,7 +2731,8 @@ def class_parse(event,bot,args)
       s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && gmz.include?(q[1])}]
       f=s[2].find_index{|q| q[0]==clss[0]}
       f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
-      clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
+      f=0 if f.nil?
+      clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}" unless f.nil?
     end
     text=''
     f=[0,0,0]
@@ -2732,21 +2783,6 @@ def x_find_skill(game,name,event,fullname=false)
     name=name.split(':')[1] unless x_find_skill(game,name.split(':')[1],event,fullname).nil?
   end
   name=normalize(name) unless name.nil?
-  if fullname
-    if name.length>=5
-      return x_find_skill(game,"Armored Blow",event,fullname) if "armouredblow"==name.gsub(' ','').downcase
-    end
-    if name.length>=6
-      return x_find_skill(game,"Defensetaker",event,fullname) if "defencetaker"==name.gsub(' ','').downcase
-    end
-  else
-    if name.length>=5
-      return x_find_skill(game,"Armored Blow",event,fullname) if "armouredblow"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
-    end
-    if name.length>=6
-      return x_find_skill(game,"Defensetaker",event,fullname) if "defencetaker"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
-    end
-  end
   # try skill from the specific game
   data_load()
   m=[game,'Fateswakening']
@@ -2754,9 +2790,25 @@ def x_find_skill(game,name,event,fullname=false)
   for i in 0...@skills.length
     return @skills[i] if @skills[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
   end
+  nicknames_load()
+  g=0
+  g=event.server.id unless event.server.nil?
+  alz=@names.reject{|q| q[0]!='Skill'}.map{|q| [q[1],q[2],q[3]]}
+  for i in alz
+    if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+      x=x_find_skill(game,i[1],event)
+      return x if m.include?(x[1])
+    end
+  end
   unless fullname
     for i in 0...@skills.length
       return @skills[i] if @skills[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
+    end
+    for i in alz
+      if i[0][0,name.gsub(' ','').length].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+        x=x_find_skill(game,i[1],event)
+        return x if m.include?(x[1])
+      end
     end
   end
   # then try generic skill
@@ -2765,9 +2817,15 @@ def x_find_skill(game,name,event,fullname=false)
   for i in 0...@skills.length
     return @skills[i] if @skills[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
   end
+  for i in alz
+    return x_find_skill(game,i[1],event) if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+  end
   unless fullname
     for i in 0...@skills.length
       return @skills[i] if @skills[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
+    end
+    for i in alz
+      return x_find_skill(game,i[1],event) if i[0].gsub(' ','').downcase==name.gsub(' ','')[0,name.gsub(' ','').length].downcase && (i[3].nil? || i[3].include?(g))
     end
   end
   return nil
@@ -2795,36 +2853,49 @@ def x_find_item(game,name,event,fullname=false)
     name=name.split(':')[1] unless x_find_item(game,name.split(':')[1],event,fullname).nil?
   end
   name=normalize(name) unless name.nil?
-  if fullname
-    if name.length>=5
-      return x_find_item(game,"Armorslayer",event,fullname) if "armourslayer"==name.gsub(' ','').downcase
-    end
-  elsif name.length>=5
-    return x_find_item(game,"Armorslayer",event,fullname) if "armourslayer"[0,name.gsub(' ','').length]==name.gsub(' ','').downcase
-  end
   # try item from the specific game
-  name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"
   data_load()
   m=[game]
   m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168 && game=='Fates'
   for i in 0...@items.length
     return @items[i] if @items[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
   end
+  nicknames_load()
+  g=0
+  g=event.server.id unless event.server.nil?
+  alz=@names.reject{|q| q[0]!='Item'}.map{|q| [q[1],q[2],q[3]]}
+  for i in alz
+    if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+      x=x_find_item(game,i[1],event)
+      return x if m.include?(x[1])
+    end
+  end
   unless fullname
     for i in 0...@items.length
       return @items[i] if @items[i][0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
     end
+    for i in alz
+      if i[0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+        x=x_find_item(game,i[1],event)
+        return x if m.include?(x[1])
+      end
+    end
   end
   # then try generic item
-  name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"
   m=['Fates','Awakening']
   m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168
   for i in 0...@items.length
     return @items[i] if @items[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
   end
+  for i in alz
+    return x_find_item(game,i[1],event) if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+  end
   unless fullname
     for i in 0...@items.length
       return @items[i] if @items[i][0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
+    end
+    for i in alz
+      return x_find_item(game,i[1],event) if i[0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
     end
   end
   return ["kvsnokfdn"]
@@ -3481,10 +3552,8 @@ def item_parse(event,bot,args,mde=0)
   end
   args.compact!
   name=args.join(' ')
-  name="Sakura's Rod" if name.gsub(' ','').downcase=="staff~staff~"
-  name="Armorslayer" if name.downcase=="armourslayer"[0,name.length]
   bob4=find_item(game,name,event)
-  if bob4[0].gsub(' ','')[0,name.gsub(' ','').length].downcase != name.gsub(' ','').downcase
+  if bob4.nil? || bob4.length<=2
     event.respond "Please include an item name" if mde==0
     return nil
   end
@@ -3554,7 +3623,7 @@ def item_parse(event,bot,args,mde=0)
         text="#{text}\n**Prf to:** #{itemA[3]}"
       end
       text="#{text}\n**Additional info:** #{itemA[7]}" if itemA[7] != '-' && !itemA[7].nil? && itemA[7] != ''
-      c=itemF[4][1]
+      c=itemF[4][2]
       c="Never crits" if itemF[7].downcase.include?("cannot trigger crit") || itemF[7].downcase.include?("cannot crit") || itemF[7].downcase.include?("cannot double attack or inflict crit")
       if itemF[6][0] == "-"
         p="Not purchaseable or sellable"
@@ -3741,6 +3810,343 @@ def get_unit_list(event,bot,args)
   create_embed(event,"#{"__**Search**__\n#{dispstr.join("\n")}\n\n" if dispstr.length>0}__**Results**__",'',xcolor,"#{untz.map{|q| q[0]}.uniq.length} total",nil,flds)
 end
 
+def spaceship_order(x)
+  return 1 if x=='Unit'
+  return 2 if x=='Class'
+  return 3 if x=='Skill'
+  return 4 if x=='Item'
+  return 500
+end
+
+def disp_aliases(bot,event,args=nil,mode=0)
+  game="Fates"
+  game="Awakening" if event.message.text[0,4].downcase=="fea!"
+  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+  game="Fates" if event.message.text[0,4].downcase=="fef!"
+  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  event.channel.send_temporary_message("Calculating data, please wait...",2)
+  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
+  nicknames_load()
+  unless args.length==0
+    unit=find_unit(game,args.join(''),event)
+    clzz=find_class(args.join(''),event,game)
+    skll=find_skill(game,args.join(''),event)
+    itmu=find_item(game,args.join(''),event)
+    if unit.nil? && clzz.nil? && skll.nil? && itmu.nil? && !has_any?(['unit','units','characters','character','chara','charas','char','chars','class','classes','job','jobs','skill','skills','skil','skils','item','items','weapon','weapons'],args)
+      event.respond "The alias system can cover:\n- Units\n- Classes\n- Skills\n- Items/Weapons\n\n#{args.join(' ')} does not fall into any of these categories."
+      return nil
+    end
+  end
+  unless unit.nil? || unit.is_a?(Array)
+    unit=nil if find_unit(game,unit,event).nil?
+  end
+  unless clzz.nil? || clzz.is_a?(Array)
+    clzz=nil if find_class(clzz,event,game).nil?
+  end
+  unless skll.nil? || skll.is_a?(Array)
+    skll=nil if find_skill(game,skll,event).nil?
+  end
+  unless itmu.nil? || itmu.is_a?(Array)
+    itmu=nil if find_item(game,itmu,event).nil?
+  end
+  f=[]
+  n=@names.reject{|q| q[0]!='Unit'}.map{|a| [a[1],a[2],a[3]]}
+  if unit.nil? && clzz.nil? && skll.nil? && itmu.nil?
+    if has_any?(['unit','units','characters','character','chara','charas','char','chars'],args)
+      n=n.reject{|q| q[2].nil?} if mode==1
+      n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+      f.push('__**Unit aliases**__')
+      for i in 0...n.length
+        if n[i][2].nil? || (mode==1 && !event.server.nil?)
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        else
+          a=[]
+          for j in 0...n[i][2].length
+            srv=(bot.server(n[i][2][j]) rescue nil)
+            unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+              a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+            end
+          end
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+        end
+      end
+    elsif has_any?(['class','classes','job','jobs'],args)
+      f.push('__**Class aliases**__')
+      n=@names.reject{|q| q[0]!='Class'}.map{|a| [a[1],a[2],a[3]]}
+      n=n.reject{|q| q[2].nil?} if mode==1
+      n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+      for i in 0...n.length
+        if n[i][2].nil? || (mode==1 && !event.server.nil?)
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        else
+          a=[]
+          for j in 0...n[i][2].length
+            srv=(bot.server(n[i][2][j]) rescue nil)
+            unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+              a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+            end
+          end
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+        end
+      end
+    elsif has_any?(['skill','skills','skil','skils'],args)
+      f.push('__**Skill aliases**__')
+      n=@names.reject{|q| q[0]!='Skill'}.map{|a| [a[1],a[2],a[3]]}
+      n=n.reject{|q| q[2].nil?} if mode==1
+      n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+      for i in 0...n.length
+        if n[i][2].nil?
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        else
+          a=[]
+          for j in 0...n[i][2].length
+            srv=(bot.server(n[i][2][j]) rescue nil)
+            unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+              a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+            end
+          end
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+        end
+      end
+    elsif has_any?(['item','items','weapon','weapons'],args)
+      f.push('__**Item/Weapon aliases**__')
+      n=@names.reject{|q| q[0]!='Item'}.map{|a| [a[1],a[2],a[3]]}
+      n=n.reject{|q| q[2].nil?} if mode==1
+      n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+      for i in 0...n.length
+        if n[i][2].nil?
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        else
+          a=[]
+          for j in 0...n[i][2].length
+            srv=(bot.server(n[i][2][j]) rescue nil)
+            unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+              a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+            end
+          end
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+        end
+      end
+    elsif safe_to_spam?(event) || mode==1
+      n=n.reject{|q| q[2].nil?} if mode==1
+      n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+      f.push('__**Unit aliases**__')
+      for i in 0...n.length
+        if n[i][2].nil? || (mode==1 && !event.server.nil?)
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        else
+          a=[]
+          for j in 0...n[i][2].length
+            srv=(bot.server(n[i][2][j]) rescue nil)
+            unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+              a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+            end
+          end
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+        end
+      end
+      f.push("\n__**Class aliases**__")
+      n=@names.reject{|q| q[0]!='Class'}.map{|a| [a[1],a[2],a[3]]}
+      n=n.reject{|q| q[2].nil?} if mode==1
+      n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+      for i in 0...n.length
+        if n[i][2].nil?
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        else
+          a=[]
+          for j in 0...n[i][2].length
+            srv=(bot.server(n[i][2][j]) rescue nil)
+            unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+              a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+            end
+          end
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+        end
+      end
+      f.push("\n__**Skill aliases**__")
+      n=@names.reject{|q| q[0]!='Skill'}.map{|a| [a[1],a[2],a[3]]}
+      n=n.reject{|q| q[2].nil?} if mode==1
+      n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+      for i in 0...n.length
+        if n[i][2].nil?
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        else
+          a=[]
+          for j in 0...n[i][2].length
+            srv=(bot.server(n[i][2][j]) rescue nil)
+            unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+              a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+            end
+          end
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+        end
+      end
+      f.push("\n__**Item/Weapon aliases**__")
+      n=@names.reject{|q| q[0]!='Item'}.map{|a| [a[1],a[2],a[3]]}
+      n=n.reject{|q| q[2].nil?} if mode==1
+      n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+      for i in 0...n.length
+        if n[i][2].nil?
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        else
+          a=[]
+          for j in 0...n[i][2].length
+            srv=(bot.server(n[i][2][j]) rescue nil)
+            unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+              a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+            end
+          end
+          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+        end
+      end
+    else
+      event.respond "Please either specify a unit name or use this command in PM."
+      return nil
+    end
+  elsif !unit.nil?
+    k=0
+    k=event.server.id unless event.server.nil?
+    unit=[unit] unless unit[0].is_a?(Array)
+    n=n.reject{|q| q[2].nil?} if mode==1
+    n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+    for i1 in 0...unit.length
+      u=find_unit(game,unit[i1][0],event)[0]
+      f.push("__**#{u.gsub('_','\\_')}**#{"'s server-specific aliases" if mode==1}__")
+      f.push(u.gsub('_','\\_').gsub('(','').gsub(')','')) if u.include?('(') || u.include?(')')
+      for i in 0...n.length
+        p=""
+        n2=n[i][1]
+        if n[i][1].include?('!')
+          p=n[i][1].split('!')
+          n2=p[1]
+          p=" (with automatic #{p[0]} parentage)"
+        end
+        if n2.downcase==u.downcase
+          if event.server.nil? && !n[i][2].nil?
+            a=[]
+            for j in 0...n[i][2].length
+              srv=(bot.server(n[i][2][j]) rescue nil)
+              unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+                a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+              end
+            end
+            f.push("#{n[i][0].gsub('_','\\_')}#{p} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+          elsif n[i][2].nil? || mode==1
+            f.push("#{n[i][0].gsub('_','\\_')}#{p}")
+          else
+            f.push("#{n[i][0].gsub('_','\\_')}#{p} (in this server only)") if n[i][2].include?(k)
+          end
+        end
+      end
+      f.push("")
+    end
+  elsif !clzz.nil?
+    k=0
+    k=event.server.id unless event.server.nil?
+    unit=[clzz] unless clzz[0].is_a?(Array)
+    n=@names.reject{|q| q[0]!='Class'}.map{|a| [a[1],a[2],a[3]]}
+    n=n.reject{|q| q[2].nil?} if mode==1
+    n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+    for i1 in 0...unit.length
+      u=find_class(unit[i1][0],event,game)[0]
+      f.push("__**#{u.gsub('_','\\_')}**#{"'s server-specific aliases" if mode==1}__")
+      f.push(u.gsub('_','\\_').gsub('(','').gsub(')','')) if u.include?('(') || u.include?(')')
+      for i in 0...n.length
+        if n[i][1].downcase==u.downcase
+          if event.server.nil? && !n[i][2].nil?
+            a=[]
+            for j in 0...n[i][2].length
+              srv=(bot.server(n[i][2][j]) rescue nil)
+              unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+                a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+              end
+            end
+            f.push("#{n[i][0].gsub('_','\\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+          elsif n[i][2].nil? || mode==1
+            f.push("#{n[i][0].gsub('_','\\_')}")
+          else
+            f.push("#{n[i][0].gsub('_','\\_')} (in this server only)") if n[i][2].include?(k)
+          end
+        end
+      end
+      f.push("")
+    end
+  elsif !skll.nil?
+    k=0
+    k=event.server.id unless event.server.nil?
+    unit=[skll] unless skll[0].is_a?(Array)
+    n=@names.reject{|q| q[0]!='Skill'}.map{|a| [a[1],a[2],a[3]]}
+    n=n.reject{|q| q[2].nil?} if mode==1
+    n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+    for i1 in 0...unit.length
+      u=find_skill(game,unit[i1][0],event)[0]
+      f.push("__**#{u.gsub('_','\\_')}**#{"'s server-specific aliases" if mode==1}__")
+      f.push(u.gsub('_','\\_').gsub('(','').gsub(')','')) if u.include?('(') || u.include?(')')
+      for i in 0...n.length
+        if n[i][1].downcase==u.downcase
+          if event.server.nil? && !n[i][2].nil?
+            a=[]
+            for j in 0...n[i][2].length
+              srv=(bot.server(n[i][2][j]) rescue nil)
+              unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+                a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+              end
+            end
+            f.push("#{n[i][0].gsub('_','\\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+          elsif n[i][2].nil? || mode==1
+            f.push("#{n[i][0].gsub('_','\\_')}")
+          else
+            f.push("#{n[i][0].gsub('_','\\_')} (in this server only)") if n[i][2].include?(k)
+          end
+        end
+      end
+      f.push("")
+    end
+  elsif !itmu.nil?
+    k=0
+    k=event.server.id unless event.server.nil?
+    unit=[itmu] unless itmu[0].is_a?(Array)
+    n=@names.reject{|q| q[0]!='Item'}.map{|a| [a[1],a[2],a[3]]}
+    n=n.reject{|q| q[2].nil?} if mode==1
+    n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
+    for i1 in 0...unit.length
+      u=find_item(game,unit[i1][0],event)[0]
+      f.push("__**#{u.gsub('_','\\_')}**#{"'s server-specific aliases" if mode==1}__")
+      f.push(u.gsub('_','\\_').gsub('(','').gsub(')','')) if u.include?('(') || u.include?(')')
+      for i in 0...n.length
+        if n[i][1].downcase==u.downcase
+          if event.server.nil? && !n[i][2].nil?
+            a=[]
+            for j in 0...n[i][2].length
+              srv=(bot.server(n[i][2][j]) rescue nil)
+              unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
+                a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
+              end
+            end
+            f.push("#{n[i][0].gsub('_','\\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
+          elsif n[i][2].nil? || mode==1
+            f.push("#{n[i][0].gsub('_','\\_')}")
+          else
+            f.push("#{n[i][0].gsub('_','\\_')} (in this server only)") if n[i][2].include?(k)
+          end
+        end
+      end
+      f.push("")
+    end
+  end
+  f.uniq!
+  if f.length>50 && !safe_to_spam?(event)
+    event.respond "There are so many aliases that I don't want to spam the server.  Please use the command in PM."
+    return nil
+  end
+  msg=''
+  for i in 0...f.length
+    msg=extend_message(msg,f[i],event)
+  end
+  event.respond msg
+  return nil
+end
+
 bot.command([:find, :sort, :list, :search]) do |event, *args|
   get_unit_list(event,bot,args)
 end
@@ -3816,21 +4222,62 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
   elsif newname.include?('"') || newname.include?("\n")
     event.respond "Full stop.  \" is not allowed in an alias."
     return nil
-  elsif !find_unit(game,newname,event).nil?
-    if !find_unit(game,unit,event).nil?
-      event.respond "Someone already has the name #{newname}"
-      return nil
-    elsif event.user.id==167657750971547648 && !modifier.nil?
-    else
-      x=newname
-      newname=unit
-      unit=x
-    end
-  elsif find_unit(game,unit,event).nil?
-    event.respond "#{unit} is not a unit."
-    return nil
   end
   newname=newname.gsub('!','').gsub('(','').gsub(')','').gsub('_','')
+  type=['Alias','Alias']
+  if !find_unit(game,newname,event,true).nil?
+    type[0]='Unit'
+  elsif !find_class(newname,event,game,true).nil?
+    type[0]='Class'
+  elsif !find_skill(game,newname,event,true).nil?
+    type[0]='Skill'
+  elsif !find_item(game,newname,event,true).nil?
+    type[0]='Item'
+  elsif !find_unit(game,newname,event).nil?
+    type[0]='Unit*'
+  elsif !find_class(newname,event,game).nil?
+    type[0]='Class*'
+  elsif !find_skill(game,newname,event).nil?
+    type[0]='Skill*'
+  elsif !find_item(game,newname,event).nil?
+    type[0]='Item*'
+  end
+  if !find_unit(game,unit,event,true).nil?
+    type[1]='Unit'
+  elsif !find_class(unit,event,game,true).nil?
+    type[1]='Class'
+  elsif !find_skill(game,unit,event,true).nil?
+    type[1]='Skill'
+  elsif !find_item(game,unit,event,true).nil?
+    type[1]='Item'
+  elsif !find_unit(game,unit,event).nil?
+    type[1]='Unit*'
+  elsif !find_class(unit,event,game).nil?
+    type[1]='Class*'
+  elsif !find_skill(game,unit,event).nil?
+    type[1]='Skill*'
+  elsif !find_item(game,unit,event).nil?
+    type[1]='Item*'
+  end
+  cck=nil
+  checkstr=normalize(newname)
+  if type.reject{|q| q != 'Alias'}.length<=0
+    type[0]='Alias' if type[0].include?('*')
+    type[1]='Alias' if type[1].include?('*') && type[0]!='Alias'
+  end
+  if type.reject{|q| q == 'Alias'}.length<=0
+    event.respond "The alias system can cover:\n- Units\n- Classes\n- Skills\n- Items and Weapons\n\nNeither #{newname} nor #{unit} fall into any of these categories.  Please try again."
+    return nil
+  elsif type.reject{|q| q != 'Alias'}.length<=0
+    event.respond "#{newname} is a #{type[0].downcase}\n#{unit} is a #{type[1].downcase}\nPlease try again."
+    return nil
+  end
+  if type[1]=='Alias' && type[0]!='Alias'
+    f="#{newname}"
+    newname="#{unit}"
+    unit="#{f}"
+    type=type.reverse.map{|q| q.gsub('*','')}
+  end
   logchn=386658080257212417
   logchn=431862993194582036 if @shardizard==4
   srv=0
@@ -3843,19 +4290,7 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
   for i in 0...k.length
     checkstr=checkstr.gsub("<:#{k[i].name}:#{k[i].id}>",k[i].name)
   end
-  if !find_skill(game,checkstr,event).nil?
-    event.respond "#{newname} has __***NOT***__ been added to #{find_unit(game,unit,event)[0]}'s aliases.\nThat is the name of a skill, and I do not want confusion when people in this server attempt `FE!#{newname}`"
-    bot.channel(logchn).send_message("~~**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** #{newname} for #{unit}~~\n**Reason for rejection:** #{newname} is a skill name.")
-    return nil
-  elsif !find_item(game,checkstr,event).nil?
-    event.respond "#{newname} has __***NOT***__ been added to #{find_unit(game,unit,event)[0]}'s aliases.\nThat is the name of an item, and I do not want confusion when people in this server attempt `FE!#{newname}`"
-    bot.channel(logchn).send_message("~~**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** #{newname} for #{unit}~~\n**Reason for rejection:** #{newname} is an item name.")
-    return nil
-  elsif !find_class(checkstr,event,game).nil?
-    event.respond "#{newname} has __***NOT***__ been added to #{find_unit(game,unit,event)[0]}'s aliases.\nThat is the name of a class, and I do not want confusion when people in this server attempt `FE!#{newname}`"
-    bot.channel(logchn).send_message("~~**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** #{newname} for #{unit}~~\n**Reason for rejection:** #{newname} is a class name.")
-    return nil
-  elsif checkstr.downcase =~ /(7|t)+?h+?(o|0)+?(7|t)+?/
+  if checkstr.downcase =~ /(7|t)+?h+?(o|0)+?(7|t)+?/
     event.respond "That name has __***NOT***__ been added to #{find_unit(game,unit,event)[0]}'s aliases."
     bot.channel(logchn).send_message("~~**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** #{newname} for #{unit}~~\n**Reason for rejection:** Begone, alias.")
     return nil
@@ -3879,35 +4314,44 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
   chn=event.channel.id
   chn=modifier2.to_i if event.user.id==167657750971547648 && !modifier2.nil? && modifier2.to_i.to_s==modifier2
   m=nil if event.user.id==167657750971547648 && !modifier.nil?
-  unit=find_unit(game,unit,event)[0]
+  if type[1]=='Unit'
+    unit=find_unit(game,unit,event)[0]
+    unit=unit.gsub('Fates!Anna','Anna').gsub('Awakening!Anna','Anna')
+  elsif type[1]=='Class'
+    unit=find_class(unit,event,game)[0]
+  elsif type[1]=='Skill'
+    unit=find_skill(game,unit,event)[0]
+  elsif type[1]=='Item'
+    unit=find_item(game,unit,event)[0]
+  end
   double=false
   for i in 0...@names.length
-    if @names[i][2].nil?
-    elsif @names[i][0].downcase==newname.downcase && @names[i][1].downcase==unit.downcase
+    if @names[i][3].nil?
+    elsif @names[i][1].downcase==newname.downcase && @names[i][2].downcase==unit.downcase
       if event.user.id==167657750971547648 && !modifier.nil?
-        @names[i][2]=nil
+        @names[i][3]=nil
         @names[i].compact!
-        bot.channel(chn).send_message("The alias #{newname} for #{unit} exists in a server already.  Making it global now.")
-        event.respond "The alias #{newname} for #{unit} exists in a server already.  Making it global now.\nPlease test to be sure that the alias stuck." if event.user.id==167657750971547648 && !modifier2.nil? && modifier2.to_i.to_s==modifier2
-        bot.channel(logchn).send_message("#{newname} for #{unit} has gone global.  #{event.channel.id}")
+        bot.channel(chn).send_message("The alias **#{newname}** for the #{type[1].downcase} *#{unit}* exists in a server already.  Making it global now.")
+        event.respond "The alias **#{newname}** for the #{type[1].downcase} *#{unit}* exists in a server already.  Making it global now.\nPlease test to be sure that the alias stuck." if event.user.id==167657750971547648 && !modifier2.nil? && modifier2.to_i.to_s==modifier2
+        bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**#{type[1]} Alias:** #{newname} for #{unit} - gone global.")
         double=true
       else
-        @names[i][2].push(srv)
-        bot.channel(chn).send_message("The alias #{newname} exists in another server already.  Adding this server to those that can use it.")
-        event.respond "The alias #{newname} exists in another server already.  Adding this server to those that can use it.\nPlease test to be sure that the alias stuck." if event.user.id==167657750971547648 && !modifier2.nil? && modifier2.to_i.to_s==modifier2
+        @names[i][3].push(srv)
+        bot.channel(chn).send_message("The alias **#{newname}** for the #{type[1].downcase} *#{unit}* exists in another server already.  Adding this server to those that can use it.")
+        event.respond "The alias **#{newname}** for the #{type[1].downcase} *#{unit}* exists in another server already.  Adding this server to those that can use it.\nPlease test to be sure that the alias stuck." if event.user.id==167657750971547648 && !modifier2.nil? && modifier2.to_i.to_s==modifier2
         metadata_load()
         bot.user(167657750971547648).pm("The alias **#{@names[i][0]}** for the character **#{@names[i][1]}** is used in quite a few servers.  It might be time to make this global") if @names[i][2].length >= @server_data2[0].inject(0){|sum,x| sum + x } / 20 && @names[i][3].nil?
-        bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** #{newname} for #{unit} - gained a new server that supports it.")
+        bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**#{type[1]} Alias:** #{newname} for #{unit} - gained a new server that supports it.")
         double=true
       end
     end
   end
   unless double
-    @names.push([newname,unit,m].compact)
-    @names.sort! {|a,b| (a[1].downcase <=> b[1].downcase) == 0 ? (a[0].downcase <=> b[0].downcase) : (a[1].downcase <=> b[1].downcase)}
-    bot.channel(chn).send_message("#{newname} has been added to #{unit}'s aliases#{" globally" if event.user.id==167657750971547648 && !modifier.nil?}.\nPlease test to be sure that the alias stuck.")
-    event.respond "#{newname} has been added to #{unit}'s aliases#{" globally" if event.user.id==167657750971547648 && !modifier.nil?}." if event.user.id==167657750971547648 && !modifier2.nil? && modifier2.to_i.to_s==modifier2
-    bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** #{newname} for #{unit}")
+    @names.push([type[1],newname,unit,m].compact)
+    @names.sort! {|a,b| (spaceship_order(a[0]) <=> spaceship_order(b[0])) == 0 ? ((a[2].downcase <=> b[2].downcase) == 0 ? (a[1].downcase <=> b[1].downcase) : (a[2].downcase <=> b[2].downcase)) : (spaceship_order(a[0]) <=> spaceship_order(b[0]))}
+    bot.channel(chn).send_message("**#{newname}** has been#{" globally" if event.user.id==167657750971547648 && !modifier.nil?} added to the aliases for the #{type[1].downcase} *#{unit}*.\nPlease test to be sure that the alias stuck.")
+    event.respond "**#{newname}** has been#{" globally" if event.user.id==167657750971547648 && !modifier.nil?} added to the aliases for the #{type[1].downcase} *#{unit}*." if event.user.id==167657750971547648 && !modifier2.nil? && modifier2.to_i.to_s==modifier2
+    bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**#{type[1]} Alias:** #{newname} for #{unit}")
   end
   @names.uniq!
   nzzz=@names.map{|a| a}
@@ -3917,12 +4361,24 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
     end
   }
   nicknames_load()
-  nzzz=@names.map{|a| a}
-  if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][1]>="Xander"
+  nzzz=@names.reject{|q| q[0]!='Unit'}
+  nzzz2=@names.reject{|q| q[0]!='Class'}
+  nzzz3=@names.reject{|q| q[0]!='Skill'}
+  nzzz4=@names.reject{|q| q[0]!='Item'}
+  if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][2]>="Xander" && nzzz2[nzzz2.length-1].length>1 && nzzz2[nzzz2.length-1][2]>="Wyvern Rider" && nzzz3[nzzz3.length-1].length>1 && nzzz3[nzzz3.length-1][2]>="Defensetaker" && nzzz4[nzzz4.length-1].length>1 && nzzz4[nzzz4.length-1][2]>="Armorslayer"
     bot.channel(logchn).send_message("Alias list saved.")
     open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt', 'w') { |f|
       for i in 0...nzzz.length
         f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
+      end
+      for i in 0...nzzz2.length
+        f.puts "#{nzzz2[i].to_s}#{"\n" if i<nzzz2.length-1}"
+      end
+      for i in 0...nzzz3.length
+        f.puts "#{nzzz3[i].to_s}#{"\n" if i<nzzz3.length-1}"
+      end
+      for i in 0...nzzz4.length
+        f.puts "#{nzzz4[i].to_s}#{"\n" if i<nzzz4.length-1}"
       end
     }
     bot.channel(logchn).send_message("Alias list has been backed up.")
@@ -3931,93 +4387,11 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
 end
 
 bot.command([:checkaliases,:aliases,:seealiases]) do |event, *args|
-  game="Fates"
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
-  event.channel.send_temporary_message("Calculating data, please wait...",2)
-  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  nicknames_load()
-  unless args.length==0
-    unit=find_unit(game,args.join(''),event)[0]
-    if find_unit(game,args.join(''),event).nil?
-      event.respond "#{args.join(' ')} is not a unit name or an alias."
-      return nil
-    end
-  end
-  unless unit.nil? || unit.is_a?(Array)
-    unit=nil if find_unit(game,unit,event).nil?
-  end
-  f=[]
-  n=@names.map{|a| a}
-  if unit.nil?
-    if safe_to_spam?(event)
-      for i in 0...n.length
-        if n[i][2].nil?
-          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
-        else
-          a=[]
-          for j in 0...n[i][2].length
-            srv=(bot.server(n[i][2][j]) rescue nil)
-            unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
-              a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
-            end
-          end
-          f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')} (in the following servers: #{list_lift(a,"and")})") if a.length>0
-        end
-      end
-    else
-      event.respond "Please either specify a unit name or use this command in PM."
-      return nil
-    end
-  else
-    k=0
-    k=event.server.id unless event.server.nil?
-    unit=[unit] unless unit.is_a?(Array)
-    for i1 in 0...unit.length
-      u=find_unit(game,unit[i1],event)[0]
-      f.push("**#{u.gsub('_','\\_')}**")
-      f.push(u.gsub('_','\\_').gsub('(','').gsub(')','')) if u.include?('(') || u.include?(')')
-      for i in 0...n.length
-        p=""
-        n2=n[i][1]
-        if n[i][1].include?('!')
-          p=n[i][1].split('!')
-          n2=p[1]
-          p=" (with automatic #{p[0]} parentage)"
-        end
-        if n2.downcase==u.downcase
-          if event.server.nil? && !n[i][2].nil?
-            a=[]
-            for j in 0...n[i][2].length
-              srv=(bot.server(n[i][2][j]) rescue nil)
-              unless srv.nil? || bot.user(bot.profile.id).on(srv.id).nil?
-                a.push("*#{bot.server(n[i][2][j]).name}*") unless event.user.on(n[i][2][j]).nil?
-              end
-            end
-            f.push("#{n[i][0].gsub('_','\\_')}#{p} (in the following servers: #{list_lift(a,"and")})") if a.length>0
-          elsif n[i][2].nil?
-            f.push("#{n[i][0].gsub('_','\\_')}#{p}")
-          else
-            f.push("#{n[i][0].gsub('_','\\_')}#{p} (in this server only)") if n[i][2].include?(k)
-          end
-        end
-      end
-      f.push("")
-    end
-  end
-  f.uniq!
-  if f.length>50 && !safe_to_spam?(event)
-    event.respond "There are so many aliases that I don't want to spam the server.  Please use the command in PM."
-    return nil
-  end
-  msg=''
-  for i in 0...f.length
-    msg=extend_message(msg,f[i],event)
-  end
-  event.respond msg
-  return nil
+  disp_aliases(bot,event,args)
+end
+
+bot.command([:serveraliases,:saliases]) do |event, *args|
+  disp_aliases(bot,event,args,1)
 end
 
 bot.command([:deletealias,:removealias]) do |event, name|
@@ -4033,26 +4407,30 @@ bot.command([:deletealias,:removealias]) do |event, name|
   elsif !is_mod?(event.user,event.server,event.channel)
     event.respond "You are not a mod."
     return nil
-  elsif find_unit(game,name,event).nil?
-    event.respond "#{name} is not anyone's alias, silly!"
+  elsif find_unit(game,name,event).nil? && find_class(name,event,game).nil? && find_skill(game,name,event).nil? && find_item(game,name,event).nil?
+    event.respond "#{name} is not an alias, silly!"
     return nil
   end
-  j=find_unit(game,name,event)
+  j=[find_unit(game,name,event),'Unit']
+  j=[find_class(name,event,game),'Class'] if j[0].nil?
+  j=[find_skill(game,name,event),'Skill'] if j[0].nil?
+  j=[find_item(game,name,event),'Item'] if j[0].nil?
+  j[0]=j[0][0]
   k=0
   k=event.server.id unless event.server.nil?
   for izzz in 0...@names.length
-    if @names[izzz][0].downcase==name.downcase
-      if @names[izzz][2].nil? && event.user.id != 167657750971547648
+    if @names[izzz][1].downcase==name.downcase
+      if @names[izzz][3].nil? && event.user.id != 167657750971547648
         event.respond "You cannot remove a global alias"
         return nil
-      elsif @names[izzz][2].nil? || @names[izzz][2].include?(k)
-        unless @names[izzz][2].nil?
-          for izzz2 in 0...@names[izzz][2].length
-            @names[izzz][2][izzz2]=nil if @names[izzz][2][izzz2]==k
+      elsif @names[izzz][3].nil? || @names[izzz][3].include?(k)
+        unless @names[izzz][3].nil?
+          for izzz2 in 0...@names[izzz][3].length
+            @names[izzz][3][izzz2]=nil if @names[izzz][3][izzz2]==k
           end
-          @names[izzz][2].compact!
+          @names[izzz][3].compact!
         end
-        @names[izzz]=nil if @names[izzz][2].nil? || @names[izzz][2].length<=0
+        @names[izzz]=nil if @names[izzz][3].nil? || @names[izzz][3].length<=0
       end
     end
   end
@@ -4064,20 +4442,32 @@ bot.command([:deletealias,:removealias]) do |event, name|
   srv=event.server.id unless event.server.nil?
   srvname="PM with dev"
   srvname=bot.server(srv).name unless event.server.nil? && srv==0
-  bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n~~**Alias:** #{name} for #{j[0]}~~ **DELETED**.")
+  bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n~~**#{j[1]} Alias:** #{name} for #{j[0]}~~ **DELETED**.")
   open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
     for i in 0...@names.length
       f.puts "#{@names[i].to_s}#{"\n" if i<@names.length-1}"
     end
   }
-  nicknames_load()
   event.respond "#{name} has been removed from #{j[0]}'s names."
-  nzzz=@names.map{|a| a}
-  if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][1]>="Yarne"
+  nicknames_load()
+  nzzz=@names.reject{|q| q[0]!='Unit'}
+  nzzz2=@names.reject{|q| q[0]!='Class'}
+  nzzz3=@names.reject{|q| q[0]!='Skill'}
+  nzzz4=@names.reject{|q| q[0]!='Item'}
+  if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][2]>="Xander" && nzzz2[nzzz2.length-1].length>1 && nzzz2[nzzz2.length-1][2]>="Wyvern Rider" && nzzz3[nzzz3.length-1].length>1 && nzzz3[nzzz3.length-1][2]>="Defensetaker" && nzzz4[nzzz4.length-1].length>1 && nzzz4[nzzz4.length-1][2]>="Armorslayer"
     bot.channel(logchn).send_message("Alias list saved.")
     open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt', 'w') { |f|
       for i in 0...nzzz.length
         f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
+      end
+      for i in 0...nzzz2.length
+        f.puts "#{nzzz2[i].to_s}#{"\n" if i<nzzz2.length-1}"
+      end
+      for i in 0...nzzz3.length
+        f.puts "#{nzzz3[i].to_s}#{"\n" if i<nzzz3.length-1}"
+      end
+      for i in 0...nzzz4.length
+        f.puts "#{nzzz4[i].to_s}#{"\n" if i<nzzz4.length-1}"
       end
     }
     bot.channel(logchn).send_message("Alias list has been backed up.")
@@ -4549,11 +4939,10 @@ bot.command(:backupaliases) do |event|
   return nil unless event.user.id==167657750971547648
   nicknames_load()
   @names.uniq!
-  @names.sort! {|a,b| (a[1].downcase <=> b[1].downcase) == 0 ? (a[0].downcase <=> b[0].downcase) : (a[1].downcase <=> b[1].downcase)}
-  if @names[@names.length-1].length<=1 || @names[@names.length-1][1]<"Xander"
-    event.respond "Alias list has __***NOT***__ been backed up, as alias list has been corrupted."
-    bot.gateway.check_heartbeat_acks = true
-    event.respond "FE!restorealiases"
+  @names.sort! {|a,b| (spaceship_order(a[0]) <=> spaceship_order(b[0])) == 0 ? ((a[2].downcase <=> b[2].downcase) == 0 ? (a[1].downcase <=> b[1].downcase) : (a[2].downcase <=> b[2].downcase)) : (spaceship_order(a[0]) <=> spaceship_order(b[0]))}
+  zunits=@names.reject{|q| q[0]!='Unit'}
+  if zunits[zunits.length-1].length<=1 || zunits[zunits.length-1][2]<'Yarne'
+    event.respond 'Alias list has __***NOT***__ been backed up, as alias list has been corrupted.'
     return nil
   end
   nzzzzz=@names.map{|a| a}
@@ -4601,9 +4990,10 @@ bot.command(:restorealiases) do |event|
 end
 
 bot.command(:sortaliases) do |event|
+  return nil unless [167657750971547648,bot.profile.id].include?(event.user.id) || event.channel.id==386658080257212417
   nicknames_load()
   @names.uniq!
-  @names.sort! {|a,b| (a[1].downcase <=> b[1].downcase) == 0 ? (a[0].downcase <=> b[0].downcase) : (a[1].downcase <=> b[1].downcase)}
+  @names.sort! {|a,b| (spaceship_order(a[0]) <=> spaceship_order(b[0])) == 0 ? ((a[2].downcase <=> b[2].downcase) == 0 ? (a[1].downcase <=> b[1].downcase) : (a[2].downcase <=> b[2].downcase)) : (spaceship_order(a[0]) <=> spaceship_order(b[0]))}
   open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
     for i in 0...@names.length
       f.puts "#{@names[i].to_s}#{"\n" if i<@names.length-1}"
@@ -4893,8 +5283,8 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     return nil
   elsif ['alias','aliases','name','names','nickname','nicknames'].include?(f.downcase)
     event.channel.send_temporary_message('Calculating data, please wait...',1)
-    glbl=@names.reject{|q| !q[2].nil?}
-    srv_spec=@names.reject{|q| q[2].nil?}
+    glbl=@names.reject{|q| q[0]!='Unit' || !q[3].nil?}.map{|q| [q[1],q[2]]}
+    srv_spec=@names.reject{|q| q[0]!='Unit' || q[3].nil?}.map{|q| [q[1],q[2],q[3]]}
     all_units=@units.reject{|q| q[1][3]=='g'}
     all_units=@units.map{|q| q} if event.server.nil? && event.user.id==167657750971547648
     all_units=@units.map{|q| q} if !event.server.nil? && event.server.id==256291408598663168
@@ -4905,48 +5295,79 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
       all_units[j][1]+=glbl.reject{|q| q[1]!=all_units[j][0]}.length
       all_units[j][2]+=srv_spec.reject{|q| q[1]!=all_units[j][0]}.length
     end
-    event << "**There are #{longFormattedNumber(glbl.length)} global aliases.**"
+    str="**There are #{longFormattedNumber(glbl.length)} global unit aliases.**"
     all_units=all_units.sort{|b,a| supersort(a,b,1).zero? ? supersort(a,b,0) : supersort(a,b,1)}
     k=all_units.reject{|q| q[1]!=all_units[0][1]}.map{|q| "*#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}#{q[0]}#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}*"}
-    event << "The unit#{"s" unless k.length==1} with the most global aliases #{"is" if k.length==1}#{"are" unless k.length==1} #{list_lift(k,"and")}, with #{all_units[0][1]} global aliases#{" each" unless k.length==1}."
+    str="#{str}\nThe unit#{"s" unless k.length==1} with the most global aliases #{"is" if k.length==1}#{"are" unless k.length==1} #{list_lift(k,"and")}, with #{all_units[0][1]} global aliases#{" each" unless k.length==1}."
     k=all_units.reject{|q| q[1]!=0}.map{|q| "*#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}#{q[0]}#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}*"}
     if safe_to_spam?(event) || " #{event.message.text.downcase} ".include?(" all ")
       if k.length.zero?
         all_units=all_units.sort{|a,b| supersort(a,b,1).zero? ? supersort(b,a,0) : supersort(a,b,1)}
         k=all_units.reject{|q| q[1]!=all_units[0][1]}.map{|q| "*#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}#{q[0]}#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}*"}
-        event << "The unit#{"s" unless k.length==1} with the fewest global aliases #{"is" if k.length==1}#{"are" unless k.length==1} #{list_lift(k,"and")}, with #{all_units[0][1]} global alias#{"es" unless all_units[0][1]==1}#{" each" unless k.length==1}."
+        str="#{str}\nThe unit#{"s" unless k.length==1} with the fewest global aliases #{"is" if k.length==1}#{"are" unless k.length==1} #{list_lift(k,"and")}, with #{all_units[0][1]} global alias#{"es" unless all_units[0][1]==1}#{" each" unless k.length==1}."
       elsif event.server.nil? && event.user.id==167657750971547648
         if k.reject{|q| q.include?('~~')}.length.zero?
-          event << "The following unit#{"s" unless k.length==1} have no global aliases: #{list_lift(k.map{|q| q.gsub('~~','')},"and")}"
+          str="#{str}\nThe following unit#{"s" unless k.length==1} have no global aliases: #{list_lift(k.map{|q| q.gsub('~~','')},"and")}"
         else
-          event << "The following unit#{"s" unless k.reject{|q| q.include?('~~')}.length==1} have no global aliases: #{list_lift(k.reject{|q| q.include?('~~')},"and")}"
-          event << "The following unit#{"s" unless k.reject{|q| !q.include?('~~')}.length==1} are fake: #{list_lift(k.reject{|q| !q.include?('~~')}.map{|q| q.gsub('~~','')},"and")}"
+          str="#{str}\nThe following unit#{"s" unless k.reject{|q| q.include?('~~')}.length==1} have no global aliases: #{list_lift(k.reject{|q| q.include?('~~')},"and")}"
+          str="#{str}\nThe following unit#{"s" unless k.reject{|q| !q.include?('~~')}.length==1} are fake: #{list_lift(k.reject{|q| !q.include?('~~')}.map{|q| q.gsub('~~','')},"and")}"
         end
       else
-        event << "The following unit#{"s" unless k.length==1} have no global aliases: #{list_lift(k,"and")}"
+        str="#{str}\nThe following unit#{"s" unless k.length==1} have no global aliases: #{list_lift(k,"and")}"
       end
     end
-    event << ''
-    event << "**There are #{longFormattedNumber(srv_spec.length)} server-specific aliases.**"
+    str2="**There are #{longFormattedNumber(srv_spec.length)} server-specific unit aliases.**"
     if event.server.nil? && @shardizard==4
-      event << "Due to being the debug version, I cannot show more information."
+      str2="#{str2}\nDue to being the debug version, I cannot show more information."
     elsif event.server.nil?
-      event << "Servers you and I share account for #{@names.reject{|q| q[2].nil? || q[2].reject{|q2| q2==285663217261477889 || bot.user(event.user.id).on(q2).nil?}.length<=0}.length} of those."
+      str2="#{str2}\nServers you and I share account for #{@names.reject{|q| q[3].nil? || q[3].reject{|q2| q2==285663217261477889 || bot.user(event.user.id).on(q2).nil?}.length<=0}.length} of those."
     else
-      event << "This server accounts for #{@names.reject{|q| q[2].nil? || !q[2].include?(event.server.id)}.length} of those."
+      str2="#{str2}\nThis server accounts for #{@names.reject{|q| q[3].nil? || !q[3].include?(event.server.id)}.length} of those."
     end
     all_units=all_units.sort{|b,a| supersort(a,b,2).zero? ? supersort(a,b,0) : supersort(a,b,2)}
     k=all_units.reject{|q| q[2]!=all_units[0][2]}.map{|q| "*#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}#{q[0]}#{'~~' if legal_units.find_index{|q2| q2[0]==q[0]}.nil?}*"}
     k=k.uniq
-    event << "The unit#{"s" unless k.length==1} with the most server-specific aliases #{"is" if k.length==1}#{"are" unless k.length==1} #{list_lift(k,"and")}, with #{all_units[0][2]} server-specific aliases#{" each" unless k.length==1}."
+    str2="#{str2}\nThe unit#{"s" unless k.length==1} with the most server-specific aliases #{"is" if k.length==1}#{"are" unless k.length==1} #{list_lift(k,"and")}, with #{all_units[0][2]} server-specific aliases#{" each" unless k.length==1}."
     for i in 0...srv_spec.length
       srv_spec[i][2]=srv_spec[i][2].length
     end
     srv_spec=srv_spec.sort{|b,a| supersort(a,b,2).zero? ? (supersort(a,b,1).zero? ? supersort(a,b,0) : supersort(a,b,1)) : supersort(a,b,2)}
     k=srv_spec.reject{|q| q[2]!=srv_spec[0][2]}.map{|q| "*#{q[0]} = #{q[1]}*"}
-    event << "The most agreed-upon server-specific alias#{"es are" unless k.length==1}#{" is" if k.length==1} #{list_lift(k,"and")}.  #{srv_spec[0][2]} servers agree on #{"them" unless k.length==1}#{"it" if k.length==1}." if safe_to_spam?(event) || " #{event.message.text.downcase} ".include?(" all ")
+    str2="#{str2}\nThe most agreed-upon server-specific alias#{"es are" unless k.length==1}#{" is" if k.length==1} #{list_lift(k,"and")}.  #{srv_spec[0][2]} servers agree on #{"them" unless k.length==1}#{"it" if k.length==1}." if safe_to_spam?(event) || " #{event.message.text.downcase} ".include?(" all ")
     k=srv_spec.map{|q| q[2]}.inject(0){|sum,x| sum + x }
-    event << "Counting each alias/server combo as a unique alias, there are #{longFormattedNumber(k)} server-specific aliases"
+    str2="#{str2}\nCounting each alias/server combo as a unique alias, there are #{longFormattedNumber(k)} server-specific aliases"
+    str=extend_message(str,str2,event,2)
+    glbl=@names.reject{|q| q[0]!='Class' || !q[3].nil?}.map{|q| [q[1],q[2],q[3]]}
+    srv_spec=@names.reject{|q| q[0]!='Class' || q[3].nil?}.map{|q| [q[1],q[2],q[3]]}
+    str2="**There are #{longFormattedNumber(glbl.length)} global class aliases.**\n**There are #{longFormattedNumber(srv_spec.length)} server-specific class aliases.**"
+    if event.server.nil? && @shardizard==4
+    elsif event.server.nil?
+      str2="#{str2} - Servers you and I share account for #{@names.reject{|q| q[0]!='Class' || q[3].nil? || q[3].reject{|q2| q2==285663217261477889 || bot.user(event.user.id).on(q2).nil?}.length<=0}.length} of those"
+    else
+      str2="#{str2} - This server accounts for #{@names.reject{|q| q[0]!='Class' || q[3].nil? || !q[3].include?(event.server.id)}.length} of those."
+    end
+    str=extend_message(str,str2,event,2)
+    glbl=@names.reject{|q| q[0]!='Skill' || !q[3].nil?}.map{|q| [q[1],q[2],q[3]]}
+    srv_spec=@names.reject{|q| q[0]!='Skill' || q[3].nil?}.map{|q| [q[1],q[2],q[3]]}
+    str2="**There are #{longFormattedNumber(glbl.length)} global skill aliases.**\n**There are #{longFormattedNumber(srv_spec.length)} server-specific skill aliases.**"
+    if event.server.nil? && @shardizard==4
+    elsif event.server.nil?
+      str2="#{str2} - Servers you and I share account for #{@names.reject{|q| q[0]!='Skill' || q[3].nil? || q[3].reject{|q2| q2==285663217261477889 || bot.user(event.user.id).on(q2).nil?}.length<=0}.length} of those"
+    else
+      str2="#{str2} - This server accounts for #{@names.reject{|q| q[0]!='Skill' || q[3].nil? || !q[3].include?(event.server.id)}.length} of those."
+    end
+    str=extend_message(str,str2,event,2)
+    glbl=@names.reject{|q| q[0]!='Item' || !q[3].nil?}.map{|q| [q[1],q[2],q[3]]}
+    srv_spec=@names.reject{|q| q[0]!='Item' || q[3].nil?}.map{|q| [q[1],q[2],q[3]]}
+    str2="**There are #{longFormattedNumber(glbl.length)} global item/weapon aliases.**\n**There are #{longFormattedNumber(srv_spec.length)} server-specific item/weapon aliases.**"
+    if event.server.nil? && @shardizard==4
+    elsif event.server.nil?
+      str2="#{str2} - Servers you and I share account for #{@names.reject{|q| q[0]!='Item' || q[3].nil? || q[3].reject{|q2| q2==285663217261477889 || bot.user(event.user.id).on(q2).nil?}.length<=0}.length} of those"
+    else
+      str2="#{str2} - This server accounts for #{@names.reject{|q| q[0]!='Item' || q[3].nil? || !q[3].include?(event.server.id)}.length} of those."
+    end
+    str=extend_message(str,str2,event,2)
+    event.respond str
     return nil
   elsif ['code','lines','line','sloc'].include?(f.downcase)
     event.channel.send_temporary_message('Calculating data, please wait...',3)
@@ -5101,7 +5522,7 @@ bot.message do |event|
     if a[0].downcase=='reboot'
       event.respond "Becoming Elise.  Please wait approximately ten seconds..."
       exec "cd C:/Users/Mini-Matt/Desktop/devkit && PriscillaBot.rb 4"
-    else
+    elsif event.server.nil? || event.server.id==285663217261477889
       event.respond "I am not Elise right now.  Please use `FEH!reboot` to turn me into Elise."
     end
   elsif (['fgo!','fgo?','liz!','liz?'].include?(str[0,4]) || ['fate!','fate?'].include?(str[0,5])) && @shardizard==4
@@ -5112,7 +5533,7 @@ bot.message do |event|
     if a[0].downcase=='reboot'
       event.respond "Becoming Liz.  Please wait approximately ten seconds..."
       exec "cd C:/Users/Mini-Matt/Desktop/devkit && LizBot.rb 4"
-    else
+    elsif event.server.nil? || event.server.id==285663217261477889
       event.respond "I am not Liz right now.  Please use `FGO!reboot` to turn me into Elise."
     end
   elsif ['fea!','fef!'].include?(str[0,4]) || ['fe13!','fe14!'].include?(str[0,5]) || ['fe!'].include?(str[0,3])
