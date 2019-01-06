@@ -2,10 +2,18 @@
 system("color 0#{"BCD0E"[@shardizard,1]}") # command prompt color and title determined by the shard
 system("title loading #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} FEIndex")
 
-require 'discordrb' # Download link: https://github.com/meew0/discordrb
-require 'open-uri' # pre-installed with Ruby in Windows
-require 'net/http'
+require 'discordrb'                    # Download link: https://github.com/meew0/discordrb
+require 'open-uri'                     # pre-installed with Ruby in Windows
+require 'net/http'                     # pre-installed with Ruby in Windows
+require 'certified'
+require 'tzinfo/data'                  # Downloaded with active_support below, but the require must be above active_support's require
+require 'rufus-scheduler'              # Download link: https://github.com/jmettraux/rufus-scheduler
+require 'active_support/core_ext/time' # Download link: https://rubygems.org/gems/activesupport/versions/5.0.0
 require_relative 'rot8er_functs' # functions I use commonly in bots
+
+# this is required to get her to post messages in a certain server when specific criteria are met
+ENV['TZ'] = 'America/Chicago'
+@scheduler = Rufus::Scheduler.new
 
 # All the possible command prefixes, not case insensitive so I have to fake it by including every combination of lower- and upper-case
 @prefix = ['FE!','fe!','Fe!','fE!',
@@ -71,12 +79,14 @@ bot.gateway.check_heartbeat_acks = false
 @ignored=[]
 @spam_channels=[]
 @embedless=[]
+@last_bday=0
 
 def all_commands(include_nil=false,permissions=-1)
   k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character',
      'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
-     'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list','saliases','serveraliases']
+     'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list','saliases','serveraliases','bday',
+     'birthday']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
@@ -104,6 +114,7 @@ def data_load()
     b[i][4]=b[i][4].split(', ').map{|q| q.to_i}
     b[i][5]=b[i][5].split(', ')
     b[i][6]=b[i][6].split(', ')
+    b[i][8]=b[i][8].split('/').map{|q| q.to_i} unless b[i][8].nil? || b[i][8].length<=1
   end
   @units=b.map{|q| q}
   # CLASS DATA
@@ -352,6 +363,8 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
     create_embed(event,"**#{command.downcase}** __unit__","Responds with a list of all `unit`'s aliases.\nIf no unit is listed, responds with a list of all aliases and who they are for.\n\nPlease note that if more than 50 aliases are to be listed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",0x02010a)
   elsif ['deletealias','removealias'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** __alias__","Removes `alias` from the list of aliases, regardless of who/what it was for.\n\n**This command can only be used by server mods.**",0xC31C19)
+  elsif ['bday','birthday'].include?(command.downcase)
+    create_embed(event,"**#{command.downcase}**","Shows a list of unit birthdays, sorted by how soon they will come up.\n\nIn PM, shows the entire calendar.\nElsewhere, shows only the next eight for each game.",0x02010a)
   elsif command.downcase=='addalias'
     create_embed(event,'**addalias** __new alias__ __unit__',"Adds `new alias` to `name`'s aliases.\nIf the arguments are listed in the opposite order, the command will auto-switch them.\n\nAliases can be added to:\n- Units\n- Classes\n- Skills\n- Items/Weapons\n\nInforms you if the alias already belongs to someone/something.\nAlso informs you if the unit you wish to give the alias to does not exist.\n\n**This command can only be used by server mods.**",0xC31C19)
   elsif "marry"==command.downcase
@@ -360,7 +373,7 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
     create_embed(event,"**proc** __stat__ __list of skills__","Shows the likelihood of each of the listed skills proc'ing, given a unit's Skill stat is `stat`.\nIncluding the skills 'Hoshidan Unity' and/or 'Quixotic' will increases chances accordingly.\nIncluding the skill 'Nohrian Trust' allows you to have more than five skills listed.\n\nIf no Skill stat is listed, shows a random number between 1 and 64.\nIf no proc skills are listed, shows the list as if you have all possible proc skills.\n\nUsing a negative number as the Skill stat, crossing out one or more skill names, or including the word 'not' in your message will change the command to Reverse Mode.\nIn Reverse Mode, the listed skills will be *excluded* from the list of all proc skills, and the result will be the list of skills you have.",0x02010a)
   else
     event.respond("#{command.downcase} is not a command.") if command != ""
-    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n`find` __\*filters__ - to search for units that fit specific criteria\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x02010a)
+    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n`find` __\*filters__ - to search for units that fit specific criteria\n`bday` - for a list of upcoming unit birthdays\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x02010a)
     create_embed(event,"__**Server Admin Commands**__","__**Unit Aliases**__\n`addalias` __new alias__ __unit__ - Adds a new server-specific alias\n~~`aliases` __unit__ (*also `checkaliases` or `seealiases`*)~~\n`deletealias` __alias__ (*also `removealias`*) - deletes a server-specific alias",0xC31C19) if is_mod?(event.user,event.server,event.channel)
     create_embed(event,"__**Bot Developer Commands**__","`ignoreuser` __user id number__ - makes me ignore a user\n`leaveserver` __server id number__ - makes me leave a server\n\n`sendpm` __user id number__ __\\*message__ - sends a PM to a user\n`sendmessage` __channel id__ __\\*message__ - sends a message to a specific channel\n\n`snagstats` - snags server stats for multiple servers\n\n`reboot` - reboots this shard\n\n`backupaliases` - backs up the alias list\n`restorealiases` - restores the alias list from last backup\n`sort` - sorts the alias list alphabetically by unit",0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
     event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FE13!`\n*Fates* mechanics: `FEF!` `FE14!`\nDetermine mechanics contextually: `FE!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
@@ -2394,6 +2407,7 @@ def unit_parse(event,bot,args)
       picture=nil if picture[0,1]=='>'
     end
     text="#{text}\n**Personal Skill:** *#{@bob[7]}*  #{@skills[@skills.find_index{|q| q[0]==@bob[7]}][4]}" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A" || @skills.find_index{|q| q[0]==@bob[7]}.nil?
+    text="#{text}\n**Birthday:** #{@bob[8][1]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][@bob[8][0]]}" unless @bob[8].nil? || @bob[8].length<=1
     prf=@items.find_index{|q| !q[1].nil? && !q[3].nil? && q[3].gsub('*','')==@bob[0].gsub('**','') && @bob[1][2,1]==q[1][0].gsub('G','F')}
     text="#{text}\n**Prf weapon:** *#{@items[prf][0]}*" unless prf.nil? || ['staff','rod'].include?(@items[prf][2][0].downcase)
     text="#{text}\n**Prf staff:** *#{@items[prf][0]}*" unless prf.nil? || !['staff','rod'].include?(@items[prf][2][0].downcase)
@@ -4147,6 +4161,75 @@ def disp_aliases(bot,event,args=nil,mode=0)
   return nil
 end
 
+def bday_order(bot,event=nil,mode=0)
+  data_load()
+  untz=@units.map{|q| q}
+  untz=@units.reject{|q| q[1][3]=='g'} if event.nil? || event.server.nil? || event.server.id != 256291408598663168
+  untz=untz.reject{|q| q[8].nil? || q[8].length<=1}
+  t=Time.now
+  for i in 0...untz.length
+    if untz[i][1][3]=='g'
+      untz[i][1]='Gates'
+    elsif untz[i][1][2]=='F'
+      untz[i][1]='Fates'
+    elsif untz[i][1][2]=='A'
+      untz[i][1]='Awakening'
+    else
+      untz[i][1]='Unknown'
+    end
+    untz[i][0]="*#{untz[i][1]}*!Anna" if mode==1 && untz[i][0]=='Anna'
+    if t.month>untz[i][8][0]
+      untz[i][8].unshift(t.year+1)
+    elsif t.month==untz[i][8][0] && t.day>untz[i][8][1]
+      untz[i][8].unshift(t.year+1)
+    else
+      untz[i][8].unshift(t.year)
+    end
+    untz[i]=[untz[i][8][0],untz[i][8][1],untz[i][8][2],untz[i][0],untz[i][1]]
+    untz[i]=nil if untz[i][3]=='Lucina' && untz[i][4]=='Fates'
+  end
+  untz.compact!
+  untz.sort! {|a,b| supersort(a,b,0) == 0 ? (supersort(a,b,1) == 0 ? (supersort(a,b,2) == 0 ? (supersort(a,b,3) == 0 ? supersort(a,b,4) : supersort(a,b,3)) : supersort(a,b,2)) : supersort(a,b,1)) : supersort(a,b,0)}
+  return untz
+end
+
+bot.command([:bday,:birthday]) do |event|
+  untz=bday_order(bot,event)
+  t=Time.now
+  msg='__**Upcoming birthdays**__'
+  ftz=untz.reject{|q| q[4]!='Fates'}
+  gtz=untz.reject{|q| q[4]!='Gates'}
+  awk=untz.reject{|q| q[4]!='Awakening'}
+  unk=untz.reject{|q| q[4]!='Unknown'}
+  unless safe_to_spam?(event)
+    ftz=ftz[0,8]
+    awk=awk[0,8]
+    gtz=gtz[0,[gtz.length,8].min]
+    unk=unk[0,[unk.length,3].min]
+  end
+  msg=extend_message(msg,'__*Awakening*__',event,2)
+  for i in 0...awk.length
+    msg=extend_message(msg,"**#{awk[i][3]}** - #{awk[i][2]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][awk[i][1]]}#{" #{awk[i][0]}" unless awk[i][0]==t.year}",event)
+  end
+  msg=extend_message(msg,'__*Fates*__',event,2)
+  for i in 0...ftz.length
+    msg=extend_message(msg,"**#{ftz[i][3]}** - #{ftz[i][2]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][ftz[i][1]]}#{" #{ftz[i][0]}" unless ftz[i][0]==t.year}",event)
+  end
+  if gtz.length>0
+    msg=extend_message(msg,'__*Gates*__',event,2)
+    for i in 0...gtz.length
+      msg=extend_message(msg,"**#{gtz[i][3]}** - #{gtz[i][2]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][gtz[i][1]]}#{" #{gtz[i][0]}" unless gtz[i][0]==t.year}",event)
+    end
+  end
+  if unk.length>0
+    msg=extend_message(msg,'__Other__',event,2)
+    for i in 0...unk.length
+      msg=extend_message(msg,"**#{unk[i][3]}** - #{unk[i][2]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][unk[i][1]]}#{" #{unk[i][0]}" unless unk[i][0]==t.year}",event)
+    end
+  end
+  event.respond msg
+end
+
 bot.command([:find, :sort, :list, :search]) do |event, *args|
   get_unit_list(event,bot,args)
 end
@@ -4340,7 +4423,7 @@ bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
         bot.channel(chn).send_message("The alias **#{newname}** for the #{type[1].downcase} *#{unit}* exists in another server already.  Adding this server to those that can use it.")
         event.respond "The alias **#{newname}** for the #{type[1].downcase} *#{unit}* exists in another server already.  Adding this server to those that can use it.\nPlease test to be sure that the alias stuck." if event.user.id==167657750971547648 && !modifier2.nil? && modifier2.to_i.to_s==modifier2
         metadata_load()
-        bot.user(167657750971547648).pm("The alias **#{@names[i][0]}** for the character **#{@names[i][1]}** is used in quite a few servers.  It might be time to make this global") if @names[i][2].length >= @server_data2[0].inject(0){|sum,x| sum + x } / 20 && @names[i][3].nil?
+        bot.user(167657750971547648).pm("The alias **#{@names[i][0]}** for the character **#{@names[i][1]}** is used in quite a few servers.  It might be time to make this global") if @names[i][3].length >= @server_data2[0].inject(0){|sum,x| sum + x } / 20 && @names[i][4].nil?
         bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**#{type[1]} Alias:** #{newname} for #{unit} - gained a new server that supports it.")
         double=true
       end
@@ -5624,6 +5707,31 @@ bot.mention do |event|
   end
 end
 
+def next_birthday(bot,mode=0)
+  return nil unless [1,4].include?(@shardizard)
+  chn=374991827092373504
+  chn=285663217261477889 if @shardizard==4
+  untz=bday_order(bot)
+  t=Time.now
+  untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
+  m=0
+  if t.hour<10
+    m=1
+  elsif (t-@last_bday).to_f<23*60*60
+  elsif untz.length>0
+    bot.channel(chn).send_message("__Today's *Fire Emblem* birthdays__\n#{untz.map{|q| "**#{q[3]}** from *#{q[4]}*"}.join("\n")}")
+  else
+    bot.channel(chn).send_message('No birthdays') if @shardizard==4
+  end
+  unless (t-@last_bday).to_f<23*60*60
+    @last_bday=t
+    t+=(1-m)*24*60*60
+    @scheduler.at "#{t.year}/#{t.month}/#{t.day} 1000" do
+      next_birthday(bot)
+    end
+  end
+end
+
 bot.ready do |event|
   if @shardizard==4
     for i in 0...bot.servers.values.length
@@ -5664,6 +5772,7 @@ bot.ready do |event|
   data_load()
   system("color B#{"14506"[@shardizard,1]}")
   bot.game="Fire Emblem Awakening / Fates"
+  next_birthday(bot)
   bot.user(bot.profile.id).on(285663217261477889).nickname="FEIndex (RobinDebug)" if @shardizard==4
   bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/DebugRobin.png','r')) if @shardizard==4
   system("title #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} FEIndex")
