@@ -5708,9 +5708,8 @@ bot.mention do |event|
 end
 
 def next_birthday(bot,mode=0)
-  return nil unless [1,4].include?(@shardizard)
+  return nil unless [1].include?(@shardizard)
   chn=374991827092373504
-  chn=285663217261477889 if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
@@ -5720,11 +5719,9 @@ def next_birthday(bot,mode=0)
   elsif (t-@last_bday).to_f<23*60*60
   elsif untz.length>0
     bot.channel(chn).send_message("__Today's *Fire Emblem* birthdays__\n#{untz.map{|q| "**#{q[3]}** from *#{q[4]}*"}.join("\n")}")
-  else
-    bot.channel(chn).send_message('No birthdays') if @shardizard==4
   end
   unless (t-@last_bday).to_f<23*60*60
-    @last_bday=t
+    @last_bday=t unless t.hour<10 && @last_bday==0
     t+=(1-m)*24*60*60
     @scheduler.at "#{t.year}/#{t.month}/#{t.day} 1000" do
       next_birthday(bot)
