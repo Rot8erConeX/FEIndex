@@ -251,7 +251,7 @@ end
 
 def safe_to_spam?(event,chn=nil) # determines whether or not it is safe to send extremely long messages
   return true if event.server.nil? # it is safe to spam in PM
-  return true if [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,508792801455243266,508793141202255874,508793425664016395].include?(event.server.id) # it is safe to spam in the emoji servers
+  return true if [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,508792801455243266,508793141202255874,508793425664016395,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id) # it is safe to spam in the emoji servers
   chn=event.channel if chn.nil?
   return true if ['bots','bot'].include?(chn.name.downcase) # channels named "bots" are safe to spam in
   return true if chn.name.downcase.include?('bot') && chn.name.downcase.include?('spam') # it is safe to spam in any bot spam channel
@@ -5574,8 +5574,8 @@ bot.server_create do |event|
     end
     chn=chnn[0] if chnn.length>0
   end
-  if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,497429938471829504].include?(event.server.id) && @shardizard==4
-    (chn.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/HEuQK2>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/v3ADBG>") rescue nil)
+  if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,497429938471829504,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id) && @shardizard==4
+    (chn.send_message(get_debug_leave_message()) rescue nil)
     event.server.leave
   else
     bot.user(167657750971547648).pm("Joined server **#{event.server.name}** (#{event.server.id})\nOwner: #{event.server.owner.distinct} (#{event.server.owner.id})\nAssigned to the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(event.server.id >> 22) % 3]} Alliance")
@@ -5610,14 +5610,24 @@ bot.message do |event|
     end
   elsif (['fgo!','fgo?','liz!','liz?'].include?(str[0,4]) || ['fate!','fate?'].include?(str[0,5])) && @shardizard==4
     s=event.message.text.downcase
-    s=s[5,s.length-5] if ['fate!','fate?'].include?(event.message.text.downcase[0,2])
+    s=s[5,s.length-5] if ['fate!','fate?'].include?(event.message.text.downcase[0,5])
     s=s[4,s.length-4] if ['fgo!','fgo?','liz!','liz?'].include?(event.message.text.downcase[0,4])
     a=s.split(' ')
     if a[0].downcase=='reboot'
       event.respond "Becoming Liz.  Please wait approximately ten seconds..."
       exec "cd C:/Users/Mini-Matt/Desktop/devkit && LizBot.rb 4"
     elsif event.server.nil? || event.server.id==285663217261477889
-      event.respond "I am not Liz right now.  Please use `FGO!reboot` to turn me into Elise."
+      event.respond "I am not Liz right now.  Please use `FGO!reboot` to turn me into Liz."
+    end
+  elsif ['dl!','dl?'].include?(str[0,3]) && @shardizard==4
+    s=event.message.text.downcase
+    s=s[3,s.length-3]
+    a=s.split(' ')
+    if a[0].downcase=='reboot'
+      event.respond "Becoming Botan.  Please wait approximately ten seconds..."
+      exec "cd C:/Users/Mini-Matt/Desktop/devkit && BotanBot.rb 4"
+    elsif event.server.nil? || event.server.id==285663217261477889
+      event.respond "I am not Botan right now.  Please use `DL!reboot` to turn me into Botan."
     end
   elsif ['fea!','fef!'].include?(str[0,4]) || ['fe13!','fe14!'].include?(str[0,5]) || ['fe!'].include?(str[0,3])
     str=str[4,str.length-4] if ['fea!','fef!'].include?(str[0,4])
@@ -5708,8 +5718,9 @@ bot.mention do |event|
 end
 
 def next_birthday(bot,mode=0)
-  return nil unless [1].include?(@shardizard)
+  return nil unless [1,4].include?(@shardizard)
   chn=374991827092373504
+  chn=285663217261477889 if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
@@ -5718,22 +5729,20 @@ def next_birthday(bot,mode=0)
     m=1
   elsif (t-@last_bday).to_f<23*60*60
   elsif untz.length>0
+    @last_bday=t
     bot.channel(chn).send_message("__Today's *Fire Emblem* birthdays__\n#{untz.map{|q| "**#{q[3]}** from *#{q[4]}*"}.join("\n")}")
   end
-  unless (t-@last_bday).to_f<23*60*60
-    @last_bday=t unless t.hour<10 && @last_bday==0
-    t+=(1-m)*24*60*60
-    @scheduler.at "#{t.year}/#{t.month}/#{t.day} 1000" do
-      next_birthday(bot)
-    end
+  t+=(1-m)*24*60*60
+  @scheduler.at "#{t.year}/#{t.month}/#{t.day} 1000" do
+    next_birthday(bot)
   end
 end
 
 bot.ready do |event|
   if @shardizard==4
     for i in 0...bot.servers.values.length
-      if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504].include?(bot.servers.values[i].id)
-        bot.servers.values[i].general_channel.send_message("I am Mathoo's personal debug bot.  As such, I do not belong here.  You may be looking for one of my two facets, so I'll drop both their invite links here.\n\n**EliseBot** allows you to look up stats and skill data for characters in *Fire Emblem: Heroes*\nHere's her invite link: <https://goo.gl/Hf9RNj>\n\n**FEIndex**, also known as **RobinBot**, is for *Fire Emblem: Awakening* and *Fire Emblem Fates*.\nHere's her invite link: <https://goo.gl/f1wSGd>") rescue nil
+      if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(bot.servers.values[i].id)
+        bot.servers.values[i].general_channel.send_message(get_debug_leave_message()) rescue nil
         bot.servers.values[i].leave
       end
     end
