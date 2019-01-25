@@ -3839,7 +3839,7 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
   game="Fates" if event.message.text[0,4].downcase=="fef!"
   game="Fates" if event.message.text[0,5].downcase=="fe14!"
   nicknames_load()
-  err=true
+  err=false
   str=''
   if newname.nil? || unit.nil?
     str="The alias system can cover:\n- Units\n- Classes\n- Skills\n- Weapons/Items\n\nYou must specify both:\n- one of the above\n- an alias you wish to give that item"
