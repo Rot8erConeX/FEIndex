@@ -86,7 +86,7 @@ def all_commands(include_nil=false,permissions=-1)
      'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
      'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list','saliases','serveraliases','bday',
-     'birthday']
+     'birthday','safe','spam','safetospam','safe2spam','longreplies','channellist','long','channelist','spamlist','spamchannels']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
@@ -373,9 +373,53 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
     create_embed(event,"**proc** __stat__ __list of skills__","Shows the likelihood of each of the listed skills proc'ing, given a unit's Skill stat is `stat`.\nIncluding the skills 'Hoshidan Unity' and/or 'Quixotic' will increases chances accordingly.\nIncluding the skill 'Nohrian Trust' allows you to have more than five skills listed.\n\nIf no Skill stat is listed, shows a random number between 1 and 64.\nIf no proc skills are listed, shows the list as if you have all possible proc skills.\n\nUsing a negative number as the Skill stat, crossing out one or more skill names, or including the word 'not' in your message will change the command to Reverse Mode.\nIn Reverse Mode, the listed skills will be *excluded* from the list of all proc skills, and the result will be the list of skills you have.",0x02010a)
   else
     event.respond("#{command.downcase} is not a command.") if command != ""
-    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics","__**Filter Settings**__\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)\n\n__**Stats**__\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)\n`class` __class name__ - to show a class's stats without a unit\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)\n`levelup` __\\*args__\n\n__**Other data**__\n`skill` __skill name__ - to display info on skills\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)\n`proc` __skill stat__ __list of skills__ - to show proc probabilities\n`marry` __name1__ __name2__ - to show what happens when units marry\n`find` __\*filters__ - to search for units that fit specific criteria\n`bday` - for a list of upcoming unit birthdays\n\n__**Developer Information**__\n`bugreport` __\\*message__\n`suggestion` __\\*message__\n`feedback` __\\*message__\n\n__**Meta Data**__\n`shard` (*also `alliance`*)",0x02010a)
-    create_embed(event,"__**Server Admin Commands**__","__**Unit Aliases**__\n`addalias` __new alias__ __unit__ - Adds a new server-specific alias\n~~`aliases` __unit__ (*also `checkaliases` or `seealiases`*)~~\n`deletealias` __alias__ (*also `removealias`*) - deletes a server-specific alias",0xC31C19) if is_mod?(event.user,event.server,event.channel)
-    create_embed(event,"__**Bot Developer Commands**__","`ignoreuser` __user id number__ - makes me ignore a user\n`leaveserver` __server id number__ - makes me leave a server\n\n`sendpm` __user id number__ __\\*message__ - sends a PM to a user\n`sendmessage` __channel id__ __\\*message__ - sends a message to a specific channel\n\n`snagstats` - snags server stats for multiple servers\n\n`reboot` - reboots this shard\n\n`backupaliases` - backs up the alias list\n`restorealiases` - restores the alias list from last backup\n`sort` - sorts the alias list alphabetically by unit",0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
+    str="__**Stats**__"
+    str="#{str}\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)"
+    str="#{str}\n`class` __class name__ - to show a class's stats without a unit"
+    str="#{str}\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)"
+    str="#{str}\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~"
+    str="#{str}\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)"
+    str="#{str}\n`levelup` __\\*args__ - performs a level up on the unit"
+    str="#{str}\n\n__**Other data**__"
+    str="#{str}\n`skill` __skill name__ - to display info on skills"
+    str="#{str}\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)"
+    str="#{str}\n`proc` __skill stat__ __\\*list of skills__ - to show proc probabilities"
+    str="#{str}\n`marry` __name1__ __name2__ - to show what happens when units marry"
+    str="#{str}\n`find` __\*filters__ - to search for units that fit specific criteria"
+    str="#{str}\n`bday` - for a list of upcoming unit birthdays"
+    str="#{str}\n__**Filter Settings**__"
+    str="#{str}\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)"
+    str="#{str}\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)"
+    str="#{str}\n\n__**Developer Information**__"
+    str="#{str}\n`bugreport` __\\*message__"
+    str="#{str}\n`suggestion` __\\*message__"
+    str="#{str}\n`feedback` __\\*message__"
+    str="#{str}\n\n__**Meta Data**__"
+    str="#{str}\n`shard` (*also `alliance`*)"
+    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics",str,0x02010a)
+    str="__**Aliases**__"
+    str="#{str}\n`addalias` __new alias__ __target__ - Adds a new server-specific alias"
+    str="#{str}\n~~`aliases` __target__ (*also `checkaliases` or `seealiases`*)~~"
+    str="#{str}\n~~`serveraliases` __target__ (*also `saliases`*)~~"
+    str="#{str}\n`deletealias` __alias__ (*also `removealias`*) - deletes a server-specific alias"
+    str="#{str}\n\n__**Channels**__"
+    str="#{str}\n`spam` __toggle__ - to allow the current channel to be safe to send long replies to (*also `safetospam` or `safe2spam`*)"
+    create_embed(event,"__**Server Admin Commands**__",str,0xC31C19) if is_mod?(event.user,event.server,event.channel)
+    str="__**Mjolnr, the Hammer**__"
+    str="#{str}\n`ignoreuser` __user id number__ - makes me ignore a user"
+    str="#{str}\n`leaveserver` __server id number__ - makes me leave a server"
+    str="#{str}\n\n__**Communication**__"
+    str="#{str}\n`sendpm` __user id number__ __\\*message__ - sends a PM to a user"
+    str="#{str}\n`sendmessage` __channel id__ __\\*message__ - sends a message to a specific channel"
+    str="#{str}\n\n__**Server Info**__"
+    str="#{str}\n`snagstats` - snags server stats for multiple servers"
+    str="#{str}\n\n__**Shards**__"
+    str="#{str}\n`reboot` - reboots this shard"
+    str="#{str}\n\n__**Meta Data Storage**__"
+    str="#{str}\n`backupaliases` - backs up the alias list"
+    str="#{str}\n`restorealiases` - restores the alias list from last backup"
+    str="#{str}\n`sort` - sorts the alias list by type of alias"
+    create_embed(event,"__**Bot Developer Commands**__",str,0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
     event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FE13!`\n*Fates* mechanics: `FEF!` `FE14!`\nDetermine mechanics contextually: `FE!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
   end
 end
@@ -5505,8 +5549,8 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     event << ''
     event << "**There are #{longFormattedNumber(b[0].reject{|q| q[0,12]!='bot.command('}.length)} commands, invoked with #{longFormattedNumber(all_commands().length)} different phrases.**"
     event << 'This includes:'
-    event << "#{longFormattedNumber(b[0].reject{|q| q[0,12]!='bot.command(' || q.include?('from: 167657750971547648')}.length-b[0].reject{|q| q.gsub('  ','')!='event.respond "You are not a mod."'}.length)} global commands, invoked with #{longFormattedNumber(all_commands(false,0).length)} different phrases."
-    event << "#{longFormattedNumber(b[0].reject{|q| q.gsub('  ','')!='event.respond "You are not a mod."'}.length)} mod-only commands, invoked with #{longFormattedNumber(all_commands(false,1).length)} different phrases."
+    event << "#{longFormattedNumber(b[0].reject{|q| q[0,12]!='bot.command(' || q.include?('from: 167657750971547648')}.length-b[0].reject{|q| q.gsub('  ','')!='event.respond "You are not a mod."' && q.gsub('  ','')!="str='You are not a mod.'"}.length)} global commands, invoked with #{longFormattedNumber(all_commands(false,0).length)} different phrases."
+    event << "#{longFormattedNumber(b[0].reject{|q| q.gsub('  ','')!='event.respond "You are not a mod."' && q.gsub('  ','')!="str='You are not a mod.'"}.length)} mod-only commands, invoked with #{longFormattedNumber(all_commands(false,1).length)} different phrases."
     event << "#{longFormattedNumber(b[0].reject{|q| q[0,12]!='bot.command(' || !q.include?('from: 167657750971547648')}.length)} dev-only commands, invoked with #{longFormattedNumber(all_commands(false,2).length)} different phrases."
     event << ''
     event << "**There are #{longFormattedNumber(@prefix.map{|q| q.downcase}.uniq.length)} command prefixes**, but because I am faking case-insensitivity it's actually #{longFormattedNumber(@prefix.length)} prefixes."
@@ -5569,6 +5613,68 @@ bot.command([:shard,:alliance]) do |event, i|
   event.respond "This is the debug mode, which uses Golden Shards." if @shardizard==4
   event.respond "PMs always are a part of the Plegian/Vallite Alliance." if event.server.nil?
   event.respond "This server is in the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(event.server.id >> 22) % 3]} Alliance." unless event.server.nil? || @shardizard==4
+end
+
+bot.command([:safe,:spam,:safetospam,:safe2spam,:long,:longreplies]) do |event, f|
+  return nil if overlap_prevent(event)
+  f='' if f.nil?
+  metadata_load()
+  if event.server.nil?
+    event.respond 'It is safe for me to send long replies here because this is my PMs with you.'
+  elsif [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id)
+    event.respond 'It is safe for me to send long replies here because this is one of my emoji servers.'
+  elsif @shardizard==4
+    event.respond 'It is safe for me to send long replies here because this is my debug mode.'
+  elsif ['bots','bot'].include?(event.channel.name.downcase)
+    event.respond "It is safe for me to send long replies here because the channel is named `#{event.channel.name.downcase}`."
+  elsif event.channel.name.downcase.include?('bot') && event.channel.name.downcase.include?('spam')
+    event.respond 'It is safe for me to send long replies here because the channel name includes both the word "bot" and the word "spam".'
+  elsif event.channel.name.downcase.include?('bot') && event.channel.name.downcase.include?('command')
+    event.respond 'It is safe for me to send long replies here because the channel name includes both the word "bot" and the word "command".'
+  elsif event.channel.name.downcase.include?('bot') && event.channel.name.downcase.include?('channel')
+    event.respond 'It is safe for me to send long replies here because the channel name includes both the word "bot" and the word "channel".'
+  elsif event.channel.name.downcase.include?('robinbot') || event.channel.name.downcase.include?('robin-bot') || event.channel.name.downcase.include?('robin_bot') || event.channel.name.downcase.include?('feindex') || event.channel.name.downcase.include?('fe-index') || event.channel.name.downcase.include?('fe_index')
+    event.respond 'It is safe for me to send long replies here because the channel name specifically calls attention to the fact that it is made for me.'
+  elsif @spam_channels.include?(event.channel.id)
+    if is_mod?(event.user,event.server,event.channel) && ['off','no','false'].include?(f.downcase)
+      metadata_load()
+      @spam_channels.delete(event.channel.id)
+      metadata_save()
+      event.respond 'This channel is no longer marked as safe for me to send long replies to.'
+    else
+      event << 'This channel has been specifically designated for me to be safe to send long replies to.'
+      event << 'If you wish to turn them off, ask a server mod to type `DL!spam off` in this channel.'
+    end
+  elsif is_mod?(event.user,event.server,event.channel,1) && ['on','yes','true'].include?(f.downcase)
+    metadata_load()
+    @spam_channels.push(event.channel.id)
+    metadata_save()
+    event.respond 'This channel is now marked as safe for me to send long replies to.'
+  else
+    event << 'It is not safe for me to send long replies here.'
+    event << ''
+    event << 'If you wish to change that, try one of the following:'
+    event << '- Change the channel name to "bots".'
+    event << '- Change the channel name to include the word "bot" and one of the following words: "spam", "command(s)", "channel".'
+    event << '- Have a server mod type `DL!spam on` in this channel.'
+  end
+end
+
+bot.command([:channellist,:chanelist,:spamchannels,:spamlist]) do |event|
+  if event.server.nil?
+    event.respond "Yes, it is safe to spam here."
+    return nil
+  end
+  sfe=[[],[]]
+  for i in 0...event.server.channels.length
+    chn=event.server.channels[i]
+    if safe_to_spam?(event,chn)
+      sfe[0].push(chn.mention)
+    end
+  end
+  event << '__**All long replies are safe**__'
+  event << sfe[0].join("\n")
+  event << 'In PM with any user'
 end
 
 bot.command(:sendpm, from: 167657750971547648) do |event, user_id, *args| # sends a PM to a specific user
@@ -5764,6 +5870,145 @@ def next_birthday(bot,mode=0)
   end
 end
 
+def next_holiday(bot,mode=0)
+  t=Time.now
+  t-=60*60*6
+  holidays=[]
+  d=get_donor_list()
+  d=d.reject{|q| q[2]<2}
+  for i in 0...d.length
+    if d[i][4][3]!='-'
+      holidays.push([0,d[i][3][0],d[i][3][1],d[i][4][3],"in recognition of #{bot.user(d[i][0]).distinct}","Donator's birthday"])
+      holidays[-1][5]="Donator's Day" if d[i][0]==189235935563481088
+    end
+  end
+  for i in 0...holidays.length
+    if t.month>holidays[i][1] || (t.month==holidays[i][1] && t.day>holidays[i][2])
+      holidays[i][0]=t.year+1
+    else
+      holidays[i][0]=t.year
+    end
+  end
+  e=calc_easter()
+ # holidays.push([e[0],e[1],e[2],'','','Easter'])
+  t=Time.now
+  t-=60*60*6
+  y8=t.year
+  j8=Time.new(y8,6,8)
+  fsij=8-j8.wday
+  fsij-=7 if j8.sunday?
+  fd=fsij+14
+  if (t.month==6 && t.day>fd) || t.month>6
+    y8+=1
+    j8=Time.new(y8,6,8)
+    fsij=8-j8.wday
+    fsij-=7 if j8.sunday?
+    fd=fsij+14
+  end
+ # holidays.push([y8,6,fd,'','',"Father's Day"])
+  t=Time.now
+  t-=60*60*6
+  y8=t.year
+  m8=Time.new(y8,5,8)
+  fsim=8-m8.wday
+  fsim-=7 if m8.sunday?
+  md=fsim+7
+  if (t.month==5 && t.day>md) || t.month>5
+    y8+=1
+    m8=Time.new(y8,5,8)
+    fsim=8-m8.wday
+    fsim-=7 if m8.sunday?
+    md=fsim+14
+  end
+ # holidays.push([y8,5,md,'','',"Mother's Day"])
+  holidays.sort! {|a,b| supersort(a,b,0) == 0 ? (supersort(a,b,1) == 0 ? (supersort(a,b,2) == 0 ? (supersort(a,b,6) == 0 ? supersort(a,b,4) : supersort(a,b,6)) : supersort(a,b,2)) : supersort(a,b,1)) : supersort(a,b,0)}
+  k=[]
+  for i in 0...holidays.length
+    k.push(holidays[i]) if holidays[i][0]==holidays[0][0] && holidays[i][1]==holidays[0][1] && holidays[i][2]==holidays[0][2]
+  end
+  div=[[],
+       [[0,0]],
+       [[0,0],[12,0]],
+       [[0,0],[8,0],[16,0]],
+       [[0,0],[6,0],[12,0],[18,0]],
+       [[0,0],[4,48],[9,36],[14,24],[19,12]],
+       [[0,0],[4,0],[8,0],[12,0],[16,0],[20,0]],
+       [[0,0],[3,26],[6,52],[10,17],[13,43],[17,8],[18,34]],
+       [[0,0],[3,0],[6,0],[9,0],[12,0],[15,0],[18,0],[21,0]]]
+  t=Time.now
+  t-=60*60*6
+  if k.length<=0
+    t=Time.now
+    t-=60*60*6
+    bot.game='Fire Emblem Awakening/Fates'
+    bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/RobinBot.png','r')) rescue nil if @shardizard.zero?
+    @avvie_info=['Robin','*Fire Emblem Awakening/Fates*','']
+    t+=24*60*60
+    @scheduler.at "#{t.year}/#{t.month}/#{t.day} 0000" do
+      next_holiday(bot,1)
+    end
+  elsif t.year==k[0][0] && t.month==k[0][1] && t.day==k[0][2]
+    if k.length==1
+      # Only one holiday is today.  Display new avatar, and set another check for midnight
+      bot.game=k[0][4]
+      if @shardizard.zero?
+        bot.profile.avatar=(File.open("C:/Users/Mini-Matt/Desktop/devkit/EliseImages/#{k[0][3]}.png",'r')) rescue nil
+      end
+      @avvie_info=[k[0][3],k[0][4],k[0][5]]
+      t2= Time.now + 18*60*60
+      t=Time.now
+      @scheduler.at "#{t2.year}/#{t2.month}/#{t2.day} 0000" do
+        next_holiday(bot,1)
+      end
+    else
+      # multiple holidays are today.  Change avatar based on time of day, using div as a reference
+      fcod=div[k.length][k.length-1]
+      if t.hour>fcod[0] || (t.hour==fcod[0] && t.min>=fcod[1])
+        # in last area of day.  Set avatar to the last one for the day, then set a check for tomorrow at midnight
+        bot.game=k[k.length-1][4]
+        if @shardizard.zero?
+          bot.profile.avatar=(File.open("C:/Users/Mini-Matt/Desktop/devkit/RobinImages/#{k[k.length-1][3]}.png",'r')) rescue nil
+        end
+        @avvie_info=[k[k.length-1][3],k[k.length-1][4],k[k.length-1][5]]
+        t2= Time.now + 18*60*60
+        t=Time.now
+        @scheduler.at "#{t2.year}/#{t2.month}/#{t2.day} 0000" do
+          next_holiday(bot,1)
+        end
+      else
+        # find when in the day it is and...
+        j=0
+        t=Time.now
+        t-=60*60*6
+        for i in 0...div[k.length].length-1
+          j=i if t.hour<div[k.length][i+1][0] || (t.hour==div[k.length][i+1][0] && t.min<div[k.length][i+1][1])
+        end
+        # ...set avatar properly and set check for the beginning of the next chunk of the day
+        bot.game=k[j][4]
+        if @shardizard.zero?
+          bot.profile.avatar=(File.open("C:/Users/Mini-Matt/Desktop/devkit/RobinImages/#{k[j][3]}.png",'r')) rescue nil
+        end
+        @avvie_info=[k[j][3],k[j][4],k[j][5]]
+        t=Time.now
+        t-=60*60*6
+        @scheduler.at "#{t.year}/#{t.month}/#{t.day} #{div[k.length][j+1][0].to_s.rjust(2, '0')}#{div[k.length][j+1][1].to_s.rjust(2, '0')}" do
+          next_holiday(bot,1)
+        end
+      end
+    end
+  else
+    t=Time.now
+    t-=60*60*6
+    bot.game='Fire Emblem Awakening/Fates'
+    bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/RobinBot.png','r')) rescue nil if @shardizard.zero?
+    @avvie_info=['Robin','*Fire Emblem Awakening/Fates*','']
+    t+=24*60*60
+    @scheduler.at "#{t.year}/#{t.month}/#{t.day} 0000" do
+      next_holiday(bot,1)
+    end
+  end
+end
+
 bot.ready do |event|
   if @shardizard==4
     for i in 0...bot.servers.values.length
@@ -5805,9 +6050,9 @@ bot.ready do |event|
   system("color B#{"14506"[@shardizard,1]}")
   bot.game="Fire Emblem Awakening / Fates"
   next_birthday(bot)
-  bot.user(bot.profile.id).on(285663217261477889).nickname="FEIndex (RobinDebug)" if @shardizard==4
+  bot.user(bot.profile.id).on(285663217261477889).nickname="RobinBot (Debug)" if @shardizard==4
   bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/DebugRobin.png','r')) if @shardizard==4
-  system("title #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} FEIndex")
+  system("title #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} RobinBot")
 end
 
 bot.run
