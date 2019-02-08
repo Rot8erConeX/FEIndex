@@ -5593,7 +5593,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   event << "There are #{numbers[5]} *skills*#{", or #{numbers[4]} with Penumbrans' included" if k==256291408598663168}."
   event << "There are #{numbers[7]} *items*#{", or #{numbers[6]} with Penumbrans' included" if k==256291408598663168}."
   event << ''
-  event << "There are #{longFormattedNumber(@names.reject{|q| !q[2].nil?}.length)} global and #{longFormattedNumber(@names.reject{|q| q[2].nil?}.length)} server-specific *aliases*"
+  event << "There are #{longFormattedNumber(@names.reject{|q| !q[3].nil?}.length)} global and #{longFormattedNumber(@names.reject{|q| q[3].nil?}.length)} server-specific *aliases*"
   event << ''
   event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of *code* long."
   event << "Of those, #{longFormattedNumber(b.length)} are SLOC (non-empty)."
@@ -5793,6 +5793,7 @@ bot.message do |event|
     s=remove_format(s,'```')              # remove large code blocks
     s=remove_format(s,'`')                # remove small code blocks
     s=remove_format(s,'~~')               # remove crossed-out text
+    s=remove_format(s,'||')               # remove spoiler tags
     if s=='0x4' || s[0,4]=='0x4 ' || s[s.length-4,4]==' 0x4' || s.include?(' 0x4 ')
       event.respond "#{"#{event.user.mention} " unless event.server.nil?}I am not Elise right now, but I have responded in case you're checking my response time."
     end
