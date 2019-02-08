@@ -3967,6 +3967,8 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
     newname="#{unit}"
     unit="#{f}"
     type=type.reverse.map{|q| q.gsub('*','')}
+  else
+    type=type.map{|q| q.gsub('*','')}
   end
   logchn=386658080257212417
   logchn=431862993194582036 if @shardizard==4
