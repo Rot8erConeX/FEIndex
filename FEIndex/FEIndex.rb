@@ -1141,6 +1141,7 @@ def x_find_class(name,event,game="",ignore=false)
   end
   for i in alz
     return x_find_class(i[1],event,game) if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+    return x_find_class(i[1],event,game) if i[0].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
   end
   unless ignore
     for i in 0...@classes.length
@@ -1148,6 +1149,7 @@ def x_find_class(name,event,game="",ignore=false)
     end
     for i in alz
       return x_find_class(i[1],event,game) if i[0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+      return x_find_class(i[1],event,game) if i[0].gsub('||','').gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
     end
   end
   return nil
@@ -2277,6 +2279,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   alz=@names.reject{|q| q[0]!='Unit'}.map{|q| [q[1],q[2],q[3]]}
   for i in 0...alz.length
     return find_unit(xgame,alz[i][1],event,false) if alz[i][0].downcase==name.downcase && (alz[i][2].nil? || alz[i][2].include?(k))
+    return find_unit(xgame,alz[i][1],event,false) if alz[i][0].gsub('||','').downcase==name.downcase && (alz[i][2].nil? || alz[i][2].include?(k))
   end
   # Retries all of the above, but this time looking for slight matches.
   return "Lilith" if "lilith"[0,name.length]==name.downcase
@@ -2317,6 +2320,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   # then the Japanese counterpart names
   for i in 0...alz.length
     return find_unit(xgame,alz[i][1],event,false) if alz[i][0][0,name.length].downcase==name.downcase && (alz[i][2].nil? || alz[i][2].include?(k))
+    return find_unit(xgame,alz[i][1],event,false) if alz[i][0][0,name.length].downcase.gsub('||','')==name.downcase && (alz[i][2].nil? || alz[i][2].include?(k))
   end
   return nil
 end
@@ -2856,6 +2860,9 @@ def x_find_skill(game,name,event,fullname=false)
     if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
       x=x_find_skill(game,i[1],event)
       return x if m.include?(x[1])
+    elsif i[0].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+      x=x_find_skill(game,i[1],event)
+      return x if m.include?(x[1])
     end
   end
   unless fullname
@@ -2864,6 +2871,9 @@ def x_find_skill(game,name,event,fullname=false)
     end
     for i in alz
       if i[0][0,name.gsub(' ','').length].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+        x=x_find_skill(game,i[1],event)
+        return x if m.include?(x[1])
+      elsif i[0][0,name.gsub(' ','').length].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
         x=x_find_skill(game,i[1],event)
         return x if m.include?(x[1])
       end
@@ -2877,6 +2887,7 @@ def x_find_skill(game,name,event,fullname=false)
   end
   for i in alz
     return x_find_skill(game,i[1],event) if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+    return x_find_skill(game,i[1],event) if i[0].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
   end
   unless fullname
     for i in 0...@skills.length
@@ -2884,6 +2895,7 @@ def x_find_skill(game,name,event,fullname=false)
     end
     for i in alz
       return x_find_skill(game,i[1],event) if i[0].gsub(' ','').downcase==name.gsub(' ','')[0,name.gsub(' ','').length].downcase && (i[3].nil? || i[3].include?(g))
+      return x_find_skill(game,i[1],event) if i[0].gsub('||','').gsub(' ','').downcase==name.gsub(' ','')[0,name.gsub(' ','').length].downcase && (i[3].nil? || i[3].include?(g))
     end
   end
   return nil
@@ -2926,6 +2938,9 @@ def x_find_item(game,name,event,fullname=false)
     if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
       x=x_find_item(game,i[1],event)
       return x if m.include?(x[1])
+    elsif i[0].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+      x=x_find_item(game,i[1],event)
+      return x if m.include?(x[1])
     end
   end
   unless fullname
@@ -2934,6 +2949,9 @@ def x_find_item(game,name,event,fullname=false)
     end
     for i in alz
       if i[0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+        x=x_find_item(game,i[1],event)
+        return x if m.include?(x[1])
+      elsif i[0][0,name.length].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
         x=x_find_item(game,i[1],event)
         return x if m.include?(x[1])
       end
@@ -2954,6 +2972,7 @@ def x_find_item(game,name,event,fullname=false)
     end
     for i in alz
       return x_find_item(game,i[1],event) if i[0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
+      return x_find_item(game,i[1],event) if i[0][0,name.length].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
     end
   end
   return ["kvsnokfdn"]
