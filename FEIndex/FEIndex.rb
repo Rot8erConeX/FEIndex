@@ -1,6 +1,6 @@
 @shardizard = ARGV.first.to_i             # taking a single variable from the command prompt to get the shard value
 system("color 0#{"BCD0E"[@shardizard,1]}") # command prompt color and title determined by the shard
-system("title loading #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} FEIndex")
+system("title loading #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} RobinBot")
 
 require 'discordrb'                    # Download link: https://github.com/meew0/discordrb
 require 'open-uri'                     # pre-installed with Ruby in Windows
@@ -15,16 +15,33 @@ require_relative 'rot8er_functs' # functions I use commonly in bots
 ENV['TZ'] = 'America/Chicago'
 @scheduler = Rufus::Scheduler.new
 
-# All the possible command prefixes, not case insensitive so I have to fake it by including every combination of lower- and upper-case
-@prefix = ['FE!','fe!','Fe!','fE!',
-           'FE14!','fe14!','Fe14!','fE14!','FEF!','FEf!','FeF!','Fef!','fEF!','fEf!','feF!','fef!',
-           'FE13!','fe13!','Fe13!','fE13!','FEA!','FEa!','FeA!','Fea!','fEA!','fEa!','feA!','fea!']
+# All the possible command prefixes
+@prefixes={}
+load 'C:/Users/Mini-Matt/Desktop/devkit/FEPrefix.rb'
+
+prefix_proc = proc do |message|
+  load 'C:/Users/Mini-Matt/Desktop/devkit/FEPrefix.rb'
+  next message.content[3..-1] if message.text.downcase.start_with?('fe!')
+  next message.content[3..-1] if message.text.downcase.start_with?('fe?')
+  next message.content[4..-1] if message.text.downcase.start_with?('fea!')
+  next message.content[4..-1] if message.text.downcase.start_with?('fea?')
+  next message.content[4..-1] if message.text.downcase.start_with?('fef!')
+  next message.content[4..-1] if message.text.downcase.start_with?('fef?')
+  next message.content[5..-1] if message.text.downcase.start_with?('fe13!')
+  next message.content[5..-1] if message.text.downcase.start_with?('fe13?')
+  next message.content[5..-1] if message.text.downcase.start_with?('fe14!')
+  next message.content[5..-1] if message.text.downcase.start_with?('fe14?')
+  next if message.channel.server.nil? || @prefixes[message.channel.server.id].nil? || @prefixes[message.channel.server.id].length<=0
+  prefix = @prefixes[message.channel.server.id]
+  # We use [prefix.size..-1] so we can handle prefixes of any length
+  next message.content[prefix.size..-1] if message.text.downcase.start_with?(prefix.downcase)
+end
 
 # The bot's token is basically their password, so is censored for obvious reasons
 if @shardizard==4
-  bot = Discordrb::Commands::CommandBot.new token: '>Debug Token<', client_id: 431895561193390090, prefix: @prefix
+  bot = Discordrb::Commands::CommandBot.new token: '>Debug Token<', client_id: 431895561193390090, prefix: prefix_proc
 else
-  bot = Discordrb::Commands::CommandBot.new token: '>Main Token<', shard_id: @shardizard, num_shards: 3, client_id: 304652483299377182, prefix: @prefix
+  bot = Discordrb::Commands::CommandBot.new token: '>Main Token<', shard_id: @shardizard, num_shards: 3, client_id: 304652483299377182, prefix: prefix_proc
 end
 bot.gateway.check_heartbeat_acks = false
 
@@ -86,11 +103,11 @@ def all_commands(include_nil=false,permissions=-1)
      'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
      'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list','saliases','serveraliases','bday',
-     'birthday','safe','spam','safetospam','safe2spam','longreplies','channellist','long','channelist','spamlist','spamchannels']
+     'birthday','safe','spam','safetospam','safe2spam','longreplies','channellist','long','channelist','spamlist','spamchannels','prefix']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
-    k=['addalias','deletealias','removealias']
+    k=['addalias','deletealias','removealias','prefix']
   elsif permissions==2
     k=['reboot','restorealiases','backupaliases','sendpm','ignoreuser','sendmessage','leaveserver','cleanupaliases','setmarker','snagchannels','reload']
   end
@@ -176,6 +193,13 @@ def data_load()
     b[i][6][0]=b[i][6][0].to_i if b[i][6][0].to_i.to_s==b[i][6][0]
   end
   @items=b.map{|q| q}
+end
+
+def prefixes_save()
+  x=@prefixes
+  open('C:/Users/Mini-Matt/Desktop/devkit/FEPrefix.rb', 'w') { |f|
+    f.puts x.to_s.gsub('=>',' => ').gsub(', ',",\n  ").gsub('{',"@prefixes = {\n  ").gsub('}',"\n}")
+  }
 end
 
 def nicknames_load()
@@ -279,9 +303,9 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
     command=''
   end
   if command.downcase=="mode"
-    create_embed(event,"__***Awakening*** **mode**__","- Forced by using the command prefixes `FEA!` `fea!` `FE13!` `fe13!`\n- Kids' growths are calculated via (mom + dad + kid default)/3\n- Kids inherit all classes from their variable parent\n- Lucina is a second-generation unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Trickster.  The Outlaw Anna can still be invoked via the string 'Fates!Anna'\n- Corrin shows with default stats\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, and Vengeance\n- Vengeance procs at (Skill*2)%",0x061069)
-    create_embed(event,"__***Fates*** **mode**__","- Forced by using the command prefixes `FEF!` `fef!` `FEf!` `FE14!` `fe14!`\n- Kids' growths are calculated via (variable parent + kid default)/2\n- Kids inherit only their variable parent's first new class\n- Lucina is an Amiibo character and treated as a first-gen unit\n- Robin is an Amiibo character\n- Anna is an Outlaw.  The Trickster Anna can still be invoked via the string 'Awakening!Anna'\n- Corrin is an avatar character, which can be edited by including stats in your message\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, Dragon Fang, Rend Heaven and Vengeance\n- Vengeance procs at (Skill*3/2)%",0xC5EEF2)
-    create_embed(event,"__**Fluid mode**__","- Forced by using the command prefixes `FE!` `fe!`\n- The bot uses context clues to determine whether to use *Awakening* mode or *Fates* mode\n- Lucina defaults to being an Amiibo character, but becomes a second-gen unit if a first-gen unit is listed alongside her\n- Robin is an Amiibo character, unless stats are included in your message and you are not invoking Kana\n- Anna defaults to being an Outlaw.  'Fates!Anna' and 'Awakening!Anna' can be used to distinguish\n- Corrin is shows with default stats, unless stats are included in your message and you are not invoking Morgan\n- Kids will be calculated via the mode that matches their game of origin, regardless of the game of origin of the variable parent (this means that when calculating Felicia!Lucina!Kana, Felicia!Lucina will be calculated in *Awakening* mode and the result would be used in a *Fates* mode calculation as the mother of a female Kana)\n- When using the `data` command to find a character's growths in a class that is in both games, the version from the game the character originates from will be used\n- When using the `class` command to look at a class that exists in both games, both versions will be displayed\n- When using the `item`/`weapon` command to look at a weapon that exists in both games, both versions will be displayed\n- When using the `skill` command to look at a skill that exists in both games and behaves differently in each, both versions will be displayed",0x010101)
+    create_embed(event,"__***Awakening*** **mode**__","- Forced by using the command prefixes `FEA!` `FEA?` `FE13!` `FE13?`\n- Kids' growths are calculated via (mom + dad + kid default)/3\n- Kids inherit all classes from their variable parent\n- Lucina is a second-generation unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Trickster.  The Outlaw Anna can still be invoked via the string 'Fates!Anna'\n- Corrin shows with default stats\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, and Vengeance\n- Vengeance procs at (Skill*2)%",0x061069)
+    create_embed(event,"__***Fates*** **mode**__","- Forced by using the command prefixes `FEF!` `FEF?` `FE14!` `FE14?`\n- Kids' growths are calculated via (variable parent + kid default)/2\n- Kids inherit only their variable parent's first new class\n- Lucina is an Amiibo character and treated as a first-gen unit\n- Robin is an Amiibo character\n- Anna is an Outlaw.  The Trickster Anna can still be invoked via the string 'Awakening!Anna'\n- Corrin is an avatar character, which can be edited by including stats in your message\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, Dragon Fang, Rend Heaven and Vengeance\n- Vengeance procs at (Skill*3/2)%",0xC5EEF2)
+    create_embed(event,"__**Fluid mode**__","- Forced by using the command prefixes `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n- The bot uses context clues to determine whether to use *Awakening* mode or *Fates* mode\n- Lucina defaults to being an Amiibo character, but becomes a second-gen unit if a first-gen unit is listed alongside her\n- Robin is an Amiibo character, unless stats are included in your message and you are not invoking Kana\n- Anna defaults to being an Outlaw.  'Fates!Anna' and 'Awakening!Anna' can be used to distinguish\n- Corrin is shows with default stats, unless stats are included in your message and you are not invoking Morgan\n- Kids will be calculated via the mode that matches their game of origin, regardless of the game of origin of the variable parent (this means that when calculating Felicia!Lucina!Kana, Felicia!Lucina will be calculated in *Awakening* mode and the result would be used in a *Fates* mode calculation as the mother of a female Kana)\n- When using the `data` command to find a character's growths in a class that is in both games, the version from the game the character originates from will be used\n- When using the `class` command to look at a class that exists in both games, both versions will be displayed\n- When using the `item`/`weapon` command to look at a weapon that exists in both games, both versions will be displayed\n- When using the `skill` command to look at a skill that exists in both games and behaves differently in each, both versions will be displayed",0x010101)
   elsif ['embed','embeds'].include?(command.downcase)
     event << "**embed**"
     event << ''
@@ -396,7 +420,7 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
     str="#{str}\n`feedback` __\\*message__"
     str="#{str}\n\n__**Meta Data**__"
     str="#{str}\n`shard` (*also `alliance`*)"
-    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `fea!` `FE13!` `fe13!`\n*Fates* mechanics: `FEF!` `FEf!` `fef!` `FE14!` `fe14!`\nDetermine mechanics contextually: `FE!` `fe!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics",str,0x02010a)
+    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics",str,0x02010a)
     str="__**Aliases**__"
     str="#{str}\n`addalias` __new alias__ __target__ - Adds a new server-specific alias"
     str="#{str}\n~~`aliases` __target__ (*also `checkaliases` or `seealiases`*)~~"
@@ -420,7 +444,7 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
     str="#{str}\n`restorealiases` - restores the alias list from last backup"
     str="#{str}\n`sort` - sorts the alias list by type of alias"
     create_embed(event,"__**Bot Developer Commands**__",str,0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
-    event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FE13!`\n*Fates* mechanics: `FEF!` `FE14!`\nDetermine mechanics contextually: `FE!`\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
+    event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
   end
 end
 
@@ -849,12 +873,22 @@ def get_path(kid)
   return @units[u][2]
 end
 
-def namecheck(name,event)
-  game="Fates"
+def game_proc(event)
+  game=""
   game="Awakening" if event.message.text[0,4].downcase=="fea!"
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
   game="Fates" if event.message.text[0,4].downcase=="fef!"
   game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game="Awakening" if event.message.text[0,4].downcase=="fea?"
+  game="Awakening" if event.message.text[0,5].downcase=="fe13?"
+  game="Fates" if event.message.text[0,4].downcase=="fef?"
+  game="Fates" if event.message.text[0,5].downcase=="fe14?"
+  return game
+end
+
+def namecheck(name,event)
+  game=game_proc(event)
+  game="Fates" if game.length<=0
   return name if name.downcase=="awakening!anna" || name.downcase=="fates!anna"
   if name.include?("!")
     b=[]
@@ -1098,10 +1132,7 @@ def x_get_picture(kid,parent=nil,grandparent=nil,gender="",event=nil,ignore=fals
 end
 
 def x_find_class(name,event,game="",ignore=false)
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   return nil if name.nil?
   return nil if !name.is_a?(String)
   name=normalize(name)
@@ -1267,10 +1298,7 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
   # defaults to Fates mechanics, as they're easier to handle
   game=""
   # Forces mechanics to specific games based on the command prefix used
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   # If using the generic command prefixes, forces mechanics to be Awakening style if the kid is from Awakening, regardless of which game the parent is from
   if game==""
     f=find_unit(game,kidname,event)
@@ -1283,10 +1311,7 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
     @mom=find_unit(game,parent,event)
     xstats=find_stats_in_string(event)
     xgame=""
-    xgame="Awakening" if event.message.text[0,4].downcase=="fea!"
-    xgame="Awakening" if event.message.text[0,5].downcase=="fe13!"
-    xgame="Fates" if event.message.text[0,4].downcase=="fef!"
-    xgame="Fates" if event.message.text[0,5].downcase=="fe14!"
+    xgame=game_proc(event)
     if parent.downcase=="corrin" && (xgame=="Fates" || (xgame != "Awakening" && (xstats[0].length>0 || xstats[1].length>0) && !mentions_avatar_kid(event,"Awakening")))
       momstuff=get_corrin(event,false)
       g=momstuff[0]
@@ -1316,10 +1341,7 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
   end
   xstats=find_stats_in_string(event)
   xgame=""
-  xgame="Awakening" if event.message.text[0,4].downcase=="fea!"
-  xgame="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  xgame="Fates" if event.message.text[0,4].downcase=="fef!"
-  xgame="Fates" if event.message.text[0,5].downcase=="fe14!"
+  xgame=game_proc(event)
   if @dad.downcase=="robin" && (xgame=="Awakening" || (xgame != "Fates" && (xstats[0].length>0 || xstats[1].length>0) && !mentions_avatar_kid(event,"Fates")))
     momstuff=get_robin(event,false)
     g=momstuff[0]
@@ -1573,11 +1595,8 @@ def reverse_stat(stat)
 end
 
 def get_child(name,gender,event)
-  game="Fates"
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
+  game='Fates' if game.length<=0
   if name.downcase=="corrin" && game != "Awakening"
     return "Kana (#{gender})" if gender=="m" || gender=="f"
     return "Kana"
@@ -1616,10 +1635,7 @@ end
 
 def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
   game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   name1=bob1[0] if bob1
   name2=bob2[0] if bob2
   name3=bob3[0] if bob3
@@ -2075,10 +2091,7 @@ end
 
 def unit_creation(units,bob1=nil,bob2=nil,bob3=nil,bob4=nil,event)
   game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   unitsx=[]
   for i in 0...units.length+1
     unless units[i].nil?
@@ -2125,10 +2138,7 @@ def incest_filter?(event)
 end
 
 def find_unit(game,name,event,disp=true,f3=false)
-  xgame="Awakening" if event.message.text[0,4].downcase=="fea!"
-  xgame="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  xgame="Fates" if event.message.text[0,4].downcase=="fef!"
-  xgame="Fates" if event.message.text[0,5].downcase=="fe14!"
+  xgame=game_proc(event)
   name=normalize(name) unless name.nil?
   if !name.nil? && name.downcase.gsub(' ','').gsub('_','')[0,2]=="<:"
     name=name.split(':')[1] unless find_unit(game,name.split(':')[1],event,disp,f3).nil?
@@ -2170,11 +2180,7 @@ def mentions_avatar_kid(event,game)
 end
 
 def x_find_unit(xgame,name,event,disp=true,f3=false)
-  xgame=""
-  xgame="Awakening" if event.message.text[0,4].downcase=="fea!"
-  xgame="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  xgame="Fates" if event.message.text[0,4].downcase=="fef!"
-  xgame="Fates" if event.message.text[0,5].downcase=="fe14!"
+  xgame=game_proc(event)
   return nil if name.nil?
   return nil if !name.is_a?(String)
   name=normalize(name)
@@ -2189,10 +2195,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   xgame="Fates" if xgame=="" && name.downcase != "lucina" && name.downcase != "anna" && name.downcase != "robin"
   xstats=find_stats_in_string(event)
   xxgame=""
-  xxgame="Awakening" if event.message.text[0,4].downcase=="fea!"
-  xxgame="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  xxgame="Fates" if event.message.text[0,4].downcase=="fef!"
-  xxgame="Fates" if event.message.text[0,5].downcase=="fe14!"
+  xxgame=game_proc(event)
   if name.downcase=="corrin" && (xxgame=="Fates" || (xxgame != "Awakening" && (xstats[0].length>0 && xstats[1].length>0) && !mentions_avatar_kid(event,"Awakening")))
     momstuff=get_corrin(event,false)
     g=momstuff[0]
@@ -2328,11 +2331,7 @@ end
 def unit_parse(event,bot,args)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   event.message.delete if event.user.id==bot.profile.id
-  game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   apt=0
   name1=nil
   name2=nil
@@ -2479,11 +2478,7 @@ def unit_parse(event,bot,args)
     flds[0][1]=flds[0][1].join("\n")
     flds[1][1]=flds[1][1].join("\n")
     xstats=find_stats_in_string(event)
-    game=""
-    game="Awakening" if event.message.text[0,4].downcase=="fea!"
-    game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-    game="Fates" if event.message.text[0,4].downcase=="fef!"
-    game="Fates" if event.message.text[0,5].downcase=="fe14!"
+    game=game_proc(event)
     if step1[0].downcase=="robin" || (!step1[1].nil? && step1[1].downcase=="robin") || (!step1[2].nil? && step1[2].downcase=="robin")
       if (game=="Awakening" || (game != "Fates" && (xstats[0].length>0 || xstats[1].length>0) && !mentions_avatar_kid(event,"Fates")))
         foot="Robin: +#{xstats[0]}, -#{xstats[1]}"
@@ -2515,11 +2510,7 @@ end
 
 def class_parse(event,bot,args)
   event.message.delete if event.user.id==bot.profile.id
-  game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   s=event.message.text.downcase
   s=s[3,s.length-3] if ['fe!'].include?(s[0,3])
   s=s[4,s.length-4] if ['fea!','fef!'].include?(s[0,4])
@@ -3224,6 +3215,10 @@ def get_mode(message)
   return "FEA!" if message[0,5].downcase=="fe13!"
   return "FEf!" if message[0,4].downcase=="fef!"
   return "FEf!" if message[0,5].downcase=="fe14!"
+  return "FEA!" if message[0,4].downcase=="fea?"
+  return "FEA!" if message[0,5].downcase=="fe13?"
+  return "FEf!" if message[0,4].downcase=="fef?"
+  return "FEf!" if message[0,5].downcase=="fe14?"
   return "FE!"
 end
 
@@ -3318,11 +3313,7 @@ end
 def parse_job(event,args,bot,mde=0)
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   if args.nil?
     event.respond("Please include a class name and/or a unit name.") if mde==0
     return -1
@@ -3407,11 +3398,7 @@ def parse_job(event,args,bot,mde=0)
       xcolor=0x010101 if clss[1]!="Awakening" && unit[2].include?("Awakening")
     end
     xstats=find_stats_in_string(event)
-    game=""
-    game="Awakening" if event.message.text[0,4].downcase=="fea!"
-    game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-    game="Fates" if event.message.text[0,4].downcase=="fef!"
-    game="Fates" if event.message.text[0,5].downcase=="fe14!"
+    game=game_proc(event)
     if step1[0].downcase=="robin" || (!step1[1].nil? && step1[1].downcase=="robin") || (!step1[2].nil? && step1[2].downcase=="robin")
       if (game=="Awakening" || (game != "Fates" && (xstats[0].length>0 || xstats[1].length>0) && !mentions_avatar_kid(event,"Fates")))
         foot="Robin: +#{xstats[0]}, -#{xstats[1]}"
@@ -3446,11 +3433,7 @@ end
 
 def skill_parse(event,bot,args)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   if args.nil?
     event.respond "Please include a skill name"
     return nil
@@ -3608,11 +3591,7 @@ end
 def item_parse(event,bot,args,mde=0)
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   if args.nil?
     event.respond "Please include an item name" if mde==0
     return nil
@@ -3763,13 +3742,9 @@ def item_parse(event,bot,args,mde=0)
 end
 
 def get_unit_list(event,bot,args)
-  args=event.message.text.downcase.split(' ') if args.nil?
-  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  args=event.message.text.downcase.gsub(',','').split(' ') if args.nil?
+  args=args.map{|q| q.gsub(',','')}.reject{ |a| a.match(/<@!?(?:\d+)>/) }
+  game=game_proc(event)
   generations=[]
   genders=[]
   games=[]
@@ -3896,11 +3871,8 @@ def spaceship_order(x)
 end
 
 def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode=0)
-  game="Fates"
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
+  game="Fates" if game.length<=0
   nicknames_load()
   err=false
   str=''
@@ -3961,7 +3933,7 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
     type[1]='Item*'
   end
   cck=nil
-  checkstr=normalize(newname)
+  checkstr=normalize(newname,true)
   if type.reject{|q| q != 'Alias'}.length<=0
     type[0]='Alias' if type[0].include?('*')
     type[1]='Alias' if type[1].include?('*') && type[0]!='Alias'
@@ -3996,7 +3968,7 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
   srv=modifier.to_i if event.user.id==167657750971547648 && modifier.to_i.to_s==modifier
   srvname="PM with dev"
   srvname=bot.server(srv).name unless event.server.nil? && srv==0
-  checkstr=normalize(newname) unless newname.nil?
+  checkstr=normalize(newname,true) unless newname.nil?
   k=event.message.emoji
   for i in 0...k.length
     checkstr=checkstr.gsub("<:#{k[i].name}:#{k[i].id}>",k[i].name)
@@ -4010,7 +3982,7 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
     bot.channel(logchn).send_message("~~**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n**Alias:** >Censored< for #{unit}~~\n**Reason for rejection:** Begone, alias.")
     return nil
   end
-  newname=normalize(newname)
+  newname=normalize(newname,true)
   m=nil
   m=[event.server.id] unless event.server.nil?
   srv=0
@@ -4097,11 +4069,8 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
 end
 
 def disp_aliases(bot,event,args=nil,mode=0)
-  game="Fates"
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
+  game="Fates" if game.length<=0
   event.channel.send_temporary_message("Calculating data, please wait...",2)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   nicknames_load()
@@ -4550,6 +4519,25 @@ bot.command([:bugreport, :suggestion, :feedback]) do |event, *args|
   bug_report(bot,event,args,3,['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'],'Alliance',@prefix)
 end
 
+bot.command(:prefix) do |event, prefix|
+  if prefix.nil?
+    event.respond 'No prefix was defined.  Try again'
+    return nil
+  elsif event.server.nil?
+    event.respond 'This command is not available in PM.'
+    return nil
+  elsif !is_mod?(event.user,event.server,event.channel)
+    event.respond 'You are not a mod.'
+    return nil
+  elsif ['feh!','feh?','f?','e?','h?','fgo!','fgo?','fg0!','fg0?','liz!','liz?','iiz!','iiz?','fate!','fate?','dl!','dl?','fe!','fe14!','fef!','fe13!','fea!','fe?','fe14?','fef?','fe13?','fea?'].include?(prefix.downcase)
+    event.respond "That is a prefix that would conflict with either myself or another one of my developer's bots."
+    return nil
+  end
+  @prefixes[event.server.id]=prefix
+  prefixes_save()
+  event.respond "This server's prefix has been saved as **#{prefix}**"
+end
+
 bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
   add_new_alias(bot,event,newname,unit,modifier,modifier2)
   return nil
@@ -4569,11 +4557,8 @@ bot.command([:serveraliases,:saliases]) do |event, *args|
 end
 
 bot.command([:deletealias,:removealias]) do |event, name|
-  game="Fates"
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
+  game="Fates" if game.length<=0
   nicknames_load()
   if name.nil?
     event.respond "I can't delete nothing, silly!" if name.nil?
@@ -4670,9 +4655,8 @@ end
 bot.command(:proc) do |event, *args|
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game="Fates"
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
+  game=game_proc(event)
+  game="Fates" if game.length<=0
   stat=0
   bob=false
   if args.nil?
@@ -4958,11 +4942,7 @@ end
 bot.command(:levelup) do |event, *args|
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   if args.nil?
     event.respond("Please include a class name and/or a unit name.")
     return nil
@@ -5022,11 +5002,7 @@ end
 bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game=""
-  game="Awakening" if event.message.text[0,4].downcase=="fea!"
-  game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-  game="Fates" if event.message.text[0,4].downcase=="fef!"
-  game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game=game_proc(event)
   if args.nil?
     event.respond("Please include a class name and/or a unit name.")
     return nil
@@ -5787,18 +5763,15 @@ bot.message do |event|
     elsif !bot.user(206147275775279104).on(event.server.id).nil? || @shardizard==4 || event.server.id==330850148261298176 # Pokedex
       triple_weakness(bot,event)
     end
-  elsif ['fea!','fef!'].include?(str[0,4]) || ['fe13!','fe14!'].include?(str[0,5]) || ['fe!'].include?(str[0,3])
-    str=str[4,str.length-4] if ['fea!','fef!'].include?(str[0,4])
-    str=str[5,str.length-5] if ['fe13!','fe14!'].include?(str[0,5])
-    str=str[3,str.length-3] if ['fe!'].include?(str[0,3])
+  elsif ['fea!','fef!','fea?','fef?'].include?(str[0,4]) || ['fe13!','fe14!','fe13?','fe14?'].include?(str[0,5]) || ['fe!','fe?'].include?(str[0,3]) || (!event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0 && @prefixes[event.server.id].downcase==event.message.text.downcase[0,@prefixes[event.server.id].length])
+    str=str[4,str.length-4] if ['fea!','fef!','fea?','fef?'].include?(str[0,4])
+    str=str[5,str.length-5] if ['fe13!','fe14!','fe13?','fe14?'].include?(str[0,5])
+    str=str[3,str.length-3] if ['fe!','fe?'].include?(str[0,3])
+    str=str[@prefixes[event.server.id].length,str.length-@prefixes[event.server.id].length] if (!event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0 && @prefixes[event.server.id].downcase==event.message.text.downcase[0,@prefixes[event.server.id].length])
     args=str.split(' ')
     puts event.message.text
     unless all_commands().include?(args[0])
-      game=""
-      game="Awakening" if event.message.text[0,4].downcase=="fea!"
-      game="Awakening" if event.message.text[0,5].downcase=="fe13!"
-      game="Fates" if event.message.text[0,4].downcase=="fef!"
-      game="Fates" if event.message.text[0,5].downcase=="fe14!"
+      game=game_proc(event)
       m=-1
       a=args.reject{|q| !find_unit(game,q,event,true).nil? || !find_class(q,event,game).nil?}
       m=parse_job(event,args,bot,1) unless (!find_skill(game,args.join(' '),event,true).nil? && (find_skill(game,args.join(' '),event,true)[0]!='Aptitude' || a.length==args.length)) || !find_item(game,args.join(' '),event,true).nil?
@@ -5967,7 +5940,7 @@ def next_holiday(bot,mode=0)
   if k.length<=0
     t=Time.now
     t-=60*60*6
-    bot.game='Fire Emblem Awakening/Fates'
+    bot.game='Awakening/Fates (FE!help for info)'
     bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/RobinBot.png','r')) rescue nil if @shardizard.zero?
     @avvie_info=['Robin','*Fire Emblem Awakening/Fates*','']
     t+=24*60*60
@@ -6026,7 +5999,7 @@ def next_holiday(bot,mode=0)
   else
     t=Time.now
     t-=60*60*6
-    bot.game='Fire Emblem Awakening/Fates'
+    bot.game='Awakening/Fates (FE!help for info)'
     bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/RobinBot.png','r')) rescue nil if @shardizard.zero?
     @avvie_info=['Robin','*Fire Emblem Awakening/Fates*','']
     t+=24*60*60
@@ -6075,7 +6048,7 @@ bot.ready do |event|
   metadata_save()
   data_load()
   system("color B#{"14506"[@shardizard,1]}")
-  bot.game="Fire Emblem Awakening / Fates"
+  bot.game="FE Awakening/Fates (FE!help for info)"
   next_birthday(bot)
   bot.user(bot.profile.id).on(285663217261477889).nickname="RobinBot (Debug)" if @shardizard==4
   bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/DebugRobin.png','r')) if @shardizard==4
