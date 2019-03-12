@@ -275,7 +275,7 @@ end
 
 def safe_to_spam?(event,chn=nil) # determines whether or not it is safe to send extremely long messages
   return true if event.server.nil? # it is safe to spam in PM
-  return true if [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,508792801455243266,508793141202255874,508793425664016395,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id) # it is safe to spam in the emoji servers
+  return true if [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,508792801455243266,508793141202255874,508793425664016395,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id) # it is safe to spam in the emoji servers
   chn=event.channel if chn.nil?
   return true if ['bots','bot'].include?(chn.name.downcase) # channels named "bots" are safe to spam in
   return true if chn.name.downcase.include?('bot') && chn.name.downcase.include?('spam') # it is safe to spam in any bot spam channel
@@ -5550,8 +5550,6 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     event << "#{longFormattedNumber(b[0].reject{|q| q.gsub('  ','')!='event.respond "You are not a mod."' && q.gsub('  ','')!="str='You are not a mod.'"}.length)} mod-only commands, invoked with #{longFormattedNumber(all_commands(false,1).length)} different phrases."
     event << "#{longFormattedNumber(b[0].reject{|q| q[0,12]!='bot.command(' || !q.include?('from: 167657750971547648')}.length)} dev-only commands, invoked with #{longFormattedNumber(all_commands(false,2).length)} different phrases."
     event << ''
-    event << "**There are #{longFormattedNumber(@prefix.map{|q| q.downcase}.uniq.length)} command prefixes**, but because I am faking case-insensitivity it's actually #{longFormattedNumber(@prefix.length)} prefixes."
-    event << ''
     event << "**There are #{longFormattedNumber(b[0].reject{|q| q[0,4]!='def '}.length)} functions the commands use.**"
     if safe_to_spam?(event) || " #{event.message.text.downcase} ".include?(" all ")
       b=b[0].map{|q| q.gsub('  ','')}.reject{|q| q.length<=0}
@@ -5618,7 +5616,7 @@ bot.command([:safe,:spam,:safetospam,:safe2spam,:long,:longreplies]) do |event, 
   metadata_load()
   if event.server.nil?
     event.respond 'It is safe for me to send long replies here because this is my PMs with you.'
-  elsif [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id)
+  elsif [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id)
     event.respond 'It is safe for me to send long replies here because this is one of my emoji servers.'
   elsif @shardizard==4
     event.respond 'It is safe for me to send long replies here because this is my debug mode.'
@@ -5703,7 +5701,7 @@ bot.server_create do |event|
     end
     chn=chnn[0] if chnn.length>0
   end
-  if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,497429938471829504,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id) && @shardizard==4
+  if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id) && @shardizard==4
     (chn.send_message(get_debug_leave_message()) rescue nil)
     event.server.leave
   else
@@ -6012,7 +6010,7 @@ end
 bot.ready do |event|
   if @shardizard==4
     for i in 0...bot.servers.values.length
-      if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(bot.servers.values[i].id)
+      if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(bot.servers.values[i].id)
         bot.servers.values[i].general_channel.send_message(get_debug_leave_message()) rescue nil
         bot.servers.values[i].leave
       end
