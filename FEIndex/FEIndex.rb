@@ -103,7 +103,7 @@ def all_commands(include_nil=false,permissions=-1)
      'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
      'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list','saliases','serveraliases','bday',
-     'birthday','safe','spam','safetospam','safe2spam','longreplies','channellist','long','channelist','spamlist','spamchannels','prefix']
+     'birthday','safe','spam','safetospam','safe2spam','longreplies','channellist','long','channelist','spamlist','spamchannels','prefix','birthdays','bdays']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
@@ -297,6 +297,10 @@ bot.command(:reboot, from: 167657750971547648) do |event|
 end
 
 bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, command, subcommand|
+  help_text(event,bot,command,subcommand)
+end
+
+def help_text(event,bot,command=nil,subcommand=nil)
   command="" if command.nil?
   if ['help','commands','command_list','commandlist'].include?(command.downcase)
     event.respond "The `#{command.downcase}` command displays this message:"
@@ -387,7 +391,7 @@ bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, comma
     create_embed(event,"**#{command.downcase}** __unit__","Responds with a list of all `unit`'s aliases.\nIf no unit is listed, responds with a list of all aliases and who they are for.\n\nPlease note that if more than 50 aliases are to be listed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",0x02010a)
   elsif ['deletealias','removealias'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** __alias__","Removes `alias` from the list of aliases, regardless of who/what it was for.\n\n**This command can only be used by server mods.**",0xC31C19)
-  elsif ['bday','birthday'].include?(command.downcase)
+  elsif ['bday','birthday','bdays','birthdays'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}**","Shows a list of unit birthdays, sorted by how soon they will come up.\n\nIn PM, shows the entire calendar.\nElsewhere, shows only the next eight for each game.",0x02010a)
   elsif command.downcase=='addalias'
     create_embed(event,'**addalias** __new alias__ __unit__',"Adds `new alias` to `name`'s aliases.\nIf the arguments are listed in the opposite order, the command will auto-switch them.\n\nAliases can be added to:\n- Units\n- Classes\n- Skills\n- Items/Weapons\n\nInforms you if the alias already belongs to someone/something.\nAlso informs you if the unit you wish to give the alias to does not exist.\n\n**This command can only be used by server mods.**",0xC31C19)
@@ -4426,7 +4430,7 @@ def bday_order(bot,event=nil,mode=0)
   return untz
 end
 
-bot.command([:bday,:birthday]) do |event|
+bot.command([:bday,:birthday,:bdays,:birthdays]) do |event|
   untz=bday_order(bot,event)
   t=Time.now
   msg='__**Upcoming birthdays**__'
@@ -5805,7 +5809,11 @@ bot.mention do |event|
   game=""
   m=-1
   m=1 if event.user.bot_account?
-  if ['unit','character','chara','char'].include?(args[0].downcase)
+  if ['help','commands','command_list','commandlist'].include?(args[0].downcase)
+    args.shift
+    help_text(event,bot,args[0],args[1])
+    m=1
+  elsif ['unit','character','chara','char'].include?(args[0].downcase)
     args.shift
     unit_parse(event,bot,args)
     m=1
