@@ -3943,10 +3943,18 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
     type[1]='Alias' if type[1].include?('*') && type[0]!='Alias'
   end
   if type.reject{|q| q == 'Alias'}.length<=0
-    str="The alias system can cover:\n- Units\n- Classes\n- Skills\n- Items and Weapons\n\nNeither #{newname} nor #{unit} fall into any of these categories."
+    alz1=newname
+    alz2=unit
+    alz1='>Censored mention<' if alz1.include?('@')
+    alz2='>Censored mention<' if alz2.include?('@')
+    str="The alias system can cover:\n- Units\n- Classes\n- Skills\n- Items and Weapons\n\nNeither #{alz1} nor #{alz2} fall into any of these categories."
     err=true
   elsif type.reject{|q| q != 'Alias'}.length<=0
-    str="#{newname} is a #{type[0].downcase}\n#{unit} is a #{type[1].downcase}\nPlease try again."
+    alz1=newname
+    alz2=unit
+    alz1='>Censored mention<' if alz1.include?('@')
+    alz2='>Censored mention<' if alz2.include?('@')
+    str="#{alz1} is a #{type[0].downcase}\n#{alz2} is a #{type[1].downcase}\nPlease try again."
     err=true
   end
   if err
@@ -4084,7 +4092,9 @@ def disp_aliases(bot,event,args=nil,mode=0)
     skll=find_skill(game,args.join(''),event)
     itmu=find_item(game,args.join(''),event)
     if unit.nil? && clzz.nil? && skll.nil? && itmu.nil? && !has_any?(['unit','units','characters','character','chara','charas','char','chars','class','classes','job','jobs','skill','skills','skil','skils','item','items','weapon','weapons'],args)
-      event.respond "The alias system can cover:\n- Units\n- Classes\n- Skills\n- Items/Weapons\n\n#{args.join(' ')} does not fall into any of these categories."
+      alz1=args.join(' ')
+      alz1='>Censored mention<' if alz1.include?('@')
+      event.respond "The alias system can cover:\n- Units\n- Classes\n- Skills\n- Items/Weapons\n\n#{alz1} does not fall into any of these categories."
       return nil
     end
   end
@@ -5161,7 +5171,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   metadata_load()
   bot.servers.values(&:members)
   @server_data2[0][@shardizard]=bot.servers.length
-  @server_data2[0][@shardizard]-=5 if @shardizard==4
+  @server_data2[0][4]=1
   @server_data2[1][@shardizard]=bot.users.size
   metadata_save()
   numbers=[0,0,0,0,0,0,0,0]
@@ -5861,6 +5871,7 @@ def next_birthday(bot,mode=0)
   chn=285663217261477889 if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
+  return nil if t.year==2019 && t.month==3 && t.day==16
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
   m=0
   if t.hour<10
