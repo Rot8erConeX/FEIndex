@@ -92,7 +92,9 @@ bot.gateway.check_heartbeat_acks = false
 @skills=[]
 @items=[]
 @classes=[]
-@server_data=[]
+@homo_servers=[]
+@incest_servers=[]
+@server_data2=[]
 @ignored=[]
 @spam_channels=[]
 @embedless=[]
@@ -253,22 +255,28 @@ def metadata_load()
       b.push(eval line)
     end
   else
-    b=[[168592191189417984, 256379815601373184],[],[[0,0,0,0,0],[0,0,0,0,0]]]
+    b=[[168592191189417984, 256379815601373184],[],[[0,0,0,0,0],[0,0,0,0,0]],[],[]]
   end
   @embedless=b[0]
   @embedless=[168592191189417984, 256379815601373184] if @embedless.nil?
   @ignored=b[1]
   @ignored=[] if @ignored.nil?
   @server_data2=b[2]
-  @server_data2=[[0,0,0,0,0],[0,0,0,0,0]] if @server_data.nil?
+  @server_data2=[[0,0,0,0,0],[0,0,0,0,0]] if @server_data2.nil?
+  @homo_servers=b[3]
+  @homo_servers=[] if @homo_servers.nil?
+  @incest_servers=b[4]
+  @incest_servers=[] if @incest_servers.nil?
 end
 
 def metadata_save()
-  x=[@embedless.map{|q| q}, @ignored.map{|q| q}, @server_data2.map{|q| q}]
+  x=[@embedless.map{|q| q}, @ignored.map{|q| q}, @server_data2.map{|q| q}, @homo_servers.map{|q| q}, @incest_servers.map{|q| q}]
   open('C:/Users/Mini-Matt/Desktop/devkit/FESave.txt', 'w') { |f|
     f.puts x[0].to_s
     f.puts x[1].to_s
     f.puts x[2].to_s
+    f.puts x[3].to_s
+    f.puts x[4].to_s
     f.puts "\n"
   }
 end
@@ -2122,23 +2130,16 @@ def unit_creation(units,bob1=nil,bob2=nil,bob3=nil,bob4=nil,event)
   return unitsx
 end
 
-def find_server_data(event)
-  return -1 if event.server.nil?
-  j=-1
-  for i in 0...@server_data.length
-    j=i if @server_data[i][0]==event.server.id
-  end
-  return j
-end
-
 def homosexuality_filter?(event)
   return false if event.server.nil?
-  return @server_data[find_server_data(event)][1]
+  metadata_load()
+  return @homo_servers.include?(event.server.id)
 end
 
 def incest_filter?(event)
   return false if event.server.nil?
-  return @server_data[find_server_data(event)][2]
+  metadata_load()
+  return @incest_servers.include?(event.server.id)
 end
 
 def find_unit(game,name,event,disp=true,f3=false)
@@ -4490,17 +4491,23 @@ bot.command([:gay,:homosexuality,:homo]) do |event, m|
     event.respond "This command cannot be used in a PM"
     return nil
   end
-  j=find_server_data(event)
-  @server_data[j][1]=!@server_data[j][1]
+  metadata_load()
+  x=(!@homo_servers.include?(event.server.id))
   unless m.nil?
-    @server_data[j][1]=true if ['on','yes','true'].include?(m.downcase)
-    @server_data[j][1]=false if ['off','no','false'].include?(m.downcase)
+    x=true if ['on','yes','true'].include?(m.downcase)
+    x=false if ['off','no','false'].include?(m.downcase)
   end
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
-    f << @server_data.to_s
-  }
-  event << "The homosexuality filter for this server has been #{"raised" unless @server_data[j][1]}#{"lowered" if @server_data[j][1]}."
-  if @server_data[j][1]
+  if x && !@homo_servers.include?(event.server.id)
+    @homo_servers.push(event.server.id)
+  elsif !x && @homo_servers.include?(event.server.id)
+    for i in 0...@homo_servers.length
+      @homo_servers[i]=nil if @homo_servers[i]==event.server.id
+    end
+    @homo_servers.compact!
+  end
+  metadata_save()
+  event << "The homosexuality filter for this server has been #{"raised" unless @homo_servers.include?(event.server.id)}#{"lowered" if @homo_servers.include?(event.server.id)}."
+  if @homo_servers.include?(event.server.id)
     event << "Characters of the same gender can marry and have kids."
   else
     event << "Characters of the same gender are prohibited from marrying and having kids.  The exceptions are the avatar characters."
@@ -4512,17 +4519,22 @@ bot.command([:sibling,:incest,:wincest]) do |event, m|
     event.respond "This command cannot be used in a PM"
     return nil
   end
-  j=find_server_data(event)
-  @server_data[j][2]=!@server_data[j][2]
+  x=(!@incest_servers.include?(event.server.id))
   unless m.nil?
-    @server_data[j][2]=true if ['on','yes','true'].include?(m.downcase)
-    @server_data[j][2]=false if ['off','no','false'].include?(m.downcase)
+    x=true if ['on','yes','true'].include?(m.downcase)
+    x=false if ['off','no','false'].include?(m.downcase)
   end
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
-    f << @server_data.to_s
-  }
-  event << "The incest filter for this server has been #{"raised" unless @server_data[j][2]}#{"lowered" if @server_data[j][2]}."
-  if @server_data[j][2]
+  if x && !@incest_servers.include?(event.server.id)
+    @incest_servers.push(event.server.id)
+  elsif !x && @incest_servers.include?(event.server.id)
+    for i in 0...@incest_servers.length
+      @incest_servers[i]=nil if @incest_servers[i]==event.server.id
+    end
+    @incest_servers.compact!
+  end
+  metadata_save()
+  event << "The incest filter for this server has been #{"raised" unless @incest_servers.include?(event.server.id)}#{"lowered" if @incest_servers.include?(event.server.id)}."
+  if @incest_servers.include?(event.server.id)
     event << "Siblings/relatives can marry and have kids."
   else
     event << "Siblings/relatives are prohibited from marrying and having kids."
@@ -4845,6 +4857,9 @@ bot.command(:marry) do |event, name1, name2|
       event.respond "#{name1} and #{name2} cannot marry as they are siblings"
       return nil
     elsif ["Ryoma","Hinoka","Takumi","Sakura"].include?(name1) && ["Ryoma","Hinoka","Takumi","Sakura"].include?(name2)
+      event.respond "#{name1} and #{name2} cannot marry as they are siblings"
+      return nil
+    elsif ["Chrom","Lissa","Emmeryn"].include?(name1) && ["Chrom","Lissa","Emmeryn"].include?(name2)
       event.respond "#{name1} and #{name2} cannot marry as they are siblings"
       return nil
     elsif [name1,name2].include?("Lucina") && [name1,name2].include?("Owain")
@@ -5720,11 +5735,7 @@ bot.server_create do |event|
     event.server.leave
   else
     bot.user(167657750971547648).pm("Joined server **#{event.server.name}** (#{event.server.id})\nOwner: #{event.server.owner.distinct} (#{event.server.owner.id})\nAssigned to the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(event.server.id >> 22) % 3]} Alliance")
-    @server_data.push([event.server.id,false,false])
     @server_data2[0][(event.server.id >> 22) % 3]+=1
-    open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
-      f << @server_data.to_s
-    }
     chn.send_message("Grr, where have I been woken up this time?") rescue nil
   end
 end
@@ -5871,7 +5882,6 @@ def next_birthday(bot,mode=0)
   chn=285663217261477889 if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
-  return nil if t.year==2019 && t.month==3 && t.day==16
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
   m=0
   if t.hour<10
@@ -6041,21 +6051,6 @@ bot.ready do |event|
     download = open('http://pastebin.com/raw/43UKARGi')
     IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
   end
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav')
-    b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav').each_line do |line|
-      b.push(eval line)
-    end
-    @server_data=b[0]
-  else
-    @server_data=[[285663217261477889, false, false]]
-    for i in 0...bot.servers.values.length
-      @server_data.push([bot.servers.values[i].id, false, false])
-    end
-  end
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex-large-server.sav', 'w') { |f|
-    f << @server_data.to_s
-  }
   metadata_load()
   if @ignored.length>0
     for i in 0...@ignored.length
