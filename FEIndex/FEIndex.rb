@@ -1,4 +1,5 @@
-@shardizard = ARGV.first.to_i             # taking a single variable from the command prompt to get the shard value
+@shardizard = ARGV.first.to_i              # taking a single variable from the command prompt to get the shard value
+@shards = 3                                # total number of shards
 system("color 0#{"BCD0E"[@shardizard,1]}") # command prompt color and title determined by the shard
 system("title loading #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} RobinBot")
 
@@ -20,21 +21,32 @@ ENV['TZ'] = 'America/Chicago'
 load 'C:/Users/Mini-Matt/Desktop/devkit/FEPrefix.rb'
 
 prefix_proc = proc do |message|
+  next message.text.downcase[4..-1] if message.text.downcase.start_with?('fe! ')
+  next message.text.downcase[4..-1] if message.text.downcase.start_with?('fe? ')
+  next message.text.downcase[5..-1] if message.text.downcase.start_with?('fea! ')
+  next message.text.downcase[5..-1] if message.text.downcase.start_with?('fea? ')
+  next message.text.downcase[5..-1] if message.text.downcase.start_with?('fef! ')
+  next message.text.downcase[5..-1] if message.text.downcase.start_with?('fef? ')
+  next message.text.downcase[6..-1] if message.text.downcase.start_with?('fe13! ')
+  next message.text.downcase[6..-1] if message.text.downcase.start_with?('fe13? ')
+  next message.text.downcase[6..-1] if message.text.downcase.start_with?('fe14! ')
+  next message.text.downcase[6..-1] if message.text.downcase.start_with?('fe14? ')
+  next message.text.downcase[3..-1] if message.text.downcase.start_with?('fe!')
+  next message.text.downcase[3..-1] if message.text.downcase.start_with?('fe?')
+  next message.text.downcase[4..-1] if message.text.downcase.start_with?('fea!')
+  next message.text.downcase[4..-1] if message.text.downcase.start_with?('fea?')
+  next message.text.downcase[4..-1] if message.text.downcase.start_with?('fef!')
+  next message.text.downcase[4..-1] if message.text.downcase.start_with?('fef?')
+  next message.text.downcase[5..-1] if message.text.downcase.start_with?('fe13!')
+  next message.text.downcase[5..-1] if message.text.downcase.start_with?('fe13?')
+  next message.text.downcase[5..-1] if message.text.downcase.start_with?('fe14!')
+  next message.text.downcase[5..-1] if message.text.downcase.start_with?('fe14?')
   load 'C:/Users/Mini-Matt/Desktop/devkit/FEPrefix.rb'
-  next message.content[3..-1] if message.text.downcase.start_with?('fe!')
-  next message.content[3..-1] if message.text.downcase.start_with?('fe?')
-  next message.content[4..-1] if message.text.downcase.start_with?('fea!')
-  next message.content[4..-1] if message.text.downcase.start_with?('fea?')
-  next message.content[4..-1] if message.text.downcase.start_with?('fef!')
-  next message.content[4..-1] if message.text.downcase.start_with?('fef?')
-  next message.content[5..-1] if message.text.downcase.start_with?('fe13!')
-  next message.content[5..-1] if message.text.downcase.start_with?('fe13?')
-  next message.content[5..-1] if message.text.downcase.start_with?('fe14!')
-  next message.content[5..-1] if message.text.downcase.start_with?('fe14?')
   next if message.channel.server.nil? || @prefixes[message.channel.server.id].nil? || @prefixes[message.channel.server.id].length<=0
   prefix = @prefixes[message.channel.server.id]
   # We use [prefix.size..-1] so we can handle prefixes of any length
-  next message.content[prefix.size..-1] if message.text.downcase.start_with?(prefix.downcase)
+  next message.text.downcase[prefix.size+1..-1] if message.text.downcase.start_with?("#{prefix.downcase} ")
+  next message.text.downcase[prefix.size..-1] if message.text.downcase.start_with?(prefix.downcase)
 end
 
 # The bot's token is basically their password, so is censored for obvious reasons
