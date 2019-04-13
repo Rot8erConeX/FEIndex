@@ -4123,6 +4123,7 @@ def disp_aliases(bot,event,args=nil,mode=0)
       for i in 0...n.length
         if n[i][2].nil? || (mode==1 && !event.server.nil?)
           f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        elsif mode==1 && !event.server.nil?
         else
           a=[]
           for j in 0...n[i][2].length
@@ -4142,6 +4143,7 @@ def disp_aliases(bot,event,args=nil,mode=0)
       for i in 0...n.length
         if n[i][2].nil? || (mode==1 && !event.server.nil?)
           f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        elsif mode==1 && !event.server.nil?
         else
           a=[]
           for j in 0...n[i][2].length
@@ -4161,6 +4163,7 @@ def disp_aliases(bot,event,args=nil,mode=0)
       for i in 0...n.length
         if n[i][2].nil?
           f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        elsif mode==1 && !event.server.nil?
         else
           a=[]
           for j in 0...n[i][2].length
@@ -4180,6 +4183,7 @@ def disp_aliases(bot,event,args=nil,mode=0)
       for i in 0...n.length
         if n[i][2].nil?
           f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        elsif mode==1 && !event.server.nil?
         else
           a=[]
           for j in 0...n[i][2].length
@@ -4198,6 +4202,7 @@ def disp_aliases(bot,event,args=nil,mode=0)
       for i in 0...n.length
         if n[i][2].nil? || (mode==1 && !event.server.nil?)
           f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        elsif mode==1 && !event.server.nil?
         else
           a=[]
           for j in 0...n[i][2].length
@@ -4216,6 +4221,7 @@ def disp_aliases(bot,event,args=nil,mode=0)
       for i in 0...n.length
         if n[i][2].nil?
           f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        elsif mode==1 && !event.server.nil?
         else
           a=[]
           for j in 0...n[i][2].length
@@ -4234,6 +4240,7 @@ def disp_aliases(bot,event,args=nil,mode=0)
       for i in 0...n.length
         if n[i][2].nil?
           f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        elsif mode==1 && !event.server.nil?
         else
           a=[]
           for j in 0...n[i][2].length
@@ -4252,6 +4259,7 @@ def disp_aliases(bot,event,args=nil,mode=0)
       for i in 0...n.length
         if n[i][2].nil?
           f.push("#{n[i][0].gsub('_','\_')} = #{n[i][1].gsub('_','\_')}")
+        elsif mode==1 && !event.server.nil?
         else
           a=[]
           for j in 0...n[i][2].length
@@ -5751,7 +5759,7 @@ end
 
 bot.message do |event|
   str=event.message.text.downcase
-  if (['feh!','feh?'].include?(str[0,4]) || ['f?','e?','h?'].include?(str[0,2])) && @shardizard==4
+  if (['feh!','feh?'].include?(str[0,4]) || ['f?','e?','h?'].include?(str[0,2])) && @shardizard==4 && (event.server.nil? || event.server.id==285663217261477889)
     s=event.message.text.downcase
     s=s[2,s.length-2] if ['f?','e?','h?'].include?(event.message.text.downcase[0,2])
     s=s[4,s.length-4] if ['feh!','feh?'].include?(event.message.text.downcase[0,4])
@@ -5762,7 +5770,7 @@ bot.message do |event|
     elsif event.server.nil? || event.server.id==285663217261477889
       event.respond "I am not Elise right now.  Please use `FEH!reboot` to turn me into Elise."
     end
-  elsif (['fgo!','fgo?','liz!','liz?'].include?(str[0,4]) || ['fate!','fate?'].include?(str[0,5])) && @shardizard==4
+  elsif (['fgo!','fgo?','liz!','liz?'].include?(str[0,4]) || ['fate!','fate?'].include?(str[0,5])) && @shardizard==4 && (event.server.nil? || event.server.id==285663217261477889)
     s=event.message.text.downcase
     s=s[5,s.length-5] if ['fate!','fate?'].include?(event.message.text.downcase[0,5])
     s=s[4,s.length-4] if ['fgo!','fgo?','liz!','liz?'].include?(event.message.text.downcase[0,4])
@@ -5773,7 +5781,7 @@ bot.message do |event|
     elsif event.server.nil? || event.server.id==285663217261477889
       event.respond "I am not Liz right now.  Please use `FGO!reboot` to turn me into Liz."
     end
-  elsif ['dl!','dl?'].include?(str[0,3]) && @shardizard==4
+  elsif ['dl!','dl?'].include?(str[0,3]) && @shardizard==4 && (event.server.nil? || event.server.id==285663217261477889)
     s=event.message.text.downcase
     s=s[3,s.length-3]
     a=s.split(' ')
@@ -5884,6 +5892,7 @@ def next_birthday(bot,mode=0)
   chn=285663217261477889 if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
+  return nil if t.year==2019 && t.month==4 && t.day==13
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
   m=0
   if t.hour<10
