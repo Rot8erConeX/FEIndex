@@ -6,7 +6,7 @@ Takumi\1mFbd\Not available in *Conquest*\50, 35, 0, 60, 40, 45, 35, 20\0, 1, 0, 
 Azama\1mFb\Not available in *Conquest*\55, 50, 20, 40, 45, 40, 40, 20\0, 2, -3, 0, 1, 0, 1, 0\Monk, Apothecary\Monk, Apothecary, Troubadour\Divine Retribution\09/08\
 Hayato\1mFb\Not available in *Conquest*\50, 30, 40, 30, 45, 60, 40, 20\0, 0, 1, -1, 2, 1, -1, -1\Diviner, Oni Savage\Diviner, Oni Savage, Dark Mage\Pride\09/19\
 Subaki\1mFb\Not available in *Conquest*\55, 30, 20, 50, 20, 25, 45, 5\0, -1, 0, 2, -2, -1, 3, -1\Sky Knight, Samurai\Sky Knight, Samurai, Wyvern Rider\Perfectionist\02/07\
-Hinata\1mFb\Not available in *Conquest*\55, 35, 0, 25, 15, 45, 45, 15\0, 1, 0, -1, -2, 0, 2, 0\Samurai, Oni Savage\Samurai, Oni Savage, Mercenary\Triple Threat\04/10\
+Hinata\1mFb\Not available in *Conquest*\55, 35, 0, 25, 15, 45, 45, 15\0, 1, 0, -1, -2, 0, 2, 0\Samurai, Oni Savage\Samurai, Oni Savage, Mercenary\Triple Threat\05/10\
 Kaden\1mFb\Not available in *Conquest*\45, 40, 10, 25, 45, 50, 35, 40\0, 1, 0, -3, 2, 1, -2, 2\Kitsune, Diviner\Kitsune, Diviner, Apothecary\Reciprocity\07/12\
 Saizo\1mFb\Not available in *Conquest*\40, 50, 45, 60, 30, 55, 45, 10\0, 1, 0, 3, -2, 0, 1, -2\Ninja, Samurai\Ninja, Samurai, Cavalier\Pyrotechnics\10/02\
 Xander\1mFcd\Not available in *Birthright*\45, 50, 5, 40, 35, 60, 40, 15\0, 2, -1, -1, -1, 2, 1, -2\Paladin, Great Knight, Wyvern Lord, Malig Knight\Cavalier, Wyvern Rider, Ninja\Chivalry\10/27\
