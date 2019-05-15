@@ -286,7 +286,7 @@ def safe_to_spam?(event,chn=nil) # determines whether or not it is safe to send 
   return true if event.server.nil? # it is safe to spam in PM
   return false if event.message.text.downcase.split(' ').include?('smol') && @shardizard==4
   return true if @shardizard==4
-  return true if [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,508792801455243266,508793141202255874,508793425664016395,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id) # it is safe to spam in the emoji servers
+  return true if [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,508792801455243266,508793141202255874,508793425664016395,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388].include?(event.server.id) # it is safe to spam in the emoji servers
   chn=event.channel if chn.nil?
   return true if ['bots','bot'].include?(chn.name.downcase) # channels named "bots" are safe to spam in
   return true if chn.name.downcase.include?('bot') && chn.name.downcase.include?('spam') # it is safe to spam in any bot spam channel
@@ -4447,6 +4447,9 @@ def bday_order(bot,event=nil,mode=0)
     untz[i]=[untz[i][8][0],untz[i][8][1],untz[i][8][2],untz[i][0],untz[i][1]]
     untz[i]=nil if untz[i][3]=='Lucina' && untz[i][4]=='Fates'
   end
+  y=t.year
+  y+=1 if t.month>4 || (t.month==4 && t.day>24)
+  untz.push([y,4,24,'My developer','Real Life'])
   untz.compact!
   untz.sort! {|a,b| supersort(a,b,0) == 0 ? (supersort(a,b,1) == 0 ? (supersort(a,b,2) == 0 ? (supersort(a,b,3) == 0 ? supersort(a,b,4) : supersort(a,b,3)) : supersort(a,b,2)) : supersort(a,b,1)) : supersort(a,b,0)}
   return untz
@@ -4459,7 +4462,8 @@ bot.command([:bday,:birthday,:bdays,:birthdays]) do |event|
   ftz=untz.reject{|q| q[4]!='Fates'}
   gtz=untz.reject{|q| q[4]!='Gates'}
   awk=untz.reject{|q| q[4]!='Awakening'}
-  unk=untz.reject{|q| q[4]!='Unknown'}
+  unk=untz.reject{|q| ['Fates','Gates','Awakening'].include?(q[4])}
+  unk=unk.reject{|q| q[4]=='Real Life'} unless @shardizard==4 || event.user.id==167657750971547648
   unless safe_to_spam?(event)
     ftz=ftz[0,8]
     awk=awk[0,8]
@@ -5656,7 +5660,7 @@ bot.command([:safe,:spam,:safetospam,:safe2spam,:long,:longreplies]) do |event, 
   metadata_load()
   if event.server.nil?
     event.respond 'It is safe for me to send long replies here because this is my PMs with you.'
-  elsif [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id)
+  elsif [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388].include?(event.server.id)
     event.respond 'It is safe for me to send long replies here because this is one of my emoji servers.'
   elsif @shardizard==4
     event.respond 'It is safe for me to send long replies here because this is my debug mode.'
@@ -5729,6 +5733,53 @@ bot.command(:leaveserver, from: 167657750971547648) do |event, server_id| # forc
 end
 
 bot.command([:donation, :donate]) do |event, uid|
+  uid="#{event.user.id}" if uid.nil? || uid.length.zero?
+  if /<@!?(?:\d+)>/ =~ uid
+    uid=event.message.mentions[0].id
+  else
+    uid=uid.to_i
+    uid=event.user.id if uid==0
+  end
+  g=get_donor_list()
+  if uid==167657750971547648
+    n=["#{bot.user(uid).distinct} is","He"]
+    n=["You are","You"] if uid==event.user.id
+    create_embed(event,"#{n[0]} my developer.","#{n[1]} can have whatever permissions #{n[1].downcase} want#{'s' unless uid==event.user.id} to have.",0x00DAFA)
+  elsif g.map{|q| q[0]}.include?(uid)
+    n="#{bot.user(uid).distinct} is"
+    n="You are" if uid==event.user.id
+    g=g[g.find_index{|q| q[0]==uid}]
+    str=""
+    n4=bot.user(uid).name
+    n4=n4[0,[3,n4.length].min]
+    n4=" #{n4}" if n4.length<2
+    n2=n4.downcase
+    n3=[]
+    for i in 0...n2.length
+      if "abcdefghijklmnopqrstuvwxyz".include?(n2[i])
+        n3.push(9*("abcdefghijklmnopqrstuvwxyz".split(n2[i])[0].length)+25)
+        n3[i]+=5 if n4[i]!=n2[i]
+      elsif n2[i].to_i.to_s==n2[i]
+        n3.push(n2[i].to_i*2+1)
+      else
+        n3.push(0)
+      end
+    end
+    color=n3[0]*256*256+n3[1]*256+n3[2]
+    str="**Tier 1:** Ability to give server-specific aliases in any server\n\u2713 Given" if g[2].max>=1
+    if g[2][2]>=2
+      if g[3].nil? || g[3].length.zero? || g[4].nil? || g[4].length.zero?
+        str="#{str}\n\n**Tier 2:** Birthday avatar\n\u2717 Not given.  Please contact <@167657750971547648> to have this corrected."
+      elsif g[4][3]=='-'
+        str="#{str}\n\n**Tier 2:** Birthday avatar\n\u2713 May be given via another bot."
+      elsif !File.exist?("C:/Users/Mini-Matt/Desktop/devkit/EliseImages/#{g[4][3]}.png")
+        str="#{str}\n\n**Tier 2:** Birthday avatar\n\u2717 Not given.  Please contact <@167657750971547648> to have this corrected.\n*Birthday:* #{g[3][1]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][g[3][0]]}\n*Character:* #{g[4][3]}"
+      else
+        str="#{str}\n\n**Tier 2:** Birthday avatar\n\u2713 Given\n*Birthday:* #{g[3][1]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][g[3][0]]}\n*Character:* #{g[4][3]}"
+      end
+    end
+    create_embed(event,"__**#{n} a Tier #{g[2][3]} donor.**__",str,color)
+  end
   donor_embed(bot,event)
 end
 
@@ -5741,7 +5792,7 @@ bot.server_create do |event|
     end
     chn=chnn[0] if chnn.length>0
   end
-  if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(event.server.id) && @shardizard==4
+  if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(event.server.id) && @shardizard==4
     (chn.send_message(get_debug_leave_message()) rescue nil)
     event.server.leave
   else
@@ -5893,7 +5944,7 @@ def next_birthday(bot,mode=0)
   chn=285663217261477889 if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
-  return nil if t.year==2019 && t.month==4 && t.day==22
+  return nil if t.year==2019 && t.month==5 && t.day==14
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
   m=0
   if t.hour<10
@@ -5914,7 +5965,7 @@ def next_holiday(bot,mode=0)
   t-=60*60*6
   holidays=[]
   d=get_donor_list()
-  d=d.reject{|q| q[2]<2}
+  d=d.reject{|q| q[2][3]<2 || q[4][3]=='-'}
   for i in 0...d.length
     if d[i][4][3]!='-'
       holidays.push([0,d[i][3][0],d[i][3][1],d[i][4][3],"in recognition of #{bot.user(d[i][0]).distinct}","Donator's birthday"])
@@ -6051,7 +6102,7 @@ end
 bot.ready do |event|
   if @shardizard==4
     for i in 0...bot.servers.values.length
-      if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579].include?(bot.servers.values[i].id)
+      if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(bot.servers.values[i].id)
         bot.servers.values[i].general_channel.send_message(get_debug_leave_message()) rescue nil
         bot.servers.values[i].leave
       end
