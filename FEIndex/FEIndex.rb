@@ -106,7 +106,8 @@ def all_commands(include_nil=false,permissions=-1)
      'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
      'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list','saliases','serveraliases','bday',
-     'birthday','safe','spam','safetospam','safe2spam','longreplies','channellist','long','channelist','spamlist','spamchannels','prefix','birthdays','bdays']
+     'birthday','safe','spam','safetospam','safe2spam','longreplies','channellist','long','channelist','spamlist','spamchannels','prefix','birthdays','bdays',
+     'status','avvie','avatar']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
@@ -5783,6 +5784,32 @@ bot.command([:donation, :donate]) do |event, uid|
   donor_embed(bot,event)
 end
 
+bot.command([:status, :avatar, :avvie]) do |event, *args|
+  return nil if overlap_prevent(event)
+  t=Time.now
+  timeshift=6
+  t-=60*60*timeshift
+  if event.user.id==167657750971547648 && !args.nil? && args.length>0 # only work when used by the developer
+    bot.game=args.join(' ')
+    event.respond 'Status set.'
+    return nil
+  end
+  if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
+    event << "Current avatar: #{bot.user(312451658908958721).avatar_url}"
+    event << "Unit in avatar: #{@avvie_info[0]}"
+    event << ''
+    event << "Current status:"
+    event << "[Playing] #{@avvie_info[1]}"
+    event << ''
+    event << "Reason: #{@avvie_info[2]}" unless @avvie_info[2].length.zero?
+    event << ''
+    event << "Dev's timezone: #{t.day} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][t.month]} #{t.year} (a #{['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][t.wday]}) | #{'0' if t.hour<10}#{t.hour}:#{'0' if t.min<10}#{t.min}"
+  else
+    create_embed(event,'',"Unit in avatar: #{@avvie_info[0]}\n\nCurrent status:\n[Playing] #{@avvie_info[1]}#{"\n\nReason: #{@avvie_info[2]}" unless @avvie_info[2].length.zero?}\n\n[For a full calendar of avatars, click here](https://docs.google.com/spreadsheets/d/1j-tdpotMO_DcppRLNnT8DN8Ftau-rdQ-ZmZh5rZkZP0/edit?usp=sharing)",(t.day*7+t.month*21*256+(t.year-2000)*10*256*256),"Dev's timezone: #{t.day} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][t.month]} #{t.year} (a #{['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][t.wday]}) | #{'0' if t.hour<10}#{t.hour}:#{'0' if t.min<10}#{t.min}",bot.user(304652483299377182).avatar_url)
+  end
+  return nil
+end
+
 bot.server_create do |event|
   chn=event.server.general_channel
   if chn.nil?
@@ -5944,7 +5971,7 @@ def next_birthday(bot,mode=0)
   chn=285663217261477889 if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
-  return nil if t.year==2019 && t.month==5 && t.day==14
+  return nil if t.year==2019 && t.month==5 && t.day==20
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
   m=0
   if t.hour<10
