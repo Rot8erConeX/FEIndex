@@ -121,9 +121,9 @@ end
 
 def data_load()
   # UNIT DATA
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEUnits.txt')
+  if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FEUnits.txt")
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEUnits.txt').each_line do |line|
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FEUnits.txt").each_line do |line|
       b.push(line)
     end
   else
@@ -139,9 +139,9 @@ def data_load()
   end
   @units=b.map{|q| q}
   # CLASS DATA
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt')
+  if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FEClasses.txt")
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEClasses.txt').each_line do |line|
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FEClasses.txt").each_line do |line|
       b.push(line)
     end
   else
@@ -158,9 +158,9 @@ def data_load()
   end
   @classes=b.map{|q| q}
   # SKILL DATA
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt')
+  if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FESkills.txt")
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FESkills.txt').each_line do |line|
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FESkills.txt").each_line do |line|
       b.push(line)
     end
   else
@@ -177,9 +177,9 @@ def data_load()
   end
   @skills=b.map{|q| q}
   # ITEM DATA
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt')
+  if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FEItems.txt")
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEItems.txt').each_line do |line|
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FEItems.txt").each_line do |line|
       b.push(line)
     end
   else
@@ -201,15 +201,15 @@ end
 
 def prefixes_save()
   x=@prefixes
-  open('C:/Users/Mini-Matt/Desktop/devkit/FEPrefix.rb', 'w') { |f|
+  open("C:/Users/#{@mash}/Desktop/devkit/FEPrefix.rb", 'w') { |f|
     f.puts x.to_s.gsub('=>',' => ').gsub(', ',",\n  ").gsub('{',"@prefixes = {\n  ").gsub('}',"\n}")
   }
 end
 
 def nicknames_load()
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt')
+  if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FENames.txt")
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt').each_line do |line|
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FENames.txt").each_line do |line|
       b.push(eval line)
     end
   else
@@ -251,9 +251,9 @@ def nicknames_load()
 end
 
 def metadata_load()
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FESave.txt')
+  if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FESave.txt")
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FESave.txt').each_line do |line|
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FESave.txt").each_line do |line|
       b.push(eval line)
     end
   else
@@ -273,7 +273,7 @@ end
 
 def metadata_save()
   x=[@embedless.map{|q| q}, @ignored.map{|q| q}, @server_data2.map{|q| q}, @homo_servers.map{|q| q}, @incest_servers.map{|q| q}]
-  open('C:/Users/Mini-Matt/Desktop/devkit/FESave.txt', 'w') { |f|
+  open("C:/Users/#{@mash}/Desktop/devkit/FESave.txt", 'w') { |f|
     f.puts x[0].to_s
     f.puts x[1].to_s
     f.puts x[2].to_s
@@ -305,7 +305,7 @@ end
 
 bot.command(:reboot, from: 167657750971547648) do |event|
   return nil unless event.user.id==167657750971547648
-  exec "cd C:/Users/Mini-Matt/Desktop/devkit && feindex.rb #{@shardizard}"
+  exec "cd C:/Users/#{@mash}/Desktop/devkit && feindex.rb #{@shardizard}"
 end
 
 bot.command([:help,:commands,:command_list,:commandlist,:Help]) do |event, command, subcommand|
@@ -322,6 +322,8 @@ def help_text(event,bot,command=nil,subcommand=nil)
     create_embed(event,"__***Awakening*** **mode**__","- Forced by using the command prefixes `FEA!` `FEA?` `FE13!` `FE13?`\n- Kids' growths are calculated via (mom + dad + kid default)/3\n- Kids inherit all classes from their variable parent\n- Lucina is a second-generation unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Trickster.  The Outlaw Anna can still be invoked via the string 'Fates!Anna'\n- Corrin shows with default stats\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, and Vengeance\n- Vengeance procs at (Skill*2)%",0x061069)
     create_embed(event,"__***Fates*** **mode**__","- Forced by using the command prefixes `FEF!` `FEF?` `FE14!` `FE14?`\n- Kids' growths are calculated via (variable parent + kid default)/2\n- Kids inherit only their variable parent's first new class\n- Lucina is an Amiibo character and treated as a first-gen unit\n- Robin is an Amiibo character\n- Anna is an Outlaw.  The Trickster Anna can still be invoked via the string 'Awakening!Anna'\n- Corrin is an avatar character, which can be edited by including stats in your message\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, Dragon Fang, Rend Heaven and Vengeance\n- Vengeance procs at (Skill*3/2)%",0xC5EEF2)
     create_embed(event,"__**Fluid mode**__","- Forced by using the command prefixes `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n- The bot uses context clues to determine whether to use *Awakening* mode or *Fates* mode\n- Lucina defaults to being an Amiibo character, but becomes a second-gen unit if a first-gen unit is listed alongside her\n- Robin is an Amiibo character, unless stats are included in your message and you are not invoking Kana\n- Anna defaults to being an Outlaw.  'Fates!Anna' and 'Awakening!Anna' can be used to distinguish\n- Corrin is shows with default stats, unless stats are included in your message and you are not invoking Morgan\n- Kids will be calculated via the mode that matches their game of origin, regardless of the game of origin of the variable parent (this means that when calculating Felicia!Lucina!Kana, Felicia!Lucina will be calculated in *Awakening* mode and the result would be used in a *Fates* mode calculation as the mother of a female Kana)\n- When using the `data` command to find a character's growths in a class that is in both games, the version from the game the character originates from will be used\n- When using the `class` command to look at a class that exists in both games, both versions will be displayed\n- When using the `item`/`weapon` command to look at a weapon that exists in both games, both versions will be displayed\n- When using the `skill` command to look at a skill that exists in both games and behaves differently in each, both versions will be displayed",0x010101)
+  elsif ['status','avatar','avvie'].include?(command.downcase)
+    create_embed(event,"**#{command.downcase}**","Shows my current avatar, status, and reason for such.\n\nWhen used by my developer with a message following it, sets my status to that message.",0xD49F61)
   elsif ['embed','embeds'].include?(command.downcase)
     event << "**embed**"
     event << ''
@@ -462,52 +464,6 @@ def help_text(event,bot,command=nil,subcommand=nil)
     create_embed(event,"__**Bot Developer Commands**__",str,0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
     event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
   end
-end
-
-def normalize(str)
-  str=str.gsub(/\s+/,' ').gsub(/[[:space:]]+/,' ').gsub(/[[:cntrl:]]/,' ')
-  str=str.gsub("\u2019","'").gsub("`","'").gsub("\u2018","'")
-  str=str.gsub("\u{1F1E6}","A").gsub("\u{1F1E7}","B").gsub("\u{1F1E8}","C").gsub("\u{1F1E9}","D").gsub("\u{1F1EA}","E").gsub("\u{1F1EB}","F").gsub("\u{1F1EC}","G").gsub("\u{1F1ED}","H").gsub("\u{1F1EE}","I").gsub("\u{1F1EF}","J").gsub("\u{1F1F0}","K").gsub("\u{1F1F1}","L").gsub("\u{1F1F2}","M").gsub("\u{1F1F3}","N").gsub("\u{1F1F4}","O").gsub("\u{1F1F5}","P").gsub("\u{1F1F6}","Q").gsub("\u{1F1F7}","R").gsub("\u{1F1F8}","S").gsub("\u{1F1F9}","T").gsub("\u{1F1FA}","U").gsub("\u{1F1FB}","V").gsub("\u{1F1FC}","W").gsub("\u{1F1FD}","X").gsub("\u{1F1FE}","Y").gsub("\u{1F1FF}","Z")
-  str=str.gsub("\u{1F170}",'A').gsub("\u{1F171}",'B').gsub("\u{1F18E}",'AB').gsub("\u{1F191}",'CL').gsub("\u2B55",'O').gsub("\u{1F17E}",'O').gsub("\u{1F198}",'SOS')
-  str=str.gsub("\u00E1",'a').gsub("\u00C1",'a').gsub("\u0103",'a').gsub("\u01CE",'a').gsub("\u00C2",'a').gsub("\u00E2",'a').gsub("\u00C4",'a').gsub("\u00E4",'a').gsub("\u0227",'a').gsub("\u1EA1",'a').gsub("\u0201",'a').gsub("\u00C0",'a').gsub("\u00E0",'a').gsub("\u1EA3",'a').gsub("\u0203",'a').gsub("\u0101",'a').gsub("\u0105",'a').gsub("\u1E9A",'a').gsub("\u00C5",'a').gsub("\u00E5",'a').gsub("\u1E01",'a').gsub("\u023A",'a').gsub("\u00C3",'a').gsub("\u00E3",'a').gsub("\u0363",'a').gsub("\u1D00",'a').gsub("\u0251",'a').gsub("\u0250",'a').gsub("\u0252",'a').gsub("\u22C0",'a')
-  str=str.gsub("\u00C6",'ae').gsub("\u1D01",'ae').gsub("\u00E6",'ae').gsub("\u1D02",'ae')
-  str=str.gsub("\u1E03",'b').gsub("\u1E05",'b').gsub("\u0181",'b').gsub("\u0253",'b').gsub("\u1E07",'b').gsub("\u0243",'b').gsub("\u0180",'b').gsub("\u0183",'b').gsub("\u0299",'b').gsub("\u1D03",'b').gsub("\u212C",'b').gsub("\u0185",'b')
-  str=str.gsub("\u0107",'c').gsub("\u010D",'c').gsub("\u00C7",'c').gsub("\u00E7",'c').gsub("\u0109",'c').gsub("\u0255",'c').gsub("\u010B",'c').gsub("\u0189",'c').gsub("\u023B",'c').gsub("\u023C",'c').gsub("\u2183",'c').gsub("\u212D",'c').gsub("\u0368",'c').gsub("\u2102",'c').gsub("\u1D04",'c').gsub("\u0297",'c').gsub("\u2184",'c')
-  str=str.gsub("\u212D",'d').gsub("\u0256",'d').gsub("\u010F",'d').gsub("\u1E11",'d').gsub("\u1E13",'d').gsub("\u0221",'d').gsub("\u1E0B",'d').gsub("\u1E0D",'d').gsub("\u018A",'d').gsub("\u0257",'d').gsub("\u1E0F",'d').gsub("\u0111",'d').gsub("\u0256",'d').gsub("\u018C",'d').gsub("\u0369",'d').gsub("\u2145",'d').gsub("\u2146",'d').gsub("\u0189",'d').gsub("\u1D05",'d')
-  str=str.gsub("\u00C9",'e').gsub("\u00E9",'e').gsub("\u0115",'e').gsub("\u011B",'e').gsub("\u0229",'e').gsub("\u1E19",'e').gsub("\u00CA",'e').gsub("\u00EA",'e').gsub("\u00CB",'e').gsub("\u00EB",'e').gsub("\u0117",'e').gsub("\u1EB9",'e').gsub("\u0205",'e').gsub("\u00C8",'e').gsub("\u00E8",'e').gsub("\u1EBB",'e').gsub("\u025D",'e').gsub("\u0207",'e').gsub("\u0113",'e').gsub("\u0119",'e').gsub("\u0246",'e').gsub("\u0247",'e').gsub("\u1E1B",'e').gsub("\u1EBD",'e').gsub("\u0364",'e').gsub("\u2147",'e').gsub("\u0190",'e').gsub("\u018E",'e').gsub("\u1D07",'e').gsub("\u029A",'e').gsub("\u025E",'e').gsub("\u0153",'e').gsub("\u025B",'e').gsub("\u0258",'e').gsub("\u025C",'e').gsub("\u01DD",'e').gsub("\u1D08",'e').gsub("\u2130",'e').gsub("\u212F",'e').gsub("\u0259",'e').gsub("\u018F",'e').gsub("\u22FF",'e')
-  str=str.gsub("\u1E1F",'f').gsub("\u0192",'f').gsub("\u2131",'f').gsub("\u2132",'f').gsub("\u214E",'f')
-  str=str.gsub("\u2640",'(f)')
-  str=str.gsub("\u01F5",'g').gsub("\u011F",'g').gsub("\u01E7",'g').gsub("\u0123",'g').gsub("\u011D",'g').gsub("\u0121",'g').gsub("\u0193",'g').gsub("\u029B",'g').gsub("\u0260",'g').gsub("\u1E21",'g').gsub("\u01E5",'g').gsub("\u0262",'g').gsub("\u0261",'g').gsub("\u210A",'g').gsub("\u2141",'g')
-  str=str.gsub("\u210C",'h').gsub("\u1E2B",'h').gsub("\u021F",'h').gsub("\u1E29",'h').gsub("\u0125",'h').gsub("\u1E27",'h').gsub("\u1E23",'h').gsub("\u1E25",'h').gsub("\u02AE",'h').gsub("\u0266",'h').gsub("\u1E96",'h').gsub("\u0127",'h').gsub("\u210C",'h').gsub("\u036A",'h').gsub("\u210D",'h').gsub("\u029C",'h').gsub("\u0265",'h').gsub("\u2095",'h').gsub("\u02B0",'h').gsub("\u210B",'h')
-  str=str.gsub("\u2111",'i').gsub("\u0197",'i').gsub("\u0130",'i').gsub("\u00CD",'i').gsub("\u00ED",'i').gsub("\u012D",'i').gsub("\u01D0",'i').gsub("\u00CE",'i').gsub("\u00EE",'i').gsub("\u00CF",'i').gsub("\u00EF",'i').gsub("\u0130",'i').gsub("\u1CEB",'i').gsub("\u0209",'i').gsub("\u00CC",'i').gsub("\u00EC",'i').gsub("\u1EC9",'i').gsub("\u020B",'i').gsub("\u012B",'i').gsub("\u012F",'i').gsub("\u0197",'i').gsub("\u0268",'i').gsub("\u1E2D",'i').gsub("\u0129",'i').gsub("\u2111",'i').gsub("\u0365",'i').gsub("\u2148",'i').gsub("\u026A",'i').gsub("\u0131",'i').gsub("\u1D09",'i').gsub("\u1D62",'i').gsub("\u2110",'i').gsub("\u2071",'i').gsub("\u2139",'i').gsub("\uFE0F",'i').gsub("\u1FBE",'i').gsub("\u03B9",'i').gsub("\u0399",'i')
-  str=str.gsub("\u0133",'ij')
-  str=str.gsub("\u01F0",'j').gsub("\u0135",'j').gsub("\u029D",'j').gsub("\u0248",'j').gsub("\u0249",'j').gsub("\u025F",'j').gsub("\u2149",'j').gsub("\u1D0A",'j').gsub("\u0237",'j').gsub("\u02B2",'j')
-  str=str.gsub("\u1E31",'k').gsub("\u01E9",'k').gsub("\u0137",'k').gsub("\u1E33",'k').gsub("\u0199",'k').gsub("\u1E35",'k').gsub("\u1D0B",'k').gsub("\u029E",'k').gsub("\u2096",'k').gsub("\u212A",'k').gsub("\u0138",'k')
-  str=str.gsub("\u013A",'l').gsub("\u023D",'l').gsub("\u019A",'l').gsub("\u026C",'l').gsub("\u013E",'l').gsub("\u013C",'l').gsub("\u1E3D",'l').gsub("\u0234",'l').gsub("\u1E37",'l').gsub("\u1E3B",'l').gsub("\u0140",'l').gsub("\u026B",'l').gsub("\u026D",'l').gsub("\u1D0C",'l').gsub("\u0142",'l').gsub("\u029F",'l').gsub("\u2097",'l').gsub("\u02E1",'l').gsub("\u2143",'l').gsub("\u2112",'l').gsub("\u2113",'l').gsub("\u2142",'l')
-  str=str.gsub("\u2114",'lb')
-  str=str.gsub("\u264C",'leo')
-  str=str.gsub("\u1E3F",'m').gsub("\u1E41",'m').gsub("\u1E43",'m').gsub("\u0271",'m').gsub("\u0270",'m').gsub("\u036B",'m').gsub("\u019C",'m').gsub("\u1D0D",'m').gsub("\u1D1F",'m').gsub("\u026F",'m').gsub("\u2098",'m').gsub("\u2133",'m')
-  str=str.gsub("\u2642",'(m)')
-  str=str.gsub("\u0144",'n').gsub("\u0148",'n').gsub("\u0146",'n').gsub("\u1E4B",'n').gsub("\u0235",'n').gsub("\u1E45",'n').gsub("\u1E47",'n').gsub("\u01F9",'n').gsub("\u019D",'n').gsub("\u0272",'n').gsub("\u1E49",'n').gsub("\u0220",'n').gsub("\u019E",'n').gsub("\u0273",'n').gsub("\u00D1",'n').gsub("\u00F1",'n').gsub("\u2115",'n').gsub("\u0274",'n').gsub("\u1D0E",'n').gsub("\u2099",'n').gsub("\u22C2",'n').gsub("\u220F",'n')
-  str=str.gsub("\u00F3",'o').gsub("\u00F0",'o').gsub("\u00D3",'o').gsub("\u014F",'o').gsub("\u01D2",'o').gsub("\u00D4",'o').gsub("\u00F4",'o').gsub("\u00D6",'o').gsub("\u00F6",'o').gsub("\u022F",'o').gsub("\u1ECD",'o').gsub("\u0151",'o').gsub("\u020D",'o').gsub("\u00D2",'o').gsub("\u00F2",'o').gsub("\u1ECF",'o').gsub("\u01A1",'o').gsub("\u020F",'o').gsub("\u014D",'o').gsub("\u019F",'o').gsub("\u01EB",'o').gsub("\u00D8",'o').gsub("\u00F8",'o').gsub("\u1D13",'o').gsub("\u00D5",'o').gsub("\u00F5",'o').gsub("\u0366",'o').gsub("\u019F",'o').gsub("\u0186",'o').gsub("\u1D0F",'o').gsub("\u1D10",'o').gsub("\u0275",'o').gsub("\u1D11",'o').gsub("\u2134",'o').gsub("\u25CB",'o').gsub("\u00A4",'o')
-  str=str.gsub("\u1D14",'oe').gsub("\u0153",'oe').gsub("\u0276",'oe')
-  str=str.gsub("\u01A3",'oi')
-  str=str.gsub("\u0223",'ou').gsub("\u1D15",'ou')
-  str=str.gsub("\u1E55",'p').gsub("\u1E57",'p').gsub("\u01A5",'p').gsub("\u2119",'p').gsub("\u1D18",'p').gsub("\u209A",'p').gsub("\u2118",'p').gsub("\u214C",'p')
-  str=str.gsub("\u024A",'q').gsub("\u024B",'q').gsub("\u02A0",'q').gsub("\u211A",'q').gsub("\u213A",'q')
-  str=str.gsub("\u0239",'qp')
-  str=str.gsub("\u211C",'r').gsub("\u0155",'r').gsub("\u0159",'r').gsub("\u0157",'r').gsub("\u1E59",'r').gsub("\u1E5B",'r').gsub("\u0211",'r').gsub("\u027E",'r').gsub("\u027F",'r').gsub("\u027B",'r').gsub("\u0213",'r').gsub("\u1E5F",'r').gsub("\u027C",'r').gsub("\u027A",'r').gsub("\u024C",'r').gsub("\u024D",'r').gsub("\u027D",'r').gsub("\u036C",'r').gsub("\u211D",'r').gsub("\u0280",'r').gsub("\u0281",'r').gsub("\u1D19",'r').gsub("\u1D1A",'r').gsub("\u0279",'r').gsub("\u1D63",'r').gsub("\u02B3",'r').gsub("\u02B6",'r').gsub("\u02B4",'r').gsub("\u211B",'r').gsub("\u01A6",'r')
-  str=str.gsub("\u301C",'roy')
-  str=str.gsub("\u015B",'s').gsub("\u0161",'s').gsub("\u015F",'s').gsub("\u015D",'s').gsub("\u0219",'s').gsub("\u1E61",'s').gsub("\u1E63",'s').gsub("\u0282",'s').gsub("\u023F",'s').gsub("\u209B",'s').gsub("\u02E2",'s').gsub("\u1E9B",'s').gsub("\u223E",'s').gsub("\u017F",'s').gsub("\u00DF",'s')
-  str=str.gsub("\u0165",'t').gsub("\u0163",'t').gsub("\u1E71",'t').gsub("\u021B",'t').gsub("\u0236",'t').gsub("\u1E97",'t').gsub("\u023E",'t').gsub("\u1E6B",'t').gsub("\u1E6D",'t').gsub("\u01AD",'t').gsub("\u1E6F",'t').gsub("\u01AB",'t').gsub("\u01AE",'t').gsub("\u0288",'t').gsub("\u0167",'t').gsub("\u036D",'t').gsub("\u1D1B",'t').gsub("\u0287",'t').gsub("\u209C",'t')
-  str=str.gsub("\u00FE",'th')
-  str=str.gsub("\u00FA",'u').gsub("\u028A",'u').gsub("\u22C3",'u').gsub("\u0244",'u').gsub("\u0289",'u').gsub("\u00DA",'u').gsub("\u1E77",'u').gsub("\u016D",'u').gsub("\u01D4",'u').gsub("\u00DB",'u').gsub("\u00FB",'u').gsub("\u1E73",'u').gsub("\u00DC",'u').gsub("\u00FC",'u').gsub("\u1EE5",'u').gsub("\u0171",'u').gsub("\u0215",'u').gsub("\u00D9",'u').gsub("\u00F9",'u').gsub("\u1EE7",'u').gsub("\u01B0",'u').gsub("\u0217",'u').gsub("\u016B",'u').gsub("\u0173",'u').gsub("\u016F",'u').gsub("\u1E75",'u').gsub("\u0169",'u').gsub("\u0367",'u').gsub("\u1D1C",'u').gsub("\u1D1D",'u').gsub("\u1D1E",'u').gsub("\u1D64",'u')
-  str=str.gsub("\u22C1",'v').gsub("\u030C",'v').gsub("\u1E7F",'v').gsub("\u01B2",'v').gsub("\u028B",'v').gsub("\u1E7D",'v').gsub("\u036E",'v').gsub("\u01B2",'v').gsub("\u0245",'v').gsub("\u1D20",'v').gsub("\u028C",'v').gsub("\u1D65",'v')
-  str=str.gsub("\u1E83",'w').gsub("\u0175",'w').gsub("\u1E85",'w').gsub("\u1E87",'w').gsub("\u1E89",'w').gsub("\u1E81",'w').gsub("\u1E98",'w').gsub("\u1D21",'w').gsub("\u028D",'w').gsub("\u02B7",'w')
-  str=str.gsub("\u2715",'x').gsub("\u2716",'x').gsub("\u2A09",'x').gsub("\u033D",'x').gsub("\u0353",'x').gsub("\u1E8D",'x').gsub("\u1E8B",'x').gsub("\u2717",'x').gsub("\u036F",'x').gsub("\u2718",'x').gsub("\u2A09",'x').gsub("\u02E3",'x').gsub("\u2A09",'x')
-  str=str.gsub("\u00DD",'y').gsub("\u00FD",'y').gsub("\u0177",'y').gsub("\u0178",'y').gsub("\u00FF",'y').gsub("\u1E8F",'y').gsub("\u1EF5",'y').gsub("\u1EF3",'y').gsub("\u1EF7",'y').gsub("\u01B4",'y').gsub("\u0233",'y').gsub("\u1E99",'y').gsub("\u024E",'y').gsub("\u024F",'y').gsub("\u1EF9",'y').gsub("\u028F",'y').gsub("\u028E",'y').gsub("\u02B8",'y').gsub("\u2144",'y').gsub("\u00A5",'y')
-  str=str.gsub("\u01B6",'z').gsub("\u017A",'z').gsub("\u017E",'z').gsub("\u1E91",'z').gsub("\u0291",'z').gsub("\u017C",'z').gsub("\u1E93",'z').gsub("\u0225",'z').gsub("\u1E95",'z').gsub("\u0290",'z').gsub("\u01B6",'z').gsub("\u0240",'z').gsub("\u2128",'z').gsub("\u2124",'z').gsub("\u1D22",'z')
-  return str
 end
 
 def get_talent(clss)
@@ -928,7 +884,7 @@ end
 
 def find_twitter_icon(name)
   bob4=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt').each_line do |line|
+  File.open("C:/Users/#{@mash}/Desktop/devkit/FETwitter.txt").each_line do |line|
     bob4.push(line[0,line.length-1])
   end
   for i in 0...bob4.length
@@ -1148,7 +1104,7 @@ def x_get_picture(kid,parent=nil,grandparent=nil,gender="",event=nil,ignore=fals
 end
 
 def x_find_class(name,event,game="",ignore=false)
-  game=game_proc(event)
+  game=game_proc(event) if game==""
   return nil if name.nil?
   return nil if !name.is_a?(String)
   name=normalize(name)
@@ -2560,7 +2516,7 @@ def class_parse(event,bot,args)
   flds=nil
   clzz=@classes.map{|q| q}
   clss[0]=clss[0].gsub(' (C)','')
-  if game=="" && find_class(args.join(' ').downcase,event,"Fates")!=find_class(args.join(' ').downcase,event,"Awakening")
+  if game=="" && find_class(args.join(' ').downcase,event,"Fates")!=find_class(args.join(' ').downcase,event,"Awakening") && find_class(args.join(' ').downcase,event,"Fates")[0]==find_class(args.join(' ').downcase,event,"Awakening")[0]
     if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
       fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
       clss=find_class(args.join(' ').downcase,event,"Fates")
@@ -2855,6 +2811,7 @@ def x_find_skill(game,name,event,fullname=false)
   nicknames_load()
   g=0
   g=event.server.id unless event.server.nil?
+  return nil if name.length<3
   alz=@names.reject{|q| q[0]!='Skill'}.map{|q| [q[1],q[2],q[3]]}
   for i in alz
     if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
@@ -2925,6 +2882,7 @@ def x_find_item(game,name,event,fullname=false)
   name=normalize(name) unless name.nil?
   # try item from the specific game
   data_load()
+  return ["kvsnokfdn"] if name.length<3
   m=[game]
   m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168 && game=='Fates'
   for i in 0...@items.length
@@ -3456,7 +3414,7 @@ def skill_parse(event,bot,args)
     event.respond "Please include a skill name"
     return nil
   end
-  if game=="" && find_skill("Fates",name,event)!=find_skill("Awakening",name,event)
+  if game=="" && find_skill("Fates",name,event)!=find_skill("Awakening",name,event) && find_skill("Fates",name,event)[0]==find_skill("Awakening",name,event)[0]
     fullname="__**#{bob4[0]}**__"
     skillA=find_skill("Awakening",name,event)
     skillF=find_skill("Fates",name,event)
@@ -3623,7 +3581,7 @@ def item_parse(event,bot,args,mde=0)
     return nil
   end
   text=''
-  if game=="" && find_item("Awakening",bob4[0],event)!=find_item("Fates",bob4[0],event)
+  if game=="" && find_item("Awakening",bob4[0],event)!=find_item("Fates",bob4[0],event) && find_item("Awakening",bob4[0],event)[0]==find_item("Fates",bob4[0],event)[0]
     itemA=find_item("Awakening",bob4[0],event)
     itemF=find_item("Fates",bob4[0],event)
     xcolor=0x010101
@@ -4055,7 +4013,7 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
   end
   @names.uniq!
   nzzz=@names.map{|a| a}
-  open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
+  open("C:/Users/#{@mash}/Desktop/devkit/FENames.txt", 'w') { |f|
     for i in 0...nzzz.length
       f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
     end
@@ -4067,7 +4025,7 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
   nzzz4=@names.reject{|q| q[0]!='Item'}
   if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][2]>="Xander" && nzzz2[nzzz2.length-1].length>1 && nzzz2[nzzz2.length-1][2]>="Wyvern Rider" && nzzz3[nzzz3.length-1].length>1 && nzzz3[nzzz3.length-1][2]>="Defensetaker" && nzzz4[nzzz4.length-1].length>1 && nzzz4[nzzz4.length-1][2]>="Armorslayer"
     bot.channel(logchn).send_message("Alias list saved.")
-    open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt', 'w') { |f|
+    open("C:/Users/#{@mash}/Desktop/devkit/FENames2.txt", 'w') { |f|
       for i in 0...nzzz.length
         f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
       end
@@ -4644,7 +4602,7 @@ bot.command([:deletealias,:removealias]) do |event, name|
   srvname="PM with dev"
   srvname=bot.server(srv).name unless event.server.nil? && srv==0
   bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n~~**#{j[1]} Alias:** #{name} for #{j[0]}~~ **DELETED**.")
-  open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
+  open("C:/Users/#{@mash}/Desktop/devkit/FENames.txt", 'w') { |f|
     for i in 0...@names.length
       f.puts "#{@names[i].to_s}#{"\n" if i<@names.length-1}"
     end
@@ -4657,7 +4615,7 @@ bot.command([:deletealias,:removealias]) do |event, name|
   nzzz4=@names.reject{|q| q[0]!='Item'}
   if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][2]>="Xander" && nzzz2[nzzz2.length-1].length>1 && nzzz2[nzzz2.length-1][2]>="Wyvern Rider" && nzzz3[nzzz3.length-1].length>1 && nzzz3[nzzz3.length-1][2]>="Defensetaker" && nzzz4[nzzz4.length-1].length>1 && nzzz4[nzzz4.length-1][2]>="Armorslayer"
     bot.channel(logchn).send_message("Alias list saved.")
-    open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt', 'w') { |f|
+    open("C:/Users/#{@mash}/Desktop/devkit/FENames2.txt", 'w') { |f|
       for i in 0...nzzz.length
         f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
       end
@@ -5141,7 +5099,7 @@ bot.command(:backupaliases) do |event|
     return nil
   end
   nzzzzz=@names.map{|a| a}
-  open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt', 'w') { |f|
+  open("C:/Users/#{@mash}/Desktop/devkit/FENames2.txt", 'w') { |f|
     for i in 0...nzzzzz.length
       f.puts "#{nzzzzz[i].to_s}#{"\n" if i<nzzzzz.length-1}"
     end
@@ -5153,9 +5111,9 @@ end
 bot.command(:restorealiases) do |event|
   return nil unless [167657750971547648,bot.profile.id].include?(event.user.id) || event.channel.id==386658080257212417
   bot.gateway.check_heartbeat_acks = false
-  if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt')
+  if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FENames2.txt")
     b=[]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FENames2.txt').each_line do |line|
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FENames2.txt").each_line do |line|
       b.push(eval line)
     end
   else
@@ -5164,9 +5122,9 @@ bot.command(:restorealiases) do |event|
   nzzzzz=b.uniq
   if nzzzzz[nzzzzz.length-1][1]<"Yarne"
     event << "Last backup of the alias list has been corrupted.  Restoring from manually-created backup."
-    if File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FENames3.txt')
+    if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FENames3.txt")
       b=[]
-      File.open('C:/Users/Mini-Matt/Desktop/devkit/FENames3.txt').each_line do |line|
+      File.open("C:/Users/#{@mash}/Desktop/devkit/FENames3.txt").each_line do |line|
         b.push(eval line)
       end
     else
@@ -5176,7 +5134,7 @@ bot.command(:restorealiases) do |event|
   else
     event << "Last backup of the alias list being used."
   end
-  open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
+  open("C:/Users/#{@mash}/Desktop/devkit/FENames.txt", 'w') { |f|
     for i in 0...nzzzzz.length
       f.puts "#{nzzzzz[i].to_s}#{"\n" if i<nzzzzz.length-1}"
     end
@@ -5189,7 +5147,7 @@ bot.command(:sortaliases) do |event|
   nicknames_load()
   @names.uniq!
   @names.sort! {|a,b| (spaceship_order(a[0]) <=> spaceship_order(b[0])) == 0 ? ((a[2].downcase <=> b[2].downcase) == 0 ? (a[1].downcase <=> b[1].downcase) : (a[2].downcase <=> b[2].downcase)) : (spaceship_order(a[0]) <=> spaceship_order(b[0]))}
-  open('C:/Users/Mini-Matt/Desktop/devkit/FENames.txt', 'w') { |f|
+  open("C:/Users/#{@mash}/Desktop/devkit/FENames.txt", 'w') { |f|
     for i in 0...@names.length
       f.puts "#{@names[i].to_s}#{"\n" if i<@names.length-1}"
     end
@@ -5226,7 +5184,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   k=0
   k=event.server.id unless event.server.nil?
   b=[]
-  File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb').each_line do |line|
+  File.open("C:/Users/#{@mash}/Desktop/devkit/FEIndex.rb").each_line do |line|
     l=line.gsub(' ','').gsub("\n",'')
     b.push(l) unless l.length<=0
   end
@@ -5567,25 +5525,25 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   elsif ['code','lines','line','sloc'].include?(f.downcase)
     event.channel.send_temporary_message('Calculating data, please wait...',3)
     b=[[],[],[],[],[]]
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb').each_line do |line|
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FEIndex.rb").each_line do |line|
       l=line.gsub("\n",'')
       b[0].push(l)
       b[3].push(l)
       l=line.gsub("\n",'').gsub(' ','')
       b[1].push(l) unless l.length<=0
     end
-    File.open('C:/Users/Mini-Matt/Desktop/devkit/rot8er_functs.rb').each_line do |line|
+    File.open("C:/Users/#{@mash}/Desktop/devkit/rot8er_functs.rb").each_line do |line|
       l=line.gsub("\n",'')
       b[0].push(l)
       b[4].push(l)
       l=line.gsub("\n",'').gsub(' ','')
       b[2].push(l) unless l.length<=0
     end
-    event << "**I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long.**"
+    event << "**I am #{longFormattedNumber(File.foreach("C:/Users/#{@mash}/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of code long.**"
     event << "Of those, #{longFormattedNumber(b[1].length)} are SLOC (non-empty)."
     event << "~~When fully collapsed, I appear to be #{longFormattedNumber(b[3].reject{|q| q.length>0 && (q[0,2]=='  ' || q[0,3]=='end' || q[0,4]=='else')}.length)} lines of code long.~~"
     event << ''
-    event << "**I rely on a library that is #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/rot8er_functs.rb").inject(0) {|c, line| c+1})} lines of code long.**"
+    event << "**I rely on a library that is #{longFormattedNumber(File.foreach("C:/Users/#{@mash}/Desktop/devkit/rot8er_functs.rb").inject(0) {|c, line| c+1})} lines of code long.**"
     event << "Of those, #{longFormattedNumber(b[2].length)} are SLOC (non-empty)."
     event << "~~When fully collapsed, it appears to be #{longFormattedNumber(b[4].reject{|q| q.length>0 && (q[0,2]=='  ' || q[0,3]=='end' || q[0,4]=='else')}.length)} lines of code long.~~"
     event << ''
@@ -5635,7 +5593,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
   event << ''
   event << "There are #{longFormattedNumber(@names.reject{|q| !q[3].nil?}.length)} global and #{longFormattedNumber(@names.reject{|q| q[3].nil?}.length)} server-specific *aliases*"
   event << ''
-  event << "I am #{longFormattedNumber(File.foreach("C:/Users/Mini-Matt/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of *code* long."
+  event << "I am #{longFormattedNumber(File.foreach("C:/Users/#{@mash}/Desktop/devkit/FEIndex.rb").inject(0) {|c, line| c+1})} lines of *code* long."
   event << "Of those, #{longFormattedNumber(b.length)} are SLOC (non-empty)."
   return nil
 end
@@ -5643,7 +5601,7 @@ end
 bot.command([:shard,:alliance]) do |event, i|
   if i.to_i.to_s==i && i.to_i.is_a?(Bignum) && @shardizard != 4
     srv=(bot.server(i.to_i) rescue nil)
-    if srv.nil? || bot.user(312451658908958721).on(srv.id).nil?
+    if srv.nil? || bot.user(304652483299377182).on(srv.id).nil?
       event.respond "I am not in that server, but it would be in the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(i.to_i >> 22) % 3]} Alliance."
     else
       event.respond "#{srv.name} is in the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][(i.to_i >> 22) % 3]} Alliance."
@@ -5767,16 +5725,17 @@ bot.command([:donation, :donate]) do |event, uid|
       end
     end
     color=n3[0]*256*256+n3[1]*256+n3[2]
-    str="**Tier 1:** Ability to give server-specific aliases in any server\n\u2713 Given" if g[2].max>=1
-    if g[2][2]>=2
+    str="**Tier 1:** Access to the donor-exclusive channel in my debug server.\n\u2713 This perk cannot be checked dynamically.\nYou can check if it was given to you by clicking this channel link: <#590642838497394689>" if g[2].max>=1
+    str="#{str}\n\n**Tier 2:** Ability to give server-specific aliases in any server\n\u2713 Given" if g[2].max>=2
+    if g[2][2]>=3
       if g[3].nil? || g[3].length.zero? || g[4].nil? || g[4].length.zero?
-        str="#{str}\n\n**Tier 2:** Birthday avatar\n\u2717 Not given.  Please contact <@167657750971547648> to have this corrected."
+        str="#{str}\n\n**Tier 3:** Birthday avatar\n\u2717 Not given.  Please contact <@167657750971547648> to have this corrected."
       elsif g[4][3]=='-'
-        str="#{str}\n\n**Tier 2:** Birthday avatar\n\u2713 May be given via another bot."
-      elsif !File.exist?("C:/Users/Mini-Matt/Desktop/devkit/EliseImages/#{g[4][3]}.png")
-        str="#{str}\n\n**Tier 2:** Birthday avatar\n\u2717 Not given.  Please contact <@167657750971547648> to have this corrected.\n*Birthday:* #{g[3][1]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][g[3][0]]}\n*Character:* #{g[4][3]}"
+        str="#{str}\n\n**Tier 3:** Birthday avatar\n\u2713 May be given via another bot."
+      elsif !File.exist?("C:/Users/#{@mash}/Desktop/devkit/EliseImages/#{g[4][3]}.png")
+        str="#{str}\n\n**Tier 3:** Birthday avatar\n\u2717 Not given.  Please contact <@167657750971547648> to have this corrected.\n*Birthday:* #{g[3][1]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][g[3][0]]}\n*Character:* #{g[4][3]}"
       else
-        str="#{str}\n\n**Tier 2:** Birthday avatar\n\u2713 Given\n*Birthday:* #{g[3][1]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][g[3][0]]}\n*Character:* #{g[4][3]}"
+        str="#{str}\n\n**Tier 3:** Birthday avatar\n\u2713 Given\n*Birthday:* #{g[3][1]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][g[3][0]]}\n*Character:* #{g[4][3]}"
       end
     end
     create_embed(event,"__**#{n} a Tier #{g[2][3]} donor.**__",str,color)
@@ -5795,7 +5754,7 @@ bot.command([:status, :avatar, :avvie]) do |event, *args|
     return nil
   end
   if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
-    event << "Current avatar: #{bot.user(312451658908958721).avatar_url}"
+    event << "Current avatar: #{bot.user(304652483299377182).avatar_url}"
     event << "Unit in avatar: #{@avvie_info[0]}"
     event << ''
     event << "Current status:"
@@ -5830,7 +5789,7 @@ bot.server_create do |event|
 end
 
 bot.server_delete do |event|
-  bot.user(167657750971547648).pm("Left server **#{event.server.name}**")
+  bot.user(167657750971547648).pm("Left server **#{event.server.name}**\nThis server was part of the #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'][((event.server.id >> 22) % @shards)]} Alliance")
   metadata_load()
   @server_data2[0][((event.server.id >> 22) % 3)] -= 1
   metadata_save()
@@ -5845,7 +5804,7 @@ bot.message do |event|
     a=s.split(' ')
     if a[0].downcase=='reboot'
       event.respond "Becoming Elise.  Please wait approximately ten seconds..."
-      exec "cd C:/Users/Mini-Matt/Desktop/devkit && PriscillaBot.rb 4"
+      exec "cd C:/Users/#{@mash}/Desktop/devkit && PriscillaBot.rb 4"
     elsif event.server.nil? || event.server.id==285663217261477889
       event.respond "I am not Elise right now.  Please use `FEH!reboot` to turn me into Elise."
     end
@@ -5856,7 +5815,7 @@ bot.message do |event|
     a=s.split(' ')
     if a[0].downcase=='reboot'
       event.respond "Becoming Liz.  Please wait approximately ten seconds..."
-      exec "cd C:/Users/Mini-Matt/Desktop/devkit && LizBot.rb 4"
+      exec "cd C:/Users/#{@mash}/Desktop/devkit && LizBot.rb 4"
     elsif event.server.nil? || event.server.id==285663217261477889
       event.respond "I am not Liz right now.  Please use `FGO!reboot` to turn me into Liz."
     end
@@ -5866,7 +5825,7 @@ bot.message do |event|
     a=s.split(' ')
     if a[0].downcase=='reboot'
       event.respond "Becoming Botan.  Please wait approximately ten seconds..."
-      exec "cd C:/Users/Mini-Matt/Desktop/devkit && BotanBot.rb 4"
+      exec "cd C:/Users/#{@mash}/Desktop/devkit && BotanBot.rb 4"
     elsif event.server.nil? || event.server.id==285663217261477889
       event.respond "I am not Botan right now.  Please use `DL!reboot` to turn me into Botan."
     end
@@ -5971,7 +5930,7 @@ def next_birthday(bot,mode=0)
   chn=285663217261477889 if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
-  return nil if t.year==2019 && t.month==5 && t.day==20
+  return nil if t.year==2019 && t.month==10 && t.day==9
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
   m=0
   if t.hour<10
@@ -5991,8 +5950,7 @@ def next_holiday(bot,mode=0)
   t=Time.now
   t-=60*60*6
   holidays=[]
-  d=get_donor_list()
-  d=d.reject{|q| q[2][3]<2 || q[4][3]=='-'}
+  d=get_donor_list().reject{|q| q[2][3]<3 || q[4][3]=='-'}
   for i in 0...d.length
     if d[i][4][3]!='-'
       holidays.push([0,d[i][3][0],d[i][3][1],d[i][4][3],"in recognition of #{bot.user(d[i][0]).distinct}","Donator's birthday"])
@@ -6058,7 +6016,7 @@ def next_holiday(bot,mode=0)
     t=Time.now
     t-=60*60*6
     bot.game='Awakening/Fates (FE!help for info)'
-    bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/RobinBot.png','r')) rescue nil if @shardizard.zero?
+    bot.profile.avatar=(File.open("C:/Users/#{@mash}/Desktop/devkit/RobinBot.png",'r')) rescue nil if @shardizard.zero?
     @avvie_info=['Robin','*Fire Emblem Awakening/Fates*','']
     t+=24*60*60
     @scheduler.at "#{t.year}/#{t.month}/#{t.day} 0000" do
@@ -6069,7 +6027,7 @@ def next_holiday(bot,mode=0)
       # Only one holiday is today.  Display new avatar, and set another check for midnight
       bot.game=k[0][4]
       if @shardizard.zero?
-        bot.profile.avatar=(File.open("C:/Users/Mini-Matt/Desktop/devkit/EliseImages/#{k[0][3]}.png",'r')) rescue nil
+        bot.profile.avatar=(File.open("C:/Users/#{@mash}/Desktop/devkit/EliseImages/#{k[0][3]}.png",'r')) rescue nil
       end
       @avvie_info=[k[0][3],k[0][4],k[0][5]]
       t2= Time.now + 18*60*60
@@ -6084,7 +6042,7 @@ def next_holiday(bot,mode=0)
         # in last area of day.  Set avatar to the last one for the day, then set a check for tomorrow at midnight
         bot.game=k[k.length-1][4]
         if @shardizard.zero?
-          bot.profile.avatar=(File.open("C:/Users/Mini-Matt/Desktop/devkit/RobinImages/#{k[k.length-1][3]}.png",'r')) rescue nil
+          bot.profile.avatar=(File.open("C:/Users/#{@mash}/Desktop/devkit/RobinImages/#{k[k.length-1][3]}.png",'r')) rescue nil
         end
         @avvie_info=[k[k.length-1][3],k[k.length-1][4],k[k.length-1][5]]
         t2= Time.now + 18*60*60
@@ -6103,7 +6061,7 @@ def next_holiday(bot,mode=0)
         # ...set avatar properly and set check for the beginning of the next chunk of the day
         bot.game=k[j][4]
         if @shardizard.zero?
-          bot.profile.avatar=(File.open("C:/Users/Mini-Matt/Desktop/devkit/RobinImages/#{k[j][3]}.png",'r')) rescue nil
+          bot.profile.avatar=(File.open("C:/Users/#{@mash}/Desktop/devkit/RobinImages/#{k[j][3]}.png",'r')) rescue nil
         end
         @avvie_info=[k[j][3],k[j][4],k[j][5]]
         t=Time.now
@@ -6117,7 +6075,7 @@ def next_holiday(bot,mode=0)
     t=Time.now
     t-=60*60*6
     bot.game='Awakening/Fates (FE!help for info)'
-    bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/RobinBot.png','r')) rescue nil if @shardizard.zero?
+    bot.profile.avatar=(File.open("C:/Users/#{@mash}/Desktop/devkit/RobinBot.png",'r')) rescue nil if @shardizard.zero?
     @avvie_info=['Robin','*Fire Emblem Awakening/Fates*','']
     t+=24*60*60
     @scheduler.at "#{t.year}/#{t.month}/#{t.day} 0000" do
@@ -6137,9 +6095,9 @@ bot.ready do |event|
   end
   system("color 1#{"BCD0E"[@shardizard,1]}")
   bot.game="booting, please wait..." if [0,4].include?(@shardizard)
-  if !File.exist?('C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
-    download = open('http://pastebin.com/raw/43UKARGi')
-    IO.copy_stream(download, 'C:/Users/Mini-Matt/Desktop/devkit/FETwitter.txt')
+  if !File.exist?("C:/Users/#{@mash}/Desktop/devkit/FETwitter.txt")
+    download = open('http://raw.githubusercontent.com/Rot8erConeX/FEIndex/master/FEIndex/FETwitter.txt')
+    IO.copy_stream(download, "C:/Users/#{@mash}/Desktop/devkit/FETwitter.txt")
   end
   metadata_load()
   if @ignored.length>0
@@ -6153,8 +6111,9 @@ bot.ready do |event|
   bot.game="FE Awakening/Fates (FE!help for info)"
   next_birthday(bot)
   bot.user(bot.profile.id).on(285663217261477889).nickname="RobinBot (Debug)" if @shardizard==4
-  bot.profile.avatar=(File.open('C:/Users/Mini-Matt/Desktop/devkit/DebugRobin.png','r')) if @shardizard==4
+  bot.profile.avatar=(File.open("C:/Users/#{@mash}/Desktop/devkit/DebugRobin.png",'r')) if @shardizard==4
   system("title #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} RobinBot")
+  bot.channel(285663217261477889).send_message("There are better places to take a nap than on the ground, I know.") if @shardizard==4
 end
 
 bot.run
