@@ -1,0 +1,23 @@
+Mystery\It might be some kind of Crest, though it's unclear which one…\0, 0, 0
+Ernest\A Crest long lost to history. Occasionally stops enemy counterattacks when using a weapon.\20, 10, 5
+Macuil\Legend has it that Saint Macuil bore this Crest. A symbol of magic and mastery of the wind. Occasionally raises Mt (by 5) during magic attacks.\20, 10, 5
+Seiros\Legend has it that Saint Seiros bore this Crest and passed it down through House Hresvelg. Occasionally raises Mt (by 5) when using combat arts.\70, 40, 20
+Dominic\House Dominic's Crest, inherited from Dominic of the 10 Elites. Occasionally conserves uses of attack magic.\20, 10, 5
+Fraldarius\House Fraldarius's Crest, inherited from Fraldarius of the 10 Elites. Sometimes raises Mt (by 5) when using a weapon.\40, 20, 10
+Noa\A Crest long lost to history. Occasionally does not consume a use during magic attacks.\20, 10, 5
+Cethleann\Legend has it that Saint Cethleann bore this Crest. A symbol of kindness and mastery of light. Sometimes raises Mt (by 5) when using recovery magic.\50, 30, 15
+Daphnel\House Daphnel and House Galatea's Crest, inherited from Daphnel of the 10 Elites. Sometimes raises Mt (by 5) when using combat arts.\70, 40, 20
+Blaiddyd\The Faerghus royal family's Crest, inherited from Blaiddyd of the 10 Elites. Occasionally doubles Atk and weapon uses for combat arts.\20, 10, 5
+Gloucester\House Gloucester's Crest, inherited from Gloucester of the 10 Elites. Occasionally raises Mt (by 5) during magic attacks.\20, 10, 5
+Goneril\House Goneril's Crest, inherited from Goneril of the 10 Elites. Sometimes allows combat arts to prevent enemy counterattacks.\50, 30, 15
+Cichol\Legend has it that Saint Cichol bore this Crest. A symbol of strength and the land. Sometimes lets combat arts prevent enemy counterattacks.\50, 30, 15
+Aubin\A Crest long lost to history. Occasionally prevents enemy counterattacks when using a weapon.\20, 10, 5
+Gautier\House Gautier's Crest, inherited from Gautier of the 10 Elites. Occasionally raises Mt (by 5) when using combat arts.\70, 40, 20
+Indech\Legend has it that Saint Indech bore this Crest. A symbol of wisdom and water. Occasionally allows weapon attacks to strike twice.\20, 10, 5
+The Beast\The Crest of a Hero whose identity was lost to history. Promises contempt for those who bear it. Sometimes raises Mt (by 5) when using a weapon.\40, 20, 10
+Charon\House Charon's Crest, inherited from Charon of the 10 Elites. Occasionally raises Mt (by 5) when using combat arts.\70, 40, 20
+Timotheos\A Crest long lost to history. Occasionally does not consume a use for recovery magic.\20, 10, 5
+Riegan\A Crest inherited from Riegan of the 10 Elites. Sometimes restores HP equal to 30% of damage dealt when using combat arts.\50, 30, 15
+Chevalier\A Crest long lost to history. Sometimes restores HP equal to 30% of damage dealt when using Combat Arts.\50, 30, 15
+Lamine\A Crest inherited from Lamine of the 10 Elites. Occasionally conserves uses of recovery magic.\20, 10, 5
+Flames\The Crest of the goddess who governs the world. Occasionally restores HP equal to 30% of damage dealt. Rarely (25% of the times the main effect activates) raises Mt (by 5) and stops counterattacks.\20, 10, 5

@@ -146,6 +146,59 @@ Revenant\Awakening\Unavailable\0, 0, 0, 0, 0, 0, 0, 0\80, 30, 20, 25, 25, 30, 30
 Entombed\Awakening\Unavailable\0, 0, 0, 0, 0, 0, 0, 0\80, 40, 30, 35, 35, 45, 35, 30\20, 3, 1, 2, 2, 0, 2, 1\Unavailable\\\Claws, A
 Conqueror\Awakening\Valm\50, 20, 5, 15, 15, 0, 10, 10\80, 45, 25, 40, 40, 45, 45, 35\24, 10, 3, 9, 8, 0, 12, 5\Unavailable\\\Swords, A; Lances, A; Axes, A
 Grima\Awakening\Unavailable\0, 0, 0, 0, 0, 0, 0, 0\99, 50, 40, 50, 45, 45, 50, 50\30, 15, 15, 15, 15, 0, 15, 10\Unavailable\\\Breath, A
+Noble\Three Houses\Garreg Mach\0, 0, 0, 0, 0, 0, 0, 0, 5\0, 0, 0, 0, 0, 0, 0, 0, 0\0, 0, 0, 0, 0, 0, 0, 0, 0\\\HP +5\\\
+Commoner\Three Houses\Garreg Mach\0, 0, 0, 0, 0, 0, 0, 0, 0\0, 0, 0, 0, 0, 0, 0, 0, 0\0, 0, 0, 0, 0, 0, 0, 0, 0\\\HP +5\\\
+Dancer\Three Houses\Garreg Mach\20, -5, 0, 0, 0, 0, -5, -5, 10\0, 1, 0, 3, 3, 0, 2, 1, 2\0, 0, 0, 0, 0, 0, 0, 0, 0\Special\\Special Dance\Sword, 2; Authority, 2\\
+Enlightened One\Three Houses\Garreg Mach\20, 10, 10, 0, 0, 0, 5, 0, 5\1, 2, 3, 1, 1, 1, 2, 2, 1\28, 17, 8, 12, 14, 10, 12, 10, 0\Special\\Sacred Power\Sword, 3; Brawling, 2; Faith, 3; Authority, 3\\
+Armored Lord\Three Houses\Adrestia\20, 5, 5, 0, 0, 0, 5, 5, 10\5, 0, 0, 0, -3, 0, 5, 0, 2\38, 17, 8, 12, 6, 10, 17, 8, 0\Special\\Pomp & Circumstance\Axe, 3; Authority, 3; Armor, 3\\
+High Lord\Three Houses\Faerghus\20, 5, 0, 5, 0, 0, 5, 0, 10\3, 1, 0, 0, 3, 0, 1, 0, 2\30, 16, 7, 11, 13, 9, 13, 9, 0\Special\\Pomp & Circumstance\Sword, 3; Lance, 3; Authority, 3\\
+Wyvern Master\Three Houses\Leicester\20, 10, 0, 0, 5, 0, 5, 0, 10\2, 1, 0, 3, 0, 0, 1, 0, 2, 0, 1, 0, 0, 1, 0, 0, 0, 0\30, 17, 9, 13, 19, 11, 14, 11, 0\Special\\Pomp & Circumstance\Bow, 3; Authority, 3; Flying, 3\\
+Emperor\Three Houses\Adrestia\30, 10, 10, 0, 0, 0, 5, 5, 10\8, 0, 0, 0, -4, 1, 8, 0, 2\38, 17, 8, 12, 6, 10, 17, 8, 0\Special\\\Axe, 3; Authority, 3; Armor, 3\\
+Great Lord\Three Houses\Faerghus\30, 10, 0, 10, 0, 0, 5, 0, 10\5, 2, 0, 0, 4, 1, 1, 0, 2\35, 17, 8, 12, 14, 10, 14, 10, 0\Special\\\Sword, 3; Lance, 3; Authority, 3\\
+Barbarossa\Three Houses\Leicester\30, 15, 0, 0, 10, 0, 5, 0, 10\3, 3, 0, 5, 0, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0\35, 18, 10, 14, 20, 12, 15, 12, 0\Special\\\Bow, 3; Authority, 3; Flying, 3\\
+Myrmidon\Three Houses\Garreg Mach\10, 0, 0, 0, 5, 0, 0, -5, 5\0, 0, 0, 0, 1, 0, 0, 0, 0\20, 7, 3, 6, 6, 4, 5, 2, 0\\Beginner\Speed +2\Sword, 1\Sword (D)\
+Soldier\Three Houses\Garreg Mach\10, 0, 0, 5, 0, 0, 0, -5, 5\0, 0, 0, 1, 0, 0, 0, 0, 0\20, 8, 3, 6, 6, 4, 5, 2, 0\\Beginner\Defense +2\Lance, 1\Lance (D)\
+Fighter\Three Houses\Garreg Mach\10, 5, 0, 0, 0, 0, 0, -5, 5\0, 1, 0, 0, 0, 0, 0, 0, 0\20, 8, 3, 6, 6, 4, 5, 2, 0\\Beginner\Strength +2\Axe, 1; Bow, 1; Brawling, 1\Axe (D), Bow (D), or Brawling (D)\
+Monk\Three Houses\Garreg Mach\5, 0, 0, 0, 0, 0, 0, 5, 5\0, 0, 0, 0, 0, 0, 0, 1, 0\20, 4, 8, 6, 6, 4, 3, 4, 0\\Beginner\Magic +2\Reason, 1; Faith, 1\Reason (D) or Faith (D)\
+Lord\Three Houses\Garreg Mach\20, 0, 0, 10, 0, 0, 0, 0, 10\1, 0, 0, 0, 1, 1, 0, 0, 2\25, 9, 6, 10, 10, 8, 6, 3, 0\\Intermediate\Resistance +2\Sword, 2; Lance, 1; Authority, 2\Sword (D+) and Authority (C)\
+Mercenary\Three Houses\Garreg Mach\20, 5, 0, 0, 5, 0, 0, -5, 5\1, 1, 0, 0, 1, 0, 0, 0, 0\25, 9, 6, 10, 10, 8, 6, 2, 0\\Intermediate\Vantage\Sword, 2; Axe, 1\Sword (C)\
+Thief\Three Houses\Garreg Mach\20, 0, 0, 10, 10, 0, 0, 0, 5\0, 0, 0, 2, 2, 0, 0, 0, 0\25, 9, 6, 11, 11, 8, 6, 2, 0\\Intermediate\Steal\Sword, 2; Bow, 1\Sword (C)\
+Armored Knight\Three Houses\Garreg Mach\20, 0, 0, 0, -10, 0, 10, -5, 5\3, 0, 0, 0, -2, 0, 4, -1, 0\30, 9, 6, 7, 4, 8, 12, 1, 0\\Intermediate\Armored Blow\Lance, 1; Axe, 2; Armor, 2\Axe (C) and Armor (D)\
+Cavalier\Three Houses\Garreg Mach\20, 5, 0, 5, -10, 0, 5, 0, 5\1, 1, 0, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0\25, 9, 6, 7, 6, 8, 6, 2, 0\\Intermediate\Desperation\Sword, 1; Lance, 2; Riding, 2\Lance (C) and Riding (D)\
+Brigand\Three Houses\Garreg Mach\30, 10, 0, 0, 0, 0, 0, -5, 5\2, 2, 0, 0, 0, 0, 0, 0, 0\28, 10, 6, 7, 7, 8, 6, 2, 0\\Intermediate\Death Blow\Axe, 2; Brawling, 1\Axe (C)\
+Archer\Three Houses\Garreg Mach\5, 0, 0, 10, 0, 5, 0, 0, 5\0, 0, 0, 2, 0, 2, 0, 0, 0\25, 8, 6, 8, 7, 8, 5, 2, 0\\Intermediate\Hit +20\Sword, 1; Bow, 2\Bow (C)\
+Brawler\Three Houses\Garreg Mach\30, 0, -10, 10, 10, 0, 0, -10, 5\1, 0, 0, 2, 2, 0, 0, -1, 0\28, 9, 6, 7, 8, 8, 6, 1, 0\\Intermediate\Unarmed Combat\Axe, 1; Brawling, 2\Brawling (C)\
+Mage\Three Houses\Garreg Mach\5, -5, 10, 5, 0, 0, -5, 5, 5\0, 0, 1, 1, 0, 0, 0, 2, 0\25, 4, 10, 7, 6, 8, 3, 5, 0\\Intermediate\Fiendish Blow\Reason, 2; Faith, 1\Reason (C)\
+Dark Mage\Three Houses\Garreg Mach\5, -5, 10, 5, 0, 0, -5, 5, 0\0, 0, 2, 1, 0, 0, 0, 1, 0\25, 4, 10, 7, 6, 8, 3, 5, 0\\Dark Intermediate\Poison Strike\Reason, 2; Faith, 1\Reason (C)\
+Priest\Three Houses\Garreg Mach\5, -5, 5, 5, 0, 0, -5, 10, 10\0, 0, 0, 1, 0, 0, 0, 3, 0\25, 4, 9, 7, 6, 8, 3, 5, 0\\Intermediate\Miracle\Reason, 1; Faith, 2\Faith (C)\
+Pegasus Knight\Three Houses\Garreg Mach\15, 0, 0, 0, 10, 0, 0, 5, 10\0, 0, 0, 2, 1, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0\25, 8, 6, 7, 8, 8, 5, 4, 0\\Intermediate\Darting Blow\Sword, 1; Lance, 2; Flying, 2\Lance (C) and Flying (D)\
+Hero\Three Houses\Garreg Mach\30, 10, 0, 0, 10, 0, 0, -5, 5\3, 2, 0, 0, 2, 1, 1, 0, 0\30, 17, 8, 12, 14, 10, 12, 8, 0\\Advanced\Defiant Str\Sword, 3; Axe, 2\Sword (B) and Axe (C)\
+Swordmaster\Three Houses\Garreg Mach\25, 10, 0, 0, 20, 0, 0, -5, 5\1, 2, 0, 1, 4, 0, 1, 0, 0\30, 17, 8, 12, 14, 10, 12, 8, 0\\Advanced\\Sword, 3\Sword (A)\
+Assassin\Three Houses\Garreg Mach\20, 0, 0, 20, 20, 0, 0, 0, 0\0, 0, 0, 3, 5, 1, 0, 0, 0\30, 17, 8, 12, 14, 10, 12, 8, 0\\Advanced\Lethality\Sword, 3; Bow, 2\Sword (B) and Bow (C)\
+Fortress Knight\Three Houses\Garreg Mach\30, 10, 0, 0, -10, 0, 15, 0, 5\5, 0, 0, 0, -6, 0, 10, 0, 0\35, 17, 8, 12, 8, 10, 17, 7, 0\\Advanced\Pavise\Lance, 2; Axe, 3; Armor, 3\Axe (B) and Armor (B)\
+Paladin\Three Houses\Garreg Mach\30, 10, 0, 5, -10, 5, 5, 5, 5\2, 2, 0, 2, 1, 0, 2, 2, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0\32, 17, 8, 12, 14, 10, 12, 8, 0\\Advanced\Aegis\Sword, 2; Lance, 3; Riding, 3\Lance (B) and Riding (B)\
+Wyvern Rider\Three Houses\Garreg Mach\30, 10, -5, 0, 0, 0, 5, -5, 5\1, 2, 0, 1, 1, 0, 2, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0\30, 18, 8, 12, 14, 10, 12, 8, 0\\Advanced\Seal Defense\Lance, 2; Axe, 3; Flying, 3\Axe (B) and Flying (C)\
+Warrior\Three Houses\Garreg Mach\40, 15, -5, 0, 0, 0, 0, 0, 5\3, 3, 0, 0, 1, 1, 1, 0, 0\32, 19, 8, 12, 14, 10, 13, 8, 0\\Advanced\Wrath\Axe, 3\Axe (A)\
+Sniper\Three Houses\Garreg Mach\10, 5, 0, 20, 0, 10, 0, 0, 5\0, 1, 0, 5, 0, 3, 0, 0, 0\30, 17, 8, 12, 14, 10, 12, 8, 0\\Advanced\\Bow, 3\Bow (A)\
+Grappler\Three Houses\Garreg Mach\40, 10, 0, 10, 10, 0, 0, 0, 5\2, 1, 0, 3, 3, 0, 1, -1, 0\32, 17, 8, 12, 14, 10, 14, 7, 0\\Advanced\Tomebreaker\Brawling, 3\Brawling (A)\
+Warlock\Three Houses\Garreg Mach\10, 0, 10, 0, 0, 0, -5, 5, 5\0, 0, 3, 1, 1, 0, 0, 4, 0\30, 8, 17, 12, 14, 10, 12, 15, 0\\Advanced\Bowbreaker\Reason, 3; Faith, 2\Reason (A)\
+Dark Bishop\Three Houses\Garreg Mach\10, 0, 10, 0, 0, 0, -5, 5, 0\0, 0, 4, 2, 0, 0, 0, 3, 0\30, 8, 17, 12, 14, 10, 12, 15, 0\\Dark Advanced\Lifetaker\Reason, 3; Faith, 2\Reason (A)\
+Bishop\Three Houses\Garreg Mach\10, 0, 10, 0, 0, 10, -5, 5, 10\1, 0, 2, 1, 0, 0, 0, 5, 0\30, 8, 15, 12, 14, 10, 12, 15, 0\\Advanced\Renewal\Reason, 2; Faith, 3\Faith (A)\
+Falcon Knight\Three Houses\Garreg Mach\30, 10, 0, 0, 20, 0, 0, 5, 10\0, 0, 0, 4, 3, 0, 0, 4, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0\32, 18, 10, 14, 20, 12, 13, 14, 0\\Master\Defiant Avo\Sword, 3; Lance, 3; Flying, 3\Sword (C), Lance (A), and Flying (B+)\
+Wyvern Lord\Three Houses\Garreg Mach\30, 15, -5, 0, 10, 0, 5, 0, 5\2, 2, 0, 1, 2, 0, 3, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0\32, 18, 10, 14, 20, 12, 15, 12, 0\\Master\Defiant Crit\Lance, 3; Axe, 3; Flying, 3\Lance (C), Axe (A), and Flying (A)\
+Mortal Savant\Three Houses\Garreg Mach\20, 10, 10, 0, -10, 10, 0, 0, 5\1, 1, 2, 1, 1, 0, 2, 2, 0\32, 17, 17, 14, 16, 12, 14, 12, 0\\Master\Warding Blow\Sword, 3; Reason, 3\Sword (A) and Reason (B+)\
+Great Knight\Three Houses\Garreg Mach\30, 10, 0, 0, -10, 0, 5, -5, 5\5, 1, 0, 0, -2, 0, 6, 0, 0, 0, 0, 0, 0, -2, 0, 2, 0, 0\34, 18, 10, 14, 10, 12, 17, 10, 0\\Master\Defiant Def\Lance, 3; Axe, 3; Armor, 3\Axe (B+), Armor (A), and Riding (B+)\
+Bow Knight\Three Houses\Garreg Mach\10, 0, 0, 0, -5, 0, 0, 0, 5\2, 1, 0, 3, 3, 1, 1, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0\32, 17, 10, 14, 16, 12, 14, 10, 0\\Master\Defiant Spd\Lance, 3; Bow, 3; Riding, 3\Lance (C), Bow (A), and Riding (A)\
+Dark Knight\Three Houses\Garreg Mach\10, 5, 10, 0, -5, 0, 5, 10, 5\1, 1, 2, 2, 1, 0, 1, 3, 0, 0, 0, 0, 0, -2, 0, 1, 0, 0\32, 10, 17, 14, 16, 12, 13, 15, 0\\Master\Seal Resistance\Lance, 3; Reason, 3; Riding, 3\Lance (C), Reason (B+), and Riding (A)\
+Holy Knight\Three Houses\Garreg Mach\10, 0, 10, 0, -5, 10, 5, 10, 10\2, 1, 1, 2, 1, 0, 0, 4, 0, 0, 0, 0, 0, -2, 0, 1, 0, 0\32, 8, 15, 14, 16, 12, 13, 16, 0\\Master\Defiant Res\Lance, 3; Faith, 3; Riding, 3\Lance (C), Faith (B+), and Riding (A)\
+War Master\Three Houses\Garreg Mach\40, 15, 0, 0, 10, 0, 0, 0, 5\3, 5, 0, 0, 2, 1, 1, 0, 0\33, 20, 10, 14, 16, 12, 15, 10, 0\\Master\Quick Riposte\Axe, 3; Brawling, 3\Axe (A) and Brawling (A)\
+Gremory\Three Houses\Garreg Mach\10, 0, 10, 10, 0, 0, 0, 5, 10\0, 0, 5, 2, 1, 0, 0, 4, 2\32, 8, 17, 14, 16, 12, 13, 16, 0\\Master\Defiant Mag\Reason, 3; Faith, 3\Reason (A) and Faith (A)\
+Death Knight\Three Houses\Adrestia\30, 10, 10, 0, -5, 0, 5, 5, 0\5, 3, 0, 0, 3, 0, 2, 3, 0, 0, 1, 0, 0, -2, 0, 1, 0, 0\32, 10, 17, 14, 16, 12, 13, 15, 0\Special\\Counterattack\Lance, 3; Reason, 3; Riding, 3\Lance (A), Reason (C), and Riding (B+)\
+Archbishop\Three Houses\Garreg Mach\40, 10, 10, 0, 0, 0, 0, 10, 10\1, 2, 2, 2, 0, 2, 2, 2, 2\35, 17, 8, 12, 14, 10, 14, 10, 0\Unavailable\\\Sword, 3; Faith, 3; Authority, 3\Faith (S+)\
+Flame Emperor\Three Houses\Adrestia\30, 10, 10, 0, 0, 0, 5, 5, 10\5, 0, 0, 0, -3, 0, 5, 0, 2\38, 17, 8, 12, 6, 10, 17, 8, 0\Unavailable\\\Axe, 3; Authority, 3; Armor, 3\\
+Agastya\Three Houses\Agartha\30, 0, 10, 0, 0, 0, 0, 10, 10\1, 0, 5, 0, 0, 0, 2, 5, 2\32, 8, 17, 14, 16, 12, 13, 16, 0\Unavailable\\\Reason, 3; Authority, 3\\
+Saint\Three Houses\Garreg Mach\40, 10, 10, 0, 0, 0, 0, 10, 10\1, 5, 2, 2, 0, 2, 5, 2, 2\35, 17, 8, 12, 14, 10, 14, 10, 0\Unavailable\\\Sword, 3; Brawling, 3; Authority, 3\\
+Liberator\Three Houses\Agartha\60, 10, 0, 10, 10, 0, 30, 30, 10\8, 3, 0, 2, 3, 0, 6, 4, 2\35, 17, 8, 12, 14, 10, 14, 10, 0\Unavailable\\\Sword, 3; Brawling, 3; Authority, 3\\
 Thief\Fates\Penumbra\5, 15, 5, 25, 25, 5, 5, 5\35, 17, 18, 20, 24, 20, 15, 20\17, 4, 1, 7, 9, 2, 2, 5\\Assassin, Trickster\Locktouch, Movement +1\Swords, B
 Assassin\Fates\Penumbra\0, 20, 0, 30, 25, 5, 5, 5\55, 31, 25, 41, 33, 28, 28, 35\16, 8, 0, 8, 11, 3, 4, 5\\\Lethality, Pass\Swords, A; Daggers, B
 Trickster\Fates\Penumbra\5, 10, 15, 5, 20, 10, 5, 10\50, 22, 31, 27, 34, 32, 25, 34\18, 5, 6, 6, 10, 2, 5, 9\\\Lucky Seven, Acrobat\Swords, A; Staves, B

@@ -304,6 +304,240 @@ Luna+\Awakening\Enemy exclusive\-\User ignores half of the enemy's Defense or Re
 Hawkeye\Awakening\Enemy exclusive\-\User will always hit the enemy
 Pavise+\Awakening\Enemy exclusive\-\Halves damage from swords, lances, axes (includes magical variants) and beaststones
 Aegis+\Awakening\Enemy exclusive\-\Halves damage from bows, tomes and dragonstones
+Sword Prowess Lv 1\Three Houses\Sword, skill, E+\-\Grants Hit +5, Avo +7, and Crit Avo +5 when using a sword.
+Sword Prowess Lv 2\Three Houses\Sword, skill, D+\-\Grants Hit +6, Avo +10, and Crit Avo +6 when using a sword.
+Sword Prowess Lv 3\Three Houses\Sword, skill, C+\-\Grants Hit +7, Avo +13, and Crit Avo +7 when using a sword.
+Sword Prowess Lv 4\Three Houses\Sword, skill, B+\-\Grants Hit +8, Avo +16, and Crit Avo +8 when using a sword.
+Sword Prowess Lv 5\Three Houses\Sword, skill, A+\-\Grants Hit +10, Avo +20, and Crit Avo +10 when using a sword.
+Lance Prowess Lv 1\Three Houses\Lance, skill, E+\-\Grants Hit +6, Avo +6, and Crit Avo +5 when using a lance.
+Lance Prowess Lv 2\Three Houses\Lance, skill, D+\-\Grants Hit +8, Avo +8, and Crit Avo +6 when using a lance.
+Lance Prowess Lv 3\Three Houses\Lance, skill, C+\-\Grants Hit +10, Avo +10, and Crit Avo +7 when using a lance.
+Lance Prowess Lv 4\Three Houses\Lance, skill, B+\-\Grants Hit +12, Avo +12, and Crit Avo +8 when using a lance.
+Lance Prowess Lv 5\Three Houses\Lance, skill, A+\-\Grants Hit +15, Avo +15, and Crit Avo +10 when using a lance.
+Axe Prowess Lv 1\Three Houses\Axe, skill, E+\-\Grants Hit +7, Avo +5, and Crit Avo +5 when using an axe.
+Axe Prowess Lv 2\Three Houses\Axe, skill, D+\-\Grants Hit +10, Avo +6, and Crit Avo +6 when using an axe.
+Axe Prowess Lv 3\Three Houses\Axe, skill, C+\-\Grants Hit +13, Avo +7, and Crit Avo +7 when using an axe.
+Axe Prowess Lv 4\Three Houses\Axe, skill, B+\-\Grants Hit +16, Avo +8, and Crit Avo +8 when using an axe.
+Axe Prowess Lv 5\Three Houses\Axe, skill, A+\-\Grants Hit +20, Avo +10, and Crit Avo +10 when using an axe.
+Bow Prowess Lv 1\Three Houses\Bow, skill, E+\-\Grants Hit +6, Avo +6, and Crit Avo +5 when using a bow.
+Bow Prowess Lv 2\Three Houses\Bow, skill, D+\-\Grants Hit +8, Avo +8, and Crit Avo +6 when using a bow.
+Bow Prowess Lv 3\Three Houses\Bow, skill, C+\-\Grants Hit +10, Avo +10, and Crit Avo +7 when using a bow.
+Bow Prowess Lv 4\Three Houses\Bow, skill, B+\-\Grants Hit +12, Avo +12, and Crit Avo +8 when using a bow.
+Bow Prowess Lv 5\Three Houses\Bow, skill, A+\-\Grants Hit +15, Avo +15, and Crit Avo +10 when using a bow.
+Brawling Prowess Lv 1\Three Houses\Brawling, skill, E+\-\Grants Hit +5, Avo +7, and Crit Avo +5 when brawling.
+Brawling Prowess Lv 2\Three Houses\Brawling, skill, D+\-\Grants Hit +6, Avo +10, and Crit Avo +6 when brawling.
+Brawling Prowess Lv 3\Three Houses\Brawling, skill, C+\-\Grants Hit +7, Avo +13, and Crit Avo +7 when brawling.
+Brawling Prowess Lv 4\Three Houses\Brawling, skill, B+\-\Grants Hit +8, Avo +16, and Crit Avo +8 when brawling.
+Brawling Prowess Lv 5\Three Houses\Brawling, skill, A+\-\Grants Hit +10, Avo +20, and Crit Avo +10 when brawling.
+Reason Lv 1\Three Houses\Reason, skill, E+\-\Grants Hit +7, Avo +5, and Crit Avo +5 when using black or dark magic.
+Reason Lv 2\Three Houses\Reason, skill, D+\-\Grants Hit +10, Avo +6, and Crit Avo +6 when using black or dark magic.
+Reason Lv 3\Three Houses\Reason, skill, C+\-\Grants Hit +13, Avo +7, and Crit Avo +7 when using black or dark magic.
+Reason Lv 4\Three Houses\Reason, skill, B+\-\Grants Hit +16, Avo +8, and Crit Avo +8 when using black or dark magic.
+Reason Lv 5\Three Houses\Reason, skill, A+\-\Grants Hit +20, Avo +10, and Crit Avo +10 when using black or dark magic.
+Faith Lv 1\Three Houses\Faith, skill, E+\-\Grants Hit +5, Avo +7, and Crit Avo +5 when using white magic.
+Faith Lv 2\Three Houses\Faith, skill, D+\-\Grants Hit +6, Avo +10, and Crit Avo +6 when using white magic.
+Faith Lv 3\Three Houses\Faith, skill, C+\-\Grants Hit +7, Avo +13, and Crit Avo +7 when using white magic.
+Faith Lv 4\Three Houses\Faith, skill, B+\-\Grants Hit +8, Avo +16, and Crit Avo +8 when using white magic.
+Faith Lv 5\Three Houses\Faith, skill, A+\-\Grants Hit +10, Avo +20, and Crit Avo +10 when using white magic.
+Authority Lv 1\Three Houses\Authority, skill, E+\-\Grants Mt +2 with gambits.
+Authority Lv 2\Three Houses\Authority, skill, D+\-\Grants Mt +4 with gambits.
+Authority Lv 3\Three Houses\Authority, skill, C+\-\Grants Mt +6 with gambits.
+Authority Lv 4\Three Houses\Authority, skill, B+\-\Grants Mt +8 with gambits.
+Authority Lv 5\Three Houses\Authority, skill, A+\-\Grants Mt +10 with gambits.
+Swordfaire\Three Houses\Sword, skill, S+; Swordmaster, class; Assassin, class; Enlightened One, class; Mortal Savant, class\-\Grants Atk +5 when using a sword.
+Lancefaire\Three Houses\Lance, skill, S+; High Lord, class; Paladin, class; Great Lord, class; Falcon Knight, class; Great Knight, class\-\Grants Atk +5 when using a lance.
+Axefaire\Three Houses\Axe, skill, S+; Armored Lord, class; Fortress Knight, class; Wyvern Rider, class; Warrior, class; Emperor, class; Wyvern Lord, class; Great Knight, class; War Master, class\-\Grants Atk +5 when using an axe.
+Bowfaire\Three Houses\Bow, skill, S+; Wyvern Master, class; Sniper, class; Barbarbossa, class; Bow Knight, class\-\Grants Atk +5 when using a bow.
+Fistfaire\Three Houses\Brawling, skill, S+; Grappler, class; War Master, class\-\Grants Atk +5 when brawling.
+Black Tomefaire\Three Houses\Reason, skill, S+; Warlock, class; Mortal Savant, class; Dark Knight, class\-\Grants Atk +5 when using black magic.
+White Tomefaire\Three Houses\Faith, skill, S+; Holy Knight, class\-\Grants Atk +5 when using white magic.
+Dark Tomefaire\Three Houses\Reason, skill, S+, Edelgard, Hubert, Lysithea; Dark Knight, class\-\Grants Atk +5 when using dark magic.
+Sword Crit +10\Three Houses\Sword, skill, S; Swordmaster, class\-\Grants Crit +10 when using a sword.
+Lance Crit +10\Three Houses\Lance, skill, S\-\Grants Crit +10 when using a lance.
+Axe Crit +10\Three Houses\Axe, skill, S; Warrior, class\-\Grants Crit +10 when using an axe.
+Bow Crit +10\Three Houses\Bow, skill, S\-\Grants Crit +10 when using a bow.
+Brawl Crit +10\Three Houses\Brawling, skill, S\-\Grants Crit +10 when brawling.
+Black Magic Crit +10\Three Houses\Edelgard, talent; Felix, talent\-\Grants Crit +10 when using black magic.
+White Magic Crit +10\Three Houses\-\-\When using white magic, Grants Crit +10 .
+Dark Magic Crit +10\Three Houses\-\-\When using dark magic, Grants Crit +10 .
+Sword Avo +20\Three Houses\Dancer, certification\-\Grants Avo +20 when using a sword.
+Lance Avo +20\Three Houses\-\-\When using a lance, Grants Avo +20 .
+Axe Avo +20\Three Houses\-\-\Grants Avo +20 when using an axe.
+Bow Avo +20\Three Houses\-\-\Grants Avo +20 when using a bow.
+Brawl Avo +20\Three Houses\-\-\Grants Avo +20 when brawling.
+Black Magic Avo +20\Three Houses\Sylvain, talent\-\Grants Avo +20 when using black magic.
+White Magic Avo +20\Three Houses\Dorothea, talent\-\Grants Avo +20 when using white magic.
+Dark Magic Avo +20\Three Houses\-\-\When using dark magic, Grants Avo +20 .
+HP +5\Three Houses\Noble, mastery; Commoner, mastery\-\Increases maximum HP by 5.
+Strength +2\Three Houses\Fighter, mastery\-\Increases Str by 2.
+Magic +2\Three Houses\Monk, mastery\-\Increases Mag by 2.
+Dexterity +4\Three Houses\Riding, skill, C\-\Increases Dex by 4.
+Speed +2\Three Houses\Myrmidon, mastery\-\Increases Spd by 2.
+Pomp & Circumstance\Three Houses\Armored Lord, mastery; High Lord, mastery; Wyvern Master, mastery\-\Grants Lck/Cha +4.
+Defense +2\Three Houses\Soldier, mastery\-\Increases Def by 2.
+Resistance +2\Three Houses\Lord, mastery\-\Increases Res by 2.
+Movement +1\Three Houses\Riding, skill, A\-\Increases Mv by 1.
+Hit +20\Three Houses\Archer, mastery\-\Increases Hit by 20.
+Avo +10\Three Houses\Pegasus Knight, class; Falcon Knight, class; Wyvern Lord, class\-\Increases Avo by 10.
+Crit +20\Three Houses\War Master, class\-\Increases Crit by 20.
+Defiant Str\Three Houses\Hero, mastery\-\Grants Str +8 when HP is __<__ 25%.
+Defiant Mag\Three Houses\Gremory, mastery\-\Grants Mag +8 when HP is __<__ 25%.
+Defiant Spd\Three Houses\Bow Knight, mastery\-\Grants Spd +8 when HP is __<__ 25%.
+Defiant Def\Three Houses\Great Knight, mastery\-\Grants Def +8 when HP is __<__ 25%.
+Defiant Res\Three Houses\Holy Knight, mastery\-\Grants Res +8 when HP is __<__ 25%.
+Defiant Avo\Three Houses\Falcon Knight, mastery\-\Grants Avo +30 when HP is __<__ 25%.
+Defiant Crit\Three Houses\Wyvern Lord, mastery\-\Grants Crit +50 when HP is __<__ 25%.
+Imperial Lineage\Three Houses\Edelgard, personal\-\Multiplies experience earned by 1.2.  ||After chapter 12, if unit takes no action except Wait, grants Res +4 for 1 turn.||
+Royal Lineage\Three Houses\Dimitri, personal\-\Multiplies experience earned by 1.2.  ||After chapter 12, grants Avo +20 while unit is at full HP.||
+Leicester Lineage\Three Houses\Claude, personal\-\Multiplies experience earned by 1.2.  ||After chapter 12, allows unit to pass through spaces occupied by foes.||
+Mastermind\Three Houses\Lysithea, personal\-\Doubles skill experience earned in battle.
+Death Blow\Three Houses\Brigand, mastery\-\If unit initiates combat, grants Str +6 during combat.
+Fiendish Blow\Three Houses\Dark Bishop, class; Mage, mastery\-\If unit initiates combat, grants Mag +6 during combat
+Darting Blow\Three Houses\Pegasus Knight, mastery\-\If unit initiates combat, grants AS +6 during combat
+Armored Blow\Three Houses\Armored Knight, mastery\-\If unit initiates combat, grants Def +6 during combat
+Warding Blow\Three Houses\Mortal Savant, mastery\-\If unit initiates combat, grants Res +6 during combat
+Officer Duty\Three Houses\Hubert, personal\-\Grants Mt +5 with gambits.
+Lady Knight\Three Houses\Ingrid, personal\-\Grants Mt +3 and Hit +5 with gambits.
+Watchful Eye\Three Houses\Ignatz, personal\-\Grants Hit +20.
+Distinguished House\Three Houses\Lorenz, personal\-\Unit deals 2 extra damage while in formation with a battalion.
+Veteran Knight\Three Houses\Gilbert, personal\-\Unit takes 2 less damage while in formation with a battalion.
+Charm\Three Houses\Lord, class; Armored Lord, class; High Lord, class; Wyvern Master, class; Emperor, class; Great Lord, class; Barbarossa, class\-\Adjacent allies deal 3 extra damage during combat.
+Advocate\Three Houses\Hilda, personal\-\Adjacent male allies deal 3 extra damage during combat.
+Guardian\Three Houses\Seteth, personal\-\Adjacent female allies deal 3 extra damage during combat.
+Lily's Poise\Three Houses\Flayn, personal\-\Adjacent allies take 3 less damage during combat.
+Infirmary Master\Three Houses\Manuela, personal\-\Adjacent allies gain Crit Avo +10 during combat.
+Philanderer\Three Houses\Sylvain, personal\-\If a female ally is adjacent, unit deals 2 extra damage and takes 2 less damage during combat.
+Rivalry\Three Houses\Leonie, personal\-\If a male ally is adjacent, unit deals 2 extra damage and takes 2 less damage during combat.
+Born Fighter\Three Houses\Caspar, personal\-\Adjacent foes suffer Avo -10 during combat.
+Rally Strength\Three Houses\Authority, skill, C, Raphael; Authority, skill, S, Ignatz; Authority, skill, Alois, D\Rally Command\Use Rally to grant Str +4 to an ally.
+Rally Magic\Three Houses\Authority, skill, D, Ignatz; Authority, skill, D, Ingrid\Rally Command\Use Rally to grant Mag +4 to an ally.
+Rally Speed\Three Houses\Authority, skill, S, Hubert; Authority, skill C+, Annette; Authority, skill, D, Ignatz\Rally Command\Use Rally to grant Spd +4 to an ally.
+Rally Defense\Three Houses\Authority, skill, D, Seteth, Gilbert\Rally Command\Use Rally to grant Def +4 to an ally.
+Rally Resistance\Three Houses\Authority, skill, C+, Hubert; Authority, skill, D, Annette; Authority, skill, S, Seteth\Rally Command\Use Rally to grant Res +4 to an ally.
+Rally Movement\Three Houses\Authority, skill, S, Byleth, Annette\Rally Command\Use Rally to grant Mv +1 to an ally.
+Rally Dexterity\Three Houses\Authority, skill, D, Ferdinand von Aegir; Authority, skill, C+, Ignatz\Rally Command\Use Rally to grant Dex +8 to an ally.
+Rally Luck\Three Houses\Authority, skill, D, Flayn\Rally Command\Use Rally to grant Lck +8 to an ally.
+Rally Charm\Three Houses\Authority, skill, S, Edelgard, Dimitri, Claude; Authority, skill, D, Dorothea, Manuela\Rally Command\Use Rally to grant Cha +8 to an ally.
+Seal Strength\Three Houses\Ignatz, talent\-\If unit damages foe during combat, foe suffers Str -6 for 1 turn after combat.
+Seal Magic\Three Houses\Flayn, talent\-\If unit damages foe during combat, foe suffers Mag -6 for 1 turn after combat.
+Seal Speed\Three Houses\Ferdinand von Aegir, talent\-\If unit damages foe during combat, foe suffers Spd -6 for 1 turn after combat.
+Seal Defense\Three Houses\Wyvern Master, mastery\-\If unit damages foe during combat, foe suffers Def -6 for 1 turn after combat.
+Seal Resistance\Three Houses\Dark Knight, mastery\-\If unit damages foe during combat, foe suffers Res -6 for 1 turn after combat.
+Seal Movement\Three Houses\Dimitri, talent\-\If unit damages foe during combat, foe suffers Mv -1 for 1 turn after combat.
+Heartseeker\Three Houses\Dark Mage, class; Dark Bishop, class\-\Adjacent foes suffer Avo -20 during combat.
+Swordbreaker+\Three Houses\Enemy exclusive\-\Grants Hit/Avo +30 when using a lance against sword users.
+Lancebreaker+\Three Houses\Enemy exclusive\-\Grants Hit/Avo +30 when using an axe against lance users.
+Axebreaker+\Three Houses\Enemy exclusive\-\Grants Hit/Avo +30 when using a sword against axe users.
+Bowbreaker\Three Houses\Reason, skill, B\-\Grants Hit/Avo +20 when using magic against bow users.
+Fistbreaker\Three Houses\Bow, skill, B\-\Grants Hit/Avo +20 when using a bow against brawlers.
+Tomebreaker\Three Houses\Brawling, skill, B\-\Grants Hit/Avo +20 when brawling against magic users.
+Model Leader\Three Houses\Authority, skill, C+, Byleth, Edelgard, Dimitri, Claude, Seteth\-\Doubles experience earned for battalions.
+Defensive Tactics\Three Houses\Authority, skill, B\-\Battalion endurance takes half damage.
+Offensive Tactics\Three Houses\Authority, skill, S+\-\Grants Mt +5 and Hit +20 with gambits.
+Fire\Three Houses\Mage, class\-\Allows unit to cast Fire. If Fire is already available, then unit can cast it twice as often.
+Miasma\Three Houses\Dark Mage, class; Dark Bishop, class\-\Allows unit to cast Miasma. If Miasma is already available, then unit can cast it twice as often.
+Heal\Three Houses\Priest, class\-\Allows unit to cast Heal. If Heal is already available, then unit can cast it twice as often.
+Renewal\Three Houses\Bishop, mastery\-\Unit recovers up to 20% of max HP at the start of each turn.
+Catnap\Three Houses\Linhardt, personal\-\If unit takes no action except Wait, recovers up to 10% of max HP.
+Goody Basket\Three Houses\Raphael, personal\Luck%\Chance to recover up to 10% of max HP at the start of each turn.
+Songstress\Three Houses\Dorothea, personal\-\Adjacent allies recover up to 10% of max HP at the start of each turn.
+Hunter's Boon\Three Houses\Petra, personal\-\Grants Crit +20 when foe's HP is ? 50%.
+Poison Strike\Three Houses\Dark Mage, mastery\-\If unit initiates combat and lands a hit, targeted foe loses up to 20% of max HP after combat.
+Live to Serve\Three Houses\Mercedes, personal\-\When healing an ally with white magic, unit recovers the same amount of HP.
+Lifetaker\Three Houses\Dark Bishop, mastery\-\Unit recovers HP equal to 50% of damage dealt after defeating a foe.
+Survival Instinct\Three Houses\Shamir, personal\-\If unit initiates combat and defeats foe, grants Str/Mag/Dex/Spd +4 for one turn.
+Lethality\Three Houses\Assassin, mastery\(Dexterity/4)%\Chance to instantly kill a foe when dealing damage.
+Poison\Three Houses\Enemy exclusive\Dexterity%\Chance to inflict poison on foe when dealing damage.
+Pavise\Three Houses\Fortress Knight, mastery\Dexterity%\Chance to reduce sword/lance/axe/brawling damage by half.
+Aegis\Three Houses\Paladin, mastery\Dexterity%\Chance to reduce bow/magic damage by half.
+Miracle\Three Houses\Priest, mastery\Luck%\Chance to survive lethal damage with 1 HP, if HP is > 1.
+Terrain Resistance\Three Houses\Paladin, class; Bishop, class; Enlightened One, class; Holy Knight, class\-\Nullifies damage from terrain.
+Special Dance\Three Houses\Dancer, mastery\-\When using the Dance ability, grant Dex/Spd/Lck +4 to target ally.
+Paragon\Three Houses\-\-\Doubles experience earned.
+Professor's Guidance\Three Houses\Byleth, personal\-\Multiplies this unit's and adjacent allies' experience earned by 1.2.  ||After chapter 10, unit deals 2 extra damage during combat.||
+Discipline\Three Houses\-\-\Doubles skill experience earned in battle.
+Aptitude\Three Houses\Cyril, personal\-\Makes each stat 20% more likely to increase on level up.
+Vantage\Three Houses\Mercenary, mastery; Hero, class\-\When foe initiates combat, unit still attacks first if HP is __<__ 50%.
+Desperation\Three Houses\Cavalier, mastery\-\If unit initiates combat with HP __<__ 50%, unit's follow-up attack (if possible) occurs before foe's counterattack.
+Quick Riposte\Three Houses\War Master, mastery\-\If foe initiates combat while unit's HP is __>__ 50%, unit makes guaranteed follow-up attack.
+Wrath\Three Houses\Warrior, mastery\-\If foe initiates combat while unit's HP is __<__ 50%, grants Crit +50.
+Dance\Three Houses\Dancer, class\-\Use Dance to allow an ally to move again.
+Steal\Three Houses\Thief, class; Thief, mastery\-\Allows unit to steal a non-weapon item from a foe with a lower Spd stat.
+Locktouch\Three Houses\Thief, class; Assassin, class\-\Allows unit to open doors and chests without keys.
+Stealth\Three Houses\Assassin, class\-\Makes it more difficult for foes to target unit.
+Canto\Three Houses\Cavalier, class; Pegasus Knight, class; Wyvern Master, class; Paladin, class; Wyvern Lord, class; Barbarossa, class; Falcon Knight, class; Great Knight, class; Bow Knight, class; Holy Knight, class; Dark Knight, class\-\Allows unit to move again after completing certain actions, if there is movement remaining.
+Pass\Three Houses\Bernie, talent\-\Allows unit to pass through spaces occupied by foes.
+Swordbreaker\Three Houses\Lance, skill, B\-\Grants Hit/Avo +20 when using a lance against sword users.
+Lancebreaker\Three Houses\Axe, skill, B\-\Grants Hit/Avo +20 when using an axe against lance users.
+Bowrange +1\Three Houses\Archer, class; Sniper, class\-\Increases bow range by 1.
+Bowrange +2\Three Houses\Bow Knight, class\-\Increases bow range by 2.
+Black Magic Range +1\Three Houses\Reason, skill, S\-\Increases black magic range by 1.
+Dark Magic Range +1\Three Houses\Reason, skill, S, Edelgard, Hubert, Lysithea\-\Increases dark magic range by 1.
+White Magic Range +1\Three Houses\Faith, skill, S\-\Increases white magic range by 1 for attacks that damage foes.
+Unarmed Combat\Three Houses\Brawler, class; Grappler, class; Brawler, mastery\-\Allows unit to fight without a weapon.
+Black Magic Uses x2\Three Houses\Warlock, class; Gremory, class\-\Doubles the number of uses for black magic.
+Dark Magic Uses x2\Three Houses\Gremory, class\-\Doubles the number of uses for dark magic.
+White Magic Uses x2\Three Houses\Bishop, class; Gremory, class\-\Doubles the number of uses for white magic.
+White Magic Heal +5\Three Houses\Priest, class\-\Heal 5 extra HP when using white magic.
+White Magic Heal +10\Three Houses\Bishop, class\-\Heal 10 extra HP when using white magic.
+Weight -3\Three Houses\Heavy Armor, skill, C\-\Reduces total equipment weight by 3.
+Weight -5\Three Houses\Heavy Armor, skill, A+; Fortress Knight, class\-\Reduces total equipment weight by 5.
+Axebreaker\Three Houses\Sword, skill, B\-\Grants Hit/Avo +20 when using a sword against axe users.
+Unsealable Magic\Three Houses\Enemy exclusive\-\Prevents unit from being silenced.
+Immune Status\Three Houses\Enemy exclusive\-\Nullifies status effects and debuffs.
+General\Three Houses\Enemy exclusive\-\Nullifies instant death effects and halves damage from enemy gambits.
+Commander\Three Houses\Enemy exclusive\-\Nullifies instant death effects, status effects, and movement effects, and greatly reduces damage from enemy gambits.
+Infinite Magic\Three Houses\Enemy exclusive\-\Removes the limitation on the number of times magic can be used.
+Magic Bind\Three Houses\Enemy exclusive\-\If unit lands a hit, targeted foe is unable to use magic for 1 turn.
+Infantry Effect Null\Three Houses\-\-\Cancels effectiveness against infantry units.
+Armored Effect Null\Three Houses\Heavy Armor, skill, S+\-\Nullifies any extra effectiveness against armored units.
+Cavalry Effect Null\Three Houses\Riding, skill, S+\-\Nullifies any extra effectiveness against cavalry units.
+Flying Effect Null\Three Houses\Flying, skill, S+\-\Nullifies any extra effectiveness against fliers.
+Dragon Effect Null\Three Houses\Enemy exclusive\-\Cancels effectiveness against dragons.
+Monster Effect Null\Three Houses\Enemy exclusive\-\Nullifies any extra effectiveness against monsters.
+Effect Null\Three Houses\Enemy exclusive\-\Cancels all types of effectiveness.
+Air of Intimidation\Three Houses\-\-\On Hold
+Vital Defense\Three Houses\Enemy exclusive\-\Makes critical hits against this unit impossible.
+Giant Wings\Three Houses\Enemy exclusive\-\Grants Avo +30 against sword, lance, or axe users.
+Anti-Magic Armor\Three Houses\Enemy exclusive\-\Nullifies damage from magic attacks.
+Divine Dragon Horn\Three Houses\Enemy exclusive\-\Unit recovers 100% of HP at the start of each turn if a White Beast is within 10 spaces.
+Path of the Conqueror\Three Houses\-\-\On Hold
+Noncombatant\Three Houses\Sothis, personal\-\Unit cannot be targeted by foes.
+Battalion Desperation\Three Houses\Authority, skill, C, Dorothea, Ferdinand von Aegir, Ashe, Ingrid, Claude, Lysithea, Ignatz, Leonie, Hanneman, Cyril, Shamir; Authority, skill, A, Hubert, Seteth.\-\If unit initiates combat when battalion endurance is __<__ 1/3, unit's follow-up attack (if possible) occurs before foe's counterattack.
+Cursed Power\Three Houses\-\-\Unit recovers HP on swamp terrain.
+Anchor\Three Houses\Enemy exclusive\-\Prevents unit from being moved.
+Counterattack\Three Houses\Enemy exclusive\-\Allows unit to counterattack regardless of distance to attacker.
+Twin Crests\Three Houses\Enemy exclusive\-\Allows unit to take two actions in one turn.
+Ancient Dragon Wrath\Three Houses\Enemy exclusive\-\Calculates damage using the lower of foe's Prt or Rsl.
+Surging Light\Three Houses\Enemy exclusive\-\Performs Staggering Blow immediately.
+Ancient Dragonskin\Three Houses\Enemy exclusive\-\Halves all damage taken, negates some abilities and combat arts, and prevents unit from being moved.
+Keen Intuition\Three Houses\Enemy exclusive\-\Grants Avo +30 during combat with a foe 2 or more spaces away.
+Staunch Shield\Three Houses\Dedue, personal\-\If unit takes no action except Wait, grants Def +4 for 1 turn.
+Lone Wolf\Three Houses\Felix, personal\-\Unit deals 5 extra damage when no battalion is assigned or when battalion endurance is 0.
+Fighting Spirit\Three Houses\Catherine, personal\-\Unit takes 5 less damage when no battalion is assigned or when battalion endurance is 0.
+Confidence\Three Houses\Ferdinand von Aegir, personal\-\Grants Hit/Avo +15 when unit is at full HP.
+Persecution Complex\Three Houses\Bernie, personal\-\Grants Atk +5 when unit is not at full HP.
+Animal Friend\Three Houses\Marianne, personal\-\Unit recovers up to 20% of max HP at the start of each turn when adjacent to a cavalry or flying ally.
+Perseverance\Three Houses\Annette, personal\Rally Command\Use Rally to grant Str +4 to an ally.
+Crest Scholar\Three Houses\Hanneman, personal\-\Use Rally to grant Mag +4 to an ally.
+Compassion\Three Houses\Alois, personal\-\Use Rally to grant Lck +8 to an ally.
+Lockpick\Three Houses\Ashe, personal\-\Allows unit to open doors and chests without keys.
+Battalion Vantage\Three Houses\Authority, skill, C, Byleth, Edelgard, Felix, Sylvain, Lorenz, Catherine; Authority, skill, A, Dimitri, Ignatz\-\When foe initiates combat, unit still attacks first if battalion endurance is __<__ 1/3.
+Battalion Wrath\Three Houses\Authority, skill, C, Hubert, Bernie, Caspar, Petra, Dimitri, Dedue, Hilda, Raphael, Seteth, Alois, Gibert; Authority, skill, A, Annette, Claude\-\If foe initiates combat while unit's battalion endurance is __<__ 1/3, grants Crit +50.
+Battalion Renewal\Three Houses\Authority, skill, C, Linhardt, Mercedes, Annette, Marianne, Manuela, Flayn; Authority, skill, A, Edelgard\-\Unit recovers up to 30% of max HP at the start of each turn while battalion endurance is __<__ 1/3.
+Black Magic Uses x4\Three Houses\-\-\Quadruples the number of uses for black magic.
+Dark Magic Uses x4\Three Houses\-\-\Quadruples the number of uses for dark magic.
+White Magic Uses x4\Three Houses\-\-\Quadruples the number of uses for white magic.
+Mighty King of Legend\Three Houses\Enemy exclusive\-\Negates 1 attack per turn and strengthens stats while the 10 Elites are present.
+10 Elites\Three Houses\Enemy exclusive\-\Grants power to the Mighty King of Legend.
+Alert Stance\Three Houses\Flying, skill, B\-\If unit takes no action except Wait, grants Avo +15 for 1 turn.
+Alert Stance+\Three Houses\Flying, skill, A+\-\If unit takes no action except Wait, grants Avo +30 for 1 turn.
+Close Counter\Three Houses\Bow, skill, C\-\Allows unit to counterattack adjacent foes.
+Murderous Intent\Three Houses\Jeritza, personal\-\If unit initiates combat, grants Hit +20 during combat.
+Sacred Power\Three Houses\Rhea, personal; Enlightened One, mastery\-\Adjacent allies deal 3 extra damage and take 3 less damage during combat.
+Agarthan Technology\Three Houses\Enemy exclusive\-\Adjacent foes deal 3 less damage during combat.
+Blade Breaker\Three Houses\Jeralt, personal\-\If unit damages foe, foe suffers Str/Def -6 for 1 turn after combat.
+Business Propensity\Three Houses\Anna, personal\-\Grants Luck+5.
 Acrobat\Gates\Trickster, 15\-\All traversable terrain costs 1 movement point to cross
 Lucky Seven\Gates\Trickster, 5\-\Hit rate and Avoid +20 for the first 7 Turns of a map
 Crippled Blow\Gates\Mathoo, personal\-\If HP is below 25% maximum, this unit can get critical hits and use special skills on weapons that usually don't allow them as long as they are unforged
