@@ -92,10 +92,12 @@ bot.gateway.check_heartbeat_acks = false
                         ["Miriel","Laurent"],["Panne","Yarne"],["Nowi","Nah"],["Tharja","Noire"],["Olivia","Inigo"],["Cherche","Gerome"],
                         ["Bluezie","Elentil"],["Dizzy","DizJr"],["Rudyard","Gaotora"],["Megan","Portia"],["Steel","Fauna"],["Draco","Oregano"],
                         ["GSO","Ocarina"],["Cherche","Gerome"],["Erich","Synn"],["Dwight","Gella"],["Sheldon","Xavier"]]
+@gay_canon=["Niles","Linhardt von Hevring","Edelgard von Hresvelg","Dorothea Arnault","Mercedes von Martritz","Megan"]
 @units=[]
 @skills=[]
 @items=[]
 @classes=[]
+@crests=[]
 @homo_servers=[]
 @incest_servers=[]
 @server_data2=[]
@@ -106,11 +108,11 @@ bot.gateway.check_heartbeat_acks = false
 
 def all_commands(include_nil=false,permissions=-1)
   k=['gay','homosexuality','homo','sibling','incest','wincest','bugreport','suggestion','feedback','invite','proc','addreference','addalias','unit','character',
-     'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','faq','sendannouncement','getchannels','snagstats',
+     'class','skill','marry','item','weapon','job','data','levelup','offspringseal','childseal','offspring','sendannouncement','getchannels','snagstats',
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
      'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list','saliases','serveraliases','bday',
      'birthday','safe','spam','safetospam','safe2spam','longreplies','channellist','long','channelist','spamlist','spamchannels','prefix','birthdays','bdays',
-     'status','avvie','avatar']
+     'status','avvie','avatar','level']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
@@ -137,8 +139,12 @@ def data_load()
     b[i][3]=b[i][3].split(', ').map{|q| q.to_i}
     b[i][4]=b[i][4].split(', ').map{|q| q.to_i}
     b[i][5]=b[i][5].split(', ')
+    b[i][5]=b[i][5].map{|q| q.to_i} if b[i][1][2]=='T'
     b[i][6]=b[i][6].split(', ')
     b[i][8]=b[i][8].split('/').map{|q| q.to_i} unless b[i][8].nil? || b[i][8].length<=1
+    b[i][9]=b[i][9].split(', ') unless b[i][9].nil? || b[i][9].length<=0
+    b[i][10]=b[i][10].split(', ') unless b[i][10].nil? || b[i][10].length<=0
+    b[i][11]=b[i][11].split(', ') unless b[i][11].nil? || b[i][11].length<=0
   end
   @units=b.map{|q| q}
   # CLASS DATA
@@ -200,6 +206,20 @@ def data_load()
     b[i][6][0]=b[i][6][0].to_i if b[i][6][0].to_i.to_s==b[i][6][0]
   end
   @items=b.map{|q| q}
+  # CREST DATA
+  if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FECrests.txt")
+    b=[]
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FECrests.txt").each_line do |line|
+      b.push(line)
+    end
+  else
+    b=[]
+  end
+  for i in 0...b.length
+    b[i]=b[i].gsub("\n",'').split('\\'[0])
+    b[i][2]=b[i][2].split(', ').map{|q| q.to_i}
+  end
+  @crests=b.map{|q| q}
 end
 
 def prefixes_save()
@@ -307,7 +327,9 @@ def safe_to_spam?(event,chn=nil) # determines whether or not it is safe to send 
 end
 
 bot.command(:reboot, from: 167657750971547648) do |event|
+  return nil if overlap_prevent(event)
   return nil unless event.user.id==167657750971547648
+  puts 'FE!reboot'
   exec "cd C:/Users/#{@mash}/Desktop/devkit && RobinBot.rb #{@shardizard}"
 end
 
@@ -324,7 +346,8 @@ def help_text(event,bot,command=nil,subcommand=nil)
   if command.downcase=="mode"
     create_embed(event,"__***Awakening*** **mode**__","- Forced by using the command prefixes `FEA!` `FEA?` `FE13!` `FE13?`\n- Kids' growths are calculated via (mom + dad + kid default)/3\n- Kids inherit all classes from their variable parent\n- Lucina is a second-generation unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Trickster.  The Outlaw Anna can still be invoked via the string 'Fates!Anna'\n- Corrin shows with default stats\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, and Vengeance\n- Vengeance procs at (Skill*2)%",0x061069)
     create_embed(event,"__***Fates*** **mode**__","- Forced by using the command prefixes `FEF!` `FEF?` `FE14!` `FE14?`\n- Kids' growths are calculated via (variable parent + kid default)/2\n- Kids inherit only their variable parent's first new class\n- Lucina is an Amiibo character and treated as a first-gen unit\n- Robin is an Amiibo character\n- Anna is an Outlaw.  The Trickster Anna can still be invoked via the string 'Awakening!Anna'\n- Corrin is an avatar character, which can be edited by including stats in your message\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, Dragon Fang, Rend Heaven and Vengeance\n- Vengeance procs at (Skill*3/2)%",0xC5EEF2)
-    create_embed(event,"__**Fluid mode**__","- Forced by using the command prefixes `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n- The bot uses context clues to determine whether to use *Awakening* mode or *Fates* mode\n- Lucina defaults to being an Amiibo character, but becomes a second-gen unit if a first-gen unit is listed alongside her\n- Robin is an Amiibo character, unless stats are included in your message and you are not invoking Kana\n- Anna defaults to being an Outlaw.  'Fates!Anna' and 'Awakening!Anna' can be used to distinguish\n- Corrin is shows with default stats, unless stats are included in your message and you are not invoking Morgan\n- Kids will be calculated via the mode that matches their game of origin, regardless of the game of origin of the variable parent (this means that when calculating Felicia!Lucina!Kana, Felicia!Lucina will be calculated in *Awakening* mode and the result would be used in a *Fates* mode calculation as the mother of a female Kana)\n- When using the `data` command to find a character's growths in a class that is in both games, the version from the game the character originates from will be used\n- When using the `class` command to look at a class that exists in both games, both versions will be displayed\n- When using the `item`/`weapon` command to look at a weapon that exists in both games, both versions will be displayed\n- When using the `skill` command to look at a skill that exists in both games and behaves differently in each, both versions will be displayed",0x010101)
+    create_embed(event,"__***Three Houses*** **mode**__","- Forced by using the command prefixes `3H!` `3H?` `FE16!` `FE16?`\n- Lucina is an Amiibo character and treated as a first-gen unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Noble.  The other Annas can still be invoked via the string 'Awakening!Anna' and 'Fates!Anna'\n- Corrin is an avatar character, which can be edited by including stats in your message\n- No proc skills are available",0x2D6864)
+    create_embed(event,"__**Fluid mode**__","- Forced by using the command prefixes `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n- Lucina defaults to being an Amiibo character, but becomes a second-gen unit if a first-gen unit is listed alongside her\n- Robin is an Amiibo character, unless stats are included in your message and you are not invoking Kana\n- Anna defaults to being a Noble.  'Fates!Anna' and 'Awakening!Anna' can be used to distinguish\n- Corrin is shown with default stats, unless stats are included in your message and you are not invoking Morgan\n- Kids will be calculated via the mode that matches their game of origin, regardless of the game of origin of the variable parent (this means that when calculating Felicia!Lucina!Kana, Felicia!Lucina will be calculated in *Awakening* mode and the result would be used in a *Fates* mode calculation as the mother of a female Kana)\n- When using the `data` command to find a character's growths in a class that is in multiple games, the version from the game the character originates from will be used\n- When using the `class` command to look at a class that exists in multiple games, all applicable versions will be displayed\n- When using the `item`/`weapon` command to look at a weapon that exists in multiple games, all applicable versions will be displayed\n- When using the `skill` command to look at a skill that exists in multiple games and behaves differently in each, all applicable versions will be displayed",0x010101)
   elsif ['status','avatar','avvie'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}**","Shows my current avatar, status, and reason for such.\n\nWhen used by my developer with a message following it, sets my status to that message.",0xD49F61)
   elsif ['embed','embeds'].include?(command.downcase)
@@ -382,8 +405,6 @@ def help_text(event,bot,command=nil,subcommand=nil)
     create_embed(event,"**#{command.downcase}** __name1__ __name2__ __name3__","parses the names listed to create a unit, whose stats are then displayed\nIf one unit is listed, displays that unit's default stats\nIf two units are listed, uses the first-gen to create a specialized kid\nIf three units are listed, uses the first-gen to create a specialized second-gen which is used to create a super-specialized Kana/Morgan\n\nUnits can be listed in any order.  The command will arrange them correctly.\nIf multiple units from the same generation are listed, the command will use the first listed and ignore all others\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x02010a)
   elsif ["shard","alliance"].include?(command.downcase)
     create_embed(event,'**shard**',"Returns the shard that this server is served by, labeled as if it was an alliance between a country in *Awakening* with a country in *Fates*.",0x02010a)
-  elsif ["faq"].include?(command.downcase)
-    create_embed(event,'**faq**',"Answers the frequently asked questions.",0x02010a)
   elsif ['backupaliases'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** __item__","Backs up the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x02010a)
   elsif ['restorealiases'].include?(command.downcase)
@@ -392,8 +413,8 @@ def help_text(event,bot,command=nil,subcommand=nil)
     create_embed(event,"**class** __name__","displays the stats of the named class\n\nThis command informs you if you do not list a class.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x02010a)
   elsif ["data","job","stats"].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** (string)","This command interprets the rest of your message as a single string whose beginning and end are searched for up to three character names and the remainder is assumed to be the name of a class\nFunctionally, this means that you can type out three names and a class, in any order\n`FE!#{command.downcase} Maid Corrin` is as valid as `FE!#{command.downcase} Corrin Maid`\n`FE!#{command.downcase} Sniper Azura Kiragi Kana` is as valid as `FE!#{command.downcase} Kiragi Azura Sniper Kana`\n\nSimilar to the `unit` command, this command figures out the generational order of the units listed and uses that to calculate the most accurate child.  If only one unit is listed, then the command uses that unit's default data.\nThe resulting unit is given the class specified, and the stats are displayed.\n\nIf no class is specified, this command is functionally identical to the `unit` command.\nIf no units are specified, this command is functionally identical to the `class` command.\nIf no class or units are specified, this command informs you of your mistake.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x02010a)
-  elsif "levelup"==command.downcase
-    create_embed(event,"**levelup** (string)","Much like the *data* command, this command parses the string into up to three unit names and a class name, which are then parsed together.\nThe result is then used to display a sample level-up, accounting for the combined growth rates.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust probability accordingly",0x02010a)
+  elsif ['levelup','level'].include?(command.downcase)
+    create_embed(event,"**#{command.downcase}** (string)","Much like the *data* command, this command parses the string into up to three unit names and a class name, which are then parsed together.\nThe result is then used to display a sample level-up, accounting for the combined growth rates.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust probability accordingly",0x02010a)
   elsif ["offspringseal","childseal","offspring"].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** (string)","Much like the *data* command, this command parses the string into up to three unit names, a class name, and a number\nNumbers between 1 and 18 are interpreted as a level to promote to, and numbers between 19 and 27 are interpreted as a chapter before which you use the seal\nThe level 20 (base class) child is then promoted to the resulting level using an Offspring Seal.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust growths (and therefore stat increases) accordingly",0x02010a)
   elsif command.downcase=="skill"
@@ -441,7 +462,7 @@ def help_text(event,bot,command=nil,subcommand=nil)
     str="#{str}\n`feedback` __\\*message__"
     str="#{str}\n\n__**Meta Data**__"
     str="#{str}\n`shard` (*also `alliance`*)"
-    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics",str,0x02010a)
+    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\n*Three Houses* mechanics: `3H!` `3H?` `FE3H!` `FETH?` `FE16!` `FE16?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics",str,0x02010a)
     str="__**Aliases**__"
     str="#{str}\n`addalias` __new alias__ __target__ - Adds a new server-specific alias"
     str="#{str}\n~~`aliases` __target__ (*also `checkaliases` or `seealiases`*)~~"
@@ -465,74 +486,59 @@ def help_text(event,bot,command=nil,subcommand=nil)
     str="#{str}\n`restorealiases` - restores the alias list from last backup"
     str="#{str}\n`sort` - sorts the alias list by type of alias"
     create_embed(event,"__**Bot Developer Commands**__",str,0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
-    event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
+    event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\n*Three Houses* mechanics: `3H!` `3H?` `FE3H!` `FETH?` `FE16!` `FE16?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
   end
 end
 
-def get_talent(clss)
-  if clss=="Archer"
-    return ["Archer (Kinshi Knight, Sniper)","Outlaw (Bow Knight, Adventurer)"]
-  elsif clss=="Wyvern Rider"
-    return ["Wyvern Rider (Wyvern Lord, Malig Knight)","Sky Knight (Bow Knight, Adventurer)"]
-  elsif clss=="Ninja"
-    return ["Ninja (Master Ninja, Mechanist)","Cavalier (Paladin, Great Knight)"]
-  elsif clss=="Apothecary"
-    return ["Apothecary (Merchant, Mechanist)"," "]
-  elsif clss=="Dark Mage"
-    return ["Dark Mage (Sorcerer, Dark Knight)","Diviner (Basara, Onmyoji)"]
-  elsif clss=="Troubadour"
-    return ["Troubadour (Servant, Strategist)"," "]
-  elsif clss=="Cavalier"
-    return ["Cavalier (Paladin, Great Knight)","Ninja (Master Ninja, Mechanist)"]
-  elsif clss=="Knight"
-    return ["Knight (General, Great Knight)","Spear Fighter (Spear Master, Basara)"]
-  elsif clss=="Fighter"
-    return ["Fighter (Berserker, Hero)","Oni Savage (Oni Chieftain, Blacksmith)"]
-  elsif clss=="Mercenary"
-    return ["Mercenary (Hero, Bow Knight)","Samurai (Swordmaster, Master of Arms)"]
-  elsif clss=="Outlaw"
-    return ["Outlaw (Bow Knight, Adventurer)","Archer (Kinshi Knight, Sniper)"]
-  elsif clss=="Samurai"
-    return ["Samurai (Swordmaster, Master of Arms)","Mercenary (Hero, Bow Knight)"]
-  elsif clss=="Oni Savage"
-    return ["Oni Savage (Oni Chieftain, Blacksmith)","Fighter (Berserker, Hero)"]
-  elsif clss=="Spear Fighter"
-    return ["Spear Fighter (Spear Master, Basara)","Knight (General, Great Knight)"]
-  elsif clss=="Diviner"
-    return ["Diviner (Basara, Onmyoji)","Dark Mage (Sorcerer, Dark Knight)"]
-  elsif clss=="Healer"
-    return ["Healer (Onmyoji, Great Healer)"," "]
-  elsif clss=="Sky Knight"
-    return ["Sky Knight (Falcon Knight, Kinshi Knight)","Wyvern Rider (Wyvern Lord, Malig Knight)"]
-  else
-    return [">talent<",">reverse talent<"]
+def overlap_prevent(event) # used to prevent servers with both Robin and her debug form from receiving two replies
+  if event.server.nil? # failsafe code catching PMs as not a server
+    return false
+  elsif event.message.text.downcase.split(' ').include?('debug') && [443172595580534784,443704357335203840,443181099494146068,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(event.server.id)
+    return @shardizard != 4 # the debug bot can be forced to be used in the emoji servers by including the word "debug" in your message
+  elsif [443172595580534784,443704357335203840,443181099494146068,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(event.server.id) # emoji servers will use default Elise otherwise
+    return @shardizard == 4
   end
+  return false
 end
 
-def embed_color(path)
+def embed_color(path,game='Fates')
   data_load()
   if path[0,"*Fates*: Capturable boss in ".length]=="*Fates*: Capturable boss in "
     kid=path["*Fates*: Capturable boss in ".length,path.length-"*Fates*: Capturable boss in 's paralogue".length]
     path=@units[@units.find_index{|q| q[0]==kid}][2]
   end
-  return 0x061069 if path.downcase.include?('awakening')
-  return 0xC5EEF2 if path.downcase.include?('available in all') || path.downcase.include?('dlc') || path.downcase.include?('amiibo') || path.downcase.include?('not obtainable')
-  return 0x2DA5AF if path.downcase.include?('exclusive to *revelation*')
-  return 0xCF000D if path.downcase.include?('exclusive to *birthright*') || path.downcase.include?('*birthright* exclusive') || path.downcase.include?('not available in *conquest*')
-  return 0xAA7FCD if path.downcase.include?('exclusive to *conquest*') || path.downcase.include?('*conquest* exclusive') || path.downcase.include?('not available in *birthright*')
-  return 0x010101 if path.downcase.include?('cross-game')
-  return 0xBC4372 if path.downcase.include?('not available in *revelation*')
-  return 0xFFEA8B if path.downcase.include?('gates')
-  return 0x02010a
+  return 0x02010a if path.downcase.include?('cross-game')
+  if game=='Awakening'
+    return 0x061069 if path.downcase.include?('awakening')
+  elsif game=='Fates'
+    return 0xC5EEF2 if path.downcase.include?('available in all') || path.downcase.include?('dlc') || path.downcase.include?('amiibo') || path.downcase.include?('not obtainable')
+    return 0x2DA5AF if path.downcase.include?('exclusive to *revelation*')
+    return 0xCF000D if path.downcase.include?('exclusive to *birthright*') || path.downcase.include?('*birthright* exclusive') || path.downcase.include?('not available in *conquest*')
+    return 0xAA7FCD if path.downcase.include?('exclusive to *conquest*') || path.downcase.include?('*conquest* exclusive') || path.downcase.include?('not available in *birthright*')
+    return 0xBC4372 if path.downcase.include?('not available in *revelation*')
+    return 0xFFEA8B if path.downcase.include?('gates')
+  elsif game=='Three Houses'
+    return 0x7D171F if path.downcase.include?('black eagles') || path.downcase=='exclusive to crimson flower'
+    return 0x4B4E9B if path.downcase.include?('blue lions')
+    return 0x897A04 if path.downcase.include?('golden deer')
+    return 0x565562 if path.downcase=='exclusive to azure moon' || path.downcase=='cutscene only' || path.downcase=='unavailable in crimson flower'
+    return 0x2D6864
+  end
+  return 0x02010A
 end
 
-def embed_color_x(path,clss=nil)
-  v=embed_color(path)
-  if clss[28]=="Penumbra"
+def embed_color_x(path,clss=nil,game='Fates')
+  v=embed_color(path,game)
+  if clss[2]=="Penumbra"
     return 0xFFEA8B
   elsif ["Wolfskin","Wolfssegner","Kitsune","Nine-Tails","Songstress","Hoshido Noble","Nohr Noble"].include?(clss[0])
-    return 0x2DA5AF if clss[28]=="Hoshido" && (path.downcase.include?('exclusive to *conquest*') || path.downcase.include?('*conquest* exclusive') || path.downcase.include?('not available in *birthright*'))
-    return 0x2DA5AF if clss[28]=="Nohr" && (path.downcase.include?('exclusive to *birthright*') || path.downcase.include?('not available in *conquest*'))
+    return 0x2DA5AF if clss[2]=="Hoshido" && (path.downcase.include?('exclusive to *conquest*') || path.downcase.include?('*conquest* exclusive') || path.downcase.include?('not available in *birthright*'))
+    return 0x2DA5AF if clss[2]=="Nohr" && (path.downcase.include?('exclusive to *birthright*') || path.downcase.include?('*birthright* exclusive') || path.downcase.include?('not available in *conquest*'))
+  elsif ['Adrestia','Faerghus','Leicester','Agartha'].include?(clss[2])
+    return 0x2D6864 if ['Faerghus','Leicester'].include?(clss[2]) && path.downcase.include?('exclusive to *black eagles*')
+    return 0x2D6864 if ['Adrestia','Leicester'].include?(clss[2]) && path.downcase.include?('exclusive to *blue lions*')
+    return 0x2D6864 if ['Adrestia','Faerghus'].include?(clss[2]) && path.downcase.include?('exclusive to *golden deer*')
+    return 0x2D6864 if clss[2]=='Agartha'
   end
   return v
 end
@@ -614,7 +620,7 @@ def get_corrin(event,display=true,apt=0)
   data=find_stats_in_string(event)
   boon=get_boon("Fates",data[0])
   bane=get_bane("Fates",data[1])
-  talent=get_talent(data[2])
+  talent=[">talent<",">reverse talent<"]
   g=[45,45,30,40,45,45,35,25]
   m=[0,0,0,0,0,0,0,0]
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
@@ -854,17 +860,25 @@ def game_proc(event)
   game="Awakening" if event.message.text[0,5].downcase=="fe13!"
   game="Fates" if event.message.text[0,4].downcase=="fef!"
   game="Fates" if event.message.text[0,5].downcase=="fe14!"
+  game="Three Houses" if event.message.text[0,3].downcase=="3h!"
+  game="Three Houses" if event.message.text[0,5].downcase=="fe3h!"
+  game="Three Houses" if event.message.text[0,5].downcase=="feth!"
+  game="Three Houses" if event.message.text[0,5].downcase=="fe16!"
   game="Awakening" if event.message.text[0,4].downcase=="fea?"
   game="Awakening" if event.message.text[0,5].downcase=="fe13?"
   game="Fates" if event.message.text[0,4].downcase=="fef?"
   game="Fates" if event.message.text[0,5].downcase=="fe14?"
+  game="Three Houses" if event.message.text[0,3].downcase=="3h?"
+  game="Three Houses" if event.message.text[0,5].downcase=="fe3h?"
+  game="Three Houses" if event.message.text[0,5].downcase=="feth?"
+  game="Three Houses" if event.message.text[0,5].downcase=="fe16?"
   return game
 end
 
 def namecheck(name,event)
   game=game_proc(event)
   game="Fates" if game.length<=0
-  return name if name.downcase=="awakening!anna" || name.downcase=="fates!anna"
+  return name if ["awakening!anna","fates!anna","3H!Anna"].include?(name)
   if name.include?("!")
     b=[]
     name.each_line("!") {|l| b.push(l)}
@@ -1174,8 +1188,11 @@ end
 
 def find_overlap(route1,route2,parentname=nil)
   data_load()
-  return "Cross-game child" if ["Awakening","*Awakening*"].include?(route1) && !["Awakening","*Awakening*"].include?(route2)
-  return "Cross-game child" if ["Awakening","*Awakening*"].include?(route2) && !["Awakening","*Awakening*"].include?(route1)
+  return "Cross-game child" if route1.include?('Awakening') && !route2.include?('Awakening')
+  return "Cross-game child" if !route1.include?('Awakening') && route2.include?('Awakening')
+  return "Cross-game child" if route1.include?('Black Eagles') || route1.include?('Blue Lions') || route1.include?('Golden Deer') || route1.include?('Azure Moon') || route1.include?('Crimson Flower') || route1.downcase.include?('cutscene only')
+  return "Cross-game child" if route2.include?('Black Eagles') || route2.include?('Blue Lions') || route2.include?('Golden Deer') || route2.include?('Azure Moon') || route2.include?('Crimson Flower') || route1.downcase.include?('cutscene only')
+  return "Cross-game child" if ['Byleth','Sothis','Jeritza von Hrym','Rhea','Shamir Nevrand'].include?(parentname)
   route2="Exclusive to *Conquest*" if parentname.downcase=="gunter"
   if ["DLC Character","Amiibo Character"].include?(route1)
     route1="Available in all routes"
@@ -1374,23 +1391,47 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
   elsif bob4[1][0,1].to_i<=@mom[1][0,1].to_i
     event.respond "#{@mom[0]} cannot be #{bob4[0]}'s parent.  Showing default #{bob4[0]}." if display
     return bob4
-  elsif ["Lucina"].include?(bob4[0]) && @mom[1][1,1]=="m" && !homosexuality_filter?(event) && ["Awakening","*Awakening*"].include?(bob4[2])
-    event.respond "#{@mom[0]} cannot be #{bob4[0]}'s mother, as they already have one.  Showing default #{bob4[0]}." if display
+  elsif ["Lucina"].include?(bob4[0]) && @mom[1][1,1]=="f" && !homosexuality_filter?(event)
+    if @gay_canon.include?(@mom[0]) && @mom[1][2]!='A'
+      event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as same-sex marriages don't produce children.  Showing default #{bob4[0]}." if display
+    else
+      event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as she already has one.  Showing default #{bob4[0]}." if display
+    end
     return bob4
-  elsif !["Lucina"].include?(bob4[0]) && @mom[1][1,1]=="f" && !homosexuality_filter?(event) && ["Awakening","*Awakening*"].include?(bob4[2])
-    event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as they already have one.  Showing default #{bob4[0]}." if display
+  elsif !["Lucina"].include?(bob4[0]) && @mom[1][1,1]=="m" && !homosexuality_filter?(event) && ['A'].include?(bob4[1][2])
+    if @gay_canon.include?(@mom[0]) && @mom[1][2]!='A'
+      event.respond "#{@mom[0]} cannot be #{bob4[0]}'s mother, as same-sex marriages don't produce children.  Showing default #{bob4[0]}." if display
+    else
+      event.respond "#{@mom[0]} cannot be #{bob4[0]}'s mother, as they already have one.  Showing default #{bob4[0]}." if display
+    end
     return bob4
-  elsif @shigure_class_kids.include?(bob4[0]) && @mom[1][1,1]=="f" && !homosexuality_filter?(event) && !["Awakening","*Awakening*"].include?(bob4[2])
-    event.respond "#{@mom[0]} cannot be #{bob4[0]}'s mother, as they already have one.  Showing default #{bob4[0]}." if display
+  elsif !@shigure_class_kids.include?(bob4[0]) && @mom[1][1,1]=="f" && !homosexuality_filter?(event) && ['F'].include?(bob4[1][2])
+    if @gay_canon.include?(@mom[0]) && @mom[1][2]!='F'
+      event.respond "#{@mom[0]} cannot be #{bob4[0]}'s mother, as same-sex marriages don't produce children.  Showing default #{bob4[0]}." if display
+    else
+      event.respond "#{@mom[0]} cannot be #{bob4[0]}'s mother, as they already have one.  Showing default #{bob4[0]}." if display
+    end
     return bob4
-  elsif !@shigure_class_kids.include?(bob4[0]) && @mom[1][1,1]=="m" && !homosexuality_filter?(event) && !["Awakening","*Awakening*"].include?(bob4[2])
-    event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as they already have one.  Showing default #{bob4[0]}." if display
+  elsif @shigure_class_kids.include?(bob4[0]) && @mom[1][1,1]=="m" && !homosexuality_filter?(event) && ['F'].include?(bob4[1][2])
+    if @gay_canon.include?(@mom[0]) && @mom[1][2]!='F'
+      event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as same-sex marriages don't produce children.  Showing default #{bob4[0]}." if display
+    else
+      event.respond "#{@mom[0]} cannot be #{bob4[0]}'s father, as they already have one.  Showing default #{bob4[0]}." if display
+    end
     return bob4
   elsif bob4[1][2]=='F'
     bob4[1]="#{bob4[1]} " if bob4[1].length<=3
     bob4[1]="#{bob4[1].gsub('d','D')}" if bob4[1].length>4 && (@mom[0]=='Corrin' || @mom[1][4]=='D')
     bob4[1]="#{bob4[1]}D" if bob4[1].length<=4 && (@mom[0]=='Corrin' || @mom[1][4]=='D')
     bob4[1]="#{bob4[1]}d" if bob4[1].length<=4 && @mom[1][4]=='d'
+  end
+  if @mom[1][2]=='T'
+    bst=0
+    for i in 0...@mom[4].length
+      bst+=@mom[4][i]
+    end
+    bst/=@mom[4].length
+    @mom[4]=@mom[4].map{|q| q-bst+1}
   end
   data_load()
   for i in 0...bob4[5].length
@@ -1557,6 +1598,7 @@ def reverse_stat(stat)
   return "lucky" if stat.downcase=="unlucky"
   return "sturdy" if stat.downcase=="fragile"
   return "calm" if stat.downcase=="excitable"
+  return "charming" if stat.downcase=="revolting"
   return "sickly" if stat.downcase=="robust"
   return "weak" if stat.downcase=="strong"
   return "dull" if stat.downcase=="clever"
@@ -1566,13 +1608,14 @@ def reverse_stat(stat)
   return "fragile" if stat.downcase=="sturdy"
   return "fragile" if stat.downcase=="defensive"
   return "excitable" if stat.downcase=="calm"
+  return "revolting" if stat.downcase=="charming"
   return stat
 end
 
 def get_child(name,gender,event)
   game=game_proc(event)
   game='Fates' if game.length<=0
-  if name.downcase=="corrin" && game != "Awakening"
+  if name.downcase=="corrin" && ["Fates","Gates"].include?(game)
     return "Kana (#{gender})" if gender=="m" || gender=="f"
     return "Kana"
   elsif name.downcase=="robin" && game=="Awakening"
@@ -1594,9 +1637,9 @@ def forge(weapon,upgrade,game="Fates")
     weapon[4][2]="Anywhere between #{weapon[4][2].to_i} and #{weapon[4][2].to_i+3*upgrade}" if weapon[0]!="Ruin +#{upgrade}"
     return weapon
   end
-  ups=[[],[2,0,0],[4,2,0],[6,4,1],[8,6,3],[9,10,6],[10,15,10],[11,20,15]]
+  ups=[[0,0,0],[2,0,0],[4,2,0],[6,4,1],[8,6,3],[9,10,6],[10,15,10],[11,20,15]]
   if weapon[7].downcase.include?("cannot trigger crit") || weapon[7].downcase.include?("cannot crit") || weapon[7].downcase.include?("cannot double attack or inflict crit")
-    ups=[[],[2,0,0],[4,2,0],[6,5,0],[8,9,0],[9,15,0],[10,22,0],[11,30,0]]
+    ups=[[0,0,0],[2,0,0],[4,2,0],[6,5,0],[8,9,0],[9,15,0],[10,22,0],[11,30,0]]
   end
   weapon[0]="#{weapon[0]} +#{upgrade}"
   weapon[4][0]=weapon[4][0].to_i+ups[upgrade][0]
@@ -1873,7 +1916,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
   end
   f2=find_unit(game,mother,event)
   if !homosexuality_filter?(event)
-    if !grandmother.nil? && ["Awakening","*Awakening*"].include?(f2[2])
+    if !grandmother.nil? && ['A'].include?(f2[1][2])
       if grandmother == "Robin" && kidname.downcase != "portia"
         # Robin as grandparent
         event.respond("#{grandmother} cannot be both Morgan's grandparent and parent.  Showing default #{mother}!#{kidname}")
@@ -1882,7 +1925,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       elsif ["Lucina"].include?(mother)
         # Lucina as the parent.  Grandparent must be female.
         bob1=find_unit(game,grandmother,event)
-        if bob1[1][1,1]=="m"
+        if bob1[1][1,1]=="m" && !(@gay_canon.include?(bob1[0]) && bob1[1][2,1]!="A")
           bob2=find_unit(game,mother,event)
           g="they already have"
           g="he already has" if bob2[1][1,1]=="m"
@@ -1893,7 +1936,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       else
         # Another kid as parent.  Grandparent must be male.
         bob1=find_unit(game,grandmother,event)
-        if bob1[1][1,1]=="f"
+        if bob1[1][1,1]=="f" && !(@gay_canon.include?(bob1[0]) && bob1[1][2,1]!="A")
           bob2=find_unit(game,mother,event)
           g="they already have"
           g="he already has" if bob2[1][1,1]=="m"
@@ -1902,12 +1945,12 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
           grandmother = nil
         end
       end
-    elsif !mother.nil? && ["Awakening","*Awakening*"].include?(f[2])
+    elsif !mother.nil? && ['A'].include?(f[1][2])
       if ["Morgan","Portia"].include?(kidname)
       elsif ["Lucina"].include?(kidname)
         # Lucina as the child.  Parent must be female.
         bob1=find_unit(game,mother,event)
-        if bob1[1][1,1]=="m"
+        if bob1[1][1,1]=="m" && !(@gay_canon.include?(bob1[0]) && bob1[1][2,1]!="A")
           bob2=find_unit(game,kidname,event)
           g="they already have"
           g="he already has" if bob2[1][1,1]=="m"
@@ -1918,7 +1961,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       else
         # Another kid as child.  Parent must be male.
         bob1=find_unit(game,mother,event)
-        if bob1[1][1,1]=="f"
+        if bob1[1][1,1]=="f" && !(@gay_canon.include?(bob1[0]) && bob1[1][2,1]!="A")
           bob2=find_unit(game,kidname,event)
           g="they already have"
           g="he already has" if bob2[1][1,1]=="m"
@@ -1927,7 +1970,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
           mother = nil
         end
       end
-    elsif !grandmother.nil? && !["Awakening","*Awakening*"].include?(f2[2])
+    elsif !grandmother.nil? && ['F'].include?(f2[1][2])
       if grandmother == "Corrin" && kidname.downcase != "portia"
         # Corrin as grandparent
         event.respond("#{grandmother} cannot be both Kana's grandparent and parent.  Showing default #{mother}!#{kidname}")
@@ -1936,7 +1979,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       elsif @shigure_class_kids.include?(mother)
         # Shigure as the parent.  Grandparent must be male.
         bob1=find_unit(game,grandmother,event)
-        if bob1[1][1,1]=="f"
+        if bob1[1][1,1]=="f" && !(@gay_canon.include?(bob1[0]) && bob1[1][2,1]!="F")
           bob2=find_unit(game,mother,event)
           g="they already have"
           g="he already has" if bob2[1][1,1]=="m"
@@ -1947,7 +1990,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       else
         # Another kid as parent.  Grandparent must be female.
         bob1=find_unit(game,grandmother,event)
-        if bob1[1][1,1]=="m"
+        if bob1[1][1,1]=="m" && !(@gay_canon.include?(bob1[0]) && bob1[1][2,1]!="F")
           bob2=find_unit(game,mother,event)
           g="they already have"
           g="he already has" if bob2[1][1,1]=="m"
@@ -1956,12 +1999,12 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
           grandmother = nil
         end
       end
-    elsif !mother.nil? && !["Awakening","*Awakening*"].include?(f[2])
+    elsif !mother.nil? && ['F'].include?(f[1][2])
       if ["Kana","Portia"].include?(kidname)
       elsif @shigure_class_kids.include?(kidname)
         # Shigure as the parent.  Parent must be male.
         bob1=find_unit(game,mother,event)
-        if bob1[1][1,1]=="f"
+        if bob1[1][1,1]=="f" && !(@gay_canon.include?(bob1[0]) && bob1[1][2,1]!="F")
           bob2=find_unit(game,kidname,event)
           g="they already have"
           g="he already has" if bob2[1][1,1]=="m"
@@ -1972,7 +2015,7 @@ def generation_parse(event,bob1=nil,bob2=nil,bob3=nil,bob4=nil,permerror=true)
       else
         # Another kid as parent.  Parent must be female.
         bob1=find_unit(game,mother,event)
-        if bob1[1][1,1]=="m"
+        if bob1[1][1,1]=="m" && !(@gay_canon.include?(bob1[0]) && bob1[1][2,1]!="F")
           bob2=find_unit(game,kidname,event)
           g="they already have"
           g="he already has" if bob2[1][1,1]=="m"
@@ -2117,8 +2160,9 @@ def find_unit(game,name,event,disp=true,f3=false)
       x=@units[@units.find_index{|q| q[0]=='Lucina' && q[1][2,1]=='A'}]
     end
     unless x[1].nil?
-      x[0]="Awakening!Anna" if x[0]=="Anna" && x[2]=="*Awakening*"
-      x[0]="Fates!Anna" if x[0]=="Anna" && x[2]!="*Awakening*"
+      x[0]="Awakening!Anna" if x[0]=="Anna" && x[1][2]=="A"
+      x[0]="Fates!Anna" if x[0]=="Anna" && x[1][2]=="F"
+      x[0]="3H!Anna" if x[0]=="Anna" && x[1][2]!="T"
     end
   end
   return x
@@ -2155,6 +2199,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   return nil if name.length<3 && name.downcase != "me" && name.downcase != "mc" && name.downcase != "mu"
   return find_unit("Awakening","Anna",event) if "awakening!anna"==name.downcase
   return find_unit("Fates","Anna",event) if "fates!anna"==name.downcase
+  return find_unit("Three Houses","Anna",event) if "3H!anna"==name.downcase
   return "Lilith" if "lilith"==name.downcase
   xgame="Awakening" if xgame=="" && name.downcase != "lucina" && name.downcase != "anna"
   return find_unit("Fates","Selena",event) if "severa"==name.downcase && xgame.downcase=="fates"
@@ -2214,10 +2259,10 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   u=@units.map{|q| q}
   for i in 0...u.length
     u[i][0]="n" if u[i][0]=="Lucina" && u[i][2]=="Amiibo Character" && xgame=="Awakening"
-    u[i][0]="n" if u[i][0]=="Anna" && u[i][2]!="*Awakening*" && xgame=="Awakening"
+    u[i][0]="n" if u[i][0]=="Anna" && u[i][1][2]!=xgame[0] && !(xgame=='' && u[i][1][2]=='T')
     return u[i] if u[i][0].downcase==name.downcase && name.downcase != "kana" && name.downcase != "morgan" && ((!event.server.nil? && event.server.id==256291408598663168) || u[i][1][3,1]!="g")
     return u[i] if u[i][0].downcase==name.downcase && name.downcase=='Mathoo' && @shardizard==4
-    bob4=u[i] if u[i][0].downcase==name.downcase
+    bob4=u[i] if u[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase || (u[i][1][2]=='T' && u[i][0].split(' ')[0].downcase==name.downcase)
   end
   if name.downcase=="kana"
     momstuff=get_corrin(event,false)
@@ -2230,7 +2275,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
     for i in 1...7
       bob4[4][i]=m[i]+1
     end
-    bob4[1]="3cF"
+    bob4[1]="3cFrD"
     return bob4
   elsif name.downcase=="morgan"
     momstuff=get_robin(event,false)
@@ -2259,10 +2304,10 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   return find_unit("Fates","Laslow",event) if "inigo"[0,name.length]==name.downcase && xgame=="Fates"
   for i in 0...u.length
     u[i][0]="n" if u[i][0]=="Lucina" && u[i][2]=="Amiibo Character" && xgame=="Awakening"
-    u[i][0]="n" if u[i][0]=="Anna" && u[i][2]!="*Awakening*" && xgame=="Awakening"
+    u[i][0]="n" if u[i][0]=="Anna" && u[i][1][2]!=xgame[0] && !(xgame=='' && u[i][1][2]=='T')
     return u[i] if u[i][0][0,name.length].downcase==name.downcase && name.downcase != "kana"[0,name.length] && name.downcase != "morgan"[0,name.length] && ((!event.server.nil? && event.server.id==256291408598663168) || u[i][1][3,1]!="g")
     return u[i] if u[i][0][0,name.length].downcase==name.downcase && name.downcase=='Mathoo'[0,name.length] && @shardizard==4
-    bob4=u[i] if u[i][0][0,name.length].downcase==name.downcase
+    bob4=u[i] if u[i][0].gsub(' ','')[0,name.length].downcase==name.gsub(' ','').downcase
   end
   if name.downcase=="kana"[0,name.length]
     momstuff=get_corrin(event,false)
@@ -2309,6 +2354,7 @@ def unit_parse(event,bot,args)
     if args[i].downcase=="aptitude"[0,args[i].length]
       apt=10
       apt=20 if game=="Awakening"
+      apt=20 if game=="Three Houses"
       args[i]=nil
     end
   end
@@ -2383,26 +2429,28 @@ def unit_parse(event,bot,args)
         @bob[6][2]='Dark Mage'
       end
       data_load()
-      for i in 0...@bob[5].length
-        clss=@bob[5][i]
-        clss=gender_adjust(clss,@bob[1][1,1])
-        if clss[0,10]=='Troubadour'
-          if @bob[1][2,1]=='A'
-            @bob[5][i]='Troubadour (War Cleric, Valkyrie)'
-          elsif @bob[1][1,1]=='m'
-            @bob[5][i]='Troubadour (Butler, Strategist)'
-          elsif @bob[1][1,1]=='f'
-            @bob[5][i]='Troubadour (Maid, Strategist)'
+      unless @bob[1][2]=='T'
+        for i in 0...@bob[5].length
+          clss=@bob[5][i]
+          clss=gender_adjust(clss,@bob[1][1,1])
+          if clss[0,10]=='Troubadour'
+            if @bob[1][2,1]=='A'
+              @bob[5][i]='Troubadour (War Cleric, Valkyrie)'
+            elsif @bob[1][1,1]=='m'
+              @bob[5][i]='Troubadour (Butler, Strategist)'
+            elsif @bob[1][1,1]=='f'
+              @bob[5][i]='Troubadour (Maid, Strategist)'
+            else
+              @bob[5][i]='Troubadour (Servant, Strategist)'
+            end
           else
-            @bob[5][i]='Troubadour (Servant, Strategist)'
+            @bob[5][i]=clss
+            m=@classes.find_index{|q| q[0]==clss && q[1][0,1]==@bob[1][2,1]}
+            @bob[5][i]="#{clss} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
           end
-        else
-          @bob[5][i]=clss
-          m=@classes.find_index{|q| q[0]==clss && q[1][0,1]==@bob[1][2,1]}
-          @bob[5][i]="#{clss} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
         end
       end
-      @bob[0]="Anna" if ["awakening!anna","fates!anna","anna"].include?(kidname.downcase)
+      @bob[0]="Anna" if ["awakening!anna","fates!anna","3h!anna","anna"].include?(kidname.downcase)
       @bob[0]="**#{@bob[0]}**"
       picture=get_picture(kidname,nil,nil,@bob[1][1,1],event)
     end
@@ -2411,18 +2459,56 @@ def unit_parse(event,bot,args)
     text=''
     unless path.nil?
       path="*Fates*: #{path}" if !path.include?("Awakening") && !path.include?("Cross-game")
+      path=path.gsub('Fates','Three Houses') if @bob[1][2]=='T'
       text=path
     end
     if apt>0 && game==""
       f=find_unit(game,kidname,event)
       apt=10
       apt=20 if ["Awakening","*Awakening*"].include?(f[1])
+      apt=20 if ["Three Houses","*Three Houses*"].include?(f[1])
     end
     unless picture.nil?
       picture=nil if picture[0,1]=='>'
     end
-    text="#{text}\n**Personal Skill:** *#{@bob[7]}*  #{@skills[@skills.find_index{|q| q[0]==@bob[7]}][4]}" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A" || @skills.find_index{|q| q[0]==@bob[7]}.nil?
-    text="#{text}\n**Birthday:** #{@bob[8][1]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][@bob[8][0]]}" unless @bob[8].nil? || @bob[8].length<=1
+    text="#{text}\n**Personal #{'Skill' unless @bob[1][2]=='T'}#{'Ability' if @bob[1][2]=='T'}:** *#{@bob[7]}*  #{@skills[@skills.find_index{|q| q[0]==@bob[7] && (q[1][0]==@bob[1][2,1] || q[1]=='Fateswakening')}][4]}" unless @bob[7].nil? || game=="Awakening" || @bob[1][2,1]=="A" || @skills.find_index{|q| q[0]==@bob[7] && (q[1][0]==@bob[1][2,1] || q[1]=='Fateswakening')}.nil?
+    unless @bob[9].nil? || @bob[9].length<=0
+      cre=[]
+      mys=false
+      for i in 0...@bob[9].length
+        if @bob[9][i].downcase=='mystery'
+          mys=true
+        else
+          scre=''
+          hide=false
+          pos=0
+          if @bob[9][i][0,2]=='||'
+            scre=@bob[9][i].gsub('||','')
+            hide=true
+          elsif @bob[9][i].include?(' (minor)')
+            scre=@bob[9][i].gsub(' (minor)','')
+            pos=1
+          else
+            scre=@bob[9][i]
+          end
+          scre=@crests[@crests.find_index{|q| q[0]==scre}]
+          cre.push("#{'*Mystery Crest:*  ' if mys}#{'||' if hide || mys}*#{['','Minor '][pos]}Crest of #{scre[0]}* #{scre[1]} (Proc rate: #{scre[2][pos]}%)#{'||' if hide || mys}")
+          mys=false
+        end
+      end
+      if cre.length<=0
+      elsif cre.length==1
+        text="#{text}\n**Crest:** #{cre[0]}"
+      else
+        text="#{text}\n**Crest:**\n#{cre.join("\n")}"
+      end
+    end
+    if @bob[8].nil? || @bob[8].length<=1
+    elsif @bob[8].length==2
+      text="#{text}\n**Birthday:** #{@bob[8][1]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][@bob[8][0]]}"
+    else
+      text="#{text}\n**Birthday:** #{@bob[8][2]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][@bob[8][1]]} #{@bob[8][0]}"
+    end
     prf=@items.find_index{|q| !q[1].nil? && !q[3].nil? && q[3].gsub('*','')==@bob[0].gsub('**','') && @bob[1][2,1]==q[1][0].gsub('G','F')}
     text="#{text}\n**Prf weapon:** *#{@items[prf][0]}*" unless prf.nil? || ['staff','rod'].include?(@items[prf][2][0].downcase)
     text="#{text}\n**Prf staff:** *#{@items[prf][0]}*" unless prf.nil? || !['staff','rod'].include?(@items[prf][2][0].downcase)
@@ -2431,20 +2517,36 @@ def unit_parse(event,bot,args)
     text="#{text}\n**Can use Dragon Veins**, weak to dragon-effective weapons regardless of class" if @bob[1].length>4 && @bob[1][4]=='D' && @bob[1][2]=='F'
     flds=nil
     m=['HP','Strength','Magic','Skill','Speed','Luck','Defense','Resistance']
+    m=['HP','Strength','Magic','Dexterity','Speed','Luck','Defense','Resistance','Charm'] if @bob[1][2]=='T'
     flds=[["**Growth Rates**",[]],["**Modifiers**",['-']],["**Classes**","*Default class:* #{@bob[5][0]}\n*#{'Seals unusable' if @bob[0]=='**Candace**'}#{'Heart Seal' if @bob[0]!='**Candace**' && @bob[1][2]=='F'}#{'Second Seal' if @bob[0]!='**Candace**' && @bob[1][2]=='A'}#{':'if @bob[0]!='**Candace**'}* #{'~~none~~' if @bob[5].length<=1 && @bob[0]!='**Candace**'}#{@bob[5][1,@bob[5].length-1].join(', ')}#{"\n*Partner Seal:* Spear Master, Basara" if @bob[0].gsub('**','')=='Mathoo'}",false]]
-    f=[0,0]
-    for i in 0...8
+    if @bob[1][2]=='T'
+      flds=[["**Growth Rates**",[]],["**Base Stats**",[]],["**Maximum Stats**",[]],["**Classes and Skills**","*Default class:* #{@bob[6][0]}",false]]
+      flds[3][1]="#{flds[3][1]}\n*Strengths:* #{@bob[10].join(', ')}" unless @bob[10].nil? || @bob[10].length<=0
+      flds[3][1]="#{flds[3][1]}\n*Weaknesses:* #{@bob[11].join(', ')}" unless @bob[11].nil? || @bob[11].length<=0
+      flds[3][1]="#{flds[3][1]}\n*Budding Talent:* #{@bob[12]}" unless @bob[12].nil? || @bob[12].length<=0
+    end
+    f=[0,0,0]
+    for i in 0...m.length
       flds[0][1].push("*#{m[i]}:*  #{@bob[3][i]+apt}%")
-      flds[1][1].push("*#{m[i]}:*  #{'+' if @bob[4][i]>0}#{@bob[4][i]}") unless i==0
+      if @bob[1][2]=='T'
+        flds[1][1].push("*#{m[i]}:*  #{@bob[4][i]}")
+        flds[2][1].push("*#{m[i]}:*  #{@bob[5][i]}")
+        f[2]+=@bob[5][i]
+      else
+        flds[1][1].push("*#{m[i]}:*  #{'+' if @bob[4][i]>0}#{@bob[4][i]}") unless i==0
+      end
       f[0]+=@bob[3][i]+apt
       f[1]+=@bob[4][i]
     end
     flds[0][1].push('')
     flds[1][1].push('')
+    flds[2][1].push('') if @bob[1][2]=='T'
     flds[0][1].push("*Total:*  #{f[0]}%")
-    flds[1][1].push("*Total:*  #{'+' if f[1]>0}#{f[1]}")
+    flds[1][1].push("*Total:*  #{'+' if f[1]>0 && @bob[1][2]!='T'}#{f[1]}")
+    flds[2][1].push("*Total:*  #{f[2]}") if @bob[1][2]=='T'
     flds[0][1]=flds[0][1].join("\n")
     flds[1][1]=flds[1][1].join("\n")
+    flds[2][1]=flds[2][1].join("\n") if @bob[1][2]=='T'
     xstats=find_stats_in_string(event)
     game=game_proc(event)
     if step1[0].downcase=="robin" || (!step1[1].nil? && step1[1].downcase=="robin") || (!step1[2].nil? && step1[2].downcase=="robin")
@@ -2471,18 +2573,120 @@ def unit_parse(event,bot,args)
     else
       foot="#{foot} / #{foot2}" unless foot2.nil?
     end
-    create_embed(event,fullname,text,embed_color(path),foot,picture,flds,2)
+    fgame='Fates'
+    fgame='Awakening' if @bob[1][2]=='A'
+    fgame='Three Houses' if @bob[1][2]=='T'
+    create_embed(event,fullname,text,embed_color(path,fgame),foot,picture,flds,2)
   end
   return nil
+end
+
+def class_display(event,bot,args,clss,game=nil)
+  game=game_proc(event) if game.nil?
+  apt=0
+  for i in 0...args.length
+    if args[i].downcase=="aptitude"[0,args[i].length] && args[i].length>2
+      apt=10
+      apt=20 if game=="Awakening"
+      apt=20 if game=="Three Houses"
+    end
+  end
+  apt=20 if clss[1]=="Three Houses" && apt>0
+  apt=20 if clss[1]=="Awakening" && apt>0
+  apt=10 if clss[1]=="Fates" && apt>0
+  b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
+  b=["HP","Strength","Magic","Dexterity","Speed","Luck","Defense","Resistance","Charm"] if clss[1]=='Three Houses'
+  flds=nil
+  clzz=@classes.map{|q| q}
+  clss[0]=clss[0].gsub(' (C)','')
+  fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
+  clss[0]=clss[0].gsub(' (C)','')
+  for i in 0...clss[8].length
+    gmz=['Fateswakening',clss[1]]
+    gmz[1]='Gates' if clss[2]=='Penumbra'
+    gmz[0]=='Three Houses' if clss[1]=='Three Houses'
+    s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && gmz.include?(q[1])}]
+    f=s[2].find_index{|q| q[0]==clss[0]}
+    f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
+    f=0 if f.nil?
+    clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}" unless f.nil?
+  end
+  prm=[]
+  prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"} unless clss[1]=='Three Houses'
+  skz=[]
+  skz=@skills.reject{|q| q[1]!='Three Houses' || q[2]=='-' || !q[2].map{|q2| q2.join(', ')}.include?("#{clss[0]}, class")}
+  text=''
+  text="#{fullname}" if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
+  if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
+    f=[0,0,0]
+    for i in 0...b.length
+      text="#{text}\n**#{b[i]}:**  *Growth:* #{clss[3][i].to_i+apt}%  *Base:* #{clss[5][i]}  *#{'Maximum' unless clss[1]=='Three Houses'}#{'Modifier' if clss[1]=='Three Houses'}:* #{'+' if clss[4][i].to_i>0 && clss[1]=='Three Houses'}#{clss[4][i]}"
+      f[0]+=clss[3][i].to_i+apt
+      f[1]+=clss[5][i].to_i
+      f[2]+=clss[4][i].to_i
+    end
+    text="#{text}\n**Total:**  *Growth:* #{f[0]}%  *Base:* #{f[1]}  *#{'Maximum' unless clss[1]=='Three Houses'}#{'Modifier' if clss[1]=='Three Houses'}:* #{'+' if f[2]>0 && clss[1]=='Three Houses'}#{f[2]}"
+  end
+  if clss[6].nil? || clss[6]==''
+    clss[8]=''
+    text="#{text}\n**#{clss[7][0].split(' ')[-1]} Class**" if clss[1]=='Three Houses' && clss[7].length>0 && clss[7][0].length>0
+  elsif clss[6].include?('**')
+    text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
+  else
+    text="#{text}\n**#{clss[6]} Class**"
+  end
+  if clss[1]=='Three Houses'
+    text="#{text}\n**Certification requirements:** #{clss[10]}#{', Dark Seal' if clss[7].length>0 && clss[7][0].include?('Dark')}" if clss[10].length>0
+    text="#{text}\n**Class Abilit#{"ies:**\n" if skz.length>1}#{'y:** ' unless skz.length>1}#{skz.map{|q| "*#{q[0]}* #{q[4]}"}.join("\n")}" unless skz.length<=0 || clss[6].include?("Class Abilit#{"ies" if skz.length>1}#{'y' unless skz.length>1}")
+    text="#{text}\n**Mastery Abilit#{"ies:**\n" if clss[8].length>1}#{'y:** ' unless clss[8].length>1}#{clss[8].map{|q| q.gsub(' [level mastery]','')}.join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?("Mastery Abilit#{"ies" if clss[8].length>1}#{'y' unless clss[8].length>1}")
+    text="#{text}\n**Skill Bonuses:** #{clss[9].map{|q| "#{q[0]} (+#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Skill Bonuses')
+  else
+    text="#{text}\n**Promotes from:** Discord bot" if clss[0]=="Automaton"
+    text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && clss[0]!="Automaton" && !clss[6].include?('Promotes from')
+    text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
+    text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
+    text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
+  end
+  event.respond text if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
+  return nil if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
+  flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
+  flds=[["**Growths**",""],["**Bases**",""],["**Modifiers**",""]] if clss[1]=='Three Houses'
+  f=[0,0,0]
+  for i in 0...b.length
+    flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*  #{clss[3][i].to_i+apt}%"
+    flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*  #{clss[5][i].to_i}"
+    flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*  #{'+' if clss[4][i].to_i>0 && clss[1]=='Three Houses'}#{clss[4][i].to_i}"
+    f[0]+=clss[3][i].to_i+apt
+    f[1]+=clss[5][i].to_i
+    f[2]+=clss[4][i].to_i
+  end
+  flds[0][1]="#{flds[0][1]}\n\n*Total:*  #{f[0]}%"
+  flds[1][1]="#{flds[1][1]}\n\n*Total:*  #{f[1]}"
+  flds[2][1]="#{flds[2][1]}\n\n*Total:*  #{'+' if f[2]>0 && clss[1]=='Three Houses'}#{f[2]}"
+  xcolor=0x061069 if clss[1]=="Awakening"
+  if clss[1]=="Fates"
+    xcolor=0xC5EEF2
+    xcolor=0xCF000D if clss[2]=="Hoshido"
+    xcolor=0xAA7FCD if clss[2]=="Nohr"
+    xcolor=0x2DA5AF if clss[2]=="Valla"
+    xcolor=0xFFEA8B if clss[2]=="Penumbra"
+  elsif clss[1]=="Three Houses"
+    xcolor=0x2D6864
+    xcolor=0x7D171F if clss[2]=="Adrestia"
+    xcolor=0x4B4E9B if clss[2]=="Faerghus"
+    xcolor=0x897A04 if clss[2]=="Leicester"
+    xcolor=0xA9AA9D if clss[2]=="Agartha"
+  end
+  create_embed(event,fullname,text,xcolor,nil,nil,flds)
 end
 
 def class_parse(event,bot,args)
   event.message.delete if event.user.id==bot.profile.id
   game=game_proc(event)
   s=event.message.text.downcase
-  s=s[3,s.length-3] if ['fe!'].include?(s[0,3])
-  s=s[4,s.length-4] if ['fea!','fef!'].include?(s[0,4])
-  s=s[5,s.length-5] if ['fe13!','fe14!'].include?(s[0,5])
+  s=s[3,s.length-3] if ['fe!','3h!','fe?','3h?'].include?(s[0,3])
+  s=s[4,s.length-4] if ['fea!','fef!','fea?','fef?'].include?(s[0,4])
+  s=s[5,s.length-5] if ['fe13!','fe14!','fe16!','fe13?','fe14?','fe16?'].include?(s[0,5])
   args=s.split(' ')
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   if args.nil?
@@ -2494,307 +2698,42 @@ def class_parse(event,bot,args)
   end
   apt=0
   for i in 0...args.length
-    if args[i].downcase=="aptitude"[0,args[i].length]
-      apt=10
-      apt=20 if game=="Awakening"
-      args[i]=nil
-    end
+    args[i]=nil if args[i].downcase=="aptitude"[0,args[i].length]
   end
   args.compact!
   clss=find_class(args.join(' ').downcase,event)
   if clss.nil?
-    for i in 0...args.length-1
-      args[args.length-1]=nil
-      args.compact!
-      clss=find_class(args.join(' ').downcase,event) if clss.nil?
+    for i in 0...args.length
+      for i2 in 0...args.length-i
+        clss=find_class(args[i,args.length-i-i2].join(' ').downcase,event) if clss.nil?
+      end
     end
   end
   if clss.nil?
     event.respond("That is not the name of a class")
     return nil
   end
-  apt=20 if clss[1]=="Awakening" && apt>0
-  apt=10 if clss[1]=="Fates" && apt>0
-  b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
-  flds=nil
-  clzz=@classes.map{|q| q}
-  clss[0]=clss[0].gsub(' (C)','')
-  if game=="" && find_class(args.join(' ').downcase,event,"Fates")!=find_class(args.join(' ').downcase,event,"Awakening") && find_class(args.join(' ').downcase,event,"Fates")[0]==find_class(args.join(' ').downcase,event,"Awakening")[0]
-    if @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
-      fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
-      clss=find_class(args.join(' ').downcase,event,"Fates")
-      clss2=find_class(args.join(' ').downcase,event,"Awakening")
-      clss[0]=clss[0].gsub(' (C)','')
-      clss2[0]=clss2[0].gsub(' (C)','')
-      for i in 0...clss[8].length
-        s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-        f=s[2].find_index{|q| q[0]==clss[0]}
-        f=s[2].find_index{|q| q[0].split('(')[0]==clss[0].split('(')[0].gsub(' ','')} if f.nil?
-        f=0 if f.nil?
-        clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}" unless f.nil?
-      end
-      for i in 0...clss2[8].length
-        s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && ['Fateswakening',clss2[1]].include?(q[1])}]
-        f=s[2].find_index{|q| q[0]==clss2[0]}
-        f=s[2].find_index{|q| q[0].split('(')[0]==clss2[0].split('(')[0].gsub(' ','')} if f.nil?
-        f=0 if f.nil?
-        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][f][1]}]*  #{s[4]}" unless f.nil?
-      end
-      event.respond fullname
-      text="__*Awakening*__"
-      apt=20 if apt>0
-      f=[0,0,0]
-      for i in 0...8
-        text="#{text}\n**#{b[i]}:**  *Growth:* #{clss2[3][i].to_i+apt}%  *Base:* #{clss2[5][i]}  *Maximum:* #{clss2[4][i]}"
-        f[0]+=clss2[3][i].to_i+apt
-        f[1]+=clss2[5][i].to_i
-        f[2]+=clss2[4][i].to_i
-      end
-      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
-      text="#{text}\n**Total:**  *Growth:* #{f[0]}%  *Base:* #{f[1]}  *Maximum:* #{f[2]}"
-      if clss2[6].nil? || clss2[6]==''
-        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0
-        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
-        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0
-        text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0
-      else
-        if clss2[6].include?('**')
-          text="#{text}\n#{clss2[6].gsub('/n',"\n").gsub('/t',"  ")}"
-        else
-          text="#{text}\n**#{clss2[6]} Class**"
-        end
-        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
-        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss2[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0 || clss2[6].include?('Skills learned')
-        text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
-      end
-      event.respond text
-      text="__*Fates*__"
-      apt=10 if apt>0
-      f=[0,0,0]
-      for i in 0...8
-        text="#{text}\n**#{b[i]}:**  *Growth:* #{clss[3][i].to_i+apt}%  *Base:* #{clss[5][i]}  *Maximum:* #{clss[4][i]}"
-        f[0]+=clss[3][i].to_i+apt
-        f[1]+=clss[5][i].to_i
-        f[2]+=clss[4][i].to_i
-      end
-      text="#{text}\n**Total:**  *Growth:* #{f[0]}%  *Base:* #{f[1]}  *Maximum:* #{f[2]}"
-      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
-      if clss[6].nil? || clss[6]==''
-        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
-        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 if prm.length>0
-        text="#{text}\n**Skills learned:**\n#{clss[8].map{|q| "*#{q}*"}.join("\n")}" unless clss[8].nil? || clss[8].length<=0
-        text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
-      else
-        if clss[6].include?('**')
-          text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
-        else
-          text="#{text}\n**#{clss[6]} Class**"
-        end
-        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
-        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:**\n#{clss[8].map{|q| "*#{q}*"}.join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
-        text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
-      end
-      event.respond text
-    else
-      clss2=find_class(args.join(' ').downcase,event,"Fates")
-      clss=find_class(args.join(' ').downcase,event,"Awakening")
-      clss[0]=clss[0].gsub(' (C)','')
-      clss2[0]=clss2[0].gsub(' (C)','')
-      for i in 0...clss[8].length
-        gmz=['Fateswakening',clss[1]]
-        gmz[1]='Gates' if clss[2]=='Penumbra'
-        s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && gmz.include?(q[1])}]
-        f=s[2].find_index{|q| q[0]==clss[0]}
-        f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
-        f=0 if f.nil?
-        clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
-      end
-      for i in 0...clss2[8].length
-        gmz=['Fateswakening',clss2[1]]
-        gmz[1]='Gates' if clss2[2]=='Penumbra'
-        s=@skills[@skills.find_index{|q| q[0]==clss2[8][i] && gmz.include?(q[1])}]
-        f=s[2].find_index{|q| q[0]==clss2[0]}
-        f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss2[0].split('(')[0].gsub(' ','')} if f.nil?
-        f=0 if f.nil?
-        clss2[8][i]="*#{clss2[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
-      end
-      flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
-      fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
-      text=''
-      f=[0,0,0]
-      for i in 0...8
-        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*  #{clss[3][i].to_i+apt}%"
-        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*  #{clss[5][i].to_i}"
-        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*  #{clss[4][i].to_i}"
-        f[0]+=clss[3][i].to_i+apt
-        f[1]+=clss[5][i].to_i
-        f[2]+=clss[4][i].to_i
-      end
-      flds[0][1]="#{flds[0][1]}\n\n*Total:*  #{f[0]}%"
-      flds[1][1]="#{flds[1][1]}\n\n*Total:*  #{f[1]}"
-      flds[2][1]="#{flds[2][1]}\n\n*Total:*  #{f[2]}"
-      text="#{text}\n**Promotes from:** Discord bot" if clss[0]=="Automaton"
-      prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
-      if clss[6].nil? || clss[6]==''
-        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
-        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
-        text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0
-        text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
-      else
-        if clss[6].include?('**')
-          text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
-        else
-          text="#{text}\n**#{clss[6]} Class**"
-        end
-        text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
-        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
-        text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
-      end
-      xcolor=0x061069 if clss[1]=="Awakening"
-      if clss[1]=="Fates"
-        xcolor=0xC5EEF2
-        xcolor=0xCF000D if clss[2]=="Hoshido"
-        xcolor=0xAA7FCD if clss[2]=="Nohr"
-        xcolor=0x2DA5AF if clss[2]=="Valla"
-        xcolor=0xFFEA8B if clss[2]=="Penumbra"
-      end
-      create_embed(event,fullname,text,xcolor,nil,nil,flds)
-      flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
-      fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
-      text=''
-      f=[0,0,0]
-      for i in 0...8
-        flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*  #{clss2[3][i].to_i+apt}%"
-        flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*  #{clss2[5][i].to_i}"
-        flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*  #{clss2[4][i].to_i}"
-        f[0]+=clss2[3][i].to_i+apt
-        f[1]+=clss2[5][i].to_i
-        f[2]+=clss2[4][i].to_i
-      end
-      flds[0][1]="#{flds[0][1]}\n\n*Total:*  #{f[0]}%"
-      flds[1][1]="#{flds[1][1]}\n\n*Total:*  #{f[1]}"
-      flds[2][1]="#{flds[2][1]}\n\n*Total:*  #{f[2]}"
-      text="#{text}\n**Promotes from:** Discord bot" if clss2[0]=="Automaton"
-      prm=clzz.reject{|q| q[1]!=clss2[1] || q[7].nil? || !q[7].include?(clss2[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
-      if clss2[6].nil? || clss2[6]==''
-        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[8].nil? || clss2[7].length<=0
-        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
-        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0
-        text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0
-      else
-        if clss2[6].include?('**')
-          text="#{text}\n#{clss2[6].gsub('/n',"\n").gsub('/t',"  ")}"
-        else
-          text="#{text}\n**#{clss2[6]} Class**"
-        end
-        text="#{text}\n**Promotes into:**\n#{clss2[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss2[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss2[7].nil? || clss2[7].length<=0 || clss2[6].include?('Promotes into')
-        text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss2[6].include?('Promotes from')
-        text="#{text}\n**Skills learned:**\n#{clss2[8].join("\n")}" unless clss2[8].nil? || clss2[8].length<=0 || clss2[6].include?('Skills learned')
-        text="#{text}\n**Useable Weapons:** #{clss2[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss2[9].nil? || clss2[9].length<=0 || clss2[6].include?('Useable Weapons')
-      end
-      xcolor=0x061069 if clss2[1]=="Awakening"
-      if clss2[1]=="Fates"
-        xcolor=0xC5EEF2
-        xcolor=0xCF000D if clss2[2]=="Hoshido"
-        xcolor=0xAA7FCD if clss2[2]=="Nohr"
-        xcolor=0x2DA5AF if clss2[2]=="Valla"
-        xcolor=0xFFEA8B if clss2[2]=="Penumbra"
-      end
-      create_embed(event,fullname,text,xcolor,nil,nil,flds)
+  clssA=find_class(clss[0].downcase,event,"Awakening")
+  clssA=[] if clssA[1] != "Awakening"
+  clssF=find_class(clss[0].downcase,event,"Fates")
+  clssF=[] if clssF[1] != "Fates"
+  clssT=find_class(clss[0].downcase,event,"Three Houses")
+  clssT=[] if clssT[1] != "Three Houses"
+  clsslst=[clssA.map{|q| q}, clssF.map{|q| q}, clssT.map{|q| q}].reject{|q| q.length<=0}
+  clsslst=clsslst.reject{|q| q[0]!=clsslst[-1][0]}
+  if game=="" && clsslst.length>1 && !safe_to_spam?(event)
+    for i in 0...clsslst.length
+      clsslst[i][1]='FEA!' if clsslst[i][1]=='Awakening'
+      clsslst[i][1]='FEF!' if clsslst[i][1]=='Fates'
+      clsslst[i][1]='FE3H!' if clsslst[i][1]=='Three Houses'
     end
-  elsif @embedless.include?(event.user.id) || was_embedless_mentioned?(event)
-    fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
-    clss[0]=clss[0].gsub(' (C)','')
-    for i in 0...clss[8].length
-      s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && ['Fateswakening',clss[1]].include?(q[1])}]
-      f=s[2].find_index{|q| q[0]==clss[0]}
-      f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
-        f=0 if f.nil?
-      clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}"
+    event.respond "I will not show every variation of this class.  Please either try one of the following commands or use this command in PM.\n#{clsslst.map{|q| "`#{q[1]}class #{q[0]}`"}.join("\n")}"
+  elsif game=="" && clsslst.length>1
+    for i in 0...clsslst.length
+      class_display(event,bot,args,clsslst[i],clsslst[i][1])
     end
-    text="#{fullname}"
-    f=[0,0,0]
-    for i in 0...8
-      text="#{text}\n**#{b[i]}:**  *Growth:* #{clss[3][i].to_i+apt}%  *Base:* #{clss[5][i]}  *Maximum:* #{clss[4][i]}"
-      f[0]+=clss[3][i].to_i+apt
-      f[1]+=clss[5][i].to_i
-      f[2]+=clss[4][i].to_i
-    end
-    text="#{text}\n**Total:**  *Growth:* #{f[0]}%  *Base:* #{f[1]}  *Maximum:* #{f[2]}"
-    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
-    if clss[6].nil? || clss[6]==''
-      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
-      text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
-      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0
-      text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
-    else
-      if clss[6].include?('**')
-        text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
-      else
-        text="#{text}\n**#{clss[6]} Class**"
-      end
-      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
-      text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
-      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
-      text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
-    end
-    event.respond text
   else
-    flds=[["**Growths**",""],["**Bases**",""],["**Maximums**",""]]
-    fullname="__**#{clss[0].gsub(' (C)','')}**#{" (with *Aptitude*)" if apt>0}__"
-    clss[0]=clss[0].gsub(' (C)','')
-    for i in 0...clss[8].length
-      gmz=['Fateswakening',clss[1]]
-      gmz[1]='Gates' if clss[2]=='Penumbra'
-      s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && gmz.include?(q[1])}]
-      f=s[2].find_index{|q| q[0]==clss[0]}
-      f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
-      f=0 if f.nil?
-      clss[8][i]="*#{clss[8][i]} [level #{s[2][f][1]}]*  #{s[4]}" unless f.nil?
-    end
-    text=''
-    f=[0,0,0]
-    for i in 0...8
-      flds[0][1]="#{flds[0][1]}\n*#{b[i]}:*  #{clss[3][i].to_i+apt}%"
-      flds[1][1]="#{flds[1][1]}\n*#{b[i]}:*  #{clss[5][i].to_i}"
-      flds[2][1]="#{flds[2][1]}\n*#{b[i]}:*  #{clss[4][i].to_i}"
-      f[0]+=clss[3][i].to_i+apt
-      f[1]+=clss[5][i].to_i
-      f[2]+=clss[4][i].to_i
-    end
-    flds[0][1]="#{flds[0][1]}\n\n*Total:*  #{f[0]}%"
-    flds[1][1]="#{flds[1][1]}\n\n*Total:*  #{f[1]}"
-    flds[2][1]="#{flds[2][1]}\n\n*Total:*  #{f[2]}"
-    text="#{text}\n**Promotes from:** Discord bot" if clss[0]=="Automaton"
-    prm=clzz.reject{|q| q[1]!=clss[1] || q[7].nil? || !q[7].include?(clss[0])}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}
-    if clss[6].nil? || clss[6]==''
-      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[8].nil? || clss[7].length<=0
-      text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0
-      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0
-      text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0
-    else
-      if clss[6].include?('**')
-        text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
-      else
-        text="#{text}\n**#{clss[6]} Class**"
-      end
-      text="#{text}\n**Promotes into:**\n#{clss[7].map{|q| clzz[clzz.find_index{|q2| q2[0]==q && q2[1]==clss[1]}]}.map{|q| "*#{q[0]}*#{"  (#{q[8].join(', ')})" unless q[8].nil? || q[8].length<=0}"}.join("\n")}" unless clss[7].nil? || clss[7].length<=0 || clss[6].include?('Promotes into')
-      text="#{text}\n**Promotes from:**\n#{prm.join("\n")}" if prm.length>0 && !clss[6].include?('Promotes from')
-      text="#{text}\n**Skills learned:**\n#{clss[8].join("\n")}" unless clss[8].nil? || clss[8].length<=0 || clss[6].include?('Skills learned')
-      text="#{text}\n**Useable Weapons:** #{clss[9].map{|q| "#{q[0]} (#{q[1]})"}.join(', ')}" unless clss[9].nil? || clss[9].length<=0 || clss[6].include?('Useable Weapons')
-    end
-    xcolor=0x061069 if clss[1]=="Awakening"
-    if clss[1]=="Fates"
-      xcolor=0xC5EEF2
-      xcolor=0xCF000D if clss[2]=="Hoshido"
-      xcolor=0xAA7FCD if clss[2]=="Nohr"
-      xcolor=0x2DA5AF if clss[2]=="Valla"
-      xcolor=0xFFEA8B if clss[2]=="Penumbra"
-    end
-    create_embed(event,fullname,text,xcolor,nil,nil,flds)
+    class_display(event,bot,args,clss,game)
   end
   return nil
 end
@@ -2840,7 +2779,7 @@ def x_find_skill(game,name,event,fullname=false)
     end
   end
   # then try generic skill
-  m=['Fates','Awakening','Fateswakening']
+  m=['Three Houses','Fates','Awakening','Fateswakening']
   m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168
   for i in 0...@skills.length
     return @skills[i] if @skills[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
@@ -2919,7 +2858,7 @@ def x_find_item(game,name,event,fullname=false)
     end
   end
   # then try generic item
-  m=['Fates','Awakening']
+  m=['Fates','Awakening','Three Houses']
   m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168
   for i in 0...@items.length
     return @items[i] if @items[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
@@ -2967,6 +2906,7 @@ def parse_args(event,game,args,lil=true,mde=0)
     if args[i].downcase=="aptitude"[0,args[i].length]
       apt=10
       apt=20 if game=="Awakening"
+      apt=20 if game=="Three Houses"
       args[i]=nil
     end
   end
@@ -3110,11 +3050,12 @@ def parse_args(event,game,args,lil=true,mde=0)
   step1=generation_parse(event,unit1,unit2,unit3,unit4,false)
   unless step1.nil?
     kidname=step1[0]
-    unless clss.nil? || event.message.text[0,3].downcase != "fe!"
+    unless clss.nil? || !["fe!","fe?"].include?(event.message.text[0,3].downcase)
       f=find_unit(game,kidname,event)
-      g="Fates"
-      g="Awakening" if ["Awakening","*Awakening*"].include?(f[1])
-      apt=20 if apt>0 && g=="Awakening"
+      g="Three Houses" if f[1][2]=='T'
+      g="Fates" if f[1][2]=='F'
+      g="Awakening" if f[1][2]=='A'
+      apt=20 if apt>0 && ["Awakening","Three Houses"].include?(g)
       clss=find_class(clss[0],event,g)
     end
     mother=step1[1]
@@ -3144,23 +3085,25 @@ def parse_args(event,game,args,lil=true,mde=0)
         unit[5].push('Dark Mage')
       end
       data_load()
-      for i in 0...unit[5].length
-        clss22=unit[5][i]
-        clss22=gender_adjust(clss22,unit[1][1,1])
-        if clss22[0,10]=='Troubadour'
-          if unit[1][2,1]=='A'
-            unit[5][i]='Troubadour (War Cleric, Valkyrie)'
-          elsif unit[1][1,1]=='m'
-            unit[5][i]='Troubadour (Butler, Strategist)'
-          elsif unit[1][1,1]=='f'
-            unit[5][i]='Troubadour (Maid, Strategist)'
+      unless unit[1][2]=='T'
+        for i in 0...unit[5].length
+          clss22=unit[5][i]
+          clss22=gender_adjust(clss22,unit[1][1,1])
+          if clss22[0,10]=='Troubadour'
+            if unit[1][2,1]=='A'
+              unit[5][i]='Troubadour (War Cleric, Valkyrie)'
+            elsif unit[1][1,1]=='m'
+              unit[5][i]='Troubadour (Butler, Strategist)'
+            elsif unit[1][1,1]=='f'
+              unit[5][i]='Troubadour (Maid, Strategist)'
+            else
+              unit[5][i]='Troubadour (Servant, Strategist)'
+            end
           else
-            unit[5][i]='Troubadour (Servant, Strategist)'
+            unit[5][i]=clss22
+            m=@classes.find_index{|q| q[0]==clss22 && q[1][0,1]==unit[1][2,1]}
+            unit[5][i]="#{clss22} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
           end
-        else
-          unit[5][i]=clss22
-          m=@classes.find_index{|q| q[0]==clss22 && q[1][0,1]==unit[1][2,1]}
-          unit[5][i]="#{clss22} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
         end
       end
       unit[0]="**#{unit[0]}**"
@@ -3183,12 +3126,20 @@ end
 def get_mode(message)
   return "FEA!" if message[0,4].downcase=="fea!"
   return "FEA!" if message[0,5].downcase=="fe13!"
-  return "FEf!" if message[0,4].downcase=="fef!"
-  return "FEf!" if message[0,5].downcase=="fe14!"
   return "FEA!" if message[0,4].downcase=="fea?"
   return "FEA!" if message[0,5].downcase=="fe13?"
+  return "FEf!" if message[0,4].downcase=="fef!"
+  return "FEf!" if message[0,5].downcase=="fe14!"
   return "FEf!" if message[0,4].downcase=="fef?"
   return "FEf!" if message[0,5].downcase=="fe14?"
+  return "FE3H!" if message[0,3].downcase=="3h!"
+  return "FE3H!" if message[0,5].downcase=="fe3h!"
+  return "FE3H!" if message[0,5].downcase=="feth!"
+  return "FE3H!" if message[0,5].downcase=="fe16!"
+  return "FE3H!" if message[0,3].downcase=="3h?"
+  return "FE3H!" if message[0,5].downcase=="fe3h?"
+  return "FE3H!" if message[0,5].downcase=="feth?"
+  return "FE3H!" if message[0,5].downcase=="fe16?"
   return "FE!"
 end
 
@@ -3328,7 +3279,7 @@ def parse_job(event,args,bot,mde=0)
     f=find_unit(game,unit[0].gsub('**','').gsub('__','').split('!')[-1],event)
     if apt>0 && game==""
       apt=10
-      apt=20 if ["Awakening","*Awakening*"].include?(f[1])
+      apt=20 if ["A","T"].include?(f[1][2])
     end
     prf=@items.find_index{|q| !q[1].nil? && !q[3].nil? && q[3].gsub('*','')==f[0] && q[1][0].gsub('G','F')==f[1][2]}
     unless prf.nil?
@@ -3340,32 +3291,52 @@ def parse_job(event,args,bot,mde=0)
     text=""
     flds=[]
     m=['HP','Strength','Magic','Skill','Speed','Luck','Defense','Resistance']
-    f=[0,0]
+    m=['HP','Strength','Magic','Dexterity','Speed','Luck','Defense','Resistance','Charm'] if unit[1][2]=='T' || clss[1]=='Three Houses'
+    f=[0,0,0]
     flds=[["**Growth Rates**",[]],["**Maximum Stats**",[]]]
-    for i in 0...8
+    flds=[["**Growth Rates**",[]],["**Base Stats**",[]],["**Maximum Stats**",[]]] if unit[1][2]=='T'
+    for i in 0...m.length
+      unit[3][i]=0 if unit[3][i].nil?
+      unit[4][i]=0 if unit[4][i].nil?
+      clss[3][i]=0 if clss[3][i].nil?
+      clss[4][i]=0 if clss[4][i].nil?
+      clss[5][i]=0 if clss[5][i].nil?
       flds[0][1].push("*#{m[i]}:*  #{unit[3][i]+clss[3][i]+apt}%")
-      flds[1][1].push("*#{m[i]}:*  #{unit[4][i]+clss[4][i]}")
       f[0]+=unit[3][i]+clss[3][i]+apt
-      f[1]+=unit[4][i]+clss[4][i]
+      if unit[1][2]=='T' && clss[1]=='Three Houses'
+        flds[1][1].push("*#{m[i]}:*  #{[unit[4][i],clss[5][i]].max}")
+        f[1]+=[unit[4][i],clss[5][i]].max
+        flds[2][1].push("*#{m[i]}:*  #{unit[5][i]}")
+        f[2]+=unit[5][i]
+      elsif unit[1][2]=='T'
+        flds[1][1].push("*#{m[i]}:*  #{[unit[4][i],clss[5][i]].max}")
+        f[1]+=[unit[4][i],clss[5][i]].max
+        flds[2][1].push("*#{m[i]}:*  #{(unit[5][i]+clss[4][i])/2}")
+        f[2]+=(unit[5][i]+clss[4][i])/2
+      elsif clss[1]=='Three Houses'
+        flds[1][1].push("*#{m[i]}:*  #{unit[4][i]+clss[4][i]*5/2}")
+        f[1]+=unit[4][i]+clss[4][i]*5/2
+      else
+        flds[1][1].push("*#{m[i]}:*  #{unit[4][i]+clss[4][i]}")
+        f[1]+=unit[4][i]+clss[4][i]
+      end
     end
-    flds[0][1].push('')
-    flds[1][1].push('')
-    flds[0][1].push("*Total:*  #{f[0]}%")
-    flds[1][1].push("*Total:*  #{f[1]}")
-    flds[0][1]=flds[0][1].join("\n")
-    flds[1][1]=flds[1][1].join("\n")
+    for i in 0...flds.length
+      flds[i][1].push('')
+      flds[i][1].push("*Total:*  #{f[i]}#{'%' if i==0}")
+      flds[i][1]=flds[i][1].join("\n")
+    end
     unless prf.nil?
-      if clss[9].find_index{|q| q[0]==prf[2][0]}.nil?
+      if clss[9].find_index{|q| q[0]==prf[2][0] || (prf[2][0]=='Tomes' && ['Reason','Faith'].include?(q[0]))}.nil? && !(clss[1]=='Three Houses' && prf[2][0]!='Tomes')
         text="#{text}\n#{unit[0].gsub('**','').gsub('__','').split('!')[-1]} cannot use #{prf[0]} in the #{gender_adjust(clss[0],unit[1][1,1],true,g)} class"
       else
         text="#{text}\n#{unit[0].gsub('**','').gsub('__','').split('!')[-1]} can use #{prf[0]} in the #{gender_adjust(clss[0],unit[1][1,1],true,g)} class"
       end
     end
     text="#{text}\n~~Please note that stat maximums do not account for statue bonuses~~" unless g=="Awakening"
-    xcolor=embed_color_x(unit[2],clss)
+    xcolor=embed_color_x(unit[2],clss,g)
     unless unit[1]=="Cross-game child"
-      xcolor=0x010101 if clss[1]=="Awakening" && !unit[2].include?("Awakening")
-      xcolor=0x010101 if clss[1]!="Awakening" && unit[2].include?("Awakening")
+      xcolor=0x02010A if clss[1][0]!=unit[1][2]
     end
     xstats=find_stats_in_string(event)
     game=game_proc(event)
@@ -3508,7 +3479,7 @@ def skill_parse(event,bot,args)
         if m[0]=='-'
           sB.push("possible personal skill for Bond Units")
         else
-          if bob4[1]=='Fates' || bob4[1]=='Gates' || (bob4[1]=="Fateswakening" && ['Fates','Gates'].include?(game))
+          if bob4[1]=='Fates' || bob4[1]=='Gates' || bob4[1]=='Three Houses' || (bob4[1]=="Fateswakening" && ['Fates','Gates'].include?(game))
             sB.push("#{m[0]}'s personal skill")
           elsif bob4[1]=='Awakening' || (bob4[1]=="Fateswakening" && game=="Awakening")
             sB.push("#{m[0]}'s unique skill (can be passed to Morgan)")
@@ -3720,6 +3691,8 @@ def get_unit_list(event,bot,args)
   games=[]
   games2=[]
   games2x=[]
+  games3=[]
+  games3x=[]
   blood=[]
   for i in 0...args.length
     generations.push("1") if ['1','1st','1stgen','1st-gen','1st_gen','gen1','gen-1','gen_1','firstgen','first-gen','first_gen'].include?(args[i].downcase)
@@ -3730,6 +3703,7 @@ def get_unit_list(event,bot,args)
     genders.push('c') if ['avatar'].include?(args[i].downcase)
     games.push("A") if ['FE13', 'Awakening', 'FEA', 'FE:A'].map{|q| q.downcase}.include?(args[i].downcase)
     games.push("F") if ['FE14', 'if', 'FEif', 'FE:if', 'FE:f', 'FEf', 'Fates'].map{|q| q.downcase}.include?(args[i].downcase)
+    games.push("T") if ['FE16', 'ThreeHouses', 'Three', 'Houses', 'House', '3H'].map{|q| q.downcase}.include?(args[i].downcase)
     games2.push("b") if ['FE14b', 'Birthright', 'Hoshido', 'FE14r', 'Revelation', 'Revelations'].map{|q| q.downcase}.include?(args[i].downcase)
     games2x.push("Birthright") if ['FE14b', 'Birthright', 'Hoshido'].map{|q| q.downcase}.include?(args[i].downcase)
     games2.push("B") if ['FE14b', 'Birthright', 'Hoshido'].map{|q| q.downcase}.include?(args[i].downcase)
@@ -3748,6 +3722,8 @@ def get_unit_list(event,bot,args)
   games.uniq!
   games2.uniq!
   games2x.uniq!
+  games3.uniq!
+  games3x.uniq!
   generations.uniq!
   genders.uniq!
   blood.uniq!
@@ -3757,6 +3733,7 @@ def get_unit_list(event,bot,args)
   m=untz.map{|q| q}
   untz=[]
   for i in 0...m.length
+    m[i][0]=m[i][0].split(' ')[0] if m[i][1][2]=='T' && m[i][0]!='Ferdinand von Aegir'
     m[i][0]="#{m[i][0]} *[Amiibo]*" if m[i][2].downcase.include?('amiibo')
     m[i][0]="#{m[i][0]} *[Capturable]*" if m[i][2].downcase.include?('capturable')
     untz.push(m[i])
@@ -3790,13 +3767,15 @@ def get_unit_list(event,bot,args)
     untz[i][0]=untz[i][0].gsub(' *[generation varies]* *[gender varies]*',' *[varies]*')
     untz[i][0]="*Awakening*!#{untz[i][0]}" if untz[i][0]=='Anna' && untz[i][1][2,1]=='A' && games.length != 1
     untz[i][0]="*Fates*!#{untz[i][0]}" if untz[i][0]=='Anna' && untz[i][1][2,1]=='F' && games.length != 1
+    untz[i][0]="*3H*!#{untz[i][0]}" if untz[i][0]=='Anna' && untz[i][1][2,1]=='T' && games.length != 1
   end
   untz=untz.reject{|q| !games.include?(q[1][2,1])} if games.length>0
   untz=untz.reject{|q| q[1][2,1]=='F' && !games2.include?(q[1][3,1])} if games2.length>0
+  untz=untz.reject{|q| q[1][2,1]=='T' && !games3.include?(q[1][3,1])} if games3.length>0
   untz=untz.reject{|q| !blood.include?(q[1][4,1])} if blood.length>0
   untz=untz.sort{|a,b| a[0]<=>b[0]}
   dispstr=[]
-  dispstr.push("*Games:* #{'Awakening' if games.include?('A')}#{', ' if games.length>1}#{"Fates#{" (#{games2x.join(', ')})" if games2x.length>0}" if games.include?('F')}") if games.length>0
+  dispstr.push("*Games:* #{'Awakening' if games.include?('A')}#{', ' if games.length>1}#{"Fates#{" (#{games2x.join(', ')})" if games2x.length>0}" if games.include?('F')}#{', ' if games.include?('F') && games.include?('T')}#{"Three Houses#{" (#{games3x.join(', ')})" if games3x.length>0}" if games.include?('T')}") if games.length>0
   dispstr.push("*Generations:* #{generations.map{|q| ['','1st Gen','2nd Gen','3rd Gen'][q.to_i]}.join(', ')}") if generations.length>0
   for i in 0...genders.length
     genders[i]='Male' if genders[i]=='m'
@@ -3804,7 +3783,7 @@ def get_unit_list(event,bot,args)
     genders[i]='Avatar or kid' if genders[i]=='c'
   end
   dispstr.push("*Genders:* #{genders.join(', ')}") if genders.length>0
-  dispstr.push("*Dragon Blood:* #{blood.join(', ')}") if blood.length>0
+  dispstr.push("*Holy Powers:* #{blood.join(', ')}") if blood.length>0
   xcolor=0x02010a
   xcolor=0x061069 if games.length==1 && games[0]=='A'
   if games.length==1 && games[0]=='F'
@@ -3814,21 +3793,38 @@ def get_unit_list(event,bot,args)
     xcolor=0xCF000D if games2x.length==1 && games2x[0]=='Birthright'
     xcolor=0xAA7FCD if games2x.length==1 && games2x[0]=='Conquest'
     xcolor=0xFFEA8B if games2x.length==1 && games2x[0]=='Gates'
+  elsif games.length==1 && games[0]=='T'
+    xcolor=0x2D6864
+    xcolor=0x7D171F if games3x.length==1 && games3x[0]=='Black Eagles'
+    xcolor=0x4B4E9B if games3x.length==1 && games3x[0]=='Blue Lions'
+    xcolor=0x897A04 if games3x.length==1 && games3x[0]=='Golden Deer'
+    xcolor=0x565562 if games3x.length==1 && games3x[0]=='x'
   end
   flds=nil
   if untz.map{|q| q[1][2,1]}.uniq.length>1
     flds=[]
     flds.push(['*Awakening*',untz.reject{|q| q[1][2,1]!='A'}.map{|q| q[0]}.uniq.join("\n")])
     flds.push(['*Fates*',untz.reject{|q| q[1][2,1]!='F'}.map{|q| q[0]}.uniq.join("\n")])
+    flds.push(['*Three Houses*',untz.reject{|q| q[1][2,1]!='T'}.map{|q| q[0]}.uniq.join("\n")])
   elsif untz.map{|q| q[1][2,1]}.uniq.length<=1 && untz.map{|q| q[1][2,1]}[0]=='F' && untz.map{|q| q[1][3,1]}.uniq.length>1 && games2x.length != 1
     flds=[]
     flds.push(['*Birthright*',untz.reject{|q| !['b','B','r','e'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['B','e'].include?(q[1][3,1])}"}.uniq.join("\n")])
     flds.push(['*Conquest*',untz.reject{|q| !['c','C','r','e'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['C','e'].include?(q[1][3,1])}"}.uniq.join("\n")])
     flds.push(['*Revelations*-exclusive',untz.reject{|q| !['R'].include?(q[1][3,1])}.map{|q| q[0]}.uniq.join("\n")])
-    flds=flds.reject{|q| q[1].length<=0}
+  elsif untz.map{|q| q[1][2,1]}.uniq.length<=1 && untz.map{|q| q[1][2,1]}[0]=='T' && untz.map{|q| q[1][3,1]}.uniq.length>1 && games2x.length != 1
+    flds=[]
+    flds2=[]
+    flds.push(['Black Eagles',untz.reject{|q| !['r','R','x'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['R'].include?(q[1][3,1])}"}.uniq.join("\n")])
+    flds.push(['Blue Lions',untz.reject{|q| !['b','B','x'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['B'].include?(q[1][3,1])}"}.uniq.join("\n")])
+    flds.push(['Golden Deer',untz.reject{|q| !['y','Y','x'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['Y'].include?(q[1][3,1])}"}.uniq.join("\n")])
+    flds2.push(['Church of Seiros',untz.reject{|q| !['c','C'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['C'].include?(q[1][3,1])}"}.uniq.join("\n")])
+    flds2.push(['Knights of Seiros',untz.reject{|q| !['k','K'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['K'].include?(q[1][3,1])}"}.uniq.join("\n")])
+    flds2.push(['---',untz.reject{|q| !['X'].include?(q[1][3,1])}.map{|q| q[0]}.uniq.join("\n")])
+    flds.push(['Miscellaneous',flds2.reject{|q| q[1].length<=0}.map{|q| "__**#{q[0]}**__\n#{q[1]}"}.join("\n\n")])
   else
     flds=triple_finish(untz.map{|q| q[0]}.uniq) unless untz.length<=0
   end
+  flds=flds.reject{|q| q[1].length<=0}
   create_embed(event,"#{"__**Search**__\n#{dispstr.join("\n")}\n\n" if dispstr.length>0}__**Results**__",'',xcolor,"#{untz.map{|q| q[0]}.uniq.length} total",nil,flds)
 end
 
@@ -4245,9 +4241,11 @@ def disp_aliases(bot,event,args=nil,mode=0)
     n=n.reject{|q| q[2].nil?} if mode==1
     n=n.reject{|q| !q[2].include?(event.server.id)} if mode==1 && !event.server.nil?
     for i1 in 0...unit.length
-      u=find_unit(game,unit[i1][0],event)[0]
+      uu=find_unit(game,unit[i1][0],event)
+      u=uu[0]
       f.push("__**#{u.gsub('_','\\_')}**#{"'s server-specific aliases" if mode==1}__")
       f.push(u.gsub('_','\\_').gsub('(','').gsub(')','')) if u.include?('(') || u.include?(')')
+      f.push(u.split(' ')[0]) if u.split(' ').length>1 && uu[1][2]=='T'
       for i in 0...n.length
         p=""
         n2=n[i][1]
@@ -4395,10 +4393,18 @@ def bday_order(bot,event=nil,mode=0)
       untz[i][1]='Fates'
     elsif untz[i][1][2]=='A'
       untz[i][1]='Awakening'
+    elsif untz[i][1][2]=='T'
+      untz[i][1]='Three Houses'
     else
       untz[i][1]='Unknown'
     end
     untz[i][0]="*#{untz[i][1]}*!Anna" if mode==1 && untz[i][0]=='Anna'
+    untz[i][0]="*3H*!Anna" if untz[i][0]=="*Three Houses*!Anna"
+    untz[i][0]=untz[i][0].split(' ')[0] if untz[i][1]=='Three Houses' && untz[i][0]!='Ferdinand von Aegir'
+    if untz[i][1]=='Three Houses' && untz[i][8].length>=3
+      untz[i][8].push(untz[i][8][0]+839)
+      untz[i][8].shift
+    end
     if t.month>untz[i][8][0]
       untz[i][8].unshift(t.year+1)
     elsif t.month==untz[i][8][0] && t.day>untz[i][8][1]
@@ -4406,7 +4412,7 @@ def bday_order(bot,event=nil,mode=0)
     else
       untz[i][8].unshift(t.year)
     end
-    untz[i]=[untz[i][8][0],untz[i][8][1],untz[i][8][2],untz[i][0],untz[i][1]]
+    untz[i]=[untz[i][8][0], untz[i][8][1], untz[i][8][2], untz[i][0], untz[i][1], untz[i][8][3]]
     untz[i]=nil if untz[i][3]=='Lucina' && untz[i][4]=='Fates'
   end
   y=t.year
@@ -4417,18 +4423,20 @@ def bday_order(bot,event=nil,mode=0)
   return untz
 end
 
-bot.command([:bday,:birthday,:bdays,:birthdays]) do |event|
+def bday_text(event,bot)
   untz=bday_order(bot,event)
   t=Time.now
   msg='__**Upcoming birthdays**__'
   ftz=untz.reject{|q| q[4]!='Fates'}
   gtz=untz.reject{|q| q[4]!='Gates'}
   awk=untz.reject{|q| q[4]!='Awakening'}
-  unk=untz.reject{|q| ['Fates','Gates','Awakening'].include?(q[4])}
+  thz=untz.reject{|q| q[4]!='Three Houses'}
+  unk=untz.reject{|q| ['Fates','Gates','Awakening','Three Houses'].include?(q[4])}
   unk=unk.reject{|q| q[4]=='Real Life'} unless @shardizard==4 || event.user.id==167657750971547648
   unless safe_to_spam?(event)
     ftz=ftz[0,8]
     awk=awk[0,8]
+    thz=thz[0,8]
     gtz=gtz[0,[gtz.length,8].min]
     unk=unk[0,[unk.length,3].min]
   end
@@ -4446,6 +4454,12 @@ bot.command([:bday,:birthday,:bdays,:birthdays]) do |event|
       msg=extend_message(msg,"**#{gtz[i][3]}** - #{gtz[i][2]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][gtz[i][1]]}#{" #{gtz[i][0]}" unless gtz[i][0]==t.year}",event)
     end
   end
+  if thz.length>0
+    msg=extend_message(msg,'__*Three Houses*__',event,2)
+    for i in 0...thz.length
+      msg=extend_message(msg,"**#{thz[i][3]}** - #{thz[i][2]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][thz[i][1]]}#{" #{thz[i][0]}" unless thz[i][0]==t.year}#{" - will become #{thz[i][0]-thz[i][5]} years old" unless thz[i][5].nil? || thz[i][5]<=0}",event)
+    end
+  end
   if unk.length>0
     msg=extend_message(msg,'__Other__',event,2)
     for i in 0...unk.length
@@ -4453,17 +4467,26 @@ bot.command([:bday,:birthday,:bdays,:birthdays]) do |event|
     end
   end
   event.respond msg
+  return nil
+end
+
+bot.command([:bday,:birthday,:bdays,:birthdays]) do |event|
+  return nil if overlap_prevent(event)
+  bday_text(event,bot)
 end
 
 bot.command([:find, :sort, :list, :search]) do |event, *args|
+  return nil if overlap_prevent(event)
   get_unit_list(event,bot,args)
 end
 
 bot.command([:embeds,:embed]) do |event|
+  return nil if overlap_prevent(event)
   embedless_swap(bot,event)
 end
 
 bot.command([:gay,:homosexuality,:homo]) do |event, m|
+  return nil if overlap_prevent(event)
   if event.server.nil?
     event.respond "This command cannot be used in a PM"
     return nil
@@ -4492,6 +4515,7 @@ bot.command([:gay,:homosexuality,:homo]) do |event, m|
 end
 
 bot.command([:sibling,:incest,:wincest]) do |event, m|
+  return nil if overlap_prevent(event)
   if event.server.nil?
     event.respond "This command cannot be used in a PM"
     return nil
@@ -4519,10 +4543,12 @@ bot.command([:sibling,:incest,:wincest]) do |event, m|
 end
 
 bot.command([:bugreport, :suggestion, :feedback]) do |event, *args|
+  return nil if overlap_prevent(event)
   bug_report(bot,event,args,3,['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'],'Alliance',@prefix)
 end
 
 bot.command(:prefix) do |event, prefix|
+  return nil if overlap_prevent(event)
   if prefix.nil?
     event.respond 'No prefix was defined.  Try again'
     return nil
@@ -4542,24 +4568,29 @@ bot.command(:prefix) do |event, prefix|
 end
 
 bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
+  return nil if overlap_prevent(event)
   add_new_alias(bot,event,newname,unit,modifier,modifier2)
   return nil
 end
 
 bot.command(:alias) do |event, newname, unit, modifier, modifier2|
+  return nil if overlap_prevent(event)
   add_new_alias(bot,event,newname,unit,modifier,modifier2,1)
   return nil
 end
 
 bot.command([:checkaliases,:aliases,:seealiases]) do |event, *args|
+  return nil if overlap_prevent(event)
   disp_aliases(bot,event,args)
 end
 
 bot.command([:serveraliases,:saliases]) do |event, *args|
+  return nil if overlap_prevent(event)
   disp_aliases(bot,event,args,1)
 end
 
 bot.command([:deletealias,:removealias]) do |event, name|
+  return nil if overlap_prevent(event)
   game=game_proc(event)
   game="Fates" if game.length<=0
   nicknames_load()
@@ -4637,6 +4668,7 @@ bot.command([:deletealias,:removealias]) do |event, name|
 end
 
 bot.command(:invite) do |event, user|
+  return nil if overlap_prevent(event)
   usr=event.user
   txt="**You can invite me to your server with this link: <https://goo.gl/v3ADBG>**\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nTo follow my creator's development Twitter and learn of updates: <https://twitter.com/EliseBotDev>\nIf you suggested me to server mods and they ask what I do, show them this image: https://raw.githubusercontent.com/Rot8erConeX/FEIndex/master/FEIndex/MarketingRobin.png"
   user_to_name="you"
@@ -4656,10 +4688,15 @@ bot.command(:invite) do |event, user|
 end
 
 bot.command(:proc) do |event, *args|
+  return nil if overlap_prevent(event)
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   game=game_proc(event)
   game="Fates" if game.length<=0
+  if game=="Three Houses"
+    event.respond "There is only one offensive proc skill in 3H: Lethality.  This command is therefore useless.  Switching to Fates' mechanics."
+    game="Fates"
+  end
   stat=0
   bob=false
   if args.nil?
@@ -4773,19 +4810,23 @@ bot.command(:proc) do |event, *args|
 end
 
 bot.command([:unit,:character,:char,:chara]) do |event, *args|
+  return nil if overlap_prevent(event)
   args=splice(event)
   unit_parse(event,bot,args)
 end
 
 bot.command(:class) do |event, *args|
+  return nil if overlap_prevent(event)
   class_parse(event,bot,args)
 end
 
 bot.command(:skill) do |event, *args|
+  return nil if overlap_prevent(event)
   skill_parse(event,bot,args)
 end
 
 bot.command(:marry) do |event, name1, name2|
+  return nil if overlap_prevent(event)
   bob1=find_unit("Fates",name1,event)
   bob2=find_unit("Fates",name2,event)
   name1=bob1[0] if bob1
@@ -4823,10 +4864,9 @@ bot.command(:marry) do |event, name1, name2|
     return nil
   elsif [name1,name2].include?("Corrin") || [name1,name2].include?("Robin")
   elsif bob1[1][0,1]!=bob2[1][0,1]
-    puts "oops"
     event.respond "#{name1} and #{name2} cannot marry as they are of different generations"
     return nil
-  elsif bob1[1][1,1]==bob2[1][1,1] && !homosexuality_filter?(event)
+  elsif bob1[1][1,1]==bob2[1][1,1] && !homosexuality_filter?(event) && !(@gay_canon.include?(name1) && @gay_canon.include?(name2))
     event.respond "#{name1} and #{name2} cannot marry as they are the same gender"
     return nil
   elsif !incest_filter?(event)
@@ -4857,6 +4897,12 @@ bot.command(:marry) do |event, name1, name2|
     elsif [name1,name2].include?("Inigo") && [name1,name2].include?("Soleil")
       event.respond "#{name1} and #{name2} cannot marry as they are father and daughter"
       return nil
+    elsif [name1,name2].include?("Seteth") && [name1,name2].include?("Flayn")
+      event.respond "#{name1} and #{name2} cannot marry as they are father and daughter"
+      return nil
+    elsif [name1,name2].include?("Gilbert Pronislav") && [name1,name2].include?("Annette Fantine Dominic")
+      event.respond "#{name1} and #{name2} cannot marry as they are father and daughter"
+      return nil
     end
   end
   if bob1[0]=="GSO" && name2=="Corrin"
@@ -4872,41 +4918,45 @@ bot.command(:marry) do |event, name1, name2|
   end
   p1=0
   p2=0
-  if bob1[1][2,1]=="A"
+  if ['A','T'].include?(bob1[1][2,1])
   elsif ["Villager",gender_adjust("Nohr Royal",bob1[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob2[6][p1],bob1[1][1,1]).split(' (')[0])
     p1=1
   end
-  if gender_adjust(bob2[6][p1],bob1[1][1,1]).split(' (')[0]==bob1[6][0].split(' (')[0]
-    p1+=1
-  end
-  if bob2[1][2,1]=="A"
+  p1+=1 if gender_adjust(bob2[6][p1],bob1[1][1,1]).split(' (')[0]==bob1[6][0].split(' (')[0]
+  if ['A','T'].include?(bob2[1][2,1])
   elsif ["Villager",gender_adjust("Nohr Royal",bob2[1][1,1]),"Kitsune","Ailuran","Wolfskin","Astral Dragon","Taguel (F)","Taguel (M)","Manakete","Lord","Villager"].include?(gender_adjust(bob1[6][p1],bob2[1][1,1]).split(' (')[0])
     p2=1
   end
-  if gender_adjust(bob1[6][p2],bob2[1][1,1]).split(' (')[0]==bob2[6][0].split(' (')[0]
-    p2+=1
-  end
+  p2+=1 if gender_adjust(bob1[6][p2],bob2[1][1,1]).split(' (')[0]==bob2[6][0].split(' (')[0]
   ps1=gender_adjust(bob2[6][p1],bob1[1][1,1])
   m=@classes.find_index{|q| q[0]==ps1 && q[1][0,1]==bob2[1][2,1]}
   ps1="#{ps1} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
   ps2=gender_adjust(bob1[6][p2],bob2[1][1,1])
   m=@classes.find_index{|q| q[0]==ps2 && q[1][0,1]==bob1[1][2,1]}
   ps2="#{ps2} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
-  if bob1[1][2,1]=="A"
+  if bob1[1][2,1]=="A" || bob1[1][2,1]=="T"
+    name1=name1.split(' ')[0] unless bob1[1][2,1]=="A" || name1=='Ferdinand von Aegir'
     event << "#{name1} cannot get a Partner Seal option."
   elsif ps1.nil? || ps1=="" || ps1==" "
     event << "#{name1} is cheated out of a Partner Seal option."
   else
     event << "#{name1}'s Partner Seal option becomes: #{ps1}"
   end
-  if bob2[1][2,1]=="A"
+  if bob2[1][2,1]=="A" || bob2[1][2,1]=="T"
+    name2=name2.split(' ')[0] unless bob1[1][2,1]=="A" || name2=='Ferdinand von Aegir'
     event << "#{name2} cannot get a Partner Seal option."
   elsif ps2.nil? || ps2=="" || ps2==" "
     event << "#{name2} is cheated out of a Partner Seal option."
   else
     event << "#{name2}'s Partner Seal option becomes: #{ps2}"
   end
-  if !get_child(name1,bob2[1][1,1],event).nil? && !get_child(name2,bob1[1][1,1],event).nil?
+  if bob1[1][1]==bob2[1][1] && !homosexuality_filter?(event)
+    if get_child(name1,bob2[1][1,1],event)=="Portia"
+      event << "#{name2}!#{get_child(name1,bob2[1][1,1],event)} is built"
+    elsif get_child(name2,bob1[1][1,1],event)=="Portia"
+      event << "#{name1}!#{get_child(name2,bob1[1][1,1],event)} is built"
+    end
+  elsif !get_child(name1,bob2[1][1,1],event).nil? && !get_child(name2,bob1[1][1,1],event).nil?
     if get_child(name1,bob2[1][1,1],event)=="Portia"
       event << "#{name2}!#{get_child(name1,bob2[1][1,1],event)} is built"
       event << "#{name1}!#{get_child(name2,bob1[1][1,1],event)} is born"
@@ -4927,6 +4977,8 @@ bot.command(:marry) do |event, name1, name2|
   end
   if [name1,name2].include?('Takumi') && [name1,name2].include?('Azura')
     event << "My developer becomes happy that someone else ships best *Fates* ship."
+  elsif [name1,name2].include?('Felix') && [name1,name2].include?('Annette')
+    event << "My developer becomes happy that someone else ships best *Three Houses* ship."
   elsif [name1,name2].include?("Soleil") || name1[name1.length-7,7]=='!Soleil' || name2[name2.length-7,7]=='!Soleil'
     if [name1,name2].include?("Ophelia") || name1[name1.length-8,8]=='!Ophelia' || name2[name2.length-8,8]=='!Ophelia'
       event << "Magical lesbian shenanigans ensue."
@@ -4937,15 +4989,18 @@ bot.command(:marry) do |event, name1, name2|
 end
 
 bot.command([:item,:weapon]) do |event, *args|
+  return nil if overlap_prevent(event)
   item_parse(event,bot,args)
 end
 
 bot.command([:job, :data, :stats]) do |event, *args|
+  return nil if overlap_prevent(event)
   parse_job(event,args,bot,0)
   return nil
 end
 
-bot.command(:levelup) do |event, *args|
+bot.command([:levelup, :level]) do |event, *args|
+  return nil if overlap_prevent(event)
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   game=game_proc(event)
@@ -4963,23 +5018,32 @@ bot.command(:levelup) do |event, *args|
   mem=f[3]
   g=f[4]
   ### displaying data ###
-  unit=["default","1cX","",[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],"",""] if unit.nil? # no unit defined
-  clss=["default","","",[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]] if clss.nil? # no class defined
-  disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
-  if disp=="__**Maid**!**Micro Mermaid Megankarp**__" && rand(3).zero?
-    fullname="__**Micro Meido Magikarp Mermaid Megan**__"
+  unit=["default","1cX","",[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],"",""] if unit.nil? # no unit defined
+  clss=["default","","X",[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]] if clss.nil? # no class defined
+  disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}"
+  if disp=="__**Maid**!**Micro Mermaid Megankarp**" && rand(3).zero?
+    fullname="__**Micro Meido Magikarp Mermaid Megan**"
   else
     fullname=disp
   end
+  fullname="#{fullname} *(with Aptitude)*" if apt>0
+  fullname="#{fullname}__"
   if apt>0 && game==""
-    f=find_unit(game,kidname,event)
     apt=10
-    apt=20 if ["Awakening","*Awakening*"].include?(f[1])
+    apt=20 if unit[1][2]=='A'
+    apt=20 if unit[1][2]=='T'
   end
+  fgame='Fates'
+  fgame='X' if unit[1][2]=='X'
+  fgame='Awakening' if unit[1][2]=='A'
+  fgame='Three Houses' if unit[1][2]=='T'
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
+  b=["HP","Strength","Magic","Dexterity","Speed","Luck","Defense","Resistance","Charm"] if unit[1][2]=='T'
   text=""
   f=0
-  for i in 0...8
+  for i in 0...b.length
+    unit[3][i]=0 if unit[3][i].nil?
+    clss[3][i]=0 if clss[3][i].nil?
     x=unit[3][i].to_i+clss[3][i].to_i+apt
     y=x/100
     x=x%100
@@ -4988,24 +5052,20 @@ bot.command(:levelup) do |event, *args|
     text="#{text}\n#{b[i]} went up by #{y}" if y>0
     f+=1 if y>0
   end
-  if text.length==0
-    text='No stats increased'
-  end
+  text='No stats increased' if text.length==0
   foot=['bad level-up','okay level-up','decent level-up','amazing level-up']
   if f>5
     f=foot[3]
   else
     f=foot[f/2]
   end
-  xcolor=embed_color(unit[2])
-  unless unit[2]=="Cross-game child"
-    xcolor=0x010101 if clss[1]=="Awakening" && !unit[2].include?("Awakening")
-    xcolor=0x010101 if clss[1]!="Awakening" && unit[2].include?("Awakening")
-  end
+  xcolor=embed_color_x(unit[2],clss,fgame)
+  xcolor=0x010101 if unit[2]!="Cross-game child" && clss[1][0]!=unit[1][2]
   create_embed(event,fullname,text,xcolor,f)
 end
 
 bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
+  return nil if overlap_prevent(event)
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   game=game_proc(event)
@@ -5035,63 +5095,57 @@ bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
   apt=f[2]
   mem=f[3]
   g=f[4]
+  disp=''
   if level==0
-    event.respond "No level was given, showing promotion to level 18."
+    disp="No level was given, showing promotion to level 18."
     level=18
   elsif level > 27
-    event.respond "#{level} is being interpreted as a chapter number, which means the promotion would be to level #{(level-18)*2}\nOr rather, this would be the case if Chapter #{level} existed.  Showing promotion to level 18."
+    disp="#{level} is being interpreted as a chapter number, which means the promotion would be to level #{(level-18)*2}\nOr rather, this would be the case if Chapter #{level} existed.  Showing promotion to level 18."
     level=18
   elsif level > 18 
-    event.respond "#{level} is being interpreted as a chapter number,\nwhich means the promotion would be to level #{(level-18)*2}."
+    disp="#{level} is being interpreted as a chapter number,\nwhich means the promotion would be to level #{(level-18)*2}."
     level=(level-18)*2 
   else 
-    event.respond "#{level} is being interpreted as the level being promoted to."
+    disp="#{level} is being interpreted as the level being promoted to."
   end
   ### displaying data ###
-  unit=["default","1cX","",[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],"",""] if unit.nil? # no unit defined
+  unit=["default","1cX","",[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],"",""] if unit.nil? # no unit defined
   if unit[1][0,1].to_i==1
     event.respond "#{unit[0].gsub('*','')}, as a first-gen unit, cannot use an Offspring Seal."
     return nil
   end
-  clss=["default","","",[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]] if clss.nil? # no class defined
-  disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__"
+  clss=["default","","",[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]] if clss.nil? # no class defined
+  disp="__**#{gender_adjust(clss[0],unit[1][1,1],true,g).gsub(' (C)','')}**!#{unit[0]}__\n#{disp}"
   if apt>0 && game==""
-    f=find_unit(game,kidname,event)
     apt=10
-    apt=20 if ["Awakening","*Awakening*"].include?(f[1])
+    apt=20 if unit[1][2]=='A'
+    apt=20 if unit[1][2]=='T'
   end
+  fgame='Fates'
+  fgame='X' if unit[1][2]=='X'
+  fgame='Awakening' if unit[1][2]=='A'
+  fgame='Three Houses' if unit[1][2]=='T'
   base_clss=@classes[@classes.find_index{|q| q[0]==unit[6][0] && q[1][0,1]==unit[1][2,1]}]
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
+  b=["HP","Strength","Magic","Dexterity","Speed","Luck","Defense","Resistance","Charm"] if unit[1][2]=='T'
   text=""
   f=0
-  for i in 0...8
+  for i in 0...b.length
+    unit[3][i]=0 if unit[3][i].nil?
+    clss[3][i]=0 if clss[3][i].nil?
     x=unit[3][i].to_i+clss[3][i].to_i+apt
     y=x*level/100+clss[5][i].to_i-base_clss[5][i].to_i
     text="#{text}\n#{b[i]} went up by #{y}" if y>0
     f+=1 if y>0
   end
-  if text.length==0
-    text='No stats increased'
-  end
-  xcolor=embed_color(unit[2])
-  unless unit[2]=="Cross-game child"
-    xcolor=0x010101 if clss[1]=="Awakening" && !unit[2].include?("Awakening")
-    xcolor=0x010101 if clss[1]!="Awakening" && unit[2].include?("Awakening")
-  end
+  text='No stats increased' if text.length==0
+  xcolor=embed_color(unit[2],fgame)
+  xcolor=0x010101 if unit[2]!="Cross-game child" && clss[1][0]!=unit[1][2]
   create_embed(event,disp,text,xcolor)
 end
 
-bot.command([:faq,:FAQ]) do |event, inp|
-  if ["echoes","shadows","valentia"].include?(inp.downcase)
-    create_embed(event,"FAQ #1: Will the bot be updated with info from *Fire Emblem Echoes: Shadows of Valentia*?","In *Fire Emblem: Awakening* and *Fire Emblem Fates*, growths came mostly from the character and stat maximums came mostly from the class, but both character and class had fingers in both pies.  In *Fire Emblem Echoes: Shadows of Valentia*, much like the game it is based on, *Fire Emblem: Gaiden*, growths and maximum stats __both come fully from the character, with nothing coming from the class__.  This meant that while in *Awakening* and *Fates* it made sense to need to calculate what a specific character looked like in a specific class, with *Shadows of Valentia* it is merely a matter of looking up the character.\n\nIn *Awakening* and *Fates*, there was a mechanic which involved characters getting married and having kids, with the kids' stats being affected by their \"variable\" parents'.  This mechanic does not exist in *Shadows of Valentia*.\n\nTheoretically, I could just add the data for SoV characters to the bot and have them all be treated as first-gens, but due to characters' \"stat modifiers\" being replaced with \"stat maximums\", this would result in really bizarre cross-game kids.",0xff8040,"A: No, it will not")
-  elsif ["masterseal","heartseal","secondseal","seals"].include?(inp.downcase)
-    create_embed(event,"FAQ #2: You added Offspring Seal calculations to the bot.  Will you add the Master/Heart/Second Seal as well?","The way the Offspring Seal works is based off the kids' default classes.  Other Seals would need two classes listed - the class you're changing __from__ and the class you're changing __to__.  Even the Master Seal requires two classes - if promoting to Hero, are you coming from Mercenary or Fighter?\n\nDue to technical limitations regarding to how commands parse multi-word inputs, listing two or more classes is not possible.",0xff8040,"A: No, I will not")
-  elsif ["lucina","robin","anna","characters"].include?(inp.downcase)
-    create_embed(event,"FAQ #3: Certain characters exist in both *Fire Emblem: Awakening* and *Fire Emblem Fates*.  How does the bot handle that?","Generally, the rule of thumb is \"in *Awakening* Mode, it shows the *Awakening* version of the character; in *Fates* Mode, it shows the *Fates* version of the character\", just like is the case with classes, items, and skills.  However, this does not cover Fluid Mode.  In Fluid Mode, the bot will display all relevant info for both versions of classes, skills, and items, but it will show only one version of a character.\n- Selena/Severa, Odin/Owain, and Laslow/Inigo exist in both games, but under a different name in each.  Use the name they use in the game you wish to see info from.  (These three are brought up because you can use their *Awakening* names in *Fates* Mode and get their *Fates* selves.)\n- Cordelia, Gaius, and Tharja are not the same characters as Caeldori, Asugi, and Rhajat, and are not treated as such.\n- Chrom, Lissa, and Frederick exist in *Fates* but don't have growths, so their *Fates* selves aren't in the bot's data\n- Robin defaults to being an avatar character, as seen in *Awakening*, but becomes an Amiibo as seen in *Fates* if listed alongside a *Fates* kid.\n- Corrin defaults to being an avatar character, as seen in *Fates*, but becomes hir default self if listed alongside an *Awakening* kid.\n- Anna defaults to being an Outlaw, but you can invoke a specific Anna by typing either `Awakening!Anna` or `Fates!Anna`.\n- Lucina defaults to being her Amiibo self as seen in *Fates*, but will become a second-gen unit as seen in *Awakening* if you list another first-gen unit beside her.  (Due to this, you can make Amiibo!Lucina be Awakening!Lucina's mother).",0xff8040)
-  end
-end
-
 bot.command(:backupaliases) do |event|
+  return nil if overlap_prevent(event)
   return nil unless event.user.id==167657750971547648
   nicknames_load()
   @names.uniq!
@@ -5112,6 +5166,7 @@ bot.command(:backupaliases) do |event|
 end
 
 bot.command(:restorealiases) do |event|
+  return nil if overlap_prevent(event)
   return nil unless [167657750971547648,bot.profile.id].include?(event.user.id) || event.channel.id==386658080257212417
   bot.gateway.check_heartbeat_acks = false
   if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FENames2.txt")
@@ -5146,6 +5201,7 @@ bot.command(:restorealiases) do |event|
 end
 
 bot.command(:sortaliases) do |event|
+  return nil if overlap_prevent(event)
   return nil unless [167657750971547648,bot.profile.id].include?(event.user.id) || event.channel.id==386658080257212417
   nicknames_load()
   @names.uniq!
@@ -5159,6 +5215,7 @@ bot.command(:sortaliases) do |event|
 end
 
 bot.command(:snagstats) do |event, f| # snags the number of members in each of the servers Robin is in
+  return nil if overlap_prevent(event)
   nicknames_load()
   metadata_load()
   bot.servers.values(&:members)
@@ -5602,6 +5659,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
 end
 
 bot.command([:shard,:alliance]) do |event, i|
+  return nil if overlap_prevent(event)
   if i.to_i.to_s==i && i.to_i.is_a?(Bignum) && @shardizard != 4
     srv=(bot.server(i.to_i) rescue nil)
     if srv.nil? || bot.user(304652483299377182).on(srv.id).nil?
@@ -5662,6 +5720,7 @@ bot.command([:safe,:spam,:safetospam,:safe2spam,:long,:longreplies]) do |event, 
 end
 
 bot.command([:channellist,:chanelist,:spamchannels,:spamlist]) do |event|
+  return nil if overlap_prevent(event)
   if event.server.nil?
     event.respond "Yes, it is safe to spam here."
     return nil
@@ -5679,22 +5738,27 @@ bot.command([:channellist,:chanelist,:spamchannels,:spamlist]) do |event|
 end
 
 bot.command(:sendpm, from: 167657750971547648) do |event, user_id, *args| # sends a PM to a specific user
+  return nil if overlap_prevent(event)
   dev_pm(bot,event,user_id)
 end
 
 bot.command(:ignoreuser, from: 167657750971547648) do |event, user_id| # causes Robin to ignore the specified user
+  return nil if overlap_prevent(event)
   bliss_mode(bot,event,user_id)
 end
 
 bot.command(:sendmessage, from: 167657750971547648) do |event, channel_id, *args| # sends a message to a specific channel
+  return nil if overlap_prevent(event)
   dev_message(bot,event,channel_id)
 end
 
 bot.command(:leaveserver, from: 167657750971547648) do |event, server_id| # forces Robin to leave a server
+  return nil if overlap_prevent(event)
   walk_away(bot,event,server_id)
 end
 
 bot.command([:donation, :donate]) do |event, uid|
+  return nil if overlap_prevent(event)
   uid="#{event.user.id}" if uid.nil? || uid.length.zero?
   if /<@!?(?:\d+)>/ =~ uid
     uid=event.message.mentions[0].id
@@ -5800,7 +5864,8 @@ end
 
 bot.message do |event|
   str=event.message.text.downcase
-  if (['feh!','feh?'].include?(str[0,4]) || ['f?','e?','h?'].include?(str[0,2])) && @shardizard==4 && (event.server.nil? || event.server.id==285663217261477889)
+  if overlap_prevent(event)
+  elsif (['feh!','feh?'].include?(str[0,4]) || ['f?','e?','h?'].include?(str[0,2])) && @shardizard==4 && (event.server.nil? || event.server.id==285663217261477889)
     s=event.message.text.downcase
     s=s[2,s.length-2] if ['f?','e?','h?'].include?(event.message.text.downcase[0,2])
     s=s[4,s.length-4] if ['feh!','feh?'].include?(event.message.text.downcase[0,4])
@@ -5837,7 +5902,7 @@ bot.message do |event|
     elsif !bot.user(206147275775279104).on(event.server.id).nil? || @shardizard==4 || event.server.id==330850148261298176 # Pokedex
       triple_weakness(bot,event)
     end
-  elsif ['fea!','fef!','fea?','fef?'].include?(str[0,4]) || ['fe13!','fe14!','fe13?','fe14?'].include?(str[0,5]) || ['fe!','fe?'].include?(str[0,3]) || (!event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0 && @prefixes[event.server.id].downcase==event.message.text.downcase[0,@prefixes[event.server.id].length])
+  elsif ['fea!','fef!','fea?','fef?'].include?(str[0,4]) || ['fe13!','fe14!','fe16!','fe13?','fe14?','fe16?','fe3h!','fe3h?','feth!','feth?'].include?(str[0,5]) || ['fe!','fe?','3h!','3h?'].include?(str[0,3]) || (!event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0 && @prefixes[event.server.id].downcase==event.message.text.downcase[0,@prefixes[event.server.id].length])
     str=str[4,str.length-4] if ['fea!','fef!','fea?','fef?'].include?(str[0,4])
     str=str[5,str.length-5] if ['fe13!','fe14!','fe13?','fe14?'].include?(str[0,5])
     str=str[3,str.length-3] if ['fe!','fe?'].include?(str[0,3])
@@ -5884,6 +5949,10 @@ bot.mention do |event|
   if ['help','commands','command_list','commandlist'].include?(args[0].downcase)
     args.shift
     help_text(event,bot,args[0],args[1])
+    m=1
+  elsif ['birthday','bday'].include?(args[0].downcase)
+    args.shift
+    bday_text(event,bot)
     m=1
   elsif ['unit','character','chara','char'].include?(args[0].downcase)
     args.shift
@@ -5933,7 +6002,7 @@ def next_birthday(bot,mode=0)
   chn=285663217261477889 if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
-  return nil if t.year==2019 && t.month==10 && t.day==21
+  return nil if t.year==2019 && t.month==11 && t.day==24
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
   m=0
   if t.hour<10
