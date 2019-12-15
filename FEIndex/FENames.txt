@@ -12,6 +12,8 @@
 ["Unit", "Berka", "Beruka"]
 ["Unit", "Bredy", "Brady"]
 ["Unit", "Buredi", "Brady"]
+["Unit", "Bylad", "Byleth"]
+["Unit", "Bylass", "Byleth"]
 ["Unit", "Matoi", "Caeldori"]
 ["Unit", "Riceload", "Caeldori"]
 ["Unit", "Boobs", "Camilla", [412303462764773376]]

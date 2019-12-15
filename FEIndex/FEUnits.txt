@@ -169,7 +169,7 @@ Flayn\1fTc\unavailable in Crimson Flower\25, 25, 55, 45, 35, 15, 25, 50, 45\24, 
 Cyril\1mTc\unavailable in Crimson Flower\35, 20, 15, 40, 40, 30, 10, 10, 15\24, 7, 4, 6, 6, 6, 5, 2, 4\85, 55, 48, 78, 76, 66, 45, 41, 48\Commoner\Aptitude\10/25\\Lance, Axe, Bow, Riding, Flying\Reason, Faith\\
 Jeralt Reus Eisner\1mTK\Cutscene only\50, 45, 20, 45, 40, 25, 35, 35, 35\29, 8, 4, 6, 4, 5, 6, 5, 6\94, 64, 30, 62, 54, 40, 49, 48, 49\Paladin\Blade Breaker\\Seiros\Lance, Authority, Riding\\\
 Catherine\1fTk\unavailable in Crimson Flower\50, 50, 25, 40, 55, 30, 30, 20, 25\27, 8, 5, 6, 7, 6, 5, 2, 4\92, 70, 36, 56, 75, 43, 42, 37, 35\Swordmaster\Fighting Spirit\1152/9/15\Charon\Sword, Brawling\Reason\\
-Alois Rangeld\1mTk\unavailable in Crimson Flower\45, 45, 20, 35, 40, 30, 40, 20, 40\28, 9, 4, 5, 6, 5, 5, 2, 7\86, 71, 33, 48, 56, 42, 55, 37, 57\Warrior\Compassion\1135/1/12\\Axe, Brawling, Armor\Reason, Flying\\
+Alois Rangeld\1mTk\Available in all routes\45, 45, 20, 35, 40, 30, 40, 20, 40\28, 9, 4, 5, 6, 5, 5, 2, 7\86, 71, 33, 48, 56, 42, 55, 37, 57\Warrior\Compassion\1135/1/12\\Axe, Brawling, Armor\Reason, Flying\\
 Gilbert Pronislav\1mTk\exclusive to Azure Moon\55, 45, 20, 45, 30, 15, 45, 10, 35\30, 9, 4, 6, 5, 4, 5, 2, 6\101, 65, 35, 62, 42, 40, 61, 35, 49\Fortress Knight\Veteran Knight\1124/1/25\\Lance, Axe, Armor, Riding\\\
 Shamir Nevrand\1fTk\Available in all routes\35, 40, 20, 55, 40, 55, 20, 15, 30\26, 8, 4, 7, 6, 8, 5, 2, 6\71, 58, 35, 75, 56, 76, 37, 35, 43\Sniper\Survival Instinct\1155/3/27\\Lance, Bow\Faith\\
 Anna\1fTx\DLC Character\35, 35, 35, 45, 55, 45, 30, 40, 50\26, 7, 7, 7, 7, 7, 5, 7, 7\68, 55, 49, 76, 65, 75, 44, 49, 60\Myrmidon\Business Propensity\6/9\Ernest\Sword, Axe, Bow, Faith\Reason, Authority\Riding\
