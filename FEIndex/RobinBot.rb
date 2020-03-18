@@ -80,11 +80,17 @@ bot.gateway.check_heartbeat_acks = false
         ["Unit", "Tacomeme", "Takumi"],["Unit", "Sallya", "Tharja"],["Unit", "Sariya", "Tharja"],["Unit", "Sarya", "Tharja"],["Unit", "Chiki", "Tiki"],
         ["Unit", "Vake", "Vaike"],["Unit", "Veiku", "Vaike"],["Unit", "Wyck", "Vaike"],["Unit", "Velour", "Velouria"],["Unit", "Viaur", "Virion"],
         ["Unit", "Viole", "Virion"],["Unit", "Vioru", "Virion"],["Unit", "Marx", "Xander"],["Unit", "Chambray", "Yarne"],["Unit", "Shanbure", "Yarne"],
+        ["Unit", "Annie", "Annette Fantine Dominic"],["Unit", "Bernadetta", "Bernie"],["Unit", "BernadettavonVarley", "Bernie"],
+        ["Unit", "Hubie", "Hubert von Vestra"],["Unit", "Lindhart", "Linhardt von Hevring"],["Unit", "Linhart", "Linhardt von Hevring"],
+        ["Unit", "Lyndhart", "Linhardt von Hevring"],["Unit", "Lynhardt", "Linhardt von Hevring"],["Unit", "Lynhart", "Linhardt von Hevring"],
+        ["Unit", "Mariana", "Marianne von Edmund"],["Unit", "Mariane", "Marianne von Edmund"],["Unit", "Marianna", "Marianne von Edmund"],
+        ["Unit", "Edie", "Edelgard von Hresvelg"],["Unit", "Lin", "Linhardt von Hevring"],["Unit", "Ferdie", "Ferdinand von Aegir"],
+        ["Unit", "Caspie", "Caspar von Bergliez"],["Class", "Invisible Dragon", "Silent Dragon"],["Class", "Familiar", "Empty Vessel"],
         ["Class", "Axe Fighter", "Fighter"],["Class", "Dark Prince", "Nohr Prince"],["Class", "Dark Princess", "Nohr Princess"],
         ["Class", "Dark Royal", "Nohr Royal"],["Class", "Dark Blood", "Nohr Noble"],["Class", "Light Blood", "Hoshido Noble"],
         ["Class", "Dragon Knight", "Wyvern Rider"],["Class", "Dragon Master", "Wyvern Lord"],["Class", "Revanant Knight", "Malig Knight"],
         ["Class", "Rod Knight", "Troubadour"],["Class", "Singer", "Songstress"],["Class", "Golem", "Stoneborn"],["Class", "Dark Lord", "Nohrian King"],
-        ["Class", "Dark Dragon", "Blight Dragon"],["Class", "Invisible Dragon", "Silent Dragon"],["Class", "Familiar", "Empty Vessel"]]
+        ["Class", "Dark Dragon", "Blight Dragon"]]
 @predetermined_parents=[["Azura","Shigure"],["Jakob","Dwyer"],["Ryoma","Shiro"],["Takumi","Kiragi"],["Hinata","Hisame"],["Saizo","Asugi"],
                         ["Xander","Siegbert"],["Leo","Forrest"],["Benny","Ignatius"],["Arthur","Percy"],["Kaze","Midori"],["Silas","Sophie"],
                         ["Subaki","Caeldori"],["Azama","Mitama"],["Kaden","Selkie"],["Hayato","Rhajat"],["Niles","Nina"],["Odin","Ophelia"],
@@ -92,13 +98,15 @@ bot.gateway.check_heartbeat_acks = false
                         ["Miriel","Laurent"],["Panne","Yarne"],["Nowi","Nah"],["Tharja","Noire"],["Olivia","Inigo"],["Cherche","Gerome"],
                         ["Bluezie","Elentil"],["Dizzy","DizJr"],["Rudyard","Gaotora"],["Megan","Portia"],["Steel","Fauna"],["Draco","Oregano"],
                         ["GSO","Ocarina"],["Cherche","Gerome"],["Erich","Synn"],["Dwight","Gella"],["Sheldon","Xavier"]]
-@gay_canon=["Niles","Linhardt","Linhardt von Hevring","Edelgard","Edelgard von Hresvelg","Dorothea","Dorothea Arnault","Mercedes","Mercedes von Martritz","Megan"]
+@gay_canon=["Niles","Linhardt","Linhardt von Hevring","Edelgard","Edelgard von Hresvelg","Dorothea","Dorothea Arnault","Mercedes","Mercedes von Martritz",
+            "Megan"]
 @units=[]
 @skills=[]
 @supports=[]
 @items=[]
 @classes=[]
 @crests=[]
+@combat_arts=[]
 @homo_servers=[]
 @incest_servers=[]
 @server_data2=[]
@@ -113,7 +121,7 @@ def all_commands(include_nil=false,permissions=-1)
      'reboot','help','sendpm','ignoreuser','sendmessage','leaveserver','stats','backupaliases','sortaliases','deletealias','checkaliases','aliases','embeds',
      'snagchannels','shard','alliance','restorealiases','chara','char','donate','donation','find','search','sort','list','saliases','serveraliases','bday',
      'birthday','safe','spam','safetospam','safe2spam','longreplies','channellist','long','channelist','spamlist','spamchannels','prefix','birthdays','bdays',
-     'status','avvie','avatar','level','ability','abil','marriage','support']
+     'status','avvie','avatar','level','ability','abil','marriage','support','crest','combat','art','arts','combatart','combatarts']
   if permissions==0
     k=all_commands(false)-all_commands(false,1)-all_commands(false,2)
   elsif permissions==1
@@ -221,6 +229,20 @@ def data_load()
     b[i][2]=b[i][2].split(', ').map{|q| q.to_i}
   end
   @crests=b.map{|q| q}
+  # COMBAT ART DATA
+  if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FECombatArts.txt")
+    b=[]
+    File.open("C:/Users/#{@mash}/Desktop/devkit/FECombatArts.txt").each_line do |line|
+      b.push(line.gsub("\n",''))
+    end
+  else
+    b=[]
+  end
+  for i in 0...b.length
+    b[i]=b[i].gsub("\n",'').split('\\'[0])
+    b[i][2]=b[i][2].split(', ')
+  end
+  @combat_arts=b.map{|q| q}
   # SUPPORT DATA
   if File.exist?("C:/Users/#{@mash}/Desktop/devkit/FESupports.txt")
     b=[]
@@ -276,10 +298,15 @@ def nicknames_load()
        ["Unit","Sarya","Tharja"],["Unit","Chiki","Tiki"],["Unit","Vake","Vaike"],["Unit","Veiku","Vaike"],["Unit","Wyck","Vaike"],["Unit","Velour","Velouria"],
        ["Unit","Viaur","Virion"],["Unit","Viole","Virion"],["Unit","Vioru","Virion"],["Unit","Marx","Xander"],["Unit","Chambray","Yarne"],
        ["Unit","Shanbure","Yarne"],["Class","Axe Fighter","Fighter"],["Class","Dark Prince","Nohr Prince"],["Class","Dark Princess","Nohr Princess"],
-       ["Class","Dark Royal","Nohr Royal"],["Class","Dark Blood","Nohr Noble"],["Class","Light Blood","Hoshido Noble"],
+       ["Unit","Annie","Annette Fantine Dominic"],["Unit","Bernadetta","Bernie"],["Unit","BernadettavonVarley","Bernie"],
+       ["Unit","Hubie","Hubert von Vestra"],["Unit","Lindhart","Linhardt von Hevring"],["Unit","Linhart","Linhardt von Hevring"],
+       ["Unit","Lyndhart","Linhardt von Hevring"],["Unit","Lynhardt","Linhardt von Hevring"],["Unit","Lynhart","Linhardt von Hevring"],
+       ["Unit","Mariana","Marianne von Edmund"],["Unit","Mariane","Marianne von Edmund"],["Unit","Marianna","Marianne von Edmund"],
+       ["Unit","Edie","Edelgard von Hresvelg"],["Unit","Lin","Linhardt von Hevring"],["Unit","Ferdie","Ferdinand von Aegir"],
+       ["Unit","Caspie","Caspar von Bergliez"],["Class","Invisible Dragon","Silent Dragon"],["Class","Familiar","Empty Vessel"],
+       ["Class","Dark Royal","Nohr Royal"],["Class","Dark Blood","Nohr Noble"],["Class","Light Blood","Hoshido Noble"],["Class","Rod Knight","Troubadour"],
        ["Class","Dragon Knight","Wyvern Rider"],["Class","Dragon Master","Wyvern Lord"],["Class","Revanant Knight","Malig Knight"],
-       ["Class","Rod Knight","Troubadour"],["Class","Singer","Songstress"],["Class","Golem","Stoneborn"],["Class","Dark Lord","Nohrian King"],
-       ["Class","Dark Dragon","Blight Dragon"],["Class","Invisible Dragon","Silent Dragon"],["Class","Familiar","Empty Vessel"]]
+       ["Class","Singer","Songstress"],["Class","Golem","Stoneborn"],["Class","Dark Lord","Nohrian King"],["Class","Dark Dragon","Blight Dragon"]]
   end
   @names=b.uniq
 end
@@ -354,10 +381,16 @@ def help_text(event,bot,command=nil,subcommand=nil)
     event.respond "The `#{command.downcase}` command displays this message:"
     command=''
   end
+  game=game_proc(event)
+  xcolor=0x02010a
+  xcolor=avg_color([0x061069,0xC5EEF2,0x2D6864])
+  xcolor=0x061069 if game=='Awakening'
+  xcolor=0xC5EEF2 if game=='Fates'
+  xcolor=0x2D6864 if game=='Three Houses'
   if command.downcase=="mode"
-    create_embed(event,"__***Awakening*** **mode**__","- Forced by using the command prefixes `FEA!` `FEA?` `FE13!` `FE13?`\n- Kids' growths are calculated via (mom + dad + kid default)/3\n- Kids inherit all classes from their variable parent\n- Lucina is a second-generation unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Trickster.  The Outlaw Anna can still be invoked via the string 'Fates!Anna'\n- Corrin shows with default stats\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, and Vengeance\n- Vengeance procs at (Skill*2)%",0x061069)
-    create_embed(event,"__***Fates*** **mode**__","- Forced by using the command prefixes `FEF!` `FEF?` `FE14!` `FE14?`\n- Kids' growths are calculated via (variable parent + kid default)/2\n- Kids inherit only their variable parent's first new class\n- Lucina is an Amiibo character and treated as a first-gen unit\n- Robin is an Amiibo character\n- Anna is an Outlaw.  The Trickster Anna can still be invoked via the string 'Awakening!Anna'\n- Corrin is an avatar character, which can be edited by including stats in your message\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, Dragon Fang, Rend Heaven and Vengeance\n- Vengeance procs at (Skill*3/2)%",0xC5EEF2)
-    create_embed(event,"__***Three Houses*** **mode**__","- Forced by using the command prefixes `3H!` `3H?` `FE16!` `FE16?`\n- Lucina is an Amiibo character and treated as a first-gen unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Noble.  The other Annas can still be invoked via the string 'Awakening!Anna' and 'Fates!Anna'\n- Corrin is an avatar character, which can be edited by including stats in your message\n- No proc skills are available",0x2D6864)
+    create_embed(event,"__***Awakening*** **mode**__","- Forced by using the command prefixes `FEA!` `FEA?` `FE13!` `FE13?`\n- Kids' growths are calculated via (mom + dad + kid default)/3\n- Kids inherit all classes from their variable parent\n- Lucina is a second-generation unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Trickster.  The Outlaw and Noble Annas can still be invoked via the strings 'Fates!Anna' and '3H!Anna'\n- Corrin shows with default stats\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, and Vengeance\n- Vengeance procs at (Skill*2)%",0x061069)
+    create_embed(event,"__***Fates*** **mode**__","- Forced by using the command prefixes `FEF!` `FEF?` `FE14!` `FE14?`\n- Kids' growths are calculated via (variable parent + kid default)/2\n- Kids inherit only their variable parent's first new class\n- Lucina is an Amiibo character and treated as a first-gen unit\n- Robin is an Amiibo character\n- Anna is an Outlaw.  The Trickster and Noble Annas can still be invoked via the strings 'Awakening!Anna' and '3H!Anna'\n- Corrin is an avatar character, which can be edited by including stats in your message\n- Available proc skills include: Aether, Astra, Lethality, Sol, Luna, Ignis, Dragon Fang, Rend Heaven and Vengeance\n- Vengeance procs at (Skill*3/2)%",0xC5EEF2)
+    create_embed(event,"__***Three Houses*** **mode**__","- Forced by using the command prefixes `3H!` `3H?` `FE16!` `FE16?`\n- Lucina is an Amiibo character and treated as a first-gen unit\n- Robin is an avatar character, which can be edited by including stats in your message\n- Anna is a Noble.  The Trickster and Outlaw Annas can still be invoked via the strings 'Awakening!Anna' and 'Fates!Anna'\n- Corrin is an avatar character, which can be edited by including stats in your message\n- No proc skills are available",0x2D6864)
     create_embed(event,"__**Fluid mode**__","- Forced by using the command prefixes `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n- Lucina defaults to being an Amiibo character, but becomes a second-gen unit if a first-gen unit is listed alongside her\n- Robin is an Amiibo character, unless stats are included in your message and you are not invoking Kana\n- Anna defaults to being a Noble.  'Fates!Anna' and 'Awakening!Anna' can be used to distinguish\n- Corrin is shown with default stats, unless stats are included in your message and you are not invoking Morgan\n- Kids will be calculated via the mode that matches their game of origin, regardless of the game of origin of the variable parent (this means that when calculating Felicia!Lucina!Kana, Felicia!Lucina will be calculated in *Awakening* mode and the result would be used in a *Fates* mode calculation as the mother of a female Kana)\n- When using the `data` command to find a character's growths in a class that is in multiple games, the version from the game the character originates from will be used\n- When using the `class` command to look at a class that exists in multiple games, all applicable versions will be displayed\n- When using the `item`/`weapon` command to look at a weapon that exists in multiple games, all applicable versions will be displayed\n- When using the `skill` command to look at a skill that exists in multiple games and behaves differently in each, all applicable versions will be displayed",0x010101)
   elsif ['status','avatar','avvie'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}**","Shows my current avatar, status, and reason for such.\n\nWhen used by my developer with a message following it, sets my status to that message.",0xD49F61)
@@ -395,7 +428,7 @@ def help_text(event,bot,command=nil,subcommand=nil)
       create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the number of units sorted in each of the following ways:\nGeneration (in PM)\nGender\nGame of Origin",0x40C0F0)
     elsif ['class','classes'].include?(subcommand.downcase)
       create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the number of classes sorted in each of the following ways:\nGame of origin\nCountry of origin (in PM)",0x40C0F0)
-    elsif ['skills','skill','weapon','weapons','assist','assists','special','specials','passive','passives'].include?(subcommand.downcase)
+    elsif ['skills','skill','ability','abilities','abilitys'].include?(subcommand.downcase)
       create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the number of skills sorted in each of the following ways:\nGame of origin\nMethod of obtaining the skill",0x40C0F0)
     elsif ['item','items','weapons','weapon'].include?(subcommand.downcase)
       create_embed(event,"**#{command.downcase} #{subcommand.downcase}**","Returns the number of items sorted in each of the following ways:\nGame of origin\nWeapon type (in PM)\nWeapon rank required (in PM)\nAvailablity",0x40C0F0)
@@ -413,59 +446,74 @@ def help_text(event,bot,command=nil,subcommand=nil)
   elsif command.downcase=='invite'
     create_embed(event,'**invite**',"PMs the invoker with a link to invite me to their server.",0x40C0F0)
   elsif ['unit','char','chara','character'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __name1__ __name2__ __name3__","parses the names listed to create a unit, whose stats are then displayed\nIf one unit is listed, displays that unit's default stats\nIf two units are listed, uses the first-gen to create a specialized kid\nIf three units are listed, uses the first-gen to create a specialized second-gen which is used to create a super-specialized Kana/Morgan\n\nUnits can be listed in any order.  The command will arrange them correctly.\nIf multiple units from the same generation are listed, the command will use the first listed and ignore all others\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x02010a)
+    create_embed(event,"**#{command.downcase}** __name1__ __name2__ __name3__","parses the names listed to create a unit, whose stats are then displayed\nIf one unit is listed, displays that unit's default stats\nIf two units are listed, uses the first-gen to create a specialized kid\nIf three units are listed, uses the first-gen to create a specialized second-gen which is used to create a super-specialized Kana/Morgan\n\nUnits can be listed in any order.  The command will arrange them correctly.\nIf multiple units from the same generation are listed, the command will use the first listed and ignore all others\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",xcolor)
   elsif ["shard","alliance"].include?(command.downcase)
-    create_embed(event,'**shard**',"Returns the shard that this server is served by, labeled as if it was an alliance between a country in *Awakening* with a country in *Fates*.",0x02010a)
+    create_embed(event,'**shard**',"Returns the shard that this server is served by, labeled as if it was an alliance between a country in *Awakening* with a country in *Fates*.",xcolor)
   elsif ['backupaliases'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __item__","Backs up the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x02010a)
+    create_embed(event,"**#{command.downcase}** __item__","Backs up the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",xcolor)
   elsif ['restorealiases'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __item__","Restores the the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",0x02010a)
+    create_embed(event,"**#{command.downcase}** __item__","Restores the the alias list.\n\n**This command is only able to be used by Rot8er_ConeX**.",xcolor)
   elsif command.downcase=="class"
-    create_embed(event,"**class** __name__","displays the stats of the named class\n\nThis command informs you if you do not list a class.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x02010a)
+    create_embed(event,"**class** __name__","displays the stats of the named class\n\nThis command informs you if you do not list a class.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",xcolor)
   elsif ["data","job","stats"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** (string)","This command interprets the rest of your message as a single string whose beginning and end are searched for up to three character names and the remainder is assumed to be the name of a class\nFunctionally, this means that you can type out three names and a class, in any order\n`FE!#{command.downcase} Maid Corrin` is as valid as `FE!#{command.downcase} Corrin Maid`\n`FE!#{command.downcase} Sniper Azura Kiragi Kana` is as valid as `FE!#{command.downcase} Kiragi Azura Sniper Kana`\n\nSimilar to the `unit` command, this command figures out the generational order of the units listed and uses that to calculate the most accurate child.  If only one unit is listed, then the command uses that unit's default data.\nThe resulting unit is given the class specified, and the stats are displayed.\n\nIf no class is specified, this command is functionally identical to the `unit` command.\nIf no units are specified, this command is functionally identical to the `class` command.\nIf no class or units are specified, this command informs you of your mistake.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",0x02010a)
+    create_embed(event,"**#{command.downcase}** (string)","This command interprets the rest of your message as a single string whose beginning and end are searched for up to three character names and the remainder is assumed to be the name of a class\nFunctionally, this means that you can type out three names and a class, in any order\n`FE!#{command.downcase} Maid Corrin` is as valid as `FE!#{command.downcase} Corrin Maid`\n`FE!#{command.downcase} Sniper Azura Kiragi Kana` is as valid as `FE!#{command.downcase} Kiragi Azura Sniper Kana`\n\nSimilar to the `unit` command, this command figures out the generational order of the units listed and uses that to calculate the most accurate child.  If only one unit is listed, then the command uses that unit's default data.\nThe resulting unit is given the class specified, and the stats are displayed.\n\nIf no class is specified, this command is functionally identical to the `unit` command.\nIf no units are specified, this command is functionally identical to the `class` command.\nIf no class or units are specified, this command informs you of your mistake.\n\nIncluding the word \"Aptitude\" in your inputs will calculate the unit's growths as if they had the skill Aptitude",xcolor)
   elsif ['levelup','level'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** (string)","Much like the *data* command, this command parses the string into up to three unit names and a class name, which are then parsed together.\nThe result is then used to display a sample level-up, accounting for the combined growth rates.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust probability accordingly",0x02010a)
+    create_embed(event,"**#{command.downcase}** (string)","Much like the *data* command, this command parses the string into up to three unit names and a class name, which are then parsed together.\nThe result is then used to display a sample level-up, accounting for the combined growth rates.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust probability accordingly",xcolor)
   elsif ["offspringseal","childseal","offspring"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** (string)","Much like the *data* command, this command parses the string into up to three unit names, a class name, and a number\nNumbers between 1 and 18 are interpreted as a level to promote to, and numbers between 19 and 27 are interpreted as a chapter before which you use the seal\nThe level 20 (base class) child is then promoted to the resulting level using an Offspring Seal.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust growths (and therefore stat increases) accordingly",0x02010a)
+    create_embed(event,"**#{command.downcase}** (string)","Much like the *data* command, this command parses the string into up to three unit names, a class name, and a number\nNumbers between 1 and 18 are interpreted as a level to promote to, and numbers between 19 and 27 are interpreted as a chapter before which you use the seal\nThe level 20 (base class) child is then promoted to the resulting level using an Offspring Seal.\n\nIf no unit is listed, uses just the class's growths\nIf no class is listed, uses just the unit's growths\nNeither of the above possibilities will result in complete levels\n\nIncluding the word \"Aptitude\" in your message will adjust growths (and therefore stat increases) accordingly",xcolor)
   elsif ['skill','ability','abil'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __name__","Shows data on the skill/ability `name`, including what class or character learns it, and the trigger rate, if applicable",0x02010a)
+    create_embed(event,"**#{command.downcase}** __name__","Shows data on the skill/ability `name`, including what class or character learns it, and the trigger rate, if applicable",xcolor)
+  elsif ['combat','art','arts','combatart','combatarts'].include?(command.downcase)
+    create_embed(event,"**#{command.downcase}** __name__","Shows data on the combat art `name`.",xcolor)
+  elsif ['crest'].include?(command.downcase)
+    create_embed(event,"**#{command.downcase}** __name__","Shows data on the Crest `name`, including what units have it and what weapons/items are associated with it.\n\nNames of units with Crests, and items associated with Crests, can be used as inputs as well, and the output will be the proper Crest.",xcolor)
   elsif ["item","weapon"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __name__","Shows data on the item `name`, including the price, range, and hit rate, if applicable.",0x02010a)
+    create_embed(event,"**#{command.downcase}** __name__","Shows data on the item `name`, including the price, range, and hit rate, if applicable.",xcolor)
   elsif ["homosexuality","homo","gay"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __state__","Sets the homosexuality filter to `state`.\nIf `state` is not defined, toggles the current setting.\n\n**Allowed words**: On/Off, true/false, yes/no.",0x02010a)
+    create_embed(event,"**#{command.downcase}** __state__","Sets the homosexuality filter to `state`.\nIf `state` is not defined, toggles the current setting.\n\n**Allowed words**: On/Off, true/false, yes/no.",xcolor)
   elsif ["incest","wincest","sibling"].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __state__","Sets the incest filter to `state`.\nIf `state` is not defined, toggles the current setting.\n\n**Allowed words**: On/Off, true/false, yes/no.",0x02010a)
+    create_embed(event,"**#{command.downcase}** __state__","Sets the incest filter to `state`.\nIf `state` is not defined, toggles the current setting.\n\n**Allowed words**: On/Off, true/false, yes/no.",xcolor)
   elsif ['aliases','checkaliases','seealiases','alias'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __unit__","Responds with a list of all `unit`'s aliases.\nIf no unit is listed, responds with a list of all aliases and who they are for.\n\nPlease note that if more than 50 aliases are to be listed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",0x02010a)
+    create_embed(event,"**#{command.downcase}** __unit__","Responds with a list of all `unit`'s aliases.\nIf no unit is listed, responds with a list of all aliases and who they are for.\n\nPlease note that if more than 50 aliases are to be listed, I will - for the sake of the sanity of other server members - only allow you to use the command in PM.",xcolor)
   elsif ['deletealias','removealias'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** __alias__","Removes `alias` from the list of aliases, regardless of who/what it was for.\n\n**This command can only be used by server mods.**",0xC31C19)
   elsif ['bday','birthday','bdays','birthdays'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}**","Shows a list of unit birthdays, sorted by how soon they will come up.\n\nIn PM, shows the entire calendar.\nElsewhere, shows only the next eight for each game.",0x02010a)
+    create_embed(event,"**#{command.downcase}**","Shows a list of unit birthdays, sorted by how soon they will come up.\n\nIn PM, shows the entire calendar.\nElsewhere, shows only the next eight for each game.",xcolor)
   elsif command.downcase=='addalias'
     create_embed(event,'**addalias** __new alias__ __unit__',"Adds `new alias` to `name`'s aliases.\nIf the arguments are listed in the opposite order, the command will auto-switch them.\n\nAliases can be added to:\n- Units\n- Classes\n- Skills\n- Items/Weapons\n\nInforms you if the alias already belongs to someone/something.\nAlso informs you if the unit you wish to give the alias to does not exist.\n\n**This command can only be used by server mods.**",0xC31C19)
   elsif ['marry','marriage','support'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}** __name1__ __name2__","If at least one of the listed units is from *Awakening* or *Fates*, shows what the Partner Seal options would be for `name1` and `name2` if they were to marry each other.\nAlso shows the resulting children.\n\nIf all listed names are from *Three Houses*, shows you all the support chains that will get in the way of attaining `name1`'s paired ending with `name2`.\nIf only one *Three Houses* unit is listed, shows the priority for their paired endings.",0x02010a)
+    create_embed(event,"**#{command.downcase}** __name1__ __name2__","If at least one of the listed units is from *Awakening* or *Fates*, shows what the Partner Seal options would be for `name1` and `name2` if they were to marry each other.\nAlso shows the resulting children.\n\nIf all listed names are from *Three Houses*, shows you all the support chains that will get in the way of attaining `name1`'s paired ending with `name2`.\nIf only one unit is listed, and they are from *Three Houses*, this command shows the priority for their paired endings.",xcolor)
   elsif "proc"==command.downcase
-    create_embed(event,"**proc** __stat__ __list of skills__","Shows the likelihood of each of the listed skills proc'ing, given a unit's Skill stat is `stat`.\nIncluding the skills 'Hoshidan Unity' and/or 'Quixotic' will increases chances accordingly.\nIncluding the skill 'Nohrian Trust' allows you to have more than five skills listed.\n\nIf no Skill stat is listed, shows a random number between 1 and 64.\nIf no proc skills are listed, shows the list as if you have all possible proc skills.\n\nUsing a negative number as the Skill stat, crossing out one or more skill names, or including the word 'not' in your message will change the command to Reverse Mode.\nIn Reverse Mode, the listed skills will be *excluded* from the list of all proc skills, and the result will be the list of skills you have.",0x02010a)
+    create_embed(event,"**proc** __stat__ __list of skills__","Shows the likelihood of each of the listed skills proc'ing, given a unit's Skill stat is `stat`.\nIncluding the skills 'Hoshidan Unity' and/or 'Quixotic' will increases chances accordingly.\nIncluding the skill 'Nohrian Trust' allows you to have more than five skills listed.\n\nIf no Skill stat is listed, shows a random number between 1 and 64.\nIf no proc skills are listed, shows the list as if you have all possible proc skills.\n\nUsing a negative number as the Skill stat, crossing out one or more skill names, or including the word 'not' in your message will change the command to Reverse Mode.\nIn Reverse Mode, the listed skills will be *excluded* from the list of all proc skills, and the result will be the list of skills you have.",xcolor)
   else
+    x=0
+    x=1 unless safe_to_spam?(event)
+    if command.downcase=='here'
+      x=0
+      command=''
+    end
     event.respond("#{command.downcase} is not a command.") if command != ""
     str="__**Stats**__"
     str="#{str}\n`unit` __name1__ __name2__ __name3__ - to calculate a unit's bases without class (*also `character`*)"
     str="#{str}\n`class` __class name__ - to show a class's stats without a unit"
     str="#{str}\n`data` __\\*args__ - to show what a unit's stats are in a class (*also `job`*)"
     str="#{str}\n~~Adding the word \"aptitude\" to your inputs for the `unit`, `class`, and `data` commands will show the growths as if the unit had Aptitude~~"
-    str="#{str}\n\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)"
+    str="#{str}\n"
+    str="#{str}\n`offspringseal` __\\*args__ - to show what happens when you use an Offspring Seal on the character (*also `childseal`*)" unless ["Awakening","Three Houses"].include?(game)
     str="#{str}\n`levelup` __\\*args__ - performs a level up on the unit"
     str="#{str}\n\n__**Other data**__"
     str="#{str}\n`skill` __skill name__ - to display info on skills"
     str="#{str}\n`item` __item name__ - to display info on items and weapons (*also `weapon`*)"
-    str="#{str}\n`proc` __skill stat__ __\\*list of skills__ - to show proc probabilities"
+    unless ["Awakening","Fates"].include?(game)
+      str="#{str}\n`crest` __Crest name__ - to display info on Crests"
+      str="#{str}\n`combatart` __combat art name__ - to display info on Combat Arts"
+    end
+    str="#{str}\n\n`proc` __skill stat__ __\\*list of skills__ - to show proc probabilities"
     str="#{str}\n`marry` __name1__ __name2__ - to show what happens when units marry"
     str="#{str}\n`find` __\*filters__ - to search for units that fit specific criteria"
     str="#{str}\n`bday` - for a list of upcoming unit birthdays"
-    str="#{str}\n__**Filter Settings**__"
-    str="#{str}\n`homosexuality` __state__ - to decide if same-sex pairs are allowed (*also `gay` or `homo`*)"
+    str="#{str}\n\n__**Filter Settings**__"
+    str="#{str}\n`homosexuality` __state__ - to decide if non-canon same-sex pairs are allowed (*also `gay` or `homo`*)"
     str="#{str}\n`incest` __state__ - to decide if sibling marriages are allowed (*also `wincest` or `sibling`*)"
     str="#{str}\n\n__**Developer Information**__"
     str="#{str}\n`bugreport` __\\*message__"
@@ -473,7 +521,7 @@ def help_text(event,bot,command=nil,subcommand=nil)
     str="#{str}\n`feedback` __\\*message__"
     str="#{str}\n\n__**Meta Data**__"
     str="#{str}\n`shard` (*also `alliance`*)"
-    create_embed(event,"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\n*Three Houses* mechanics: `3H!` `3H?` `FE3H!` `FETH?` `FE16!` `FE16?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics",str,0x02010a)
+    create_embed([event,x],"**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\n*Three Houses* mechanics: `3H!` `3H?` `FE3H!` `FETH?` `FE16!` `FE16?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\nIn addition, you can use `#{get_mode(event.message.text)}help mode` to learn how the bot handles deciding between *Awakening* and *Fates* mechanics",str,xcolor)
     str="__**Aliases**__"
     str="#{str}\n`addalias` __new alias__ __target__ - Adds a new server-specific alias"
     str="#{str}\n~~`aliases` __target__ (*also `checkaliases` or `seealiases`*)~~"
@@ -481,7 +529,7 @@ def help_text(event,bot,command=nil,subcommand=nil)
     str="#{str}\n`deletealias` __alias__ (*also `removealias`*) - deletes a server-specific alias"
     str="#{str}\n\n__**Channels**__"
     str="#{str}\n`spam` __toggle__ - to allow the current channel to be safe to send long replies to (*also `safetospam` or `safe2spam`*)"
-    create_embed(event,"__**Server Admin Commands**__",str,0xC31C19) if is_mod?(event.user,event.server,event.channel)
+    create_embed([event,x],"__**Server Admin Commands**__",str,0xC31C19) if is_mod?(event.user,event.server,event.channel)
     str="__**Mjolnr, the Hammer**__"
     str="#{str}\n`ignoreuser` __user id number__ - makes me ignore a user"
     str="#{str}\n`leaveserver` __server id number__ - makes me leave a server"
@@ -496,8 +544,10 @@ def help_text(event,bot,command=nil,subcommand=nil)
     str="#{str}\n`backupaliases` - backs up the alias list"
     str="#{str}\n`restorealiases` - restores the alias list from last backup"
     str="#{str}\n`sort` - sorts the alias list by type of alias"
-    create_embed(event,"__**Bot Developer Commands**__",str,0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
-    event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\n*Three Houses* mechanics: `3H!` `3H?` `FE3H!` `FETH?` `FE16!` `FE16?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it."
+    create_embed([event,x],"__**Bot Developer Commands**__",str,0x008b8b) if (event.server.nil? || command.downcase=='devcommands') && event.user.id==167657750971547648
+    event.respond "If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\n*Three Houses* mechanics: `3H!` `3H?` `FE3H!` `FETH?` `FE16!` `FE16?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it." unless x==1
+    event.user.pm("If the you see the above message as only a few lines long, please use the command `#{get_mode(event.message.text)}embeds` to see my messages as plaintext instead of embeds.\n\n**Command Prefixes**\n*Awakening* mechanics: `FEA!` `FEA?` `FE13!` `FE13?`\n*Fates* mechanics: `FEF!` `FEF?` `FE14!` `FE14?`\n*Three Houses* mechanics: `3H!` `3H?` `FE3H!` `FETH?` `FE16!` `FE16?`\nDetermine mechanics contextually: `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n\nYou can also use \"`#{get_mode(event.message.text)}help` __command__\" to learn more about a specific command\n\nWhen you wish to see data about a unit, class, item, or skill, you can also @ mention me in a message with that object's name in it.") if x==1
+    event.respond "A PM has been sent to you.\nIf you would like to show the help list in this channel, please use the command `FE!help here`." if x==1
   end
 end
 
@@ -532,6 +582,7 @@ def embed_color(path,game='Fates')
     return 0x7D171F if path.downcase.include?('black eagles') || path.downcase=='exclusive to crimson flower'
     return 0x4B4E9B if path.downcase.include?('blue lions')
     return 0x897A04 if path.downcase.include?('golden deer')
+    return 0x8A8D94 if path.downcase.include?('ashen wolves')
     return 0x565562 if path.downcase=='exclusive to azure moon' || path.downcase=='cutscene only' || path.downcase=='unavailable in crimson flower'
     return 0x2D6864
   end
@@ -782,6 +833,14 @@ def gender_adjust(clss,gender,singleclass=false,game="Fates")
       else
         return "War Healer"
       end
+    elsif ["Battle Monk","Battle Cleric","Battle Healer"].include?(clss)
+      if gender=="m"
+        return "Battle Monk"
+      elsif gender=="f"
+        return "Battle Cleric"
+      else
+        return "Battle Healer"
+      end
     elsif "Great Master"==clss && gender=="f"
       return "Great Mistress"
     elsif "Great Mistress"==clss && gender=="m"
@@ -889,7 +948,7 @@ end
 def namecheck(name,event)
   game=game_proc(event)
   game="Fates" if game.length<=0
-  return name if ["awakening!anna","fates!anna","3H!Anna"].include?(name)
+  return name if ["awakening!anna","fates!anna","3h!anna"].include?(name)
   if name.include?("!")
     b=[]
     name.each_line("!") {|l| b.push(l)}
@@ -1197,12 +1256,74 @@ def find_class(name,event,game="",ignore=false)
   return nil
 end
 
+def x_find_crest(name,event,ignore=false)
+  return nil if name.nil?
+  return nil if !name.is_a?(String)
+  name=normalize(name)
+  return nil if name.length<3
+  if name.downcase.gsub(' ','').gsub('_','')[0,2]=="<:"
+    name=name.split(':')[1] unless x_find_class(name.split(':')[1],event,game).nil?
+  end
+  data_load()
+  for i in 0...@crests.length
+    return @crests[i] if name.downcase.gsub(' ','')==@crests[i][0].downcase.gsub(' ','')
+    return @crests[i] if name.downcase.gsub(' ','')==@crests[i][0].downcase.gsub('the ','').gsub(' ','')
+  end
+  return nil if ignore
+  for i in 0...@crests.length
+    return @crests[i] if name.downcase.gsub(' ','')==@crests[i][0].downcase.gsub(' ','')[0,name.length]
+    return @crests[i] if name.downcase.gsub(' ','')==@crests[i][0].downcase.gsub('the ','').gsub(' ','')[0,name.length]
+  end
+  return nil
+end
+
+def find_crest(name,event,ignore=false)
+  return x_find_crest(name,event,ignore) unless x_find_crest(name,event,ignore).nil?
+  if x_find_crest(name,event,ignore).nil?
+    args=name.split(' ')
+    for i in 0...args.length
+      return x_find_crest(args[i,args.length-i].join(' '),event,ignore) unless x_find_crest(args[i,args.length-i].join(' '),event,ignore).nil?
+    end
+  end
+  return nil
+end
+
+def x_find_combat_art(name,event,ignore=false)
+  return nil if name.nil?
+  return nil if !name.is_a?(String)
+  name=normalize(name)
+  return nil if name.length<3
+  if name.downcase.gsub(' ','').gsub('_','')[0,2]=="<:"
+    name=name.split(':')[1] unless x_find_class(name.split(':')[1],event,game).nil?
+  end
+  data_load()
+  for i in 0...@combat_arts.length
+    return @combat_arts[i] if name.downcase.gsub(' ','')==@combat_arts[i][0].downcase.gsub(' ','')
+  end
+  return nil if ignore
+  for i in 0...@combat_arts.length
+    return @combat_arts[i] if name.downcase.gsub(' ','')==@combat_arts[i][0].downcase.gsub(' ','')[0,name.length]
+  end
+  return nil
+end
+
+def find_combat_art(name,event,ignore=false)
+  return x_find_combat_art(name,event,ignore) unless x_find_combat_art(name,event,ignore).nil?
+  if x_find_combat_art(name,event,ignore).nil?
+    args=name.split(' ')
+    for i in 0...args.length
+      return x_find_combat_art(args[i,args.length-i].join(' '),event,ignore) unless x_find_combat_art(args[i,args.length-i].join(' '),event,ignore).nil?
+    end
+  end
+  return nil
+end
+
 def find_overlap(route1,route2,parentname=nil)
   data_load()
   return "Cross-game child" if route1.include?('Awakening') && !route2.include?('Awakening')
   return "Cross-game child" if !route1.include?('Awakening') && route2.include?('Awakening')
-  return "Cross-game child" if route1.include?('Black Eagles') || route1.include?('Blue Lions') || route1.include?('Golden Deer') || route1.include?('Azure Moon') || route1.include?('Crimson Flower') || route1.downcase.include?('cutscene only')
-  return "Cross-game child" if route2.include?('Black Eagles') || route2.include?('Blue Lions') || route2.include?('Golden Deer') || route2.include?('Azure Moon') || route2.include?('Crimson Flower') || route1.downcase.include?('cutscene only')
+  return "Cross-game child" if route1.include?('Black Eagles') || route1.include?('Blue Lions') || route1.include?('Golden Deer') || route1.include?('Ashen Wolves') || route1.include?('Azure Moon') || route1.include?('Crimson Flower') || route1.include?('Verdant Wind') || route1.include?('Silver Snow') || route1.include?('Cindered Shadows') || route1.downcase.include?('cutscene only')
+  return "Cross-game child" if route2.include?('Black Eagles') || route2.include?('Blue Lions') || route2.include?('Golden Deer') || route2.include?('Ashen Wolves') || route2.include?('Azure Moon') || route2.include?('Crimson Flower') || route2.include?('Verdant Wind') || route2.include?('Silver Snow') || route2.include?('Cindered Shadows') || route2.downcase.include?('cutscene only')
   return "Cross-game child" if ['Byleth','Sothis','Jeritza von Hrym','Rhea','Shamir Nevrand'].include?(parentname)
   route2="Exclusive to *Conquest*" if parentname.downcase=="gunter"
   if ["DLC Character","Amiibo Character"].include?(route1)
@@ -1564,6 +1685,11 @@ def create_kid(event,kidname,parent,kanaboost=1,bold=true,display=true)
     clss="#{clss} (#{@classes[m][7].join(', ')})" if !m.nil? && @classes[m][7].length>0
     bob4[5].push(clss)
     bob4[6].push(clss)
+  end
+  if @mom[1][2,1]=='T' && @mom[0].split(' ').length>1
+    @mom[0]=@mom[0].split(' ')
+    bob4[0]="#{bob4[0]} #{"#{@mom[0][@mom[0].length-2]} " if @mom[0][@mom[0].length-2]=='von'}#{@mom[0][@mom[0].length-1]}"
+    @mom[0]=@mom[0][0]
   end
   if bold
     bob4[0]="#{@mom[0]}!**#{bob4[0]}**"
@@ -2178,6 +2304,10 @@ def find_unit(game,name,event,disp=true,f3=false)
     name=name.split(':')[1] unless find_unit(game,name.split(':')[1],event,disp,f3).nil?
   end
   x=x_find_unit(game,name,event,disp,f3)
+  while !x.nil? && x[1][0,1].to_i.to_s != x[1][0,1]
+    data_load()
+    x=x_find_unit(game,name,event,disp,f3)
+  end
   unless x.nil?
     if game=='Awakening' && x[0]=='Lucina'
       x=@units[@units.find_index{|q| q[0]=='Lucina' && q[1][2,1]=='A'}]
@@ -2222,7 +2352,7 @@ def x_find_unit(xgame,name,event,disp=true,f3=false)
   return nil if name.length<3 && name.downcase != "me" && name.downcase != "mc" && name.downcase != "mu"
   return find_unit("Awakening","Anna",event) if "awakening!anna"==name.downcase
   return find_unit("Fates","Anna",event) if "fates!anna"==name.downcase
-  return find_unit("Three Houses","Anna",event) if "3H!anna"==name.downcase
+  return find_unit("Three Houses","Anna",event) if "3h!anna"==name.downcase
   return "Lilith" if "lilith"==name.downcase
   xgame="Awakening" if xgame=="" && name.downcase != "lucina" && name.downcase != "anna"
   return find_unit("Fates","Selena",event) if "severa"==name.downcase && xgame.downcase=="fates"
@@ -2474,7 +2604,14 @@ def unit_parse(event,bot,args)
         end
       end
       @bob[0]="Anna" if ["awakening!anna","fates!anna","3h!anna","anna"].include?(kidname.downcase)
-      @bob[0]="**#{@bob[0]}**"
+      if @bob[0]=='Ferdinand von Aegir'
+        @bob[0]="**#{@bob[0]}**"
+      elsif @bob[1][2,1]=='T' && @bob[0].split(' ').length>1
+        @bob[0]=@bob[0].split(' ')
+        @bob[0]="**#{@bob[0][0]}** [#{@bob[0][1,@bob[0].length-1].join(' ')}]"
+      else
+        @bob[0]="**#{@bob[0]}**"
+      end
       picture=get_picture(kidname,nil,nil,@bob[1][1,1],event)
     end
     fullname="__#{@bob[0]}#{" (with *Aptitude*)" if apt>0}__"
@@ -2627,7 +2764,7 @@ def class_display(event,bot,args,clss,game=nil)
   for i in 0...clss[8].length
     gmz=['Fateswakening',clss[1]]
     gmz[1]='Gates' if clss[2]=='Penumbra'
-    gmz[0]=='Three Houses' if clss[1]=='Three Houses'
+    gmz[0]='Three Houses' if clss[1]=='Three Houses'
     s=@skills[@skills.find_index{|q| q[0]==clss[8][i] && gmz.include?(q[1])}]
     f=s[2].find_index{|q| q[0]==clss[0]}
     f=s[2].find_index{|q| q[0].split('(')[0].gsub(' ','')==clss[0].split('(')[0].gsub(' ','')} if f.nil?
@@ -2651,8 +2788,7 @@ def class_display(event,bot,args,clss,game=nil)
     text="#{text}\n**Total:**  *Growth:* #{f[0]}%  *Base:* #{f[1]}  *#{'Maximum' unless clss[1]=='Three Houses'}#{'Modifier' if clss[1]=='Three Houses'}:* #{'+' if f[2]>0 && clss[1]=='Three Houses'}#{f[2]}"
   end
   if clss[6].nil? || clss[6]==''
-    clss[8]=''
-    text="#{text}\n**#{clss[7][0].split(' ')[-1]} Class**" if clss[1]=='Three Houses' && clss[7].length>0 && clss[7][0].length>0
+    text="#{text}\n**#{clss[7][0].split(' ')[-1]} Class**#{", Adjutant #{clss[11]}" unless clss[11].nil?}" if clss[1]=='Three Houses' && clss[7].length>0 && clss[7][0].length>0
   elsif clss[6].include?('**')
     text="#{text}\n#{clss[6].gsub('/n',"\n").gsub('/t',"  ")}"
   else
@@ -2698,7 +2834,8 @@ def class_display(event,bot,args,clss,game=nil)
     xcolor=0x7D171F if clss[2]=="Adrestia"
     xcolor=0x4B4E9B if clss[2]=="Faerghus"
     xcolor=0x897A04 if clss[2]=="Leicester"
-    xcolor=0xA9AA9D if clss[2]=="Agartha"
+    xcolor=0x8A8D94 if clss[2]=="Underground"
+    xcolor=0x003D3D if clss[2]=="Agartha"
   end
   create_embed(event,fullname,text,xcolor,nil,nil,flds)
 end
@@ -2769,10 +2906,13 @@ def x_find_skill(game,name,event,fullname=false)
   # try skill from the specific game
   data_load()
   m=[game,'Fateswakening']
-  m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168 && game=='Fates'
+  m=['Three Houses','Fates','Awakening','Fateswakening'] if game.nil? || game.length<=0
+  m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168 && (game=='Fates' || game.nil? || game.length<=0)
   m=[game] if game=='Three Houses'
-  for i in 0...@skills.length
-    return @skills[i] if @skills[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
+  sklz=@skills.map{|q| q}
+  sklz=sklz.reject{|q| !m.include?(q[1])}
+  for i in 0...sklz.length
+    return sklz[i] if sklz[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(sklz[i][1])
   end
   nicknames_load()
   g=0
@@ -2781,40 +2921,43 @@ def x_find_skill(game,name,event,fullname=false)
   alz=@names.reject{|q| q[0]!='Skill'}.map{|q| [q[1],q[2],q[3]]}
   for i in alz
     if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
-      x=x_find_skill(game,i[1],event)
-      return x if m.include?(x[1])
+      x=sklz.find_index{|q| q[0]==i[1]}
+      return sklz[x] unless x.nil?
     elsif i[0].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
-      x=x_find_skill(game,i[1],event)
-      return x if m.include?(x[1])
+      x=sklz.find_index{|q| q[0]==i[1]}
+      return sklz[x] unless x.nil?
     end
   end
   unless fullname
-    for i in 0...@skills.length
-      return @skills[i] if @skills[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
+    for i in 0...sklz.length
+      return sklz[i] if sklz[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && m.include?(sklz[i][1])
     end
     for i in alz
       if i[0][0,name.gsub(' ','').length].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
-        x=x_find_skill(game,i[1],event)
-        return x if m.include?(x[1])
+        x=sklz.find_index{|q| q[0]==i[1]}
+        return sklz[x] unless x.nil?
       elsif i[0][0,name.gsub(' ','').length].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
-        x=x_find_skill(game,i[1],event)
-        return x if m.include?(x[1])
+        x=sklz.find_index{|q| q[0]==i[1]}
+        return sklz[x] unless x.nil?
       end
     end
   end
+  return nil if name=='acrobat'[0,name.length] && game=='Three Houses'
   # then try generic skill
   m=['Three Houses','Fates','Awakening','Fateswakening']
   m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168
-  for i in 0...@skills.length
-    return @skills[i] if @skills[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
+  sklz=@skills.map{|q| q}
+  sklz=sklz.reject{|q| !m.include?(q[1])}
+  for i in 0...sklz.length
+    return sklz[i] if sklz[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(sklz[i][1])
   end
   for i in alz
     return x_find_skill(game,i[1],event) if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
     return x_find_skill(game,i[1],event) if i[0].gsub('||','').gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
   end
   unless fullname
-    for i in 0...@skills.length
-      return @skills[i] if @skills[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && m.include?(@skills[i][1])
+    for i in 0...sklz.length
+      return sklz[i] if sklz[i][0].gsub(' ','')[0,name.gsub(' ','').length].downcase==name.gsub(' ','').downcase && m.include?(sklz[i][1])
     end
     for i in alz
       return x_find_skill(game,i[1],event) if i[0].gsub(' ','').downcase==name.gsub(' ','')[0,name.gsub(' ','').length].downcase && (i[3].nil? || i[3].include?(g))
@@ -3419,7 +3562,7 @@ def skill_parse(event,bot,args)
   skillA=find_skill("Awakening",name,event)
   skillA=[] unless ["Awakening","Fateswakening"].include?(skillA[1])
   skillF=find_skill("Fates",name,event)
-  skillF=[] unless ["Fates","Fateswakening"].include?(skillF[1])
+  skillF=[] unless ["Gates","Fates","Fateswakening"].include?(skillF[1])
   skillT=find_skill("Three Houses",name,event)
   skillT=[] unless "Three Houses"==skillT[1]
   sklist=[skillA.map{|q| q}, skillF.map{|q| q}, skillT.map{|q| q}].reject{|q| q.length<=0}
@@ -3546,6 +3689,7 @@ def skill_parse(event,bot,args)
       text="#{text}\n***Three Houses*** **Effect:** #{skillT[4].gsub('/*','\\*')}" if skillT.length>0
     end
     xcolor=0x010101
+    xcolor=0x061069 if bob4[0]=="Acrobat" && (event.server.nil? || event.server.id != 256291408598663168)
   else
     fullname="__**#{bob4[0]}**__"
     text='**Availability:**'
@@ -3634,11 +3778,13 @@ def skill_parse(event,bot,args)
         xcolor=0x7D171F if a=='Adrestia'
         xcolor=0x4B4E9B if a=='Faerghus'
         xcolor=0x897A04 if a=='Leicester'
+        xcolor=0x8A8D94 if a=='Underground'
         xcolor=0x565562 if a=='Garreg Mach'
         xcolor=0xA9AA9D if a=='Agartha'
       end
     end
     xcolor=0xFFEA8B if bob4[1]=="Gates"
+    xcolor=0x061069 if bob4[0]=="Acrobat" && (event.server.nil? || event.server.id != 256291408598663168)
   end
   create_embed(event,fullname,text,xcolor,nil,"https://inheritance-planner.herokuapp.com/images/skills/#{bob4[0].downcase.gsub(' ','').gsub('+','')}.png")
   return nil
@@ -3646,7 +3792,6 @@ end
 
 def item_parse(event,bot,args,mde=0)
   args=splice(event)
-  puts args.to_s
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   game=game_proc(event)
   if args.nil? || args.length.zero?
@@ -3666,8 +3811,6 @@ def item_parse(event,bot,args,mde=0)
       args[i]=args[i][0,args[i].length-1]
     end
   end
-  puts upgrade
-  puts args.to_s
   args.compact!
   name=args.join(' ')
   bob4=find_item(game,name,event)
@@ -3997,6 +4140,7 @@ def get_unit_list(event,bot,args)
     xcolor=0x7D171F if games3x.length==1 && games3x[0]=='Black Eagles'
     xcolor=0x4B4E9B if games3x.length==1 && games3x[0]=='Blue Lions'
     xcolor=0x897A04 if games3x.length==1 && games3x[0]=='Golden Deer'
+    xcolor=0x8A8D94 if games3x.length==1 && games3x[0]=='Ashen Wolves'
     xcolor=0x565562 if games3x.length==1 && games3x[0]=='x'
   end
   flds=nil
@@ -4016,6 +4160,7 @@ def get_unit_list(event,bot,args)
     flds.push(['Black Eagles',untz.reject{|q| !['r','R','x'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['R'].include?(q[1][3,1])}"}.uniq.join("\n")])
     flds.push(['Blue Lions',untz.reject{|q| !['b','B','x'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['B'].include?(q[1][3,1])}"}.uniq.join("\n")])
     flds.push(['Golden Deer',untz.reject{|q| !['y','Y','x'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['Y'].include?(q[1][3,1])}"}.uniq.join("\n")])
+    flds.push(['Ashen Wolves',untz.reject{|q| !['a','A','x'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['A'].include?(q[1][3,1])}"}.uniq.join("\n")])
     flds2.push(['Church of Seiros',untz.reject{|q| !['c','C'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['C'].include?(q[1][3,1])}"}.uniq.join("\n")])
     flds2.push(['Knights of Seiros',untz.reject{|q| !['k','K'].include?(q[1][3,1])}.map{|q| "#{q[0]}#{' *[exclusive]*' if ['K'].include?(q[1][3,1])}"}.uniq.join("\n")])
     flds2.push(['---',untz.reject{|q| !['X'].include?(q[1][3,1])}.map{|q| q[0]}.uniq.join("\n")])
@@ -4172,7 +4317,7 @@ def add_new_alias(bot,event,newname=nil,unit=nil,modifier=nil,modifier2=nil,mode
   m=nil if event.user.id==167657750971547648 && !modifier.nil?
   if type[1]=='Unit'
     unit=find_unit(game,unit,event)[0]
-    unit=unit.gsub('Fates!Anna','Anna').gsub('Awakening!Anna','Anna')
+    unit=unit.gsub('3H!Anna','Anna').gsub('Fates!Anna','Anna').gsub('Awakening!Anna','Anna')
   elsif type[1]=='Class'
     unit=find_class(unit,event,game)[0]
   elsif type[1]=='Skill'
@@ -4700,368 +4845,13 @@ def get_support_list(name1,event,name2=nil)
       sup[i]="#{sup[i][0]} x #{sup[i][1]}"
     end
   end
-  sup[-1]="**#{sup[-1]}**" unless name2.nil? || sup.length<=0
+  sup[-1]="**#{sup[-1]}**" unless name2.nil? || sup.length<=0 || sup[-1].split(' (')[0]!=name2
   sup=['~~no supports in the way~~'] if sup.length<=0
   return sup.join("\n")
 end
 
-bot.command([:bday,:birthday,:bdays,:birthdays]) do |event|
-  return nil if overlap_prevent(event)
-  bday_text(event,bot)
-end
-
-bot.command([:find, :sort, :list, :search]) do |event, *args|
-  return nil if overlap_prevent(event)
-  get_unit_list(event,bot,args)
-end
-
-bot.command([:embeds,:embed]) do |event|
-  return nil if overlap_prevent(event)
-  embedless_swap(bot,event)
-end
-
-bot.command([:gay,:homosexuality,:homo]) do |event, m|
-  return nil if overlap_prevent(event)
-  if event.server.nil?
-    event.respond "This command cannot be used in a PM"
-    return nil
-  end
-  metadata_load()
-  x=(!@homo_servers.include?(event.server.id))
-  unless m.nil?
-    x=true if ['on','yes','true'].include?(m.downcase)
-    x=false if ['off','no','false'].include?(m.downcase)
-  end
-  if x && !@homo_servers.include?(event.server.id)
-    @homo_servers.push(event.server.id)
-  elsif !x && @homo_servers.include?(event.server.id)
-    for i in 0...@homo_servers.length
-      @homo_servers[i]=nil if @homo_servers[i]==event.server.id
-    end
-    @homo_servers.compact!
-  end
-  metadata_save()
-  event << "The homosexuality filter for this server has been #{"raised" unless @homo_servers.include?(event.server.id)}#{"lowered" if @homo_servers.include?(event.server.id)}."
-  if @homo_servers.include?(event.server.id)
-    event << "Characters of the same gender can marry and have kids."
-  else
-    event << "Characters of the same gender are prohibited from marrying and having kids.  The exceptions are the avatar characters."
-  end
-end
-
-bot.command([:sibling,:incest,:wincest]) do |event, m|
-  return nil if overlap_prevent(event)
-  if event.server.nil?
-    event.respond "This command cannot be used in a PM"
-    return nil
-  end
-  x=(!@incest_servers.include?(event.server.id))
-  unless m.nil?
-    x=true if ['on','yes','true'].include?(m.downcase)
-    x=false if ['off','no','false'].include?(m.downcase)
-  end
-  if x && !@incest_servers.include?(event.server.id)
-    @incest_servers.push(event.server.id)
-  elsif !x && @incest_servers.include?(event.server.id)
-    for i in 0...@incest_servers.length
-      @incest_servers[i]=nil if @incest_servers[i]==event.server.id
-    end
-    @incest_servers.compact!
-  end
-  metadata_save()
-  event << "The incest filter for this server has been #{"raised" unless @incest_servers.include?(event.server.id)}#{"lowered" if @incest_servers.include?(event.server.id)}."
-  if @incest_servers.include?(event.server.id)
-    event << "Siblings/relatives can marry and have kids."
-  else
-    event << "Siblings/relatives are prohibited from marrying and having kids."
-  end
-end
-
-bot.command([:bugreport, :suggestion, :feedback]) do |event, *args|
-  return nil if overlap_prevent(event)
-  bug_report(bot,event,args,3,['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'],'Alliance',@prefix)
-end
-
-bot.command(:prefix) do |event, prefix|
-  return nil if overlap_prevent(event)
-  if prefix.nil?
-    event.respond 'No prefix was defined.  Try again'
-    return nil
-  elsif event.server.nil?
-    event.respond 'This command is not available in PM.'
-    return nil
-  elsif !is_mod?(event.user,event.server,event.channel)
-    event.respond 'You are not a mod.'
-    return nil
-  elsif ['feh!','feh?','f?','e?','h?','fgo!','fgo?','fg0!','fg0?','liz!','liz?','iiz!','iiz?','fate!','fate?','dl!','dl?','fe!','fe14!','fef!','fe13!','fea!','fe?','fe14?','fef?','fe13?','fea?'].include?(prefix.downcase)
-    event.respond "That is a prefix that would conflict with either myself or another one of my developer's bots."
-    return nil
-  end
-  @prefixes[event.server.id]=prefix
-  prefixes_save()
-  event.respond "This server's prefix has been saved as **#{prefix}**"
-end
-
-bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
-  return nil if overlap_prevent(event)
-  add_new_alias(bot,event,newname,unit,modifier,modifier2)
-  return nil
-end
-
-bot.command(:alias) do |event, newname, unit, modifier, modifier2|
-  return nil if overlap_prevent(event)
-  add_new_alias(bot,event,newname,unit,modifier,modifier2,1)
-  return nil
-end
-
-bot.command([:checkaliases,:aliases,:seealiases]) do |event, *args|
-  return nil if overlap_prevent(event)
-  disp_aliases(bot,event,args)
-end
-
-bot.command([:serveraliases,:saliases]) do |event, *args|
-  return nil if overlap_prevent(event)
-  disp_aliases(bot,event,args,1)
-end
-
-bot.command([:deletealias,:removealias]) do |event, name|
-  return nil if overlap_prevent(event)
-  game=game_proc(event)
-  game="Fates" if game.length<=0
-  nicknames_load()
-  if name.nil?
-    event.respond "I can't delete nothing, silly!" if name.nil?
-    return nil
-  elsif !is_mod?(event.user,event.server,event.channel)
-    event.respond "You are not a mod."
-    return nil
-  elsif find_unit(game,name,event).nil? && find_class(name,event,game).nil? && find_skill(game,name,event).nil? && find_item(game,name,event).nil?
-    event.respond "#{name} is not an alias, silly!"
-    return nil
-  end
-  j=[find_unit(game,name,event),'Unit']
-  j=[find_class(name,event,game),'Class'] if j[0].nil?
-  j=[find_skill(game,name,event),'Skill'] if j[0].nil?
-  j=[find_item(game,name,event),'Item'] if j[0].nil?
-  j[0]=j[0][0]
-  k=0
-  k=event.server.id unless event.server.nil?
-  for izzz in 0...@names.length
-    if @names[izzz][1].downcase==name.downcase
-      if @names[izzz][3].nil? && event.user.id != 167657750971547648
-        event.respond "You cannot remove a global alias"
-        return nil
-      elsif @names[izzz][3].nil? || @names[izzz][3].include?(k)
-        unless @names[izzz][3].nil?
-          for izzz2 in 0...@names[izzz][3].length
-            @names[izzz][3][izzz2]=nil if @names[izzz][3][izzz2]==k
-          end
-          @names[izzz][3].compact!
-        end
-        @names[izzz]=nil if @names[izzz][3].nil? || @names[izzz][3].length<=0
-      end
-    end
-  end
-  @names.uniq!
-  @names.compact!
-  logchn=386658080257212417
-  logchn=431862993194582036 if @shardizard==4
-  srv=0
-  srv=event.server.id unless event.server.nil?
-  srvname="PM with dev"
-  srvname=bot.server(srv).name unless event.server.nil? && srv==0
-  bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n~~**#{j[1]} Alias:** #{name} for #{j[0]}~~ **DELETED**.")
-  open("C:/Users/#{@mash}/Desktop/devkit/FENames.txt", 'w') { |f|
-    for i in 0...@names.length
-      f.puts "#{@names[i].to_s}#{"\n" if i<@names.length-1}"
-    end
-  }
-  event.respond "#{name} has been removed from #{j[0]}'s names."
-  nicknames_load()
-  nzzz=@names.reject{|q| q[0]!='Unit'}
-  nzzz2=@names.reject{|q| q[0]!='Class'}
-  nzzz3=@names.reject{|q| q[0]!='Skill'}
-  nzzz4=@names.reject{|q| q[0]!='Item'}
-  if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][2]>="Xander" && nzzz2[nzzz2.length-1].length>1 && nzzz2[nzzz2.length-1][2]>="Wyvern Rider" && nzzz3[nzzz3.length-1].length>1 && nzzz3[nzzz3.length-1][2]>="Defensetaker" && nzzz4[nzzz4.length-1].length>1 && nzzz4[nzzz4.length-1][2]>="Armorslayer"
-    bot.channel(logchn).send_message("Alias list saved.")
-    open("C:/Users/#{@mash}/Desktop/devkit/FENames2.txt", 'w') { |f|
-      for i in 0...nzzz.length
-        f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
-      end
-      for i in 0...nzzz2.length
-        f.puts "#{nzzz2[i].to_s}#{"\n" if i<nzzz2.length-1}"
-      end
-      for i in 0...nzzz3.length
-        f.puts "#{nzzz3[i].to_s}#{"\n" if i<nzzz3.length-1}"
-      end
-      for i in 0...nzzz4.length
-        f.puts "#{nzzz4[i].to_s}#{"\n" if i<nzzz4.length-1}"
-      end
-    }
-    bot.channel(logchn).send_message("Alias list has been backed up.")
-  end
-end
-
-bot.command(:invite) do |event, user|
-  return nil if overlap_prevent(event)
-  usr=event.user
-  txt="**You can invite me to your server with this link: <https://goo.gl/v3ADBG>**\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nTo follow my creator's development Twitter and learn of updates: <https://twitter.com/EliseBotDev>\nIf you suggested me to server mods and they ask what I do, show them this image: https://raw.githubusercontent.com/Rot8erConeX/FEIndex/master/FEIndex/MarketingRobin.png"
-  user_to_name="you"
-  unless user.nil?
-    if /<@!?(?:\d+)>/ =~ user
-      usr=event.message.mentions[0]
-      txt="This message was sent to you at the request of #{event.user.distinct}.\n\n#{txt}"
-      user_to_name=usr.distinct
-    else
-      usr=bot.user(user.to_i)
-      txt="This message was sent to you at the request of #{event.user.distinct}.\n\n#{txt}"
-      user_to_name=usr.distinct
-    end
-  end
-  usr.pm(txt)
-  event.respond "A PM was sent to #{user_to_name}." unless event.server.nil? && user_to_name=="you"
-end
-
-bot.command(:proc) do |event, *args|
-  return nil if overlap_prevent(event)
-  args=splice(event)
-  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
-  game=game_proc(event)
-  game="Fates" if game.length<=0
-  if game=="Three Houses"
-    event.respond "There is only one offensive proc skill in 3H: Lethality.  This command is therefore useless.  Switching to Fates' mechanics."
-    game="Fates"
-  end
-  stat=0
-  bob=false
-  if args.nil?
-    stat=rand(64)+1
-  elsif args.length.zero?
-    stat=rand(64)+1
-  else
-    for i in 0...args.length
-      if args[i][0,2]=="~~"
-        bob=true
-        args[i]=args[i][2,args[i].length-2]
-      end
-      if args[i][args[i].length-2,2]=="~~"
-        bob=true
-        args[i]=args[i][0,args[i].length-2]
-      end
-      if args[i].to_i != 0
-        bob=true if args[i].to_i<0
-        stat=args[i].to_i.abs if stat.zero?
-        args[i]=nil
-      end
-    end
-    args.compact!
-  end
-  names=["Lethality","Aether","Astra","Sol","Luna","Ignis","Vengeance"]
-  names.push("Dragon Fang") if game != "Awakening"
-  names.push("Rend Heaven") if game != "Awakening"
-  names.push("Glacies") if event.user.id==256379815601373184 || (event.user.id==167657750971547648 && !event.server.nil? && [256291408598663168,285663217261477889].include?(event.server.id))
-  names2=[]
-  names3=[]
-  for i in 0...args.length
-    next if args[i].length<=2
-    bob=true if args[i].downcase=="not"
-    if args[i][0,2]=="~~"
-      bob=true
-      args[i]=args[i][2,args[i].length-2]
-    end
-    if args[i][args[i].length-2,2]=="~~"
-      bob=true
-      args[i]=args[i][0,args[i].length-2]
-    end
-    names2.push("Lethality") if args[i].downcase=="lethality"[0,args[i].length]
-    names2.push("Aether") if args[i].downcase=="aether"[0,args[i].length]
-    names2.push("Astra") if args[i].downcase=="astra"[0,args[i].length]
-    names2.push("Dragon Fang") if args[i].downcase=="dragon"[0,args[i].length] && game != "Awakening"
-    names2.push("Glacies") if args[i].downcase=="glacies"[0,args[i].length]
-    names2.push("Sol") if args[i].downcase=="sol"[0,args[i].length]
-    names2.push("Luna") if args[i].downcase=="luna"[0,args[i].length]
-    names2.push("Ignis") if args[i].downcase=="ignis"[0,args[i].length]
-    names2.push("Rend Heaven") if args[i].downcase=="rend"[0,args[i].length] && game != "Awakening"
-    names2.push("Vengeance") if args[i].downcase=="vengeance"[0,args[i].length]
-    names3.push("Hoshidan Unity") if args[i].downcase=="hoshidan"[0,args[i].length]
-    names3.push("Hoshidan Unity") if args[i].downcase=="king"[0,args[i].length]
-    names3.push("Rightful God") if args[i].downcase=="god"[0,args[i].length]
-    names3.push("Nohrian Trust") if args[i].downcase=="nohrian"[0,args[i].length] && game != "Awakening"
-    names3.push("Quixotic") if args[i].downcase=="quixotic"[0,args[i].length]
-  end
-  if names2.length>0 && bob
-    for i in 0...names.length
-      for j in 0...names2.length
-        names[i]=nil if names[i]==names2[j]
-      end
-    end
-    names.compact!
-  elsif names2.length>0
-    names=names2
-    if !names3.include?("Nohrian Trust") && names.length+names3.length>5
-      names=[]
-      for i in 0...[5-names3.length,names2.length].min
-        names.push(names2[i])
-      end
-    end
-  end
-  if names3.length>0
-    for i in 0...names3.length
-      names.push(names3[i])
-    end
-  end
-  stat=rand(64)+1 if stat.zero?
-  # stat name, skill multiplier, "display" percent, actual percent, remaining chances
-  skills=[["Lethality",0.25,stat/4,0,0],
-          ["Aether",0.50,stat/2,0,0],
-          ["Astra",0.50,stat/2,0,0],
-          ["Dragon Fang",0.75,3*stat/4,0,0],
-          ["Glacies",0.75,3*stat/4,0,0],
-          ["Sol",1.00,stat,0,0],
-          ["Luna",1.00,stat,0,0],
-          ["Ignis",1.00,stat,0,0],
-          ["Rend Heaven",1.50,3*stat/2,0,0],
-          ["Vengeance",1.50,3*stat/2,0,0]]
-  skills[9][1]=2 if game=="Awakening"
-  skills[9][2]=2*stat if game=="Awakening"
-  for i in 0...skills.length
-    skills[i][2]+=10 if names.include?("Hoshidan Unity")
-    skills[i][2]+=30 if names.include?("Rightful God")
-    skills[i][2]+=15 if names.include?("Quixotic")
-    skills[i]=nil if !names.include?(skills[i][0])
-  end
-  skills.compact!
-  skills[0][3]=skills[0][2]*0.01
-  skills[0][4]=[[1-skills[0][3],1].min,0].max
-  name="**__*Skill Stat:* #{stat}__**"
-  text="**#{skills[0][0]}:** ~~#{skills[0][2]}%~~ #{(skills[0][3]*100).round(0)}%"
-  for i in 1...skills.length
-    skills[i][3]=skills[i][2]*skills[i-1][4]*0.01
-    skills[i][4]=[[skills[i-1][4]-skills[i][3],0].max,1].min
-    text="#{text}\n**#{skills[i][0]}:** ~~#{skills[i][2]}%~~ #{(skills[i][3]*100).round(4)}%"
-  end
-  text="#{text}\n*No skill procs:* #{(skills[skills.length-1][4]*100).round(4)}%"
-  create_embed(event,name,text,0x880000)
-end
-
-bot.command([:unit,:character,:char,:chara]) do |event, *args|
-  return nil if overlap_prevent(event)
-  args=splice(event)
-  unit_parse(event,bot,args)
-end
-
-bot.command(:class) do |event, *args|
-  return nil if overlap_prevent(event)
-  class_parse(event,bot,args)
-end
-
-bot.command([:skill,:ability,:abil]) do |event, *args|
-  return nil if overlap_prevent(event)
-  skill_parse(event,bot,args)
-end
-
-bot.command([:marry,:marriage,:support]) do |event, name1, name2|
-  return nil if overlap_prevent(event)
+def marry_units(bot,event,name1=nil,name2=nil)
+  data_load()
   bob1=find_unit("Three Houses",name1,event)
   bob2=find_unit("Three Houses",name2,event)
   name1=bob1[0] if bob1
@@ -5263,21 +5053,11 @@ bot.command([:marry,:marriage,:support]) do |event, name1, name2|
       event << "They spend more time debating yaoi vs. yuri than actually doing anything."
     end
   end
-end
-
-bot.command([:item,:weapon]) do |event, *args|
-  return nil if overlap_prevent(event)
-  item_parse(event,bot,args)
-end
-
-bot.command([:job, :data, :stats]) do |event, *args|
-  return nil if overlap_prevent(event)
-  parse_job(event,args,bot,0)
   return nil
 end
 
-bot.command([:levelup, :level]) do |event, *args|
-  return nil if overlap_prevent(event)
+def levelup_unit(bot,event,args=nil)
+  args=event.message.text.downcase.split(' ') if args.nil?
   args=splice(event)
   args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
   game=game_proc(event)
@@ -5315,9 +5095,15 @@ bot.command([:levelup, :level]) do |event, *args|
   fgame='Awakening' if unit[1][2]=='A'
   fgame='Three Houses' if unit[1][2]=='T'
   b=["HP","Strength","Magic","Skill","Speed","Luck","Defense","Resistance"]
-  b=["HP","Strength","Magic","Dexterity","Speed","Luck","Defense","Resistance","Charm"] if unit[1][2]=='T'
+  if unit[1][2]=='T'
+    b[3]='Dexterity'
+    b.push('Charm')
+  elsif clss[1]=='Three Houses' || game=='Three Houses'
+    b.push('Charm')
+  end
+  b2=[]
   text=""
-  f=0
+  f2=0
   for i in 0...b.length
     unit[3][i]=0 if unit[3][i].nil?
     clss[3][i]=0 if clss[3][i].nil?
@@ -5326,19 +5112,581 @@ bot.command([:levelup, :level]) do |event, *args|
     x=x%100
     r=rand(100)
     y+=1 if r<=x
-    text="#{text}\n#{b[i]} went up by #{y}" if y>0
-    f+=1 if y>0
+    b2[i]=y*1
+    f2+=1 if y>0
+  end
+  if f2<2
+    if unit[1][0,1]=='1' && unit[1][1,1]!='c' && ['A','F','G'].include?(unit[1][2,1]) # Gen 1 non-avatar characters from Fateswakining
+    elsif game != 'Three Houses' && unit[1][2,1]!='T'                                 # any Fateswakening character unless 3H mechanics are forced
+    elsif ['Jeritza','Jeralt','Manuela','Hanneman','Seteth','Catherine','Shamir','Alois','Gilbert','Anna'].include?(unit[0].gsub('**','').split(' ')[0]) # 3H non-students
+    else
+      bb=[]
+      for i in 0...b.length
+        unit[3][i]=0 if unit[3][i].nil?
+        clss[3][i]=0 if clss[3][i].nil?
+        x=unit[3][i].to_i+clss[3][i].to_i+apt
+        for i2 in 0...x
+          bb.push(i)
+        end
+      end
+      for i in 0...(2-f2)
+        x=bb.sample
+        b2[x]+=1
+        bb=bb.reject{|q| q==x}
+      end
+    end
+  end
+  for i in 0...b2.length
+    text="#{text}\n#{b[i]} went up by #{b2[i]}" if b2[i]>0
   end
   text='No stats increased' if text.length==0
   foot=['bad level-up','okay level-up','decent level-up','amazing level-up']
-  if f>5
-    f=foot[3]
-  else
-    f=foot[f/2]
-  end
+  f=foot[[f2/2,foot.length].min]
+  f="#{f} adjusted by student failsafe" if f2<2 && b2.reject{|q| q<=0}.length>=2
   xcolor=embed_color_x(unit[2],clss,fgame)
-  xcolor=0x010101 if unit[2]!="Cross-game child" && clss[1][0]!=unit[1][2]
+  xcolor=0x010101 if unit[2]!="Cross-game child" && clss[1][0]!=unit[1][2] && clss[1].length>0
   create_embed(event,fullname,text,xcolor,f)
+end
+
+def crest_parse(bot,event,args=nil)
+  args=event.message.text.downcase.split(' ') if args.nil?
+  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
+  game=game_proc(event)
+  if args.nil? || args.length.zero?
+    event.respond "Please include a crest name, or a unit/weapon who has a crest"
+    return nil
+  end
+  bob4=find_crest(args.join(' '),event)
+  k=[]
+  if bob4.nil?
+    bob4=find_unit("Three Houses",args.join(' '),event)
+    if bob4.nil?
+      bob4=find_item("Three Houses",args.join(' '),event)
+      if bob4.nil?
+        event.respond "Please include a crest name, or a unit/weapon who has a crest"
+        return nil
+      elsif bob4[1]!='Three Houses' || !bob4[7].include?('Crest of')
+        event.respond "#{bob4[0]} is not bound to any Crests.  Please try a different item."
+        return nil
+      else
+        data_load()
+        crst=@crests.map{|q| q}
+        for i in 0...crst.length
+          k.push(crst[i][0]) if bob4[7].downcase.include?("Crest of #{crst[i][0]}".downcase)
+        end
+      end
+    elsif bob4[1][2,1]!='T' || bob4[9].nil? || bob4[9].length<=0
+      event.respond "#{bob4[0]} does not have any Crests.  Please try a different unit."
+      return nil
+    elsif bob4[9][0]=='Mystery'
+      m=bob4[9][1].gsub(' (minor)','').gsub('The','the')
+      bob4[0]=bob4[0].split(' ')[0] unless bob4[0]=='Ferdinand von Aegir'
+      event.respond "#{bob4[0]}'s Crest is a mystery in-game.  To look up the actual crest, use its name:  ||Crest of **#{m}**||"
+      return nil
+    else
+      for i in 0...bob4[9].length
+        k.push(bob4[9][i].gsub(' (minor)',''))
+      end
+    end
+  else
+    k.push(bob4[0])
+  end
+  if k.nil? || k.length<=0
+    event.respond "Please include a crest name, or a unit/weapon who has a crest"
+    return nil
+  end
+  for i in 0...k.length
+    crest_display(bot,event,k[i])
+  end
+  return nil
+end
+
+def crest_display(bot,event,name)
+  if name.include?('||')
+    event.respond "The unit's Crest is a spoiler.  If you wish to look it up, please use its name: ||Crest of **#{name.gsub('||','')}**||"
+    return nil
+  end
+  bob4=find_crest(name,event)
+  if bob4[0]=='Mystery'
+    name='Mystery Crest'
+  elsif bob4[0]=='The Beast'
+    name='Crest of the Beast'
+  else
+    name="Crest of #{bob4[0]}"
+  end
+  f=[]
+  f.push(["Proc Rates","*Major Crest:* #{bob4[2][0]}%\n*Minor Crest:* #{bob4[2][1]}%\n~~*Crest item:* #{bob4[2][2]}%~~"])
+  data_load()
+  untz=@units.reject{|q| q[1][2,1]!='T' || q[9].nil? || q[9].length<=0 || !has_any?([bob4[0],"#{bob4[0]} (minor)","||#{bob4[0]}||"],q[9])}
+  for i in 0...untz.length
+    untz[i][0]=untz[i][0].split(' ')[0] unless untz[i][0]=='Ferdinand von Aegir'
+    if untz[i][9][0]=='Mystery'
+      untz[i][0]="||#{untz[i][0]}|| (labeled as Mystery)"
+    elsif untz[i][9].include?(bob4[0])
+    elsif untz[i][9].include?("#{bob4[0]} (minor)")
+      untz[i][0]="#{untz[i][0]} (minor)"
+    elsif untz[i][9].include?("||#{bob4[0]}||")
+      untz[i][0]="||#{untz[i][0]}||"
+    end
+  end
+  f.push(['Units with this Crest',untz.map{|q| q[0]}.sort{|a,b| a.gsub('||','')<=>b.gsub('||','')}.join("\n")]) if untz.length>0
+  itmz=@items.reject{|q| q[1]!='Three Houses' || !q[7].downcase.include?("Crest of #{bob4[0]}".downcase)}
+  for i in 0...itmz.length
+    if itmz[i][0]=='Sublime Creator Sword'
+      itmz[i]=nil
+    elsif itmz[i][0]=='Sword of the Creator'
+      itmz[i][1]=1
+      itmz[i][0]="#{itmz[i][0]} ||(Sublime)||"
+    elsif itmz[i][7].include?("Hero's Relic")
+      itmz[i][1]=1
+      itmz[i][0]="#{itmz[i][0]} (Relic)"
+    elsif itmz[i][7].include?("Sacred")
+      itmz[i][1]=2
+      itmz[i][0]="#{itmz[i][0]} (Sacred)"
+    elsif itmz[i][7].include?("Replica")
+      itmz[i][1]=3
+    else
+      itmz[i][1]=4
+    end
+  end
+  itmz.compact!
+  f.push(['Items for this Crest',itmz.sort{|a,b| (a[1]<=>b[1])==0 ? a[0].gsub('||','')<=>b[0].gsub('||','') : (a[1]<=>b[1])}.map{|q| q[0]}.join("\n")]) if untz.length>0
+  f=nil if f.length<=0
+  create_embed(event,"__**#{name}**__","#{bob4[1]}",0x2D6864,nil,nil,f)
+end
+
+def combat_art_parse(bot,event,args=nil)
+  args=event.message.text.downcase.split(' ') if args.nil?
+  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
+  game=game_proc(event)
+  if args.nil? || args.length.zero?
+    event.respond "Please include a name of a combat art."
+    return nil
+  end
+  bob4=find_combat_art(args.join(' '),event)
+  if bob4.nil?
+    event.respond "Please include a name of a combat art."
+    return nil
+  end
+  text=''
+  data_load()
+  if bob4[5].nil? || bob4[5]=='-'
+  elsif !@classes.find_index{|q| q[0]==bob4[5]}.nil?
+    text="**Exclusive to the #{bob4[5]} class**"
+  elsif !@items.find_index{|q| q[0]==bob4[5]}.nil?
+    text="**Can only be used with the weapon #{bob4[5]}**"
+  else
+    text="**Can only be used by #{bob4[5].downcase}**"
+  end
+  if bob4[1]=='Other' && bob4[2].reject{|q| q=='-'}.length<=0
+    text="#{text}\n**Range:** #{bob4[3].gsub('~','-')}" unless bob4[3]=='-'
+  else
+    text="#{text}\n**Weapon Type:** #{bob4[1]}" unless bob4[1]=='Other'
+    if bob4[3]=='-' && bob4[2][0]=='-'
+    elsif bob4[3]=='-' || bob4[2][0]=='-'
+      text="#{text}\n**Might:** +#{bob4[2][0]}" unless bob4[2][0]=='-'
+      text="#{text}\n**Range:** #{bob4[3].gsub('~','-')}" unless bob4[3]=='-'
+    else
+      text="#{text}\n**Might:** +#{bob4[2][0]}  \u200B  \u200B  \u200B  **Range:** #{bob4[3].gsub('~','-')}"
+    end
+    if bob4[2][1]=='-' && bob4[2][2]=='-'
+    elsif bob4[2][1]=='-' || bob4[2][2]=='-'
+      text="#{text}\n**Hit:** #{'+' unless bob4[2][1].to_i<0}#{bob4[2][1]}" unless bob4[2][1]=='-'
+      text="#{text}\n**Crit:** #{bob4[2][2]}" unless bob4[2][2]=='-'
+    else
+      text="#{text}\n**Hit:** #{'+' unless bob4[2][1].to_i<0}#{bob4[2][1]}  \u200B  \u200B  \u200B  **Crit:** #{bob4[2][2]}"
+    end
+  end
+  text="#{text}\n**Durability Cost:** #{bob4[4]}" unless bob4[4]=='-'
+  text="#{text}\n**Additional Info:** #{bob4[6]}" unless bob4[6]=='-'
+  create_embed(event,"__**#{bob4[0]}**__",text,0x2D6864)
+end
+
+bot.command([:combat,:art,:arts,:combatart,:combatarts]) do |event, *args|
+  return nil if overlap_prevent(event)
+  combat_art_parse(bot,event,args)
+end
+
+bot.command(:crest) do |event, *args|
+  return nil if overlap_prevent(event)
+  crest_parse(bot,event,args)
+end
+
+bot.command([:bday,:birthday,:bdays,:birthdays]) do |event|
+  return nil if overlap_prevent(event)
+  bday_text(event,bot)
+end
+
+bot.command([:find, :sort, :list, :search]) do |event, *args|
+  return nil if overlap_prevent(event)
+  get_unit_list(event,bot,args)
+end
+
+bot.command([:embeds,:embed]) do |event|
+  return nil if overlap_prevent(event)
+  embedless_swap(bot,event)
+end
+
+bot.command([:gay,:homosexuality,:homo]) do |event, m|
+  return nil if overlap_prevent(event)
+  if event.server.nil?
+    event.respond "This command cannot be used in a PM"
+    return nil
+  end
+  metadata_load()
+  x=(!@homo_servers.include?(event.server.id))
+  unless m.nil?
+    x=true if ['on','yes','true'].include?(m.downcase)
+    x=false if ['off','no','false'].include?(m.downcase)
+  end
+  if x && !@homo_servers.include?(event.server.id)
+    @homo_servers.push(event.server.id)
+  elsif !x && @homo_servers.include?(event.server.id)
+    for i in 0...@homo_servers.length
+      @homo_servers[i]=nil if @homo_servers[i]==event.server.id
+    end
+    @homo_servers.compact!
+  end
+  metadata_save()
+  event << "The homosexuality filter for this server has been #{"raised" unless @homo_servers.include?(event.server.id)}#{"lowered" if @homo_servers.include?(event.server.id)}."
+  if @homo_servers.include?(event.server.id)
+    event << "Characters of the same gender can marry and have kids."
+  else
+    event << "Characters of the same gender are prohibited from marrying and having kids.  The exceptions are the avatar characters."
+  end
+end
+
+bot.command([:sibling,:incest,:wincest]) do |event, m|
+  return nil if overlap_prevent(event)
+  if event.server.nil?
+    event.respond "This command cannot be used in a PM"
+    return nil
+  end
+  x=(!@incest_servers.include?(event.server.id))
+  unless m.nil?
+    x=true if ['on','yes','true'].include?(m.downcase)
+    x=false if ['off','no','false'].include?(m.downcase)
+  end
+  if x && !@incest_servers.include?(event.server.id)
+    @incest_servers.push(event.server.id)
+  elsif !x && @incest_servers.include?(event.server.id)
+    for i in 0...@incest_servers.length
+      @incest_servers[i]=nil if @incest_servers[i]==event.server.id
+    end
+    @incest_servers.compact!
+  end
+  metadata_save()
+  event << "The incest filter for this server has been #{"raised" unless @incest_servers.include?(event.server.id)}#{"lowered" if @incest_servers.include?(event.server.id)}."
+  if @incest_servers.include?(event.server.id)
+    event << "Siblings/relatives can marry and have kids."
+  else
+    event << "Siblings/relatives are prohibited from marrying and having kids."
+  end
+end
+
+bot.command([:bugreport, :suggestion, :feedback]) do |event, *args|
+  return nil if overlap_prevent(event)
+  bug_report(bot,event,args,3,['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'],'Alliance',['fe!','3h!','fe?','3h?','fea!','fea?','fef!','fef?','fe3h!','fe3h?','feth!','feth?','fe13!','fe13?','fe14!','fe14?','fe16!','fe16?'])
+end
+
+bot.command(:prefix) do |event, prefix|
+  return nil if overlap_prevent(event)
+  if prefix.nil?
+    event.respond 'No prefix was defined.  Try again'
+    return nil
+  elsif event.server.nil?
+    event.respond 'This command is not available in PM.'
+    return nil
+  elsif !is_mod?(event.user,event.server,event.channel)
+    event.respond 'You are not a mod.'
+    return nil
+  elsif ['feh!','feh?','f?','e?','h?','fgo!','fgo?','fg0!','fg0?','liz!','liz?','iiz!','iiz?','fate!','fate?','dl!','dl?','fe!','fe14!','fef!','fe13!','fea!','fe?','fe14?','fef?','fe13?','fea?'].include?(prefix.downcase)
+    event.respond "That is a prefix that would conflict with either myself or another one of my developer's bots."
+    return nil
+  end
+  @prefixes[event.server.id]=prefix
+  prefixes_save()
+  event.respond "This server's prefix has been saved as **#{prefix}**"
+end
+
+bot.command(:addalias) do |event, newname, unit, modifier, modifier2|
+  return nil if overlap_prevent(event)
+  add_new_alias(bot,event,newname,unit,modifier,modifier2)
+  return nil
+end
+
+bot.command(:alias) do |event, newname, unit, modifier, modifier2|
+  return nil if overlap_prevent(event)
+  add_new_alias(bot,event,newname,unit,modifier,modifier2,1)
+  return nil
+end
+
+bot.command([:checkaliases,:aliases,:seealiases]) do |event, *args|
+  return nil if overlap_prevent(event)
+  disp_aliases(bot,event,args)
+end
+
+bot.command([:serveraliases,:saliases]) do |event, *args|
+  return nil if overlap_prevent(event)
+  disp_aliases(bot,event,args,1)
+end
+
+bot.command([:deletealias,:removealias]) do |event, name|
+  return nil if overlap_prevent(event)
+  game=game_proc(event)
+  game="Fates" if game.length<=0
+  nicknames_load()
+  if name.nil?
+    event.respond "I can't delete nothing, silly!" if name.nil?
+    return nil
+  elsif !is_mod?(event.user,event.server,event.channel)
+    event.respond "You are not a mod."
+    return nil
+  elsif find_unit(game,name,event).nil? && find_class(name,event,game).nil? && find_skill(game,name,event).nil? && find_item(game,name,event).nil?
+    event.respond "#{name} is not an alias, silly!"
+    return nil
+  end
+  j=[find_unit(game,name,event),'Unit']
+  j=[find_class(name,event,game),'Class'] if j[0].nil?
+  j=[find_skill(game,name,event),'Skill'] if j[0].nil?
+  j=[find_item(game,name,event),'Item'] if j[0].nil?
+  j[0]=j[0][0]
+  k=0
+  k=event.server.id unless event.server.nil?
+  for izzz in 0...@names.length
+    if @names[izzz][1].downcase==name.downcase
+      if @names[izzz][3].nil? && event.user.id != 167657750971547648
+        event.respond "You cannot remove a global alias"
+        return nil
+      elsif @names[izzz][3].nil? || @names[izzz][3].include?(k)
+        unless @names[izzz][3].nil?
+          for izzz2 in 0...@names[izzz][3].length
+            @names[izzz][3][izzz2]=nil if @names[izzz][3][izzz2]==k
+          end
+          @names[izzz][3].compact!
+        end
+        @names[izzz]=nil if @names[izzz][3].nil? || @names[izzz][3].length<=0
+      end
+    end
+  end
+  @names.uniq!
+  @names.compact!
+  logchn=386658080257212417
+  logchn=431862993194582036 if @shardizard==4
+  srv=0
+  srv=event.server.id unless event.server.nil?
+  srvname="PM with dev"
+  srvname=bot.server(srv).name unless event.server.nil? && srv==0
+  bot.channel(logchn).send_message("**Server:** #{srvname} (#{srv})\n**Channel:** #{event.channel.name} (#{event.channel.id})\n**User:** #{event.user.distinct} (#{event.user.id})\n~~**#{j[1]} Alias:** #{name} for #{j[0]}~~ **DELETED**.")
+  open("C:/Users/#{@mash}/Desktop/devkit/FENames.txt", 'w') { |f|
+    for i in 0...@names.length
+      f.puts "#{@names[i].to_s}#{"\n" if i<@names.length-1}"
+    end
+  }
+  event.respond "#{name} has been removed from #{j[0]}'s names."
+  nicknames_load()
+  nzzz=@names.reject{|q| q[0]!='Unit'}
+  nzzz2=@names.reject{|q| q[0]!='Class'}
+  nzzz3=@names.reject{|q| q[0]!='Skill'}
+  nzzz4=@names.reject{|q| q[0]!='Item'}
+  if nzzz[nzzz.length-1].length>1 && nzzz[nzzz.length-1][2]>="Xander" && nzzz2[nzzz2.length-1].length>1 && nzzz2[nzzz2.length-1][2]>="Wyvern Rider" && nzzz3[nzzz3.length-1].length>1 && nzzz3[nzzz3.length-1][2]>="Defensetaker" && nzzz4[nzzz4.length-1].length>1 && nzzz4[nzzz4.length-1][2]>="Armorslayer"
+    bot.channel(logchn).send_message("Alias list saved.")
+    open("C:/Users/#{@mash}/Desktop/devkit/FENames2.txt", 'w') { |f|
+      for i in 0...nzzz.length
+        f.puts "#{nzzz[i].to_s}#{"\n" if i<nzzz.length-1}"
+      end
+      for i in 0...nzzz2.length
+        f.puts "#{nzzz2[i].to_s}#{"\n" if i<nzzz2.length-1}"
+      end
+      for i in 0...nzzz3.length
+        f.puts "#{nzzz3[i].to_s}#{"\n" if i<nzzz3.length-1}"
+      end
+      for i in 0...nzzz4.length
+        f.puts "#{nzzz4[i].to_s}#{"\n" if i<nzzz4.length-1}"
+      end
+    }
+    bot.channel(logchn).send_message("Alias list has been backed up.")
+  end
+end
+
+bot.command(:invite) do |event, user|
+  return nil if overlap_prevent(event)
+  usr=event.user
+  txt="**You can invite me to your server with this link: <https://goo.gl/v3ADBG>**\nTo look at my source code: <https://github.com/Rot8erConeX/FEIndex/blob/master/FEIndex/FEIndex.rb>\nTo follow my creator's development Twitter and learn of updates: <https://twitter.com/EliseBotDev>\nIf you suggested me to server mods and they ask what I do, show them this image: https://raw.githubusercontent.com/Rot8erConeX/FEIndex/master/FEIndex/MarketingRobin.png"
+  user_to_name="you"
+  user=nil if event.message.mentions.length<=0 && user.to_i.to_s != user
+  unless user.nil?
+    if /<@!?(?:\d+)>/ =~ user
+      usr=event.message.mentions[0]
+      txt="This message was sent to you at the request of #{event.user.distinct}.\n\n#{txt}"
+      user_to_name=usr.distinct
+    else
+      usr=bot.user(user.to_i)
+      txt="This message was sent to you at the request of #{event.user.distinct}.\n\n#{txt}"
+      user_to_name=usr.distinct
+    end
+  end
+  usr.pm(txt)
+  event.respond "A PM was sent to #{user_to_name}." unless event.server.nil? && user_to_name=="you"
+end
+
+bot.command(:proc) do |event, *args|
+  return nil if overlap_prevent(event)
+  args=splice(event)
+  args=args.reject{ |a| a.match(/<@!?(?:\d+)>/) }
+  game=game_proc(event)
+  game="Fates" if game.length<=0
+  if game=="Three Houses"
+    event.respond "There is only one offensive proc skill in 3H: Lethality.  This command is therefore useless.  Switching to Fates' mechanics."
+    game="Fates"
+  end
+  stat=0
+  bob=false
+  if args.nil?
+    stat=rand(64)+1
+  elsif args.length.zero?
+    stat=rand(64)+1
+  else
+    for i in 0...args.length
+      if args[i][0,2]=="~~"
+        bob=true
+        args[i]=args[i][2,args[i].length-2]
+      end
+      if args[i][args[i].length-2,2]=="~~"
+        bob=true
+        args[i]=args[i][0,args[i].length-2]
+      end
+      if args[i].to_i != 0
+        bob=true if args[i].to_i<0
+        stat=args[i].to_i.abs if stat.zero?
+        args[i]=nil
+      end
+    end
+    args.compact!
+  end
+  names=["Lethality","Aether","Astra","Sol","Luna","Ignis","Vengeance"]
+  names.push("Dragon Fang") if game != "Awakening"
+  names.push("Rend Heaven") if game != "Awakening"
+  names.push("Glacies") if event.user.id==256379815601373184 || (event.user.id==167657750971547648 && !event.server.nil? && [256291408598663168,285663217261477889].include?(event.server.id))
+  names2=[]
+  names3=[]
+  for i in 0...args.length
+    next if args[i].length<=2
+    bob=true if args[i].downcase=="not"
+    if args[i][0,2]=="~~"
+      bob=true
+      args[i]=args[i][2,args[i].length-2]
+    end
+    if args[i][args[i].length-2,2]=="~~"
+      bob=true
+      args[i]=args[i][0,args[i].length-2]
+    end
+    names2.push("Lethality") if args[i].downcase=="lethality"[0,args[i].length]
+    names2.push("Aether") if args[i].downcase=="aether"[0,args[i].length]
+    names2.push("Astra") if args[i].downcase=="astra"[0,args[i].length]
+    names2.push("Dragon Fang") if args[i].downcase=="dragon"[0,args[i].length] && game != "Awakening"
+    names2.push("Glacies") if args[i].downcase=="glacies"[0,args[i].length]
+    names2.push("Sol") if args[i].downcase=="sol"[0,args[i].length]
+    names2.push("Luna") if args[i].downcase=="luna"[0,args[i].length]
+    names2.push("Ignis") if args[i].downcase=="ignis"[0,args[i].length]
+    names2.push("Rend Heaven") if args[i].downcase=="rend"[0,args[i].length] && game != "Awakening"
+    names2.push("Vengeance") if args[i].downcase=="vengeance"[0,args[i].length]
+    names3.push("Hoshidan Unity") if args[i].downcase=="hoshidan"[0,args[i].length]
+    names3.push("Hoshidan Unity") if args[i].downcase=="king"[0,args[i].length]
+    names3.push("Rightful God") if args[i].downcase=="god"[0,args[i].length]
+    names3.push("Nohrian Trust") if args[i].downcase=="nohrian"[0,args[i].length] && game != "Awakening"
+    names3.push("Quixotic") if args[i].downcase=="quixotic"[0,args[i].length]
+  end
+  if names2.length>0 && bob
+    for i in 0...names.length
+      for j in 0...names2.length
+        names[i]=nil if names[i]==names2[j]
+      end
+    end
+    names.compact!
+  elsif names2.length>0
+    names=names2
+    if !names3.include?("Nohrian Trust") && names.length+names3.length>5
+      names=[]
+      for i in 0...[5-names3.length,names2.length].min
+        names.push(names2[i])
+      end
+    end
+  end
+  if names3.length>0
+    for i in 0...names3.length
+      names.push(names3[i])
+    end
+  end
+  stat=rand(64)+1 if stat.zero?
+  # stat name, skill multiplier, "display" percent, actual percent, remaining chances
+  skills=[["Lethality",0.25,stat/4,0,0],
+          ["Aether",0.50,stat/2,0,0],
+          ["Astra",0.50,stat/2,0,0],
+          ["Dragon Fang",0.75,3*stat/4,0,0],
+          ["Glacies",0.75,3*stat/4,0,0],
+          ["Sol",1.00,stat,0,0],
+          ["Luna",1.00,stat,0,0],
+          ["Ignis",1.00,stat,0,0],
+          ["Rend Heaven",1.50,3*stat/2,0,0],
+          ["Vengeance",1.50,3*stat/2,0,0]]
+  skills[9][1]=2 if game=="Awakening"
+  skills[9][2]=2*stat if game=="Awakening"
+  for i in 0...skills.length
+    skills[i][2]+=10 if names.include?("Hoshidan Unity")
+    skills[i][2]+=30 if names.include?("Rightful God")
+    skills[i][2]+=15 if names.include?("Quixotic")
+    skills[i]=nil if !names.include?(skills[i][0])
+  end
+  skills.compact!
+  skills[0][3]=skills[0][2]*0.01
+  skills[0][4]=[[1-skills[0][3],1].min,0].max
+  name="**__*Skill Stat:* #{stat}__**"
+  text="**#{skills[0][0]}:** ~~#{skills[0][2]}%~~ #{(skills[0][3]*100).round(0)}%"
+  for i in 1...skills.length
+    skills[i][3]=skills[i][2]*skills[i-1][4]*0.01
+    skills[i][4]=[[skills[i-1][4]-skills[i][3],0].max,1].min
+    text="#{text}\n**#{skills[i][0]}:** ~~#{skills[i][2]}%~~ #{(skills[i][3]*100).round(4)}%"
+  end
+  text="#{text}\n*No skill procs:* #{(skills[skills.length-1][4]*100).round(4)}%"
+  create_embed(event,name,text,0x880000)
+end
+
+bot.command([:unit,:character,:char,:chara]) do |event, *args|
+  return nil if overlap_prevent(event)
+  args=splice(event)
+  unit_parse(event,bot,args)
+end
+
+bot.command(:class) do |event, *args|
+  return nil if overlap_prevent(event)
+  class_parse(event,bot,args)
+end
+
+bot.command([:skill,:ability,:abil]) do |event, *args|
+  return nil if overlap_prevent(event)
+  skill_parse(event,bot,args)
+end
+
+bot.command([:marry,:marriage,:support]) do |event, name1, name2|
+  return nil if overlap_prevent(event)
+  marry_units(bot,event,name1,name2)
+end
+
+bot.command([:item,:weapon]) do |event, *args|
+  return nil if overlap_prevent(event)
+  item_parse(event,bot,args)
+end
+
+bot.command([:job, :data, :stats]) do |event, *args|
+  return nil if overlap_prevent(event)
+  parse_job(event,args,bot,0)
+  return nil
+end
+
+bot.command([:levelup, :level]) do |event, *args|
+  return nil if overlap_prevent(event)
+  levelup_unit(bot,event,args)
 end
 
 bot.command([:offspringseal,:childseal,:offspring]) do |event, *args|
@@ -5543,7 +5891,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     d=u2.map{|q| q[0]}.uniq.length
     d2=u.map{|q| q[0]}.uniq.length
     event << "#{d}#{" (#{d2})" unless d==d2} unique characters, based on name"
-    event << "#{d-3+1}#{" (#{d2-3+1})" unless d==d2} actually unique characters"
+    event << "#{d-3+2}#{" (#{d2-3+2})" unless d==d2} actually unique characters"
     if safe_to_spam?(event)
       event << ''
       d=u2.reject{|q| q[1][0]!='1' || q[2].downcase.include?('capturable') || q[2].include?('Amiibo')}.length
@@ -5582,14 +5930,14 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     d2=u.reject{|q| q[1][2]!='A'}.length
     event << "#{d}#{" (#{d2})" unless d==d2} units in *Awakening*"
     strs=[]
-    d=u2.reject{|q| !['b','B','e','r'].include?(q[1][3])}.length
-    d2=u.reject{|q| !['b','B','e','r'].include?(q[1][3])}.length
+    d=u2.reject{|q| q[1][2]!='F' || q[1][3].nil? || !['b','B','e','r'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][2]!='F' || q[1][3].nil? || !['b','B','e','r'].include?(q[1][3])}.length
     strs.push("#{d}#{" (#{d2})" unless d==d2} *Birthright*")
-    d=u2.reject{|q| !['c','C','e','r'].include?(q[1][3])}.length
-    d2=u.reject{|q| !['c','C','e','r'].include?(q[1][3])}.length
+    d=u2.reject{|q| q[1][2]!='F' || q[1][3].nil? || !['c','C','e','r'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][2]!='F' || q[1][3].nil? || !['c','C','e','r'].include?(q[1][3])}.length
     strs.push("#{d}#{" (#{d2})" unless d==d2} *Conquest*")
-    d=u2.reject{|q| q[1][3].nil? || !['b','c','r','R'].include?(q[1][3])}.length
-    d2=u.reject{|q| q[1][3].nil? || !['b','c','r','R'].include?(q[1][3])}.length
+    d=u2.reject{|q| q[1][2]!='F' || q[1][3].nil? || !['b','c','r','R'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][2]!='F' || q[1][3].nil? || !['b','c','r','R'].include?(q[1][3])}.length
     strs.push("#{d}#{" (#{d2})" unless d==d2} *Revelation*")
     if k===256291408598663168
       d=u2.reject{|q| q[1][3]!='g'}.length
@@ -5599,6 +5947,28 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     d=u2.reject{|q| q[1][2]!='F'}.length
     d2=u.reject{|q| q[1][2]!='F'}.length
     event << "#{d}#{" (#{d2})" unless d==d2} units in *Fates*  ~~#{strs.join(', ')}~~"
+    strs=[]
+    d=u2.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['r','R'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['r','R'].include?(q[1][3])}.length
+    strs.push("#{d}#{" (#{d2})" unless d==d2} *Black Eagles*")
+    d=u2.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['b','B'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['b','B'].include?(q[1][3])}.length
+    strs.push("#{d}#{" (#{d2})" unless d==d2} *Blue Lions*")
+    d=u2.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['y','Y'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['y','Y'].include?(q[1][3])}.length
+    strs.push("#{d}#{" (#{d2})" unless d==d2} *Golden Deer*")
+    d=u2.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['a','A'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['a','A'].include?(q[1][3])}.length
+    strs.push("#{d}#{" (#{d2})" unless d==d2} *Ashen Wolves*")
+    d=u2.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['c','C','k','K'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['c','C','k','K'].include?(q[1][3])}.length
+    strs.push("#{d}#{" (#{d2})" unless d==d2} Knights of Seiros")
+    d=u2.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['x','X'].include?(q[1][3])}.length
+    d2=u.reject{|q| q[1][2]!='T' || q[1][3].nil? || !['x','X'].include?(q[1][3])}.length
+    strs.push("#{d}#{" (#{d2})" unless d==d2} other")
+    d=u2.reject{|q| q[1][2]!='T'}.length
+    d2=u.reject{|q| q[1][2]!='T'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} units in *Three Houses*  ~~#{strs.join(', ')}~~"
     return nil
   elsif ['class','classes'].include?(f.downcase)
     c=@classes.reject{|q| q[2]=='Penumbra'}
@@ -5617,6 +5987,9 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     d=c2.reject{|q| q[1]!='Fates'}.length
     d2=c.reject{|q| q[1]!='Fates'}.length
     event << "#{d}#{" (#{d2})" unless d==d2} classes that come from *Fates*"
+    d=c2.reject{|q| q[1]!='Three Houses'}.length
+    d2=c.reject{|q| q[1]!='Three Houses'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} classes that come from *Three Houses*"
     if safe_to_spam?(event)
       event << ''
       d=c2.reject{|q| q[2]!='Ylisse'}.length
@@ -5645,6 +6018,21 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
         d2=c.reject{|q| q[2]!='Penumbra'}.length
         event << "__(#{d}#{" (#{d2})" unless d==d2} Penumbran class#{"es" if [d,d2].max>1})__"
       end
+      d=c2.reject{|q| q[2]!='Adrestia'}.length
+      d2=c.reject{|q| q[2]!='Adrestia'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Adrestian class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| q[2]!='Faerghus'}.length
+      d2=c.reject{|q| q[2]!='Faerghus'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Faerghese class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| q[2]!='Leicester'}.length
+      d2=c.reject{|q| q[2]!='Leicester'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Leicestrite class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| q[2]!='Underground'}.length
+      d2=c.reject{|q| q[2]!='Underground'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Underground class#{"es" if [d,d2].max>1}"
+      d=c2.reject{|q| q[2]!='Garreg Mach'}.length
+      d2=c.reject{|q| q[2]!='Garreg Mach'}.length
+      event << "__#{d}#{" (#{d2})" unless d==d2} general-use class#{"es" if [d,d2].max>1} for Garreg Mach members__"
       d=c2.reject{|q| q[2]!='DLC'}.length
       d2=c.reject{|q| q[2]!='DLC'}.length
       event << "#{d}#{" (#{d2})" unless d==d2} DLC class#{"es" if [d,d2].max>1}"
@@ -5656,7 +6044,7 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
       event << "#{d}#{" (#{d2})" unless d==d2} enemy-exclusive class#{"es" if [d,d2].max>1}"
     end
     return nil
-  elsif ['skill','skills'].include?(f.downcase)
+  elsif ['skill','skills','ability','abilities','abilitys'].include?(f.downcase)
     s=@skills.reject{|q| q[1]=='Gates'}
     s=@skills.map{|q| q} if k==256291408598663168
     s2=@skills.reject{|q| q[1]=='Gates'}
@@ -5676,20 +6064,34 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     d=s2.reject{|q| q[1]!='Fates' && q[1]!='Gates'}.length
     d2=s.reject{|q| q[1]!='Fates' && q[1]!='Gates'}.length
     event << "#{d}#{" (#{d2})" unless d==d2} skills with *Fates* quirks"
+    d=s2.reject{|q| q[1]!='Three Houses'}.length
+    d2=s.reject{|q| q[1]!='Three Houses'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} skills with *Three Houses* quirks"
     event << "~~\"Quirk\" refers to either game-specific mechanics or given to different classes in each game~~"
-    event << ''
-    d=s2.reject{|q| q[2].map{|q2| q2[1].to_i<=0}.include?(true)}.length
-    d2=s.reject{|q| q[2].map{|q2| q2[1].to_i<=0}.include?(true)}.length
-    event << "#{d}#{" (#{d2})" unless d==d2} skills learned via classes"
-    d=s2.reject{|q| !q[2].map{|q2| q2[1]=='personal'}.include?(true)}.length
-    d2=s.reject{|q| !q[2].map{|q2| q2[1]=='personal'}.include?(true)}.length
-    event << "#{d}#{" (#{d2})" unless d==d2} personal skills"
-    d=s2.reject{|q| !q[2].map{|q2| ['Scroll','Manual'].include?(q2[0].split(' ')[-1])}.include?(true)}.length
-    d2=s.reject{|q| !q[2].map{|q2| ['Scroll','Manual'].include?(q2[0].split(' ')[-1])}.include?(true)}.length
-    event << "#{d}#{" (#{d2})" unless d==d2} skills learned through manuals or scrolls"
-    d=s2.reject{|q| !q[2].map{|q2| q2[0]=='Enemy exclusive'}.include?(true)}.length
-    d2=s.reject{|q| !q[2].map{|q2| q2[0]=='Enemy exclusive'}.include?(true)}.length
-    event << "#{d}#{" (#{d2})" unless d==d2} enemy exclusive skills"
+    if safe_to_spam?(event)
+      event << ''
+      d=s2.reject{|q| q[2]!='-' && q[2].map{|q2| q2[1].to_i<=0 || q2[1]=='mastery'}.include?(true)}.length
+      d2=s.reject{|q| q[2]!='-' && q[2].map{|q2| q2[1].to_i<=0 || q2[1]=='mastery'}.include?(true)}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} skills learned via classes"
+      d=s2.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[1]=='class'}.include?(true)}.length
+      d2=s.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[1]=='class'}.include?(true)}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} class-specific skills"
+      d=s2.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[1]=='personal'}.include?(true)}.length
+      d2=s.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[1]=='personal'}.include?(true)}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} personal skills"
+      d=s2.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[1]=='talent'}.include?(true)}.length
+      d2=s.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[1]=='talent'}.include?(true)}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} skills obtained through Budding Talents"
+      d=s2.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[1]=='skill'}.include?(true)}.length
+      d2=s.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[1]=='skill'}.include?(true)}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} skills obtained through weapon experience"
+      d=s2.reject{|q| q[2]!='-' && !q[2].map{|q2| ['Scroll','Manual'].include?(q2[0].split(' ')[-1])}.include?(true)}.length
+      d2=s.reject{|q| q[2]!='-' && !q[2].map{|q2| ['Scroll','Manual'].include?(q2[0].split(' ')[-1])}.include?(true)}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} skills learned through manuals or scrolls"
+      d=s2.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[0]=='Enemy exclusive'}.include?(true)}.length
+      d2=s.reject{|q| q[2]!='-' && !q[2].map{|q2| q2[0]=='Enemy exclusive'}.include?(true)}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} enemy exclusive skills"
+    end
     return nil
   elsif ['item','items','weapon','weapons'].include?(f.downcase)
     event << "**There are #{numbers[7]} items/weapons#{", or #{numbers[6]} with Penumbrans' included" if k==256291408598663168}.**"
@@ -5708,6 +6110,9 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
     d=s2.reject{|q| q[1]!='Fates' && q[1]!='Gates'}.length
     d2=s.reject{|q| q[1]!='Fates' && q[1]!='Gates'}.length
     event << "#{d}#{" (#{d2})" unless d==d2} items/weapons from *Fates*"
+    d=s2.reject{|q| q[1]!='Three Houses'}.length
+    d2=s.reject{|q| q[1]!='Three Houses'}.length
+    event << "#{d}#{" (#{d2})" unless d==d2} items/weapons from *Three Houses*"
     if safe_to_spam?(event)
       event << ''
       d=s2.reject{|q| !['Sword','Katana'].include?(q[2][0])}.length
@@ -5716,8 +6121,8 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
       d=s2.reject{|q| !['Lance','Naginata'].include?(q[2][0])}.length
       d2=s.reject{|q| !['Lance','Naginata'].include?(q[2][0])}.length
       event << "#{d}#{" (#{d2})" unless d==d2} Lances/Naginatas"
-      d=s2.reject{|q| !['Axes','Club'].include?(q[2][0])}.length
-      d2=s.reject{|q| !['Axes','Club'].include?(q[2][0])}.length
+      d=s2.reject{|q| !['Axe','Club'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Axe','Club'].include?(q[2][0])}.length
       event << "#{d}#{" (#{d2})" unless d==d2} Axes/Clubs"
       d=s2.reject{|q| !['Bow','Yumi'].include?(q[2][0])}.length
       d2=s.reject{|q| !['Bow','Yumi'].include?(q[2][0])}.length
@@ -5725,20 +6130,23 @@ bot.command(:snagstats) do |event, f| # snags the number of members in each of t
       d=s2.reject{|q| !['Dagger','Shuriken'].include?(q[2][0])}.length
       d2=s.reject{|q| !['Dagger','Shuriken'].include?(q[2][0])}.length
       event << "#{d}#{" (#{d2})" unless d==d2} Daggers/Shuriken"
-      d=s2.reject{|q| !['Tome','Scroll'].include?(q[2][0])}.length
-      d2=s.reject{|q| !['Tome','Scroll'].include?(q[2][0])}.length
-      event << "#{d}#{" (#{d2})" unless d==d2} Tomes/Scrolls"
+      d=s2.reject{|q| !['Brawling'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Brawling'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} fist weapons"
+      d=s2.reject{|q| !['Tome','Scroll','Black Magic','Dark Magic'].include?(q[2][0])}.length
+      d2=s.reject{|q| !['Tome','Scroll','Black Magic','Dark Magic'].include?(q[2][0])}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Reason magicks"
       d=s2.reject{|q| !['Beaststone'].include?(q[2][0])}.length
       d2=s.reject{|q| !['Beaststone'].include?(q[2][0])}.length
       event << "#{d}#{" (#{d2})" unless d==d2} Beaststones"
       d=s2.reject{|q| !['Dragonstone'].include?(q[2][0])}.length
       d2=s.reject{|q| !['Dragonstone'].include?(q[2][0])}.length
       event << "#{d}#{" (#{d2})" unless d==d2} Dragonstones"
-      d=s2.reject{|q| !['Staff','Rod'].include?(q[2][0])}.length
-      d2=s.reject{|q| !['Staff','Rod'].include?(q[2][0])}.length
-      event << "#{d}#{" (#{d2})" unless d==d2} Staves/Rods"
-      d=s2.reject{|q| ['Staff','Rod','Dragonstone','Beaststone','Tome','Scroll','Dagger','Shuriken','Bow','Yumi','Axes','Club','Lance','Naginata','Sword','Katana'].include?(q[2][0])}.length
-      d2=s.reject{|q| ['Staff','Rod','Dragonstone','Beaststone','Tome','Scroll','Dagger','Shuriken','Bow','Yumi','Axes','Club','Lance','Naginata','Sword','Katana'].include?(q[2][0])}.length
+      d=s2.reject{|q| q[1]=='Three Houses' || !['Staff','Rod'].include?(q[2][0])}.length+s2.reject{|q| q[2][0]!='White Magic'}.length
+      d2=s.reject{|q| q[1]=='Three Houses' || !['Staff','Rod'].include?(q[2][0])}.length+s.reject{|q| q[2][0]!='White Magic'}.length
+      event << "#{d}#{" (#{d2})" unless d==d2} Faith Magicks"
+      d=s2.reject{|q| ['Staff','Rod','Dragonstone','Beaststone','Tome','Scroll','Dagger','Shuriken','Bow','Yumi','Axe','Club','Lance','Naginata','Sword','Katana','Brawling','Black Magic','Dark Magic','White Magic'].include?(q[2][0])}.length
+      d2=s.reject{|q| ['Staff','Rod','Dragonstone','Beaststone','Tome','Scroll','Dagger','Shuriken','Bow','Yumi','Axe','Club','Lance','Naginata','Sword','Katana','Brawling','Black Magic','Dark Magic','White Magic'].include?(q[2][0])}.length
       event << "#{d}#{" (#{d2})" unless d==d2} other weapons/items"
       event << ''
       d=s2.reject{|q| !['E'].include?(q[2][1])}.length
@@ -6182,7 +6590,7 @@ bot.message do |event|
   elsif ['fea!','fef!','fea?','fef?'].include?(str[0,4]) || ['fe13!','fe14!','fe16!','fe13?','fe14?','fe16?','fe3h!','fe3h?','feth!','feth?'].include?(str[0,5]) || ['fe!','fe?','3h!','3h?'].include?(str[0,3]) || (!event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0 && @prefixes[event.server.id].downcase==event.message.text.downcase[0,@prefixes[event.server.id].length])
     str=str[4,str.length-4] if ['fea!','fef!','fea?','fef?'].include?(str[0,4])
     str=str[5,str.length-5] if ['fe13!','fe14!','fe13?','fe14?'].include?(str[0,5])
-    str=str[3,str.length-3] if ['fe!','fe?'].include?(str[0,3])
+    str=str[3,str.length-3] if ['fe!','fe?','3h!','3h?'].include?(str[0,3])
     str=str[@prefixes[event.server.id].length,str.length-@prefixes[event.server.id].length] if (!event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0 && @prefixes[event.server.id].downcase==event.message.text.downcase[0,@prefixes[event.server.id].length])
     args=str.split(' ')
     puts event.message.text
@@ -6196,13 +6604,24 @@ bot.message do |event|
           skill_parse(event,bot,args)
         elsif !find_item(game,args.join(' '),event,true).nil?
           item_parse(event,bot,args,1)
+        elsif !find_crest(args.join(' '),event,true).nil?
+          crest_parse(bot,event,args)
+        elsif !find_combat_art(args.join(' '),event,true).nil?
+          combat_art_parse(bot,event,args)
         elsif !find_skill(game,args.join(' '),event).nil?
           skill_parse(event,bot,args)
         elsif !find_item(game,args.join(' '),event).nil?
           item_parse(event,bot,args,1)
+        elsif !find_crest(args.join(' '),event).nil?
+          crest_parse(bot,event,args)
+        elsif !find_combat_art(args.join(' '),event).nil?
+          combat_art_parse(bot,event,args)
         end
       end
     end
+  elsif !event.server.nil? && (above_memes().include?("s#{event.server.id}") || above_memes().include?(event.server.id))
+  elsif !event.channel.nil? && above_memes().include?("c#{event.channel.id}")
+  elsif above_memes().include?("u#{event.user.id}") || above_memes().include?(event.user.id)
   elsif event.message.text.include?('0x4') && !event.user.bot_account? && @shardizard==4
     s=event.message.text
     s=remove_format(s,'```')              # remove large code blocks
@@ -6230,6 +6649,22 @@ bot.mention do |event|
   elsif ['birthday','bday'].include?(args[0].downcase)
     args.shift
     bday_text(event,bot)
+    m=1
+  elsif ['levelup','level'].include?(args[0].downcase)
+    args.shift
+    levelup_unit(bot,event,args)
+    m=1
+  elsif ['crest'].include?(args[0].downcase)
+    args.shift
+    crest_parse(bot,event,args)
+    m=1
+  elsif ['combat','art','arts','combatart','combatarts'].include?(args[0].downcase)
+    args.shift
+    combat_art_parse(bot,event,args)
+    m=1
+  elsif ['marry','marriage','support'].include?(args[0].downcase)
+    args.shift
+    marry_units(bot,event,args[0],args[1])
     m=1
   elsif ['unit','character','chara','char'].include?(args[0].downcase)
     args.shift
@@ -6264,10 +6699,18 @@ bot.mention do |event|
         skill_parse(event,bot,args)
       elsif !find_item(game,args.join(' '),event,true).nil?
         item_parse(event,bot,args,1)
+      elsif !find_crest(args.join(' '),event,true).nil?
+        crest_parse(bot,event,args)
+      elsif !find_combat_art(args.join(' '),event,true).nil?
+        combat_art_parse(bot,event,args)
       elsif !find_skill(game,args.join(' '),event).nil?
         skill_parse(event,bot,args)
       elsif !find_item(game,args.join(' '),event).nil?
         item_parse(event,bot,args,1)
+      elsif !find_crest(args.join(' '),event).nil?
+        crest_parse(bot,event,args)
+      elsif !find_combat_art(args.join(' '),event).nil?
+        combat_art_parse(bot,event,args)
       end
     end
   end
@@ -6275,11 +6718,11 @@ end
 
 def next_birthday(bot,mode=0)
   return nil unless [1,4].include?(@shardizard)
-  chn=374991827092373504
-  chn=285663217261477889 if @shardizard==4
+  chn=[374991827092373504,655961136134488084]
+  chn=[285663217261477889] if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
-  return nil if t.year==2019 && t.month==11 && t.day==24
+  return nil if t.year==2020 && t.month==3 && t.day==17
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
   m=0
   if t.hour<10
@@ -6287,7 +6730,9 @@ def next_birthday(bot,mode=0)
   elsif (t-@last_bday).to_f<23*60*60
   elsif untz.length>0
     @last_bday=t
-    bot.channel(chn).send_message("__Today's *Fire Emblem* birthdays__\n#{untz.map{|q| "**#{q[3]}** from *#{q[4]}*"}.join("\n")}")
+    for i in 0...chn.length
+      bot.channel(chn[i]).send_message("__Today's *Fire Emblem* birthdays__\n#{untz.map{|q| "**#{q[3]}** from *#{q[4]}*#{" - #{t.year-q[5]} years old" unless q[5].nil?}"}.join("\n")}")
+    end
   end
   t+=(1-m)*24*60*60
   @scheduler.at "#{t.year}/#{t.month}/#{t.day} 1000" do
