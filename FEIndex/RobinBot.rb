@@ -348,7 +348,7 @@ def safe_to_spam?(event,chn=nil) # determines whether or not it is safe to send 
   return true if event.server.nil? # it is safe to spam in PM
   return false if event.message.text.downcase.split(' ').include?('smol') && @shardizard==4
   return true if @shardizard==4
-  return true if [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,508792801455243266,508793141202255874,508793425664016395,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388].include?(event.server.id) # it is safe to spam in the emoji servers
+  return true if [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,508792801455243266,508793141202255874,508793425664016395,523821178670940170,523830882453422120,691616574393811004,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388].include?(event.server.id) # it is safe to spam in the emoji servers
   chn=event.channel if chn.nil?
   return true if ['bots','bot'].include?(chn.name.downcase) # channels named "bots" are safe to spam in
   return true if chn.name.downcase.include?('bot') && chn.name.downcase.include?('spam') # it is safe to spam in any bot spam channel
@@ -394,6 +394,8 @@ def help_text(event,bot,command=nil,subcommand=nil)
     create_embed(event,"__**Fluid mode**__","- Forced by using the command prefixes `FE!` `FE?`#{" `#{@prefixes[event.server.id]}`" if !event.server.nil? && !@prefixes[event.server.id].nil? && @prefixes[event.server.id].length>0}\n- Lucina defaults to being an Amiibo character, but becomes a second-gen unit if a first-gen unit is listed alongside her\n- Robin is an Amiibo character, unless stats are included in your message and you are not invoking Kana\n- Anna defaults to being a Noble.  'Fates!Anna' and 'Awakening!Anna' can be used to distinguish\n- Corrin is shown with default stats, unless stats are included in your message and you are not invoking Morgan\n- Kids will be calculated via the mode that matches their game of origin, regardless of the game of origin of the variable parent (this means that when calculating Felicia!Lucina!Kana, Felicia!Lucina will be calculated in *Awakening* mode and the result would be used in a *Fates* mode calculation as the mother of a female Kana)\n- When using the `data` command to find a character's growths in a class that is in multiple games, the version from the game the character originates from will be used\n- When using the `class` command to look at a class that exists in multiple games, all applicable versions will be displayed\n- When using the `item`/`weapon` command to look at a weapon that exists in multiple games, all applicable versions will be displayed\n- When using the `skill` command to look at a skill that exists in multiple games and behaves differently in each, all applicable versions will be displayed",0x010101)
   elsif ['status','avatar','avvie'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}**","Shows my current avatar, status, and reason for such.\n\nWhen used by my developer with a message following it, sets my status to that message.",0xD49F61)
+  elsif ['prefix'].include?(command.downcase)
+    create_embed(event,'**prefix** __new prefix__',"Sets the server's custom prefix to `prefix`.\n\n**This command can only be used by server mods.**",0xC31C19)
   elsif ['embed','embeds'].include?(command.downcase)
     event << "**embed**"
     event << ''
@@ -478,7 +480,7 @@ def help_text(event,bot,command=nil,subcommand=nil)
   elsif ['deletealias','removealias'].include?(command.downcase)
     create_embed(event,"**#{command.downcase}** __alias__","Removes `alias` from the list of aliases, regardless of who/what it was for.\n\n**This command can only be used by server mods.**",0xC31C19)
   elsif ['bday','birthday','bdays','birthdays'].include?(command.downcase)
-    create_embed(event,"**#{command.downcase}**","Shows a list of unit birthdays, sorted by how soon they will come up.\n\nIn PM, shows the entire calendar.\nElsewhere, shows only the next eight for each game.",xcolor)
+    create_embed(event,"**#{command.downcase}**","Shows a list of unit birthdays, sorted by how soon they will come up.\n\nIn PM, shows the entire calendar.\nElsewhere, shows only the next eight for each game.\n\nIf a server mod follows this command with \"announce\", I will post announcements in the channel on characters' birthdays, at 4 A.M. U.S. Central Time.  (Limit one channel per server)\nIf I already post such announcements in the channel, server mods can follow this command with \"off\" to turn them off.",xcolor)
   elsif command.downcase=='addalias'
     create_embed(event,'**addalias** __new alias__ __unit__',"Adds `new alias` to `name`'s aliases.\nIf the arguments are listed in the opposite order, the command will auto-switch them.\n\nAliases can be added to:\n- Units\n- Classes\n- Skills\n- Items/Weapons\n\nInforms you if the alias already belongs to someone/something.\nAlso informs you if the unit you wish to give the alias to does not exist.\n\n**This command can only be used by server mods.**",0xC31C19)
   elsif ['marry','marriage','support'].include?(command.downcase)
@@ -554,9 +556,9 @@ end
 def overlap_prevent(event) # used to prevent servers with both Robin and her debug form from receiving two replies
   if event.server.nil? # failsafe code catching PMs as not a server
     return false
-  elsif event.message.text.downcase.split(' ').include?('debug') && [443172595580534784,443704357335203840,443181099494146068,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(event.server.id)
+  elsif event.message.text.downcase.split(' ').include?('debug') && [443172595580534784,443704357335203840,443181099494146068,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,691616574393811004,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(event.server.id)
     return @shardizard != 4 # the debug bot can be forced to be used in the emoji servers by including the word "debug" in your message
-  elsif [443172595580534784,443704357335203840,443181099494146068,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(event.server.id) # emoji servers will use default Elise otherwise
+  elsif [443172595580534784,443704357335203840,443181099494146068,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,691616574393811004,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(event.server.id) # emoji servers will use default Elise otherwise
     return @shardizard == 4
   end
   return false
@@ -2898,7 +2900,7 @@ def class_parse(event,bot,args)
   return nil
 end
 
-def x_find_skill(game,name,event,fullname=false)
+def x_find_skill(game,name,event,fullname=false,everything=false)
   if !name.nil? && name.downcase.gsub(' ','').gsub('_','')[0,2]=="<:"
     name=name.split(':')[1] unless x_find_skill(game,name.split(':')[1],event,fullname).nil?
   end
@@ -2911,6 +2913,7 @@ def x_find_skill(game,name,event,fullname=false)
   m=[game] if game=='Three Houses'
   sklz=@skills.map{|q| q}
   sklz=sklz.reject{|q| !m.include?(q[1])}
+  sklz=sklz.reject{|q| @units.map{|q2| q2[0]}.include?(q[0]) || @skills.map{|q2| q2[0]}.include?(q[0])} if everything
   for i in 0...sklz.length
     return sklz[i] if sklz[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(sklz[i][1])
   end
@@ -2948,6 +2951,7 @@ def x_find_skill(game,name,event,fullname=false)
   m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168
   sklz=@skills.map{|q| q}
   sklz=sklz.reject{|q| !m.include?(q[1])}
+  sklz=sklz.reject{|q| @units.map{|q2| q2[0]}.include?(q[0]) || @skills.map{|q2| q2[0]}.include?(q[0])} if everything
   for i in 0...sklz.length
     return sklz[i] if sklz[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(sklz[i][1])
   end
@@ -2967,24 +2971,24 @@ def x_find_skill(game,name,event,fullname=false)
   return nil
 end
 
-def find_skill(game,name,event,fullname=false)
-  return x_find_skill(game,name,event,fullname) unless x_find_skill(game,name,event,fullname).nil?
-  if x_find_skill(game,name,event,fullname).nil?
+def find_skill(game,name,event,fullname=false,everything=false)
+  return x_find_skill(game,name,event,fullname,everything) unless x_find_skill(game,name,event,fullname,everything).nil?
+  if x_find_skill(game,name,event,fullname,everything).nil?
     args=name.split(' ')
     for i in 0...args.length
-      return x_find_skill(game,args[0,args.length-i].join(' '),event,fullname) unless x_find_skill(game,args[0,args.length-i].join(' '),event,fullname).nil?
+      return x_find_skill(game,args[0,args.length-i].join(' '),event,fullname,everything) unless x_find_skill(game,args[0,args.length-i].join(' '),event,fullname,everything).nil?
     end
     for i in 0...args.length
-      return x_find_skill(game,args[i,args.length-i].join(' '),event,fullname) unless x_find_skill(game,args[i,args.length-i].join(' '),event,fullname).nil?
+      return x_find_skill(game,args[i,args.length-i].join(' '),event,fullname,everything) unless x_find_skill(game,args[i,args.length-i].join(' '),event,fullname,everything).nil?
       for j in 0...args.length-i
-        return x_find_skill(game,args[i,args.length-i-j].join(' '),event,fullname) unless x_find_skill(game,args[i,args.length-i-j].join(' '),event,fullname).nil?
+        return x_find_skill(game,args[i,args.length-i-j].join(' '),event,fullname,everything) unless x_find_skill(game,args[i,args.length-i-j].join(' '),event,fullname,everything).nil?
       end
     end
   end
   return nil
 end
 
-def x_find_item(game,name,event,fullname=false)
+def x_find_item(game,name,event,fullname=false,everything=false)
   if !name.nil? && name.downcase.gsub(' ','').gsub('_','')[0,2]=="<:"
     name=name.split(':')[1] unless x_find_item(game,name.split(':')[1],event,fullname).nil?
   end
@@ -2995,8 +2999,10 @@ def x_find_item(game,name,event,fullname=false)
   m=[game]
   m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168 && game=='Fates'
   m=[game] if game=='Three Houses'
-  for i in 0...@items.length
-    return @items[i] if @items[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
+  itz=@items.map{|q| q}
+  itz=itz.reject{|q| @units.map{|q2| q2[0]}.include?(q[0]) || @skills.map{|q2| q2[0]}.include?(q[0])} if everything
+  for i in 0...itz.length
+    return itz[i] if itz[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(itz[i][1])
   end
   nicknames_load()
   g=0
@@ -3012,8 +3018,8 @@ def x_find_item(game,name,event,fullname=false)
     end
   end
   unless fullname
-    for i in 0...@items.length
-      return @items[i] if @items[i][0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
+    for i in 0...itz.length
+      return itz[i] if itz[i][0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(itz[i][1])
     end
     for i in alz
       if i[0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
@@ -3028,15 +3034,15 @@ def x_find_item(game,name,event,fullname=false)
   # then try generic item
   m=['Fates','Awakening','Three Houses']
   m.push('Gates') if !event.server.nil? && event.server.id==256291408598663168
-  for i in 0...@items.length
-    return @items[i] if @items[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
+  for i in 0...itz.length
+    return itz[i] if itz[i][0].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(itz[i][1])
   end
   for i in alz
     return x_find_item(game,i[1],event) if i[0].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
   end
   unless fullname
-    for i in 0...@items.length
-      return @items[i] if @items[i][0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(@items[i][1])
+    for i in 0...itz.length
+      return itz[i] if itz[i][0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && m.include?(itz[i][1])
     end
     for i in alz
       return x_find_item(game,i[1],event) if i[0][0,name.length].gsub(' ','').downcase==name.gsub(' ','').downcase && (i[3].nil? || i[3].include?(g))
@@ -3046,17 +3052,17 @@ def x_find_item(game,name,event,fullname=false)
   return ["kvsnokfdn"]
 end
 
-def find_item(game,name,event,fullname=false)
-  return x_find_item(game,name,event,fullname) unless x_find_item(game,name,event,fullname)==["kvsnokfdn"]
-  if x_find_item(game,name,event,fullname)==["kvsnokfdn"]
+def find_item(game,name,event,fullname=false,everything=false)
+  return x_find_item(game,name,event,fullname,everything) unless x_find_item(game,name,event,fullname,everything)==["kvsnokfdn"]
+  if x_find_item(game,name,event,fullname,everything)==["kvsnokfdn"]
     args=name.split(' ')
     for i in 0...args.length
-      return x_find_item(game,args[0,args.length-i].join(' '),event,fullname) unless x_find_item(game,args[0,args.length-i].join(' '),event,fullname)==["kvsnokfdn"]
+      return x_find_item(game,args[0,args.length-i].join(' '),event,fullname,everything) unless x_find_item(game,args[0,args.length-i].join(' '),event,fullname,everything)==["kvsnokfdn"]
     end
     for i in 0...args.length
-      return x_find_item(game,args[i,args.length-i].join(' '),event,fullname) unless x_find_item(game,args[i,args.length-i].join(' '),event,fullname)==["kvsnokfdn"]
+      return x_find_item(game,args[i,args.length-i].join(' '),event,fullname,everything) unless x_find_item(game,args[i,args.length-i].join(' '),event,fullname,everything)==["kvsnokfdn"]
       for j in 0...args.length-i
-        return x_find_item(game,args[i,args.length-i-j].join(' '),event,fullname) unless x_find_item(game,args[i,args.length-i-j].join(' '),event,fullname)==["kvsnokfdn"]
+        return x_find_item(game,args[i,args.length-i-j].join(' '),event,fullname,everything) unless x_find_item(game,args[i,args.length-i-j].join(' '),event,fullname,everything)==["kvsnokfdn"]
       end
     end
   end
@@ -4767,10 +4773,11 @@ def bday_order(bot,event=nil,mode=0)
   return untz
 end
 
-def bday_text(event,bot)
+def bday_text(event,bot,message=nil)
   untz=bday_order(bot,event)
   t=Time.now
   msg='__**Upcoming birthdays**__'
+  msg=extend_message(message,msg,event,2) if !message.nil? && message.length>0
   ftz=untz.reject{|q| q[4]!='Fates'}
   gtz=untz.reject{|q| q[4]!='Gates'}
   awk=untz.reject{|q| q[4]!='Awakening'}
@@ -4810,6 +4817,7 @@ def bday_text(event,bot)
       msg=extend_message(msg,"**#{unk[i][3]}** - #{unk[i][2]} #{['','January','February','March','April','May','June','July','August','September','October','November','December'][unk[i][1]]}#{" #{unk[i][0]}" unless unk[i][0]==t.year}",event)
     end
   end
+  msg=extend_message(msg,message,event,2) if !message.nil? && message.length>0 && !msg.include?(message)
   event.respond msg
   return nil
 end
@@ -5312,9 +5320,62 @@ bot.command(:crest) do |event, *args|
   crest_parse(bot,event,args)
 end
 
-bot.command([:bday,:birthday,:bdays,:birthdays]) do |event|
+bot.command([:bday,:birthday,:bdays,:birthdays]) do |event, *args|
   return nil if overlap_prevent(event)
-  bday_text(event,bot)
+  msg=nil
+  if args.nil? || args.length<=0
+  elsif ['here','posts','post','announcements','announcement','announce'].include?(args[0].downcase)
+    args.shift
+    if event.server.nil?
+      msg='This command is not available in PM.  Showing birthday list instead.'
+      args=[]
+    elsif !is_mod?(event.user,event.server,event.channel)
+      msg='You are not a mod.  Showing birthday list instead.'
+      args=[]
+    elsif @shardizard==4
+      msg='This command is not available in debug mode.  Showing birthday list instead.'
+      args=[]
+    elsif @bday_channels[event.server.id]==event.channel.id
+      event.respond "This channel is already being used for birthday announcements.\nIf you wish to stop them, have a mod use the command `FE!birthday off` in this channel."
+      return nil
+    elsif !(args.nil? || args.length<=0) && ['off','no','false'].include?(args[0].downcase)
+    else
+      m="<##{@bday_channels[event.server.id]}>"
+      @bday_channels[event.server.id]=event.channel.id
+      x=@bday_channels
+      open("C:/Users/#{@mash}/Desktop/devkit/FEBDayPosts.rb", 'w') { |f|
+        f.puts x.to_s.gsub('=>',' => ').gsub(', ',",\n  ").gsub('{',"@bday_channels = {\n  ").gsub('}',"\n}")
+      }
+      str="I will now make birthday announcements in this channel, at 4:00 AM U.S. Central Time on affected birthdays."
+      str="#{str}\nI will no longer do the announcements in #{m}." if m.length>3
+      event.respond str
+      return nil
+    end
+  end
+  if args.nil? || args.length<=0
+  elsif ['off','no','false'].include?(args[0].downcase)
+    if event.server.nil?
+      msg='This command is not available in PM.  Showing birthday list instead.'
+    elsif !is_mod?(event.user,event.server,event.channel)
+      msg='You are not a mod.  Showing birthday list instead.'
+    elsif @shardizard==4
+      msg='This command is not available in debug mode.  Showing birthday list instead.'
+    elsif @bday_channels[event.server.id].nil?
+      msg='This server already lacks a birthday announcement channel.  Showing birthday list instead.'
+    elsif @bday_channels[event.server.id]!=event.channel.id
+      msg="This server's birthday announcement channel is <##{@bday_channels[event.server.id]}>.  If you wish to turn off birthday announcements, please use this command there.\nShowing birthday list instead."
+    else
+      @bday_channels[event.server.id]=nil
+      @bday_channels.compact!
+      x=@bday_channels
+      open("C:/Users/#{@mash}/Desktop/devkit/FEBDayPosts.rb", 'w') { |f|
+        f.puts x.to_s.gsub('=>',' => ').gsub(', ',",\n  ").gsub('{',"@bday_channels = {\n  ").gsub('}',"\n}")
+      }
+      event.respond "I will no longer make birthday announcements in this server."
+      return nil
+    end
+  end
+  bday_text(event,bot,msg)
 end
 
 bot.command([:find, :sort, :list, :search]) do |event, *args|
@@ -5386,13 +5447,15 @@ end
 
 bot.command([:bugreport, :suggestion, :feedback]) do |event, *args|
   return nil if overlap_prevent(event)
-  bug_report(bot,event,args,3,['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'],'Alliance',['fe!','3h!','fe?','3h?','fea!','fea?','fef!','fef?','fe3h!','fe3h?','feth!','feth?','fe13!','fe13?','fe14!','fe14?','fe16!','fe16?'])
+  x=['fe!','3h!','fe?','3h?','fea!','fea?','fef!','fef?','fe3h!','fe3h?','feth!','feth?','fe13!','fe13?','fe14!','fe14?','fe16!','fe16?']
+  x.push(@prefixes[event.server.id]) unless event.server.nil? || @prefixes[event.server.id].nil?
+  bug_report(bot,event,args,3,['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian'],'Alliance',x)
 end
 
 bot.command(:prefix) do |event, prefix|
   return nil if overlap_prevent(event)
   if prefix.nil?
-    event.respond 'No prefix was defined.  Try again'
+    event.respond 'No prefix was defined.  Try again.'
     return nil
   elsif event.server.nil?
     event.respond 'This command is not available in PM.'
@@ -6365,7 +6428,7 @@ bot.command([:safe,:spam,:safetospam,:safe2spam,:long,:longreplies]) do |event, 
   metadata_load()
   if event.server.nil?
     event.respond 'It is safe for me to send long replies here because this is my PMs with you.'
-  elsif [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388].include?(event.server.id)
+  elsif [443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,691616574393811004,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388].include?(event.server.id)
     event.respond 'It is safe for me to send long replies here because this is one of my emoji servers.'
   elsif @shardizard==4
     event.respond 'It is safe for me to send long replies here because this is my debug mode.'
@@ -6521,6 +6584,14 @@ bot.command([:status, :avatar, :avvie]) do |event, *args|
   return nil
 end
 
+bot.command([:boop]) do |event|
+  data_load()
+  x=@skills.map{|q| q}
+  y=@classes.map{|q| q}
+  y2=@units.map{|q| q}
+  event.respond x.reject{|q| !y.map{|q2| q2[0]}.include?(q[0]) && !y2.map{|q2| q2[0]}.include?(q[0])}.map{|q| "**#{q[0]}** - #{q[1]}"}.join("\n")
+end
+
 bot.server_create do |event|
   chn=event.server.general_channel
   if chn.nil?
@@ -6530,7 +6601,7 @@ bot.server_create do |event|
     end
     chn=chnn[0] if chnn.length>0
   end
-  if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(event.server.id) && @shardizard==4
+  if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,497429938471829504,554231720698707979,523821178670940170,523830882453422120,691616574393811004,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(event.server.id) && @shardizard==4
     (chn.send_message(get_debug_leave_message()) rescue nil)
     event.server.leave
   else
@@ -6598,7 +6669,7 @@ bot.message do |event|
       game=game_proc(event)
       m=-1
       a=args.reject{|q| !find_unit(game,q,event,true).nil? || !find_class(q,event,game).nil?}
-      m=parse_job(event,args,bot,1) unless (!find_skill(game,args.join(' '),event,true).nil? && (find_skill(game,args.join(' '),event,true)[0]!='Aptitude' || a.length==args.length)) || !find_item(game,args.join(' '),event,true).nil?
+      m=parse_job(event,args,bot,1) unless (!find_skill(game,args.join(' '),event,true,true).nil? && (find_skill(game,args.join(' '),event,true,true)[0]!='Aptitude' || a.length==args.length)) || !find_item(game,args.join(' '),event,true,true).nil?
       if m<0
         if !find_skill(game,args.join(' '),event,true).nil?
           skill_parse(event,bot,args)
@@ -6718,11 +6789,11 @@ end
 
 def next_birthday(bot,mode=0)
   return nil unless [1,4].include?(@shardizard)
-  chn=[374991827092373504,655961136134488084]
+  chn=@bday_channels.values
   chn=[285663217261477889] if @shardizard==4
   untz=bday_order(bot)
   t=Time.now
-  return nil if t.year==2020 && t.month==3 && t.day==17
+  return nil if t.year==2020 && t.month==4 && t.day==1 && @shardizard != 4
   untz=untz.reject{|q| q[0]!=t.year || q[1]!=t.month || q[2]!=t.day}
   m=0
   if t.hour<10
@@ -6743,7 +6814,7 @@ end
 def next_holiday(bot,mode=0)
   t=Time.now
   t-=60*60*6
-  holidays=[]
+  holidays=[[0,4,1,'RobinBot(M)',"pranks on you."]]
   d=get_donor_list().reject{|q| q[2][3]<3 || q[4][3]=='-'}
   for i in 0...d.length
     if d[i][4][3]!='-'
@@ -6881,7 +6952,7 @@ end
 bot.ready do |event|
   if @shardizard==4
     for i in 0...bot.servers.values.length
-      if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(bot.servers.values[i].id)
+      if ![285663217261477889,443172595580534784,443181099494146068,443704357335203840,449988713330769920,497429938471829504,554231720698707979,523821178670940170,523830882453422120,691616574393811004,523824424437415946,523825319916994564,523822789308841985,532083509083373579,575426885048336388,572792502159933440].include?(bot.servers.values[i].id)
         bot.servers.values[i].general_channel.send_message(get_debug_leave_message()) rescue nil
         bot.servers.values[i].leave
       end
