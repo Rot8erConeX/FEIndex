@@ -6973,10 +6973,14 @@ bot.ready do |event|
   metadata_save()
   data_load()
   system("color B#{"14506"[@shardizard,1]}")
-  bot.game="FE Awakening/Fates (FE!help for info)"
+  if @shardizard==4
+    next_holiday(bot)
+    bot.user(bot.profile.id).on(285663217261477889).nickname="RobinBot (Debug)"
+    bot.profile.avatar=(File.open("C:/Users/#{@mash}/Desktop/devkit/DebugRobin.png",'r'))
+  else
+    next_holiday(bot)
+  end
   next_birthday(bot)
-  bot.user(bot.profile.id).on(285663217261477889).nickname="RobinBot (Debug)" if @shardizard==4
-  bot.profile.avatar=(File.open("C:/Users/#{@mash}/Desktop/devkit/DebugRobin.png",'r')) if @shardizard==4
   system("title #{['Plegian/Vallite','Ylissian/Hoshidan','Valmese/Nohrian','','Golden'][@shardizard]} RobinBot")
   if @shardizard==4
     if File.exist?("C:/Users/#{@mash}/Desktop/devkit/DebugSav.txt")
