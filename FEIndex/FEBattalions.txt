@@ -1,0 +1,189 @@
+Church of Seiros Soldiers\Infantry\0, 0, 5, 0, 0, 3, 3, 1\Disturbance\E\30\1000
+Seiros Mercenaries\Infantry\3, -2, 10, 0, 0, 2, 0, 1\Onslaught\E\30\1200
+Seiros Holy Monks\Infantry\-1, 0, 10, 0, 0, 0, 3, 1\Stride\E\30\1200
+Seiros Sacred Monks\Infantry\-1, 0, 10, 0, 0, 0, 4, 1\Resonant White Magic\E\30\1200
+Seiros Brawlers\Infantry\4, -2, 0, 0, 10, 0, -1, 1\Disturbance\E\30\1200
+Seiros Magic Corps\Infantry\-2, 3, 5, 0, 0, 0, 5, 3\Group Flames\D\30\1200
+Seiros Archers\Infantry\2, 0, 15, 0, 10, 0, 0, 3\Fusillade\D\45\1200
+Seiros Armored Co.\Armored\4, 0, 0, 0, -10, 4, 0, 3\Onslaught\D\60\1200
+Seiros Pegasus Co.\Flying\4, 0, 0, 0, 5, 2, 5, 5\Assembly\D\60\1200
+Knights of Seiros\Cavalry\4, -1, 0, 0, 5, 3, 3, 5\Blaze\C\60\1500
+Holy Knights of Seiros\Cavalry\7, -2, 0, 0, 0, 5, 7, 7\Assault Troop\B\75\2000
+Indech Sword Fighters\Armored\8, -2, 20, 10, 0, 4, 0, 10\Retribution\A\105\2500
+Macuil Evil Repelling Co.\Infantry\0, 7, 30, 0, 0, 1, 6, 10\Resonant Lightning\A\105\2500
+Empire Infantry\Infantry\0, -2, 10, 0, 0, 3, 0, 1\Lure\E\30\1000
+Empire Warriors\Infantry\4, -2, 0, 0, 0, 0, 0, 1\Random Shot\E\30\1200
+Empire Brawlers\Infantry\4, -2, 0, 0, 10, 0, -1, 1\Disturbance\E\30\1200
+Empire Magic Corps\Infantry\-2, 4, 0, 0, 0, 0, 4, 3\Group Flames\D\30\1200
+Empire Archers\Infantry\3, -2, 15, 0, 0, 3, 0, 3\Fusillade\D\30\1200
+Empire Cavalry\Cavalry\4, -2, 0, 0, 5, 4, 0, 3\Assault Troop\D\45\1200
+Empire Armored Co.\Armored\3, -2, 5, 0, -10, 5, 0, 3\Impregnable Wall\D\60\1200
+Empire Knights\Cavalry\5, -2, 5, 0, 0, 4, 0, 5\Blaze\C\60\1500
+Empire Snipers\Infantry\5, -2, 10, 0, 0, 3, 0, 5\Flash-Fire Arrows\C\60\1500
+Empire Magic Users\Infantry\-2, 5, 0, 10, 0, 0, 4, 5\Resonant Flames\C\45\1500
+Empire Pavise Co.\Armored\2, -2, 5, 0, -10, 6, 1, 5\Blaze\C\75\1500
+Empire Pegasus Co.\Flying\4, 0, 15, 0, 0, 3, 4, 6\Group Lance Attack\D\60\1500
+Empire Wyvern Co.\Flying\5, -2, 5, 10, 0, 4, 0, 5\Reversal\C\60\1500
+Empire Heavy Soldiers\Armored\6, -2, 15, 0, -10, 9, 1, 7\Line of Lances\B\75\2000
+Empire Holy Magic Users\Infantry\-2, 6, 0, 0, 0, 4, 7, 8\Blessing\B\60\2000
+Empire Raiders\Infantry\7, 0, 0, 0, 10, 4, 0, 7\Absorption\B\75\2000
+Imperial Guard\Armored\7, -2, 0, 10, 0, 4, 0, 7\Blaze\B\75\2000
+Empire Elite Wyvern Co.\Flying\8, -2, 0, 10, 0, 6, 0, 7\Assembly\B\75\2000
+Black Eagle Heavy Axes\Armored\7, 0, 0, 10, -10, 8, 2, 10\Onslaught\A\105\2500
+Black Eagle Cavalry\Cavalry\7, 0, 20, 0, 5, 5, 0, 10\Linked Horses\A\105\2500
+Black Eagle Pegasus Co.\Flying\7, 0, 0, 10, 10, 5, 7, 10\Retribution\A\105\2500
+Kingdom Infantry\Infantry\3, -2, 5, 0, 0, 3, 0, 1\Lure\E\30\
+Kingdom Lance Co.\Infantry\3, -2, 0, 0, 10, 0, 0, 1\Group Lance Attack\E\30\
+Kingdom Brawlers\Infantry\4, -2, 0, 0, 10, 0, -1, 1\Disturbance\E\30\1200
+Kingdom Magic Corps\Infantry\-2, 3, 5, 0, 0, 1, 4, 3\Group Ice\D\30\
+Kingdom Archers\Infantry\4, -2, 10, 0, 0, 3, 0, 3\Retribution\D\30\
+Kingdom Cavalry\Cavalry\4, -2, 5, 0, 0, 4, 0, 3\Stride\D\45\
+Kingdom Armored Co.\Armored\3, -2, 5, 0, -10, 5, 0, 3\Impregnable Wall\D\60\
+Kingdom Knights\Cavalry\5, -2, 5, 0, 0, 4, 1, 5\Assault Troop\C\60\
+Kingdom Snipers\Infantry\3, -2, 15, 0, 0, 3, 1, 5\Fusillade\C\60\
+Kingdom Magic Users\Infantry\-2, 5, 0, 0, 5, 1, 3, 5\Resonant Ice\C\45\
+Kingdom Brave Lance Co.\Infantry\4, -2, 20, 0, 10, 3, 0, 5\Onslaught\C\60\
+Kingdom Pegasus Co.\Flying\4, 0, 5, 0, 5, 3, 4, 6\Assembly\D\60\
+Kingdom Wyvern Co.\Flying\5, -2, 15, 5, 0, 4, 0, 5\Recovery Roar\C\60\
+Kingdom Heavy Soldiers\Armored\4, -2, 5, 5, -10, 7, 0, 7\Group Lance Attack\B\90\
+Kingdom Holy Knights\Cavalry\7, -2, 5, 0, -10, 5, 7, 7\Linked Horses\B\75\
+Kingdom Heavy Knights\Armored\4, -2, 15, 0, -15, 7, 0, 7\Sacred Shield\B\90\
+Royal Guard\Infantry\6, 0, 20, 10, -10, 4, 0, 7\Line of Lances\B\75\
+Kingdom Priests\Infantry\0, 5, 5, 0, -5, 0, 7, 7\Blessing\B\60\
+Blue Lion Knights\Cavalry\7, -2, 5, 15, -10, 5, 0, 10\Linked Horses\A\105\
+Blue Lion Magic Corps\Infantry\-2, 7, 5, 0, -10, 5, 7, 10\Resonant Ice\A\105\
+Blue Lion Dancers\Infantry\-1, -1, 0, 0, 20, 3, 3, 10\Dance of the Goddess\A\105\
+Alliance Infantry\Infantry\0, -2, 9, 0, 10, 0, 0, 1\Lure\E\30\
+Alliance Duelists\Infantry\0, -2, 0, 9, 10, 0, 0, 1\Mad Melee\E\30\1200
+Alliance Brawlers\Infantry\4, -2, 0, 0, 10, 0, -1, 1\Disturbance\E\30\1200
+Alliance Magic Corps\Infantry\-2, 3, 0, 0, 10, 0, 4, 3\Group Lightning\D\30\1200
+Alliance Archers\Infantry\3, -2, 14, 0, 10, 0, 0, 3\Poisoned Arrows\D\30\
+Alliance Cavalry\Cavalry\4, -2, 0, 0, 10, 0, 0, 3\Assault Troop\D\45\
+Alliance Armored Co.\Armored\3, -2, 5, 0, -5, 4, 0, 3\Disturbance\D\60\
+Alliance Knights\Cavalry\4, -2, 0, 0, 10, 3, 1, 5\Blaze\C\60\1500
+Alliance Snipers\Infantry\3, -2, 15, 0, 10, 0, 0, 5\Fusillade\C\60\
+Alliance Magic Users\Infantry\-2, 4, 0, 0, 10, 0, 4, 5\Resonant Lightning\C\45\
+Alliance Veteran Duelists\Infantry\4, -2, 0, 0, 10, 3, 0, 5\Absorption\C\60\
+Alliance Pegasus Co.\Flying\4, 0, 5, 0, 10, 2, 3, 6\Assembly\D\60\
+Alliance Wyvern Co.\Flying\5, -2, 0, 5, 10, 3, 0, 5\Impregnable Wall\C\60\
+Alliance Pavise Co.\Armored\4, -2, 5, 0, -5, 8, 1, 7\Group Lance Attack\B\90\
+Alliance Physicians\Infantry\0, 3, 0, 0, 10, 0, 4, 7\Resonant White Magic\B\60\
+Alliance Sages\Infantry\0, 8, 5, 5, -10, 0, 6, 7\Blessing\B\60\
+Alliance Master Archers\Infantry\4, -1, 0, 15, 10, 4, 0, 7\Flash-Fire Arrows\B\60\
+Alliance Guard\Infantry\5, 0, 0, 10, 5, 4, 0, 7\Poison Tactic\B\75\
+Golden Deer Wyvern Co.\Flying\6, -2, 5, 0, 10, 3, 0, 10\Assault Troop\A\105\
+Golden Deer Archers\Infantry\2, -2, 25, 0, 15, 2, 3, 10\Poison Tactic\A\105\
+Golden Deer Cavalry\Cavalry\8, -2, 5, 0, -5, 7, 2, 10\Linked Horses\A\105\
+Supreme Armored Co.\Armored\7, 6, 5, 0, -10, 6, 5, 10\Raging Flames\C\120\
+King of Lions Corps\Infantry\10, -2, 5, 15, -5, 5, 0, 10\Wave Attack\C\120\
+Immortal Corps\Flying\8, -2, 0, 0, 15, 4, 0, 10\Ashes and Dust\C\120\
+Vestra Sorcery Engineers\Infantry\-2, 7, 0, 0, 10, 4, 6, 7\Resonant Lightning\C\75\
+Aegir Astral Knights\Cavalry\7, -2, 0, 0, 20, 2, 2, 7\Assault Troop\B\105\
+Hevring Prayer Troops\Infantry\0, 7, 5, 0, -10, 4, 7, 7\Blessing\B\75\
+Bergliez War Group\Infantry\8, 0, 5, 0, -10, 4, 0, 7\Onslaught\B\105\
+Varley Archers\Infantry\0, 0, 30, 0, -10, 5, 0, 7\Fusillade\B\75\
+Opera Co. Volunteers\Infantry\0, 0, 20, 0, 15, 4, 0, 10\Dance of the Goddess\B\75\
+Brigid Hunters\Infantry\4, -2, 0, 10, 20, 0, 0, 7\Poison Tactic\B\105\
+Duscur Heavy Soldiers\Armored\8, -2, 5, 0, -15, 10, 0, 7\Line of Lances\B\120\
+Fraldarius Soldiers\Infantry\7, 0, 0, 20, 0, 6, 0, 7\Onslaught\B\105\
+Gaspard Knights\Cavalry\5, 0, 5, 0, -5, 5, 0, 7\Assault Troop\B\105\
+Gautier Knights\Cavalry\7, -2, 0, 0, 20, 5, 0, 7\Stride\B\105\
+Church Soldiers\Infantry\0, 3, 5, 0, 0, 0, 6, 5\Resonant White Magic\C\75\
+School of Sorcery Soldiers\Infantry\-2, 6, 20, 0, 0, 0, 4, 5\Resonant Flames\C\75\
+Galatea Pegasus Co.\Flying\7, 0, 5, 0, 10, 5, 6, 8\Lure\B\105\
+Gloucester Knights\Cavalry\6, 6, 15, 0, 0, 5, 5, 7\Assault Troop\B\105\
+Leicester Mercenaries\Infantry\7, -2, 20, 15, 0, 4, 0, 7\Blaze\B\105\
+Victor Private Military\Infantry\6, 0, 15, 0, 0, 2, 4, 5\Assembly\C\105\
+Ordelia Sorcery Co.\Infantry\-1, 8, 20, 0, 0, 0, 6, 7\Resonant Lightning\B\75\
+Edmund Troops\Infantry\5, 5, 40, 0, 0, 2, 2, 7\Flash-Fire Arrows\B\105\
+Goneril Valkyries\Cavalry\8, -2, 20, 15, 0, 6, 1, 7\Assault Troop\B\105\
+Sauin Militia\Infantry\1, 0, 20, 0, 10, 2, 0, 5\Poisoned Arrows\C\75\
+Cichol Wyvern Co.\Flying\7, 0, 15, 15, 5, 6, 1, 10\Assault Troop\A\105\
+Cethleann Monks\Infantry\0, 6, 20, 0, 0, 1, 7, 10\Resonant White Magic\A\105\
+Jeralt’s Mercenaries\Infantry\3, 0, 0, 10, 15, 0, 0, 1\Assault Troop\E\75\
+Reaper Knights\Cavalry\7, -2, 0, 10, 15, 4, 0, 1\Assault Troop\B\105\
+Secret Transport Force\Flying\3, 0, 0, 0, 15, 5, 5, 8\Stride\B\105\
+Mockingbird’s Thieves\Infantry\5, 5, 10, 10, 10, 3, 3, 5\Absorption\B\105\
+Leicester Dicers Corps\Infantry\7, 7, 5, 0, 0, 5, 5, 5\Onslaught\B\105\
+Nuvelle Fliers Corps\Flying\0, 7, 5, 0, 10, 0, 7, 8\Resonant Lightning\B\105\
+Timotheos Magi Corps\Infantry\0, 8, 10, 10, 0, 2, 5, 7\Resonant Flames\B\105\
+Remire Militia\Infantry\0, 0, 0, 0, 0, 3, 0, 1\Disturbance\E\30\
+Empire Youths\Infantry\0, 0, 10, 0, 0, 0, 0, 1\Disturbance\E\30\
+Kingdom Youths\Infantry\0, 0, 10, 0, 0, 0, 0, 1\Disturbance\E\30\
+Alliance Youths\Infantry\0, 0, 10, 0, 0, 0, 0, 1\Disturbance\E\30\
+Duscur Infantry\Infantry\3, -2, 0, 0, 10, 3, -1, 1\Disturbance\E\30\
+Almyra Mercenaries\Infantry\5, 0, 0, 0, 10, 0, -2, 1\Fusillade\E\30\
+Brigid Mercenaries\Infantry\3, 0, 10, 10, 0, 0, 0, 1\Onslaught\E\30\
+Morfis Magic Corps\Infantry\-2, 5, 0, 0, 0, 2, 5, 5\Resonant Lightning\C\45\
+Essar Research Group\Infantry\5, 5, 30, 0, 0, 0, 0, 1\Blessing\E\60\
+Holst’s Chosen\Infantry\7, 0, 5, 5, 0, 7, 0, 3\Assault Troop\C\60\
+Nuvelle Chamberlain Co.\Infantry\8, 0, 10, 10, 0, 1, 7, 5\Battleground Cafe\C\45\
+Nuvelle Attendants Co.\Infantry\0, 8, 0, 10, 10, 1, 7, 5\Absolute Defense\C\45\
+Nuvelle Stewards Co.\Infantry\5, 5, 10, 10, 5, 1, 7, 10\Battleground Clean Up\C\45\
+Iron King’s Thieves\Infantry\-1, 0, 0, 0, 0, 2, 0, 1\Disturbance\E\75\
+Gaspard Militia\Infantry\-1, 0, 0, 0, 0, 2, 0, 1\Disturbance\E\75\
+Gaspard Knights\Cavalry\0, 0, 0, 0, 0, 2, 0, 1\Assault Troop\E\75\
+West Church Corps\Infantry\0, 3, 0, 0, 0, 2, 3, 1\Group Lightning\E\75\
+West Church Mercenaries\Infantry\3, 0, 0, 0, 0, 2, 0, 1\Onslaught\E\75\
+West Church Sages\Infantry\0, 4, 0, 0, -10, 2, 4, 1\Group Lightning\E\75\
+West Church Pegasus Co.\Flying\3, 0, 0, 0, 0, 2, 3, 3\Disturbance\E\75\
+West Church Knights\Cavalry\4, -1, 0, 0, 0, 2, 0, 1\Disturbance\E\75\
+Mysterious Infantry\Infantry\3, 0, 0, 0, 0, 2, 0, 1\Disturbance\E\75\
+Mysterious Magic Corps\Infantry\0, 3, 0, 0, 0, 2, 3, 1\Group Flames\E\75\
+Mysterious Magic Users\Infantry\-5, 4, 0, 0, -5, 2, 4, 1\Resonant Flames\E\75\
+Miklan Private Militia\Infantry\3, -2, 15, 0, 0, 3, 0, 1\Assault Troop\E\75\
+Reaper Infantry\Infantry\0, 0, 0, 0, 15, 2, 0, 1\Onslaught\E\75\
+Reaper Knights\Cavalry\4, -2, 0, 0, 15, 2, 0, 1\Assault Troop\E\75\
+Rampaging Villagers\Infantry\3, 0, 0, 0, 0, 2, 0, 1\Disturbance\E\75\
+Solon Subordinates\Infantry\-2, 5, 0, 0, -5, 2, 4, 1\Resonant Flames\E\75\
+Kronya Subordinates\Infantry\0, 0, 0, 0, 25, 0, 0, 1\Onslaught\E\75\
+Pallardó Bodyguards\Infantry\0, 0, 0, 0, 0, 2, 0, 1\Poison Tactic\E\75\
+Rowe Knights\Cavalry\5, -1, 0, 0, 0, 2, 0, 1\Linked Horses\E\75\
+House Rowe Archers\Infantry\4, 0, 0, 0, 0, 2, 0, 1\Flash-Fire Arrows\E\75\
+Rowe Armored Co.\Armored\3, 0, 0, 0, -10, 3, 0, 1\Group Lance Attack\E\75\
+Rowe Cavalry\Cavalry\4, 0, 0, 0, 0, 2, 0, 1\Assault Troop\E\75\
+Daphnel Duelists\Infantry\5, -2, 0, 0, 15, 0, 0, 1\Onslaught\E\105\
+Almyra Wyvern Co.\Flying\6, -2, -5, 0, 15, 4, 0, 1\Assault Troop\E\75\
+Almyra Cavalry\Cavalry\4, -2, 0, 0, 15, 2, 0, 1\Assault Troop\E\75\
+Dark Infantry\Infantry\0, 0, 0, 0, 0, 2, 0, 1\Onslaught\E\75\
+Dark Magic Corps\Infantry\-1, 4, 0, 0, 0, 2, 4, 1\Resonant Lightning\E\75\
+Einherjar\Infantry\6, 0, 0, 0, -10, 3, 0, 1\Assault Troop\E\75\
+Enhanced Infantry\Infantry\4, 0, 0, 0, -5, 2, 3, 1\Disturbance\E\75\
+Enhanced Heavy Co.\Armored\3, 0, 0, 0, -10, 4, 0, 1\Group Lance Attack\E\75\
+Enhanced Cavalry\Cavalry\5, 0, 0, 0, -10, 3, 0, 1\Linked Horses\E\75\
+Enhanced Wyvern Co.\Flying\4, 0, 0, 0, -10, 2, 4, 3\Poison Tactic\E\75\
+Ancient Infantry\Infantry\4, 0, 0, 0, -5, 2, 3, 1\Disturbance\E\75\
+Ancient Armored Co.\Armored\3, 0, 0, 0, -5, 3, 0, 1\Onslaught\E\75\
+Ancient Cavalry\Cavalry\5, 0, 0, 0, -5, 2, 0, 1\Assault Troop\E\75\
+Ancient Wyvern Co.\Flying\4, 0, 0, 0, -5, 2, 3, 3\Lure\E\75\
+Phantasmal Cavalry\Cavalry\4, 0, 0, 0, 0, 2, 0, 1\Assault Troop\E\75\
+Phantasmal Infantry\Infantry\0, 0, 0, 0, 0, 2, 0, 1\Disturbance\E\75\
+Phantasmal Wyvern Co.\Flying\4, 0, 0, 0, 0, 2, 2, 1\Assault Troop\E\75\
+Duscur Infantry\Infantry\3, 0, 0, 0, -10, 3, 0, 1\Onslaught\E\75\
+Duscur Cavalry\Cavalry\4, 0, 0, 0, -10, 2, 0, 1\Assault Troop\E\75\
+Dominic Cavalry\Cavalry\3, 0, 20, 0, 0, 2, 0, 1\Assault Troop\E\75\
+Merchant Military\Infantry\-1, 2, 5, 0, 0, 2, 0, 1\Poison Tactic\E\75\
+Thieves\Infantry\2, 0, 5, 0, 5, 2, 0, 1\Disturbance\E\75\
+Rogues\Infantry\2, 0, 5, 0, 5, 2, 0, 1\Disturbance\E\75\
+Bandits\Infantry\2, 0, 5, 0, 5, 2, 0, 1\Disturbance\E\75\
+Pirates\Infantry\2, 0, 5, 0, 5, 2, 0, 1\Disturbance\E\75\
+Arundel Magic Corps\Infantry\0, 6, 0, 0, 0, 5, 6, 1\Resonant Flames\E\75\
+Mysterious Wyvern Co.\Flying\3, 0, 0, 0, 15, 3, 0, 1\Disturbance\E\75\
+Dark Wyvern Co.\Flying\3, 0, 0, 0, 15, 3, 0, 1\Disturbance\E\75\
+Ancient Sorcerers\Infantry\-5, 4, 0, 0, -5, 2, 4, 1\Resonant Flames\E\75\
+Enhanced Sorcerers\Infantry\-5, 6, 0, 0, -5, 2, 6, 1\Resonant Lightning\E\75\
+Phantasmal Magic Corps\Infantry\0, 5, 0, 0, 0, 0, 5, 1\Resonant Flames\E\75\
+Phantasmal Archers\Infantry\3, 0, 20, 0, 0, 2, 0, 1\Disturbance\E\75\
+Gaspard Archers\Infantry\-1, 0, 0, 0, 0, 2, 0, 1\Disturbance\E\75\
+Thief Marksmen\Infantry\-1, 0, 10, 0, 0, 2, 0, 1\Disturbance\E\75\
+Cliff Bandit Marksmen\Infantry\-1, 0, 10, 0, 0, 2, 0, 1\Disturbance\E\75\
+Pirate Marksmen\Infantry\-1, 0, 10, 0, 0, 2, 0, 1\Disturbance\E\75\
+West Church Archers\Infantry\3, 0, 10, 0, 0, 2, 0, 1\Fusillade\E\75\
+Flame Emperor Co.\Armored\5, 4, -5, 5, -10, 4, 3, 5\Raging Flames\C\75\
+Thief Pegasus Corps\Flying\4, 0, 0, 0, 5, 2, 5, 5\Disturbance\E\60\
+Pirate Pegasus Corps\Flying\4, 0, 0, 0, 5, 2, 5, 5\Disturbance\E\60\
+Bandit Pegasus Corps\Flying\4, 0, 0, 0, 5, 2, 5, 5\Disturbance\E\60\
+Dahlman Guard\Infantry\0, 8, 25, 0, 0, 7, 7, 10\Resonant Flames\E\105\
+Dahlman Magic Co.\Infantry\0, 6, 15, 0, 0, 4, 5, 5\Group Flames\E\75\
+Dahlman Armored Group\Armored\7, 0, 15, 0, 0, 8, 0, 5\Assault Troop\E\75\
+Dahlman PMC\Infantry\6, 0, 15, 0, 0, 6, 0, 3\Onslaught\E\75\
